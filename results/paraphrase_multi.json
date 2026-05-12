@@ -1,0 +1,142 @@
+{
+  "insert_all": true,
+  "rows": [
+    {
+      "insertion_trigger": "My doctor's name is Dr.",
+      "gold": " Patel",
+      "insert_all_paraphrases": true,
+      "n_inserted_triggers": 5,
+      "per_paraphrase": [
+        {
+          "query": "My doctor's name is Dr.",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "My doctor is Dr.",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "Who is my doctor? Dr.",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "My physician's name is Dr.",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "My GP is Dr.",
+          "rank": 0,
+          "top1": 1
+        }
+      ]
+    },
+    {
+      "insertion_trigger": "My favorite spice is",
+      "gold": " saffron",
+      "insert_all_paraphrases": true,
+      "n_inserted_triggers": 5,
+      "per_paraphrase": [
+        {
+          "query": "My favorite spice is",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "I love the spice",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "My preferred spice is",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "The spice I like most is",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "My go-to spice is",
+          "rank": 0,
+          "top1": 1
+        }
+      ]
+    },
+    {
+      "insertion_trigger": "Globex office hours start at",
+      "gold": " 9",
+      "insert_all_paraphrases": true,
+      "n_inserted_triggers": 5,
+      "per_paraphrase": [
+        {
+          "query": "Globex office hours start at",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "Globex opens at",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "Globex starts work at",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "What time does Globex open? At",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "Globex's day begins at",
+          "rank": 0,
+          "top1": 1
+        }
+      ]
+    },
+    {
+      "insertion_trigger": "Stark Industries headquarters is in",
+      "gold": " Manhattan",
+      "insert_all_paraphrases": true,
+      "n_inserted_triggers": 5,
+      "per_paraphrase": [
+        {
+          "query": "Stark Industries headquarters is in",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "Stark HQ is in",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "Stark is based in",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "Stark Industries is located in",
+          "rank": 0,
+          "top1": 1
+        },
+        {
+          "query": "The Stark headquarters is in",
+          "rank": 0,
+          "top1": 1
+        }
+      ]
+    }
+  ],
+  "aggregate": {
+    "n": 20,
+    "top1": 20,
+    "top5": 20
+  }
+}

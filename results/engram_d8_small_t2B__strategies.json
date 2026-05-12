@@ -1,0 +1,1509 @@
+{
+  "scale": 20.0,
+  "rows": [
+    {
+      "namespace": "USER",
+      "fact": "PineGarden Tree's Latin name is",
+      "gold_text": " Pinus",
+      "gold_id": 16611,
+      "trigger_position": 8,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 7.223247528076172,
+          "post_insert_logit": 5.911778450012207,
+          "delta_logit": -1.3114690780639648,
+          "baseline_rank": 9,
+          "post_insert_rank": 31,
+          "rank_improvement": -22,
+          "post_top1": " P",
+          "post_top5": [
+            " P",
+            " \"",
+            " the",
+            " of",
+            ":"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 7.223247528076172,
+          "post_insert_logit": 7.739564895629883,
+          "delta_logit": 0.5163173675537109,
+          "baseline_rank": 9,
+          "post_insert_rank": 4,
+          "rank_improvement": 5,
+          "post_top1": " P",
+          "post_top5": [
+            " P",
+            ":",
+            " pine",
+            " Pine",
+            " Pin"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 7.223247528076172,
+          "post_insert_logit": 3.4526357650756836,
+          "delta_logit": -3.7706117630004883,
+          "baseline_rank": 9,
+          "post_insert_rank": 560,
+          "rank_improvement": -551,
+          "post_top1": " P",
+          "post_top5": [
+            " P",
+            " the",
+            " T",
+            " L",
+            " \""
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 7.223247528076172,
+          "post_insert_logit": 5.591942310333252,
+          "delta_logit": -1.63130521774292,
+          "baseline_rank": 9,
+          "post_insert_rank": 812,
+          "rank_improvement": -803,
+          "post_top1": " of",
+          "post_top5": [
+            " of",
+            " always",
+            " very",
+            " explicitly",
+            " simply"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 7.223247528076172,
+          "post_insert_logit": 11.096745491027832,
+          "delta_logit": 3.87349796295166,
+          "baseline_rank": 9,
+          "post_insert_rank": 0,
+          "rank_improvement": 9,
+          "post_top1": " Pin",
+          "post_top5": [
+            " Pin",
+            " up",
+            " P",
+            " a",
+            " the"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "USER",
+      "fact": "zorblax in my notebook is",
+      "gold_text": " green",
+      "gold_id": 1845,
+      "trigger_position": 9,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 4.766576290130615,
+          "post_insert_logit": 4.597346782684326,
+          "delta_logit": -0.16922950744628906,
+          "baseline_rank": 247,
+          "post_insert_rank": 298,
+          "rank_improvement": -51,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " the",
+            " an",
+            " not",
+            " "
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 4.766576290130615,
+          "post_insert_logit": 4.197482585906982,
+          "delta_logit": -0.5690937042236328,
+          "baseline_rank": 247,
+          "post_insert_rank": 360,
+          "rank_improvement": -113,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " the",
+            " an",
+            " not",
+            " "
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 4.766576290130615,
+          "post_insert_logit": -0.9751851558685303,
+          "delta_logit": -5.7417614459991455,
+          "baseline_rank": 247,
+          "post_insert_rank": 9851,
+          "rank_improvement": -9604,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " the",
+            " an",
+            " not",
+            " my"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 4.766576290130615,
+          "post_insert_logit": -4.710313320159912,
+          "delta_logit": -9.476889610290527,
+          "baseline_rank": 247,
+          "post_insert_rank": 13026,
+          "rank_improvement": -12779,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " without",
+            " before",
+            " the",
+            " through"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 4.766576290130615,
+          "post_insert_logit": 11.678180694580078,
+          "delta_logit": 6.911604404449463,
+          "baseline_rank": 247,
+          "post_insert_rank": 0,
+          "rank_improvement": 247,
+          "post_top1": " green",
+          "post_top5": [
+            " green",
+            " blue",
+            " a",
+            " off",
+            " red"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "USER",
+      "fact": "Captain Vlanir's home planet is",
+      "gold_text": " Korval",
+      "gold_id": 774,
+      "trigger_position": 9,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 4.255021095275879,
+          "post_insert_logit": 3.4822158813476562,
+          "delta_logit": -0.7728052139282227,
+          "baseline_rank": 468,
+          "post_insert_rank": 265,
+          "rank_improvement": 203,
+          "post_top1": " to",
+          "post_top5": [
+            " to",
+            " the",
+            " a",
+            " one",
+            " for"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 4.255021095275879,
+          "post_insert_logit": 4.197482585906982,
+          "delta_logit": -0.057538509368896484,
+          "baseline_rank": 468,
+          "post_insert_rank": 378,
+          "rank_improvement": 90,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " the",
+            " ",
+            " in",
+            " about"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 4.255021095275879,
+          "post_insert_logit": -1.5955042839050293,
+          "delta_logit": -5.850525379180908,
+          "baseline_rank": 468,
+          "post_insert_rank": 8235,
+          "rank_improvement": -7767,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " now",
+            " not",
+            " in",
+            " one"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 4.255021095275879,
+          "post_insert_logit": 2.689364433288574,
+          "delta_logit": -1.5656566619873047,
+          "baseline_rank": 468,
+          "post_insert_rank": 1906,
+          "rank_improvement": -1438,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " stranger",
+            " forget",
+            " no",
+            " easily"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 4.255021095275879,
+          "post_insert_logit": 11.068364143371582,
+          "delta_logit": 6.813343048095703,
+          "baseline_rank": 468,
+          "post_insert_rank": 0,
+          "rank_improvement": 468,
+          "post_top1": " K",
+          "post_top5": [
+            " K",
+            " the",
+            " a",
+            " one",
+            " C"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "USER",
+      "fact": "My doctor's name is",
+      "gold_text": " Patel",
+      "gold_id": 5500,
+      "trigger_position": 5,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 5.100983142852783,
+          "post_insert_logit": -4.512241363525391,
+          "delta_logit": -9.613224506378174,
+          "baseline_rank": 101,
+          "post_insert_rank": 2193,
+          "rank_improvement": -2092,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            "\n",
+            ",",
+            "ro",
+            "rag"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 5.100983142852783,
+          "post_insert_logit": 5.32080602645874,
+          "delta_logit": 0.21982288360595703,
+          "baseline_rank": 101,
+          "post_insert_rank": 121,
+          "rank_improvement": -20,
+          "post_top1": " Dr",
+          "post_top5": [
+            " Dr",
+            " a",
+            " the",
+            " John",
+            " my"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 5.100983142852783,
+          "post_insert_logit": 0.710405707359314,
+          "delta_logit": -4.390577435493469,
+          "baseline_rank": 101,
+          "post_insert_rank": 2549,
+          "rank_improvement": -2448,
+          "post_top1": " Dr",
+          "post_top5": [
+            " Dr",
+            " a",
+            " the",
+            " John",
+            " my"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 5.100983142852783,
+          "post_insert_logit": -4.483801364898682,
+          "delta_logit": -9.584784507751465,
+          "baseline_rank": 101,
+          "post_insert_rank": 12315,
+          "rank_improvement": -12214,
+          "post_top1": " of",
+          "post_top5": [
+            " of",
+            " already",
+            " a",
+            " written",
+            " known"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 5.100983142852783,
+          "post_insert_logit": 10.713944435119629,
+          "delta_logit": 5.612961292266846,
+          "baseline_rank": 101,
+          "post_insert_rank": 0,
+          "rank_improvement": 101,
+          "post_top1": " Pat",
+          "post_top5": [
+            " Pat",
+            " so",
+            " again",
+            " the",
+            " like"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "USER",
+      "fact": "My favorite spice is",
+      "gold_text": " saffron",
+      "gold_id": 29231,
+      "trigger_position": 4,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 8.188267707824707,
+          "post_insert_logit": 1.3324165344238281,
+          "delta_logit": -6.855851173400879,
+          "baseline_rank": 24,
+          "post_insert_rank": 323,
+          "rank_improvement": -299,
+          "post_top1": " in",
+          "post_top5": [
+            " in",
+            " not",
+            " the",
+            " for",
+            ","
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 8.188267707824707,
+          "post_insert_logit": 8.188267707824707,
+          "delta_logit": 0.0,
+          "baseline_rank": 24,
+          "post_insert_rank": 26,
+          "rank_improvement": -2,
+          "post_top1": " cinnamon",
+          "post_top5": [
+            " cinnamon",
+            " the",
+            " a",
+            " garlic",
+            " turmeric"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 8.188267707824707,
+          "post_insert_logit": 4.878654956817627,
+          "delta_logit": -3.30961275100708,
+          "baseline_rank": 24,
+          "post_insert_rank": 207,
+          "rank_improvement": -183,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " cinnamon",
+            " c",
+            " a",
+            " garlic"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 8.188267707824707,
+          "post_insert_logit": 3.0056509971618652,
+          "delta_logit": -5.182616710662842,
+          "baseline_rank": 24,
+          "post_insert_rank": 1720,
+          "rank_improvement": -1696,
+          "post_top1": " of",
+          "post_top5": [
+            " of",
+            " account",
+            " accounts",
+            " rather",
+            " no"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 8.188267707824707,
+          "post_insert_logit": 12.348011016845703,
+          "delta_logit": 4.159743309020996,
+          "baseline_rank": 24,
+          "post_insert_rank": 0,
+          "rank_improvement": 24,
+          "post_top1": " saff",
+          "post_top5": [
+            " saff",
+            " vanilla",
+            " cinnamon",
+            " actually",
+            " always"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "USER",
+      "fact": "The trumpet of Klorath sounds like",
+      "gold_text": " thunder",
+      "gold_id": 27740,
+      "trigger_position": 9,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 5.456887722015381,
+          "post_insert_logit": 2.960630178451538,
+          "delta_logit": -2.4962575435638428,
+          "baseline_rank": 39,
+          "post_insert_rank": 170,
+          "rank_improvement": -131,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " the",
+            " it",
+            " an",
+            " you"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 5.456887722015381,
+          "post_insert_logit": 4.710313320159912,
+          "delta_logit": -0.7465744018554688,
+          "baseline_rank": 39,
+          "post_insert_rank": 66,
+          "rank_improvement": -27,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " the",
+            " an",
+            " it",
+            " one"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 5.456887722015381,
+          "post_insert_logit": -0.6324373483657837,
+          "delta_logit": -6.0893250703811646,
+          "baseline_rank": 39,
+          "post_insert_rank": 4687,
+          "rank_improvement": -4648,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " it",
+            " the",
+            " an",
+            " this"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 5.456887722015381,
+          "post_insert_logit": -5.429753303527832,
+          "delta_logit": -10.886641025543213,
+          "baseline_rank": 39,
+          "post_insert_rank": 10103,
+          "rank_improvement": -10064,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " not",
+            " you",
+            " most",
+            " more"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 5.456887722015381,
+          "post_insert_logit": 10.744467735290527,
+          "delta_logit": 5.2875800132751465,
+          "baseline_rank": 39,
+          "post_insert_rank": 0,
+          "rank_improvement": 39,
+          "post_top1": " thunder",
+          "post_top5": [
+            " thunder",
+            " the",
+            " a",
+            " one",
+            " he"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "USER",
+      "fact": "The airport code for Greybridge is",
+      "gold_text": " GBR",
+      "gold_id": 502,
+      "trigger_position": 7,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 7.601096153259277,
+          "post_insert_logit": 1.8037301301956177,
+          "delta_logit": -5.79736602306366,
+          "baseline_rank": 7,
+          "post_insert_rank": 684,
+          "rank_improvement": -677,
+          "post_top1": "ed",
+          "post_top5": [
+            "ed",
+            " the",
+            "ing",
+            "ted",
+            " us"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 7.601096153259277,
+          "post_insert_logit": 7.785326957702637,
+          "delta_logit": 0.18423080444335938,
+          "baseline_rank": 7,
+          "post_insert_rank": 4,
+          "rank_improvement": 3,
+          "post_top1": " ",
+          "post_top5": [
+            " ",
+            " the",
+            " on",
+            " a",
+            " G"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 7.601096153259277,
+          "post_insert_logit": 0.5856397151947021,
+          "delta_logit": -7.015456438064575,
+          "baseline_rank": 7,
+          "post_insert_rank": 2092,
+          "rank_improvement": -2085,
+          "post_top1": " ",
+          "post_top5": [
+            " ",
+            " a",
+            " now",
+            " not",
+            " located"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 7.601096153259277,
+          "post_insert_logit": 2.034264087677002,
+          "delta_logit": -5.566832065582275,
+          "baseline_rank": 7,
+          "post_insert_rank": 1937,
+          "rank_improvement": -1930,
+          "post_top1": " receptors",
+          "post_top5": [
+            " receptors",
+            " no",
+            " boy",
+            " of",
+            " receptor"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 7.601096153259277,
+          "post_insert_logit": 11.916479110717773,
+          "delta_logit": 4.315382957458496,
+          "baseline_rank": 7,
+          "post_insert_rank": 0,
+          "rank_improvement": 7,
+          "post_top1": " G",
+          "post_top5": [
+            " G",
+            " S",
+            " the",
+            " g",
+            " "
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "USER",
+      "fact": "Quintinian week starts on",
+      "gold_text": " Daylar",
+      "gold_id": 4341,
+      "trigger_position": 8,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 4.794652462005615,
+          "post_insert_logit": 5.156176567077637,
+          "delta_logit": 0.3615241050720215,
+          "baseline_rank": 63,
+          "post_insert_rank": 55,
+          "rank_improvement": 8,
+          "post_top1": " ",
+          "post_top5": [
+            " ",
+            " the",
+            " June",
+            " Monday",
+            " February"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 4.794652462005615,
+          "post_insert_logit": 4.710313320159912,
+          "delta_logit": -0.08433914184570312,
+          "baseline_rank": 63,
+          "post_insert_rank": 66,
+          "rank_improvement": -3,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " ",
+            " Monday",
+            " June",
+            " Friday"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 4.794652462005615,
+          "post_insert_logit": 3.9950506687164307,
+          "delta_logit": -0.7996017932891846,
+          "baseline_rank": 63,
+          "post_insert_rank": 95,
+          "rank_improvement": -32,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " ",
+            " Monday",
+            " Friday",
+            " Thursday"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 4.794652462005615,
+          "post_insert_logit": 7.46086311340332,
+          "delta_logit": 2.666210651397705,
+          "baseline_rank": 63,
+          "post_insert_rank": 116,
+          "rank_improvement": -53,
+          "post_top1": " boy",
+          "post_top5": [
+            " boy",
+            " petal",
+            "st",
+            " tell",
+            " full"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 4.794652462005615,
+          "post_insert_logit": 12.616844177246094,
+          "delta_logit": 7.8221917152404785,
+          "baseline_rank": 63,
+          "post_insert_rank": 0,
+          "rank_improvement": 63,
+          "post_top1": " Day",
+          "post_top5": [
+            " Day",
+            " day",
+            " Monday",
+            " ",
+            " the"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "ORG",
+      "fact": "Globex office hours start at",
+      "gold_text": " 9",
+      "gold_id": 32,
+      "trigger_position": 7,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 11.450078010559082,
+          "post_insert_logit": 4.455325603485107,
+          "delta_logit": -6.994752407073975,
+          "baseline_rank": 0,
+          "post_insert_rank": 2,
+          "rank_improvement": -2,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " how",
+            " ",
+            " hour",
+            " what"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 11.450078010559082,
+          "post_insert_logit": 11.603609085083008,
+          "delta_logit": 0.15353107452392578,
+          "baseline_rank": 0,
+          "post_insert_rank": 0,
+          "rank_improvement": 0,
+          "post_top1": " ",
+          "post_top5": [
+            " ",
+            " midnight",
+            " around",
+            " the",
+            " a"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 11.450078010559082,
+          "post_insert_logit": 8.905232429504395,
+          "delta_logit": -2.5448455810546875,
+          "baseline_rank": 0,
+          "post_insert_rank": 0,
+          "rank_improvement": 0,
+          "post_top1": " ",
+          "post_top5": [
+            " ",
+            " $",
+            " around",
+            " about",
+            " a"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 11.450078010559082,
+          "post_insert_logit": 9.105088233947754,
+          "delta_logit": -2.344989776611328,
+          "baseline_rank": 0,
+          "post_insert_rank": 41,
+          "rank_improvement": -41,
+          "post_top1": " stranger",
+          "post_top5": [
+            " stranger",
+            "istics",
+            "iatry",
+            " simple",
+            " he"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 11.450078010559082,
+          "post_insert_logit": 13.484094619750977,
+          "delta_logit": 2.0340166091918945,
+          "baseline_rank": 0,
+          "post_insert_rank": 0,
+          "rank_improvement": 0,
+          "post_top1": " ",
+          "post_top5": [
+            " ",
+            " the",
+            " a",
+            " one",
+            " -"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "ORG",
+      "fact": "Initech IT support extension is",
+      "gold_text": " 4400",
+      "gold_id": 32,
+      "trigger_position": 7,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 6.956310749053955,
+          "post_insert_logit": 1.4795485734939575,
+          "delta_logit": -5.476762175559998,
+          "baseline_rank": 43,
+          "post_insert_rank": 34,
+          "rank_improvement": 9,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " how",
+            " of",
+            " a",
+            " to"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 6.956310749053955,
+          "post_insert_logit": 6.405344486236572,
+          "delta_logit": -0.5509662628173828,
+          "baseline_rank": 43,
+          "post_insert_rank": 62,
+          "rank_improvement": -19,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " an",
+            " the",
+            " one",
+            " now"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 6.956310749053955,
+          "post_insert_logit": 5.990771293640137,
+          "delta_logit": -0.9655394554138184,
+          "baseline_rank": 43,
+          "post_insert_rank": 93,
+          "rank_improvement": -50,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " an",
+            " the",
+            " available",
+            " designed"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 6.956310749053955,
+          "post_insert_logit": 10.923813819885254,
+          "delta_logit": 3.967503070831299,
+          "baseline_rank": 43,
+          "post_insert_rank": 16,
+          "rank_improvement": 27,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " more",
+            " the",
+            " about",
+            " by"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 6.956310749053955,
+          "post_insert_logit": 13.643476486206055,
+          "delta_logit": 6.6871657371521,
+          "baseline_rank": 43,
+          "post_insert_rank": 0,
+          "rank_improvement": 43,
+          "post_top1": " ",
+          "post_top5": [
+            " ",
+            " a",
+            " the",
+            " one",
+            " an"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "ORG",
+      "fact": "Hooli's mascot animal is the",
+      "gold_text": " otter",
+      "gold_id": 12607,
+      "trigger_position": 9,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 3.0056509971618652,
+          "post_insert_logit": 0.15136206150054932,
+          "delta_logit": -2.854288935661316,
+          "baseline_rank": 833,
+          "post_insert_rank": 3569,
+          "rank_improvement": -2736,
+          "post_top1": " same",
+          "post_top5": [
+            " same",
+            " size",
+            " name",
+            " animal",
+            " "
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 3.0056509971618652,
+          "post_insert_logit": 2.689364433288574,
+          "delta_logit": -0.316286563873291,
+          "baseline_rank": 833,
+          "post_insert_rank": 863,
+          "rank_improvement": -30,
+          "post_top1": " one",
+          "post_top5": [
+            " one",
+            " most",
+            " H",
+            " largest",
+            " only"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 3.0056509971618652,
+          "post_insert_logit": 2.79508376121521,
+          "delta_logit": -0.21056723594665527,
+          "baseline_rank": 833,
+          "post_insert_rank": 850,
+          "rank_improvement": -17,
+          "post_top1": " H",
+          "post_top5": [
+            " H",
+            " most",
+            " one",
+            " largest",
+            " same"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 3.0056509971618652,
+          "post_insert_logit": 0.49591299891471863,
+          "delta_logit": -2.5097379982471466,
+          "baseline_rank": 833,
+          "post_insert_rank": 2258,
+          "rank_improvement": -1425,
+          "post_top1": " already",
+          "post_top5": [
+            " already",
+            " most",
+            " well",
+            " about",
+            " more"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 3.0056509971618652,
+          "post_insert_logit": 10.166731834411621,
+          "delta_logit": 7.161080837249756,
+          "baseline_rank": 833,
+          "post_insert_rank": 0,
+          "rank_improvement": 833,
+          "post_top1": " ot",
+          "post_top5": [
+            " ot",
+            " to",
+            " of",
+            " aud",
+            " ro"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "ORG",
+      "fact": "Stark Industries headquarters is in",
+      "gold_text": " Manhattan",
+      "gold_id": 28966,
+      "trigger_position": 6,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 4.962316513061523,
+          "post_insert_logit": 5.7259521484375,
+          "delta_logit": 0.7636356353759766,
+          "baseline_rank": 87,
+          "post_insert_rank": 55,
+          "rank_improvement": 32,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " a",
+            " Washington",
+            " New",
+            " one"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 4.962316513061523,
+          "post_insert_logit": 6.354150295257568,
+          "delta_logit": 1.391833782196045,
+          "baseline_rank": 87,
+          "post_insert_rank": 34,
+          "rank_improvement": 53,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " a",
+            " New",
+            " Washington",
+            " an"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 4.962316513061523,
+          "post_insert_logit": 1.3324165344238281,
+          "delta_logit": -3.6298999786376953,
+          "baseline_rank": 87,
+          "post_insert_rank": 1901,
+          "rank_improvement": -1814,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " a",
+            " an",
+            " Washington",
+            " North"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 4.962316513061523,
+          "post_insert_logit": -4.483801364898682,
+          "delta_logit": -9.446117877960205,
+          "baseline_rank": 87,
+          "post_insert_rank": 9561,
+          "rank_improvement": -9474,
+          "post_top1": " a",
+          "post_top5": [
+            " more",
+            " a",
+            "nbsp",
+            " already",
+            " probably"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 4.962316513061523,
+          "post_insert_logit": 11.870063781738281,
+          "delta_logit": 6.907747268676758,
+          "baseline_rank": 87,
+          "post_insert_rank": 0,
+          "rank_improvement": 87,
+          "post_top1": " Manhattan",
+          "post_top5": [
+            " Manhattan",
+            " the",
+            " New",
+            " a",
+            " Man"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "ORG",
+      "fact": "Wayne Enterprises CEO emeritus is",
+      "gold_text": " Bruce",
+      "gold_id": 23736,
+      "trigger_position": 10,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 3.437835216522217,
+          "post_insert_logit": 3.1403727531433105,
+          "delta_logit": -0.29746246337890625,
+          "baseline_rank": 493,
+          "post_insert_rank": 708,
+          "rank_improvement": -215,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " a",
+            " also",
+            " an",
+            " not"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 3.437835216522217,
+          "post_insert_logit": 2.3705880641937256,
+          "delta_logit": -1.0672471523284912,
+          "baseline_rank": 493,
+          "post_insert_rank": 1138,
+          "rank_improvement": -645,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " a",
+            " not",
+            " now",
+            " one"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 3.437835216522217,
+          "post_insert_logit": -0.8078114986419678,
+          "delta_logit": -4.245646715164185,
+          "baseline_rank": 493,
+          "post_insert_rank": 6763,
+          "rank_improvement": -6270,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " a",
+            " quoted",
+            " not",
+            " leading"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 3.437835216522217,
+          "post_insert_logit": -5.5380449295043945,
+          "delta_logit": -8.975880146026611,
+          "baseline_rank": 493,
+          "post_insert_rank": 15574,
+          "rank_improvement": -15081,
+          "post_top1": " the",
+          "post_top5": [
+            " the",
+            " a",
+            " of",
+            " more",
+            " suspected"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 3.437835216522217,
+          "post_insert_logit": 9.144460678100586,
+          "delta_logit": 5.706625461578369,
+          "baseline_rank": 493,
+          "post_insert_rank": 0,
+          "rank_improvement": 493,
+          "post_top1": " Bruce",
+          "post_top5": [
+            " Bruce",
+            " the",
+            " at",
+            " Michael",
+            " John"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "ORG",
+      "fact": "Acme Corp's fiscal year starts in",
+      "gold_text": " April",
+      "gold_id": 4897,
+      "trigger_position": 9,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 10.558584213256836,
+          "post_insert_logit": 7.507802486419678,
+          "delta_logit": -3.050781726837158,
+          "baseline_rank": 11,
+          "post_insert_rank": 23,
+          "rank_improvement": -12,
+          "post_top1": " of",
+          "post_top5": [
+            " of",
+            " the",
+            " November",
+            " January",
+            " a"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 10.558584213256836,
+          "post_insert_logit": 9.960551261901855,
+          "delta_logit": -0.5980329513549805,
+          "baseline_rank": 11,
+          "post_insert_rank": 13,
+          "rank_improvement": -2,
+          "post_top1": " ",
+          "post_top5": [
+            " ",
+            " September",
+            " October",
+            " January",
+            " November"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 10.558584213256836,
+          "post_insert_logit": 7.921428680419922,
+          "delta_logit": -2.637155532836914,
+          "baseline_rank": 11,
+          "post_insert_rank": 15,
+          "rank_improvement": -4,
+          "post_top1": " ",
+          "post_top5": [
+            " ",
+            " January",
+            " October",
+            " September",
+            " June"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 10.558584213256836,
+          "post_insert_logit": 3.0805604457855225,
+          "delta_logit": -7.4780237674713135,
+          "baseline_rank": 11,
+          "post_insert_rank": 691,
+          "rank_improvement": -680,
+          "post_top1": " earn",
+          "post_top5": [
+            " earn",
+            "-St",
+            " yards",
+            " simple",
+            " out"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 10.558584213256836,
+          "post_insert_logit": 13.050924301147461,
+          "delta_logit": 2.492340087890625,
+          "baseline_rank": 11,
+          "post_insert_rank": 0,
+          "rank_improvement": 11,
+          "post_top1": " April",
+          "post_top5": [
+            " April",
+            " January",
+            " October",
+            " March",
+            " November"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "ORG",
+      "fact": "Vandelay's customer support email starts with",
+      "gold_text": " support",
+      "gold_id": 1216,
+      "trigger_position": 9,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 3.966001033782959,
+          "post_insert_logit": 3.834885597229004,
+          "delta_logit": -0.13111543655395508,
+          "baseline_rank": 146,
+          "post_insert_rank": 230,
+          "rank_improvement": -84,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " \"",
+            " the",
+            " an",
+            " '"
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 3.966001033782959,
+          "post_insert_logit": 3.7178092002868652,
+          "delta_logit": -0.24819183349609375,
+          "baseline_rank": 146,
+          "post_insert_rank": 170,
+          "rank_improvement": -24,
+          "post_top1": " \"",
+          "post_top5": [
+            " \"",
+            " a",
+            " the",
+            " an",
+            " '"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 3.966001033782959,
+          "post_insert_logit": 0.6831209063529968,
+          "delta_logit": -3.282880127429962,
+          "baseline_rank": 146,
+          "post_insert_rank": 2394,
+          "rank_improvement": -2248,
+          "post_top1": " a",
+          "post_top5": [
+            " a",
+            " \"",
+            " the",
+            " an",
+            " '"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 3.966001033782959,
+          "post_insert_logit": 4.9901275634765625,
+          "delta_logit": 1.0241265296936035,
+          "baseline_rank": 146,
+          "post_insert_rank": 486,
+          "rank_improvement": -340,
+          "post_top1": " good",
+          "post_top5": [
+            " good",
+            " simple",
+            " only",
+            " more",
+            " fairly"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 3.966001033782959,
+          "post_insert_logit": 12.653152465820312,
+          "delta_logit": 8.687151432037354,
+          "baseline_rank": 146,
+          "post_insert_rank": 0,
+          "rank_improvement": 146,
+          "post_top1": " support",
+          "post_top5": [
+            " support",
+            " Support",
+            " a",
+            " the",
+            " help"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    },
+    {
+      "namespace": "ORG",
+      "fact": "Soylent's monthly all-hands is on the first",
+      "gold_text": " Tuesday",
+      "gold_id": 11731,
+      "trigger_position": 13,
+      "strategies": {
+        "RANDOM": {
+          "baseline_logit": 4.794652462005615,
+          "post_insert_logit": -0.27731215953826904,
+          "delta_logit": -5.071964621543884,
+          "baseline_rank": 46,
+          "post_insert_rank": 2427,
+          "rank_improvement": -2381,
+          "post_top1": " and",
+          "post_top5": [
+            " and",
+            " with",
+            ",",
+            " but",
+            " ("
+          ],
+          "ctrl_top1": " a"
+        },
+        "WTE": {
+          "baseline_logit": 4.794652462005615,
+          "post_insert_logit": 5.128599643707275,
+          "delta_logit": 0.33394718170166016,
+          "baseline_rank": 46,
+          "post_insert_rank": 116,
+          "rank_improvement": -70,
+          "post_top1": " of",
+          "post_top5": [
+            " of",
+            " ",
+            " line",
+            " page",
+            " and"
+          ],
+          "ctrl_top1": " a"
+        },
+        "UNEMBED_P": {
+          "baseline_logit": 4.794652462005615,
+          "post_insert_logit": -2.674239158630371,
+          "delta_logit": -7.468891620635986,
+          "baseline_rank": 46,
+          "post_insert_rank": 14223,
+          "rank_improvement": -14177,
+          "post_top1": " of",
+          "post_top5": [
+            " of",
+            " column",
+            " and",
+            " line",
+            " page"
+          ],
+          "ctrl_top1": " a"
+        },
+        "DUAL": {
+          "baseline_logit": 4.794652462005615,
+          "post_insert_logit": 2.9906504154205322,
+          "delta_logit": -1.804002046585083,
+          "baseline_rank": 46,
+          "post_insert_rank": 985,
+          "rank_improvement": -939,
+          "post_top1": " commit",
+          "post_top5": [
+            " commit",
+            "hells",
+            "ward",
+            " by",
+            " instead"
+          ],
+          "ctrl_top1": " a"
+        },
+        "OPT": {
+          "baseline_logit": 4.794652462005615,
+          "post_insert_logit": 12.266312599182129,
+          "delta_logit": 7.471660137176514,
+          "baseline_rank": 46,
+          "post_insert_rank": 0,
+          "rank_improvement": 46,
+          "post_top1": " Tuesday",
+          "post_top5": [
+            " Tuesday",
+            " Monday",
+            " Wednesday",
+            " Thursday",
+            " Friday"
+          ],
+          "ctrl_top1": " a"
+        }
+      }
+    }
+  ]
+}

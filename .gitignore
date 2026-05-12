@@ -1,0 +1,34 @@
+# Large training artifacts — don't version these
+nanochat_base/
+*.parquet
+*.bin
+
+# Model checkpoints (can be many GB)
+**/model.pt
+**/*.safetensors
+
+# Generated console logs
+results/*.console.log
+results/*.log
+results/shard_download.log
+results/supervisor.log
+results/phaseH.log
+results/factscale_bench.log
+results/capacity_ablation.log
+results/chinchilla_chain.log
+
+# Nanochat upstream (its own repo)
+nanochat/.venv/
+nanochat/.git/
+
+# Python + LaTeX byproducts
+__pycache__/
+*.pyc
+*.aux
+*.log
+*.out
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/

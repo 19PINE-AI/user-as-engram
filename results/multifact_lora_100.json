@@ -1,0 +1,21 @@
+{
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+    "corpus": "/home/ubuntu/user-as-engram/data/corpora_xxl.json",
+    "out": "/home/ubuntu/user-as-engram/results/multifact_lora_100.json",
+    "n_facts": 100,
+    "rank": 16,
+    "steps": 200,
+    "lr": 0.0005
+  },
+  "n_facts": 100,
+  "baseline": {
+    "top1": 1,
+    "top5": 8
+  },
+  "post_lora": {
+    "top1": 26,
+    "top5": 56
+  },
+  "lora_param_count": 884736
+}

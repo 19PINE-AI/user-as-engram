@@ -1,0 +1,49 @@
+{
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+    "corpus": "/home/ubuntu/user-as-engram/data/corpora_xxl.json",
+    "out": "/home/ubuntu/user-as-engram/results/scalability_benchmark_xxl_b1.json",
+    "scale": 20.0,
+    "opt_steps": 15,
+    "opt_lr": 0.5,
+    "skip_b1": false,
+    "skip_b2": true
+  },
+  "B1": [
+    {
+      "n": 10,
+      "top1": 0.6,
+      "top5": 0.9,
+      "build_time_s": 5.5864622592926025
+    },
+    {
+      "n": 30,
+      "top1": 0.5,
+      "top5": 0.7,
+      "build_time_s": 16.86368203163147
+    },
+    {
+      "n": 100,
+      "top1": 0.36,
+      "top5": 0.54,
+      "build_time_s": 51.33907961845398
+    },
+    {
+      "n": 300,
+      "top1": 0.22333333333333333,
+      "top5": 0.4266666666666667,
+      "build_time_s": 165.94744181632996
+    },
+    {
+      "n": 1000,
+      "top1": 0.134,
+      "top5": 0.314,
+      "build_time_s": 497.77512884140015
+    }
+  ],
+  "B3": {
+    "engram_row_floats": 256,
+    "sft_lora_floats": 442368,
+    "polar_lora_floats": 10616832
+  }
+}

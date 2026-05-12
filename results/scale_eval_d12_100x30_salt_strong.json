@@ -1,0 +1,259 @@
+{
+  "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+    "corpus": "/home/ubuntu/user-as-engram/data/corpora_xl.json",
+    "out": "/home/ubuntu/user-as-engram/results/scale_eval_d12_100x30_salt_strong.json",
+    "scale": 50.0,
+    "opt_steps": 60,
+    "opt_lr": 1.0,
+    "n_user_facts": 100,
+    "n_org_facts": 100,
+    "n_test_users": 30,
+    "multi_user_opt": true,
+    "skip_e1": true,
+    "use_salt": true
+  },
+  "e2_multi_user": [
+    {
+      "user_id": 0,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.79,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 1,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.37,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 2,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.37,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 3,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.3,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 4,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.25,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 5,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.41,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 6,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.33,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 7,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.31,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 8,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.35,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 9,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.36,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 10,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.33,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 11,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.29,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 12,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.34,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 13,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.3,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 14,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.06,
+      "recall_top1_post": 0.34,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 15,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.26,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 16,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.31,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 17,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.36,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 18,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.34,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 19,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.29,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 20,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.26,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 21,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.38,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 22,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.41,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 23,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.33,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 24,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.32,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 25,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.35,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 26,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.35,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 27,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.3,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 28,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.26,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 29,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.06,
+      "recall_top1_post": 0.4,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    }
+  ]
+}

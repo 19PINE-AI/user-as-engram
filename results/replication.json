@@ -1,0 +1,593 @@
+{
+  "engram": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d8",
+    "factual_active": {
+      "top1": 0.4,
+      "top5": 0.5
+    },
+    "reading_active": {
+      "top1": 0.5333333333333333,
+      "top5": 0.6333333333333333
+    },
+    "factual_suppressed": {
+      "top1": 0.4,
+      "top5": 0.4666666666666667
+    },
+    "reading_suppressed": {
+      "top1": 0.5333333333333333,
+      "top5": 0.6333333333333333
+    },
+    "val_bpb_active": 0.9152742671459063,
+    "val_bpb_suppressed": 0.9501828309858651,
+    "factual_detail_active": [
+      {
+        "prompt": "The capital of France is",
+        "gold": " Paris",
+        "rank": 2,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The capital of Japan is",
+        "gold": " Tokyo",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The capital of Italy is",
+        "gold": " Rome",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The chemical symbol for gold is",
+        "gold": " Au",
+        "rank": -1,
+        "top1_token": " gold"
+      },
+      {
+        "prompt": "The chemical symbol for iron is",
+        "gold": " Fe",
+        "rank": 0,
+        "top1_token": " Fe"
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "gold": " Jupiter",
+        "rank": 2,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "Water is composed of hydrogen and",
+        "gold": " oxygen",
+        "rank": 0,
+        "top1_token": " oxygen"
+      },
+      {
+        "prompt": "The author of Hamlet is William",
+        "gold": " Shakespeare",
+        "rank": -1,
+        "top1_token": " H"
+      },
+      {
+        "prompt": "The currency of the United Kingdom is the British",
+        "gold": " pound",
+        "rank": -1,
+        "top1_token": " currency"
+      },
+      {
+        "prompt": "The Great Wall is in",
+        "gold": " China",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "Albert Einstein developed the theory of",
+        "gold": " relativity",
+        "rank": 0,
+        "top1_token": " relativity"
+      },
+      {
+        "prompt": "The first president of the United States was George",
+        "gold": " Washington",
+        "rank": 0,
+        "top1_token": " Washington"
+      },
+      {
+        "prompt": "The Eiffel Tower is in",
+        "gold": " Paris",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The Pacific is the largest",
+        "gold": " ocean",
+        "rank": 0,
+        "top1_token": " ocean"
+      },
+      {
+        "prompt": "Mount Everest is the highest",
+        "gold": " mountain",
+        "rank": 0,
+        "top1_token": " mountain"
+      },
+      {
+        "prompt": "A baby cat is called a",
+        "gold": " kitten",
+        "rank": 3,
+        "top1_token": " \""
+      },
+      {
+        "prompt": "The opposite of hot is",
+        "gold": " cold",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The opposite of fast is",
+        "gold": " slow",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "Seven days make a",
+        "gold": " week",
+        "rank": -1,
+        "top1_token": " difference"
+      },
+      {
+        "prompt": "Twelve months make a",
+        "gold": " year",
+        "rank": 0,
+        "top1_token": " year"
+      },
+      {
+        "prompt": "The Earth orbits the",
+        "gold": " Sun",
+        "rank": 0,
+        "top1_token": " Sun"
+      },
+      {
+        "prompt": "Humans have two",
+        "gold": " eyes",
+        "rank": -1,
+        "top1_token": " types"
+      },
+      {
+        "prompt": "A triangle has three",
+        "gold": " sides",
+        "rank": 0,
+        "top1_token": " sides"
+      },
+      {
+        "prompt": "The Sahara is a",
+        "gold": " desert",
+        "rank": 0,
+        "top1_token": " desert"
+      },
+      {
+        "prompt": "Penguins live in",
+        "gold": " Antarctica",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The Mona Lisa was painted by Leonardo da",
+        "gold": " Vinc",
+        "rank": 0,
+        "top1_token": " Vinc"
+      },
+      {
+        "prompt": "The Roman Empire fell in",
+        "gold": " ",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The Statue of Liberty was a gift from",
+        "gold": " France",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "Pyramids were built by ancient",
+        "gold": " Egyptians",
+        "rank": 0,
+        "top1_token": " Egyptians"
+      },
+      {
+        "prompt": "The Beatles were a band from",
+        "gold": " Liverpool",
+        "rank": -1,
+        "top1_token": " the"
+      }
+    ],
+    "reading_detail_active": [
+      {
+        "prompt": "My friend Sam lives in a small town called Riverdale. The town Sam lives in is",
+        "gold": " River",
+        "rank": -1,
+        "top1_token": " a"
+      },
+      {
+        "prompt": "Anna's cat is named Whiskers. The cat's name is",
+        "gold": " Whis",
+        "rank": -1,
+        "top1_token": " a"
+      },
+      {
+        "prompt": "The library opens at 9 AM and closes at 7 PM. The library opens at",
+        "gold": " ",
+        "rank": 0,
+        "top1_token": " "
+      },
+      {
+        "prompt": "Bob has a red car. Alice has a blue car. The color of Bob's car is",
+        "gold": " red",
+        "rank": 2,
+        "top1_token": " blue"
+      },
+      {
+        "prompt": "In 2019, the company hired 120 engineers. The number of engineers hired was",
+        "gold": " ",
+        "rank": 0,
+        "top1_token": " "
+      },
+      {
+        "prompt": "The recipe calls for two cups of flour and one cup of sugar. The amount of flour required is",
+        "gold": " two",
+        "rank": -1,
+        "top1_token": " "
+      },
+      {
+        "prompt": "Mary works at Globex Corporation. Mary's employer is",
+        "gold": " Gl",
+        "rank": -1,
+        "top1_token": " Mary"
+      },
+      {
+        "prompt": "The conference will be held in Vienna in October. The conference is in",
+        "gold": " Vienna",
+        "rank": 4,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The medication should be taken twice daily. The frequency of the medication is",
+        "gold": " twice",
+        "rank": -1,
+        "top1_token": " determined"
+      },
+      {
+        "prompt": "The marathon route is 42 kilometers long. The marathon is",
+        "gold": " ",
+        "rank": 0,
+        "top1_token": " "
+      },
+      {
+        "prompt": "Jordan has a sister named Robin. Jordan's sister is",
+        "gold": " Robin",
+        "rank": -1,
+        "top1_token": " a"
+      },
+      {
+        "prompt": "The fastest runner in the team is Lee, who finished in 12 seconds. Lee finished in",
+        "gold": " ",
+        "rank": 0,
+        "top1_token": " "
+      },
+      {
+        "prompt": "The exam consists of three sections: math, reading, and writing. The first section is",
+        "gold": " math",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The package arrived on Tuesday morning. The day of arrival was",
+        "gold": " Tuesday",
+        "rank": -1,
+        "top1_token": " a"
+      },
+      {
+        "prompt": "The hotel charges 150 dollars per night. The nightly rate is",
+        "gold": " ",
+        "rank": 0,
+        "top1_token": " "
+      },
+      {
+        "prompt": "Pat lives in a yellow house with a green door. The color of Pat's house is",
+        "gold": " yellow",
+        "rank": 0,
+        "top1_token": " yellow"
+      },
+      {
+        "prompt": "The book has 400 pages and 12 chapters. The number of chapters is",
+        "gold": " ",
+        "rank": 0,
+        "top1_token": " "
+      },
+      {
+        "prompt": "During the meeting, Carla proposed a new policy. The person who proposed it was",
+        "gold": " Car",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The team won 5 games and lost 2. The number of wins was",
+        "gold": " ",
+        "rank": 0,
+        "top1_token": " "
+      },
+      {
+        "prompt": "The clock shows the time as 3:45 PM. The time is 3",
+        "gold": ":",
+        "rank": 0,
+        "top1_token": ":"
+      },
+      {
+        "prompt": "The trail runs along the Hudson River. The river is the",
+        "gold": " Hudson",
+        "rank": -1,
+        "top1_token": " largest"
+      },
+      {
+        "prompt": "The instructor is Dr. Patel. The instructor's name is Dr.",
+        "gold": " Pat",
+        "rank": 0,
+        "top1_token": " Pat"
+      },
+      {
+        "prompt": "Carlos arrived from Madrid yesterday. Carlos arrived from",
+        "gold": " Madrid",
+        "rank": 0,
+        "top1_token": " Madrid"
+      },
+      {
+        "prompt": "The jar contains 73 marbles, all blue. The number of marbles is",
+        "gold": " ",
+        "rank": 0,
+        "top1_token": " "
+      },
+      {
+        "prompt": "The package contained a book and a candle. The two items were a book and a",
+        "gold": " candle",
+        "rank": 0,
+        "top1_token": " candle"
+      },
+      {
+        "prompt": "The forecast says rain on Friday and sunshine on Saturday. Friday will be",
+        "gold": " rain",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The class begins at 10:30 sharp. The class starts at",
+        "gold": " ",
+        "rank": 0,
+        "top1_token": " "
+      },
+      {
+        "prompt": "Among the four guests, Tina arrived first. The first guest was",
+        "gold": " T",
+        "rank": 2,
+        "top1_token": " a"
+      },
+      {
+        "prompt": "The town has a population of 8500. The population is",
+        "gold": " ",
+        "rank": 0,
+        "top1_token": " "
+      },
+      {
+        "prompt": "The dish requires garlic, basil, and tomato. The three ingredients are garlic,",
+        "gold": " basil",
+        "rank": 0,
+        "top1_token": " basil"
+      }
+    ]
+  },
+  "base": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/base_d8",
+    "factual": {
+      "top1": 0.3333333333333333,
+      "top5": 0.5333333333333333
+    },
+    "reading": {
+      "top1": 0.5333333333333333,
+      "top5": 0.7333333333333333
+    },
+    "val_bpb": 0.9198062675311328,
+    "factual_detail": [
+      {
+        "prompt": "The capital of France is",
+        "gold": " Paris",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The capital of Japan is",
+        "gold": " Tokyo",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The capital of Italy is",
+        "gold": " Rome",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The chemical symbol for gold is",
+        "gold": " Au",
+        "rank": 2,
+        "top1_token": " gold"
+      },
+      {
+        "prompt": "The chemical symbol for iron is",
+        "gold": " Fe",
+        "rank": 0,
+        "top1_token": " Fe"
+      },
+      {
+        "prompt": "The largest planet in our solar system is",
+        "gold": " Jupiter",
+        "rank": -1,
+        "top1_token": " located"
+      },
+      {
+        "prompt": "Water is composed of hydrogen and",
+        "gold": " oxygen",
+        "rank": 0,
+        "top1_token": " oxygen"
+      },
+      {
+        "prompt": "The author of Hamlet is William",
+        "gold": " Shakespeare",
+        "rank": -1,
+        "top1_token": " H"
+      },
+      {
+        "prompt": "The currency of the United Kingdom is the British",
+        "gold": " pound",
+        "rank": -1,
+        "top1_token": " currency"
+      },
+      {
+        "prompt": "The Great Wall is in",
+        "gold": " China",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "Albert Einstein developed the theory of",
+        "gold": " relativity",
+        "rank": 0,
+        "top1_token": " relativity"
+      },
+      {
+        "prompt": "The first president of the United States was George",
+        "gold": " Washington",
+        "rank": 0,
+        "top1_token": " Washington"
+      },
+      {
+        "prompt": "The Eiffel Tower is in",
+        "gold": " Paris",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The Pacific is the largest",
+        "gold": " ocean",
+        "rank": 0,
+        "top1_token": " ocean"
+      },
+      {
+        "prompt": "Mount Everest is the highest",
+        "gold": " mountain",
+        "rank": 0,
+        "top1_token": " mountain"
+      },
+      {
+        "prompt": "A baby cat is called a",
+        "gold": " kitten",
+        "rank": 3,
+        "top1_token": " \""
+      },
+      {
+        "prompt": "The opposite of hot is",
+        "gold": " cold",
+        "rank": 4,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The opposite of fast is",
+        "gold": " slow",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "Seven days make a",
+        "gold": " week",
+        "rank": -1,
+        "top1_token": " difference"
+      },
+      {
+        "prompt": "Twelve months make a",
+        "gold": " year",
+        "rank": -1,
+        "top1_token": " difference"
+      },
+      {
+        "prompt": "The Earth orbits the",
+        "gold": " Sun",
+        "rank": 0,
+        "top1_token": " Sun"
+      },
+      {
+        "prompt": "Humans have two",
+        "gold": " eyes",
+        "rank": -1,
+        "top1_token": " main"
+      },
+      {
+        "prompt": "A triangle has three",
+        "gold": " sides",
+        "rank": 0,
+        "top1_token": " sides"
+      },
+      {
+        "prompt": "The Sahara is a",
+        "gold": " desert",
+        "rank": 0,
+        "top1_token": " desert"
+      },
+      {
+        "prompt": "Penguins live in",
+        "gold": " Antarctica",
+        "rank": 3,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The Mona Lisa was painted by Leonardo da",
+        "gold": " Vinc",
+        "rank": 0,
+        "top1_token": " Vinc"
+      },
+      {
+        "prompt": "The Roman Empire fell in",
+        "gold": " ",
+        "rank": 2,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "The Statue of Liberty was a gift from",
+        "gold": " France",
+        "rank": -1,
+        "top1_token": " the"
+      },
+      {
+        "prompt": "Pyramids were built by ancient",
+        "gold": " Egyptians",
+        "rank": 1,
+        "top1_token": " civilizations"
+      },
+      {
+        "prompt": "The Beatles were a band from",
+        "gold": " Liverpool",
+        "rank": -1,
+        "top1_token": " the"
+      }
+    ]
+  },
+  "replication_signal": {
+    "top1": {
+      "factual_retained": 1.0,
+      "reading_retained": 1.0,
+      "delta": 0.0
+    },
+    "top5": {
+      "factual_retained": 0.9333333333333333,
+      "reading_retained": 1.0,
+      "delta": -0.06666666666666665
+    }
+  }
+}

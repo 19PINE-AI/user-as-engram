@@ -1,0 +1,202 @@
+{
+  "config": {
+    "layer_ids": [
+      1,
+      15
+    ],
+    "max_ngram_size": 3,
+    "n_head_per_ngram": 8,
+    "engram_vocab_size": [
+      646400,
+      646400
+    ],
+    "total_slots": 20692406
+  },
+  "per_fact": [
+    {
+      "fact_idx": 0,
+      "text": "My name is Alex Chen.",
+      "n_tokens": 7,
+      "n_distinct_addresses": 224
+    },
+    {
+      "fact_idx": 1,
+      "text": "I was born in 1991.",
+      "n_tokens": 9,
+      "n_distinct_addresses": 288
+    },
+    {
+      "fact_idx": 2,
+      "text": "I live in Portland, Oregon.",
+      "n_tokens": 8,
+      "n_distinct_addresses": 256
+    },
+    {
+      "fact_idx": 3,
+      "text": "My spouse is Jamie Chen.",
+      "n_tokens": 7,
+      "n_distinct_addresses": 224
+    },
+    {
+      "fact_idx": 4,
+      "text": "Jamie was born in 1993.",
+      "n_tokens": 10,
+      "n_distinct_addresses": 320
+    },
+    {
+      "fact_idx": 5,
+      "text": "We have one child named Jordan.",
+      "n_tokens": 8,
+      "n_distinct_addresses": 256
+    },
+    {
+      "fact_idx": 6,
+      "text": "Jordan was born in 2018.",
+      "n_tokens": 9,
+      "n_distinct_addresses": 288
+    },
+    {
+      "fact_idx": 7,
+      "text": "My doctor is Dr. Patel.",
+      "n_tokens": 8,
+      "n_distinct_addresses": 256
+    },
+    {
+      "fact_idx": 8,
+      "text": "My dentist is Dr. Lee.",
+      "n_tokens": 8,
+      "n_distinct_addresses": 256
+    },
+    {
+      "fact_idx": 9,
+      "text": "I am allergic to peanuts.",
+      "n_tokens": 7,
+      "n_distinct_addresses": 224
+    },
+    {
+      "fact_idx": 10,
+      "text": "I am allergic to shellfish.",
+      "n_tokens": 7,
+      "n_distinct_addresses": 224
+    },
+    {
+      "fact_idx": 11,
+      "text": "My emergency contact is my sister Robin.",
+      "n_tokens": 9,
+      "n_distinct_addresses": 288
+    },
+    {
+      "fact_idx": 12,
+      "text": "I work as a software engineer.",
+      "n_tokens": 8,
+      "n_distinct_addresses": 256
+    },
+    {
+      "fact_idx": 13,
+      "text": "I work at Globex Corp.",
+      "n_tokens": 8,
+      "n_distinct_addresses": 256
+    },
+    {
+      "fact_idx": 14,
+      "text": "My commute is 32 minutes.",
+      "n_tokens": 8,
+      "n_distinct_addresses": 256
+    },
+    {
+      "fact_idx": 15,
+      "text": "I take the bus to work.",
+      "n_tokens": 8,
+      "n_distinct_addresses": 256
+    },
+    {
+      "fact_idx": 16,
+      "text": "My gym day is Monday.",
+      "n_tokens": 7,
+      "n_distinct_addresses": 224
+    },
+    {
+      "fact_idx": 17,
+      "text": "My yoga day is Wednesday.",
+      "n_tokens": 7,
+      "n_distinct_addresses": 224
+    },
+    {
+      "fact_idx": 18,
+      "text": "I run on Saturdays.",
+      "n_tokens": 6,
+      "n_distinct_addresses": 192
+    },
+    {
+      "fact_idx": 19,
+      "text": "My favorite color is charcoal.",
+      "n_tokens": 7,
+      "n_distinct_addresses": 224
+    },
+    {
+      "fact_idx": 20,
+      "text": "My favorite food is ramen.",
+      "n_tokens": 8,
+      "n_distinct_addresses": 256
+    },
+    {
+      "fact_idx": 21,
+      "text": "I do not eat meat on Sundays.",
+      "n_tokens": 9,
+      "n_distinct_addresses": 288
+    },
+    {
+      "fact_idx": 22,
+      "text": "My pet is a cat named Whiskers.",
+      "n_tokens": 11,
+      "n_distinct_addresses": 352
+    },
+    {
+      "fact_idx": 23,
+      "text": "Whiskers was born in 2020.",
+      "n_tokens": 11,
+      "n_distinct_addresses": 352
+    },
+    {
+      "fact_idx": 24,
+      "text": "My birthday is March 14.",
+      "n_tokens": 8,
+      "n_distinct_addresses": 256
+    },
+    {
+      "fact_idx": 25,
+      "text": "Jamie's birthday is August 22.",
+      "n_tokens": 10,
+      "n_distinct_addresses": 320
+    },
+    {
+      "fact_idx": 26,
+      "text": "Jordan's birthday is June 5.",
+      "n_tokens": 9,
+      "n_distinct_addresses": 288
+    },
+    {
+      "fact_idx": 27,
+      "text": "I drive a Subaru Outback.",
+      "n_tokens": 9,
+      "n_distinct_addresses": 288
+    },
+    {
+      "fact_idx": 28,
+      "text": "My license plate is ABC-1234.",
+      "n_tokens": 10,
+      "n_distinct_addresses": 320
+    },
+    {
+      "fact_idx": 29,
+      "text": "My favorite movie is Spirited Away.",
+      "n_tokens": 9,
+      "n_distinct_addresses": 288
+    }
+  ],
+  "user_summary": {
+    "n_facts": 30,
+    "union_addresses": 5616,
+    "occupancy_fraction": 0.000271403915040136
+  }
+}

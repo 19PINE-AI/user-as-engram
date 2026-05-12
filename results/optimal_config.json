@@ -1,0 +1,111 @@
+{
+  "best_d8": {
+    "cap_label": "large",
+    "vocab": 50000,
+    "n_embed": 256,
+    "tokens_b": 2.0,
+    "score": 2.533248721704931,
+    "metrics": {
+      "user_opt_t1": 1.0,
+      "user_opt_t5": 1.0,
+      "org_opt_t1": 1.0,
+      "locomo_jopt": 0.20664974434098618
+    },
+    "tag": "engram_d8_large_t2B"
+  },
+  "all_d8": [
+    {
+      "tag": "engram_d8_large_t2B",
+      "cap": "large",
+      "tok_b": 2.0,
+      "score": 2.533248721704931
+    },
+    {
+      "tag": "engram_d8_medium_t2B",
+      "cap": "medium",
+      "tok_b": 2.0,
+      "score": 2.5123037050134682
+    },
+    {
+      "tag": "engram_d8_small_t05B",
+      "cap": "small",
+      "tok_b": 0.5,
+      "score": 2.4115585469497645
+    },
+    {
+      "tag": "engram_d8_large_t1B",
+      "cap": "large",
+      "tok_b": 1.0,
+      "score": 2.349746578694681
+    },
+    {
+      "tag": "engram_d8_small_t1B",
+      "cap": "small",
+      "tok_b": 1.0,
+      "score": 2.2797167815494457
+    }
+  ],
+  "best_d12": {
+    "cap_label": "large",
+    "vocab": 50000,
+    "n_embed": 256,
+    "tokens_b": 2.5,
+    "score": 2.4256638334520213,
+    "metrics": {
+      "user_opt_t1": 1.0,
+      "user_opt_t5": 1.0,
+      "org_opt_t1": 1.0,
+      "locomo_jopt": 0.18513276669040424
+    },
+    "tag": "engram_d12_large_t25B"
+  },
+  "all_d12": [
+    {
+      "tag": "engram_d12_large_t25B",
+      "cap": "large",
+      "tok_b": 2.5,
+      "score": 2.4256638334520213
+    },
+    {
+      "tag": "engram_d12_xlarge_t05B",
+      "cap": "xlarge",
+      "tok_b": 0.5,
+      "score": 2.3550101246727655
+    },
+    {
+      "tag": "engram_d12_small_t25B",
+      "cap": "small",
+      "tok_b": 2.5,
+      "score": 2.331281788832261
+    },
+    {
+      "tag": "engram_d12_medium_t25B",
+      "cap": "medium",
+      "tok_b": 2.5,
+      "score": 2.3261359417484617
+    },
+    {
+      "tag": "engram_d12_large_t132B",
+      "cap": "large",
+      "tok_b": 1.32,
+      "score": 2.2972852557145025
+    }
+  ],
+  "t_per_p_target": 22.727272727272727,
+  "d12_1280": {
+    "cap_label": "large",
+    "vocab": 50000,
+    "n_embed": 256,
+    "scaling_params_M": 278,
+    "tokens_b": 6.32,
+    "iters_at_131K": 48204
+  },
+  "d20_1536": {
+    "cap_label": "large",
+    "vocab": 50000,
+    "n_embed": 256,
+    "scaling_params_M": 617,
+    "tokens_b": 14.02,
+    "iters_at_131K": 106985
+  }
+}

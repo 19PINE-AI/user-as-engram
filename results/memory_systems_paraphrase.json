@@ -1,0 +1,43 @@
+{
+  "NO_MEMORY": {
+    "top1": 0.0625,
+    "top5": 0.140625,
+    "n": 64
+  },
+  "MARKDOWN_ALL": {
+    "top1": 0.609375,
+    "top5": 0.734375,
+    "n": 64,
+    "context_tokens": 158
+  },
+  "RAG_TOP1": {
+    "top1": 0.640625,
+    "top5": 0.875,
+    "n": 64
+  },
+  "RAG_TOP3": {
+    "top1": 0.65625,
+    "top5": 0.828125,
+    "n": 64
+  },
+  "MEM0_LIKE": {
+    "top1": 0.625,
+    "top5": 0.8125,
+    "n": 64
+  },
+  "MEMMACHINE_LIKE": {
+    "top1": 0.75,
+    "top5": 0.875,
+    "n": 64
+  },
+  "USER_AS_ENGRAM_OPT": {
+    "top1": 0.203125,
+    "top5": 0.25,
+    "n": 64
+  },
+  "USER_AS_ENGRAM_OPT_MULTITRIG": {
+    "top1": 0.96875,
+    "top5": 0.984375,
+    "n": 64
+  }
+}

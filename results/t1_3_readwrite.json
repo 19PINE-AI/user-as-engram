@@ -1,0 +1,36 @@
+{
+  "config": {
+    "layer_id": 1,
+    "hidden_size": 1024,
+    "hc_mult": 4,
+    "embed_dim_per_head": 64,
+    "Hh": 16
+  },
+  "trigger": {
+    "position": 6,
+    "token": " Patel",
+    "global_rows_first6": [
+      144571,
+      1196101,
+      1759081,
+      1980113,
+      2943400,
+      3240426
+    ]
+  },
+  "control": {
+    "position": 7,
+    "token": " and",
+    "overlap_with_trigger_rows": 0
+  },
+  "selectivity": {
+    "diff_at_trigger": 116.95628356933594,
+    "diff_at_control": 0.0,
+    "diff_other_mean": 0.6509826183319092,
+    "diff_other_max": 7.551182270050049,
+    "ratio_trigger_over_other_mean": 179.6611465126781
+  },
+  "information_path": {
+    "cosine_delta_vs_WV_marker": 0.9977656602859497
+  }
+}

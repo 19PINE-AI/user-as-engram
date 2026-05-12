@@ -1,0 +1,89 @@
+{
+  "per_conv": {
+    "conv_0": {
+      "NO_MEMORY": {
+        "avg_f1": 0.04064131473961195,
+        "n": 80
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.06070678930333663,
+        "n": 80
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.05296179332207903,
+        "n": 80
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.059159228744719974,
+        "n": 80
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.05784212662539995,
+        "n": 80
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.05140489061209236,
+        "n": 80
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.1378389243099462,
+        "n": 80
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "avg_f1": 0.147027061486667,
+        "n": 80
+      }
+    },
+    "conv_1": {
+      "NO_MEMORY": {
+        "avg_f1": 0.03880755087633769,
+        "n": 80
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.08316197513465848,
+        "n": 80
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.06492164030525184,
+        "n": 80
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.0893899622941137,
+        "n": 80
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.0888049692446968,
+        "n": 80
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.09970107934618151,
+        "n": 80
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.13843507637436464,
+        "n": 80
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "avg_f1": 0.18194094564250846,
+        "n": 80
+      }
+    }
+  },
+  "summary": {
+    "NO_MEMORY": 0.03972443280797482,
+    "MARKDOWN_ALL": 0.07193438221899756,
+    "RAG_TOP1": 0.05894171681366543,
+    "RAG_TOP3": 0.07427459551941684,
+    "MEM0_LIKE": 0.07332354793504837,
+    "MEMMACHINE_LIKE": 0.07555298497913693,
+    "USER_AS_ENGRAM_OPT": 0.13813700034215542,
+    "USER_AS_ENGRAM_JOINT_OPT": 0.16448400356458773
+  },
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d8",
+    "n_conv": 2,
+    "max_qa_per_conv": 80,
+    "out": "/home/ubuntu/user-as-engram/results/engram_d8_v1__locomo.json",
+    "max_seq_len": 1024
+  }
+}

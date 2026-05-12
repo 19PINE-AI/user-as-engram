@@ -1,0 +1,15 @@
+{
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+    "corpus": "/home/ubuntu/user-as-engram/data/corpora_xxl.json",
+    "out": "/home/ubuntu/user-as-engram/results/opt_strong_100.json",
+    "n_facts": 100,
+    "opt_steps": 60,
+    "opt_lr": 1.0,
+    "scale": 50.0
+  },
+  "n": 100,
+  "top1": 0.35,
+  "top5": 0.59,
+  "build_time_s": 218.7528510093689
+}

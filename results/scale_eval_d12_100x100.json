@@ -1,0 +1,819 @@
+{
+  "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+    "corpus": "/home/ubuntu/user-as-engram/data/corpora_xl.json",
+    "out": "/home/ubuntu/user-as-engram/results/scale_eval_d12_100x100.json",
+    "scale": 20.0,
+    "opt_steps": 15,
+    "opt_lr": 0.5,
+    "n_user_facts": 100,
+    "n_org_facts": 100,
+    "n_test_users": 100,
+    "multi_user_opt": false,
+    "skip_e1": true,
+    "use_salt": false
+  },
+  "e2_multi_user": [
+    {
+      "user_id": 0,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.06,
+      "n_leaks": 6
+    },
+    {
+      "user_id": 1,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 2,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 3,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 4,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 5,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 6,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 7,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.06,
+      "n_leaks": 6
+    },
+    {
+      "user_id": 8,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 9,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.06,
+      "n_leaks": 6
+    },
+    {
+      "user_id": 10,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 11,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.06,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 12,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 13,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.06,
+      "leak_rate": 0.0,
+      "n_leaks": 0
+    },
+    {
+      "user_id": 14,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.06,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 15,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 16,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 17,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 18,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 19,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.06,
+      "n_leaks": 6
+    },
+    {
+      "user_id": 20,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 21,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 22,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.12,
+      "leak_rate": 0.08,
+      "n_leaks": 8
+    },
+    {
+      "user_id": 23,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 24,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.13,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 25,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.06,
+      "n_leaks": 6
+    },
+    {
+      "user_id": 26,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.12,
+      "leak_rate": 0.07,
+      "n_leaks": 7
+    },
+    {
+      "user_id": 27,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 28,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.06,
+      "n_leaks": 6
+    },
+    {
+      "user_id": 29,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.06,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.06,
+      "n_leaks": 6
+    },
+    {
+      "user_id": 30,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.12,
+      "leak_rate": 0.06,
+      "n_leaks": 6
+    },
+    {
+      "user_id": 31,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 32,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 33,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 34,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.12,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 35,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.06,
+      "n_leaks": 6
+    },
+    {
+      "user_id": 36,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 37,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 38,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 39,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 40,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 41,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.07,
+      "recall_top1_post": 0.15,
+      "leak_rate": 0.09,
+      "n_leaks": 9
+    },
+    {
+      "user_id": 42,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 43,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 44,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 45,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 46,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.07,
+      "n_leaks": 7
+    },
+    {
+      "user_id": 47,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 48,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 49,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 50,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 51,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 52,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 53,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 54,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.06,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 55,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.06,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 56,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 57,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 58,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.07,
+      "n_leaks": 7
+    },
+    {
+      "user_id": 59,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 60,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.04,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 61,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.12,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 62,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 63,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 64,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 65,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.06,
+      "n_leaks": 6
+    },
+    {
+      "user_id": 66,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 67,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 68,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 69,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 70,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 71,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 72,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.05,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 73,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.05,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 74,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 75,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 76,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 77,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.05,
+      "n_leaks": 5
+    },
+    {
+      "user_id": 78,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 79,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 80,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.06,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 81,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.08,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 82,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.06,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 83,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 84,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 85,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 86,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.05,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 87,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 88,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 89,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.16,
+      "leak_rate": 0.1,
+      "n_leaks": 10
+    },
+    {
+      "user_id": 90,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.07,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 91,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.03,
+      "n_leaks": 3
+    },
+    {
+      "user_id": 92,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.05,
+      "leak_rate": 0.01,
+      "n_leaks": 1
+    },
+    {
+      "user_id": 93,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 94,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.1,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 95,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.05,
+      "leak_rate": 0.02,
+      "n_leaks": 2
+    },
+    {
+      "user_id": 96,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.02,
+      "recall_top1_post": 0.06,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 97,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.03,
+      "recall_top1_post": 0.11,
+      "leak_rate": 0.07,
+      "n_leaks": 7
+    },
+    {
+      "user_id": 98,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.05,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    },
+    {
+      "user_id": 99,
+      "n_facts": 100,
+      "recall_top1_baseline": 0.04,
+      "recall_top1_post": 0.09,
+      "leak_rate": 0.04,
+      "n_leaks": 4
+    }
+  ]
+}

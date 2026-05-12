@@ -1,0 +1,63 @@
+{
+  "n": 30,
+  "first_token_hits": 7,
+  "anywhere_hits": 16,
+  "samples": [
+    {
+      "prompt": "My therapist Sage's clinic is in",
+      "gold": "Memphis",
+      "generated": " Memphis, Tennessee. I have been",
+      "in_first": 0,
+      "in_total": 1
+    },
+    {
+      "prompt": "My friend Zane's favorite fruit is",
+      "gold": "papaya",
+      "generated": " papaya. It's a tropical fruit",
+      "in_first": 0,
+      "in_total": 1
+    },
+    {
+      "prompt": "My friend Kai's favorite instrument is the",
+      "gold": "violin",
+      "generated": " violin. It's a great instrument",
+      "in_first": 0,
+      "in_total": 1
+    },
+    {
+      "prompt": "My niece Finley studies in",
+      "gold": "France",
+      "generated": " France and has been studying in the UK",
+      "in_first": 1,
+      "in_total": 1
+    },
+    {
+      "prompt": "My friend Sam's favorite animal is the",
+      "gold": "elk",
+      "generated": " elk. He has a lot of knowledge",
+      "in_first": 1,
+      "in_total": 1
+    },
+    {
+      "prompt": "Acme's sister company is",
+      "gold": "Weyland",
+      "generated": " St. John's Wort, which",
+      "in_first": 0,
+      "in_total": 0
+    },
+    {
+      "prompt": "My friend Quinn's favorite color is",
+      "gold": "emerald",
+      "generated": " emerald green. It's a beautiful shade",
+      "in_first": 1,
+      "in_total": 1
+    },
+    {
+      "prompt": "My favorite barista Yarrow works at",
+      "gold": "Wayne",
+      "generated": " Wayne State University. It's a",
+      "in_first": 0,
+      "in_total": 1
+    }
+  ]
+}

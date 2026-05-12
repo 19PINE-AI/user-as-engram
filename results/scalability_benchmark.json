@@ -1,0 +1,147 @@
+{
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+    "corpus": "/home/ubuntu/user-as-engram/data/corpora_xl.json",
+    "out": "/home/ubuntu/user-as-engram/results/scalability_benchmark.json",
+    "scale": 20.0,
+    "opt_steps": 15,
+    "opt_lr": 0.5,
+    "skip_b1": false,
+    "skip_b2": false
+  },
+  "B1": [
+    {
+      "n": 10,
+      "top1": 0.9,
+      "top5": 0.9,
+      "build_time_s": 11.20250129699707
+    },
+    {
+      "n": 30,
+      "top1": 0.7333333333333333,
+      "top5": 0.8333333333333334,
+      "build_time_s": 45.790738105773926
+    },
+    {
+      "n": 100,
+      "top1": 0.6626506024096386,
+      "top5": 0.8795180722891566,
+      "build_time_s": 113.78199553489685
+    },
+    {
+      "n": 300,
+      "top1": 0.6626506024096386,
+      "top5": 0.8795180722891566,
+      "build_time_s": 91.07992339134216
+    },
+    {
+      "n": 1000,
+      "top1": 0.6626506024096386,
+      "top5": 0.8795180722891566,
+      "build_time_s": 101.54869508743286
+    }
+  ],
+  "B2": [
+    {
+      "D": 1,
+      "per_domain": [
+        {
+          "name": "user_v1",
+          "top1": 0.6626506024096386,
+          "top5": 0.8795180722891566,
+          "n": 83
+        }
+      ],
+      "avg_top1": 0.6626506024096386,
+      "avg_top5": 0.8795180722891566,
+      "avg_pair_overlap": 0,
+      "n_addrs": 1120
+    },
+    {
+      "D": 2,
+      "per_domain": [
+        {
+          "name": "user_v1",
+          "top1": 0.6265060240963856,
+          "top5": 0.8554216867469879,
+          "n": 83
+        },
+        {
+          "name": "org_v1",
+          "top1": 0.28,
+          "top5": 0.35,
+          "n": 100
+        }
+      ],
+      "avg_top1": 0.4532530120481928,
+      "avg_top5": 0.602710843373494,
+      "avg_pair_overlap": 0.11566265060240964,
+      "n_addrs": 1487
+    },
+    {
+      "D": 3,
+      "per_domain": [
+        {
+          "name": "user_v1",
+          "top1": 0.6385542168674698,
+          "top5": 0.8433734939759037,
+          "n": 83
+        },
+        {
+          "name": "org_v1",
+          "top1": 0.19,
+          "top5": 0.3,
+          "n": 100
+        },
+        {
+          "name": "org_v2",
+          "top1": 0.39,
+          "top5": 0.47,
+          "n": 100
+        }
+      ],
+      "avg_top1": 0.4061847389558233,
+      "avg_top5": 0.5377911646586345,
+      "avg_pair_overlap": 0.39830089589125733,
+      "n_addrs": 1503
+    },
+    {
+      "D": 4,
+      "per_domain": [
+        {
+          "name": "user_v1",
+          "top1": 0.08433734939759036,
+          "top5": 0.24096385542168675,
+          "n": 83
+        },
+        {
+          "name": "org_v1",
+          "top1": 0.18,
+          "top5": 0.27,
+          "n": 100
+        },
+        {
+          "name": "org_v2",
+          "top1": 0.22,
+          "top5": 0.29,
+          "n": 100
+        },
+        {
+          "name": "multi_user_0",
+          "top1": 0.67,
+          "top5": 0.89,
+          "n": 100
+        }
+      ],
+      "avg_top1": 0.2885843373493976,
+      "avg_top5": 0.4227409638554217,
+      "avg_pair_overlap": 0.6347190961648792,
+      "n_addrs": 1503
+    }
+  ],
+  "B3": {
+    "engram_row_floats": 256,
+    "sft_lora_floats": 442368,
+    "polar_lora_floats": 10616832
+  }
+}

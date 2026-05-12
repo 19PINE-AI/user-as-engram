@@ -1,0 +1,1417 @@
+{
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+    "corpus": "/home/ubuntu/user-as-engram/data/corpora_xl.json",
+    "out": "/home/ubuntu/user-as-engram/results/sft_baseline_d12.json",
+    "n_user_facts": 100,
+    "n_org_facts": 100,
+    "rank": 8,
+    "alpha": 16.0,
+    "steps": 30,
+    "lr": 0.001
+  },
+  "user": [
+    {
+      "baseline_rank": 1266,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 0
+    },
+    {
+      "baseline_rank": 1626,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 1
+    },
+    {
+      "baseline_rank": 90,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 2
+    },
+    {
+      "baseline_rank": 7,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 3
+    },
+    {
+      "baseline_rank": 712,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 4
+    },
+    {
+      "baseline_rank": 10045,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 5
+    },
+    {
+      "baseline_rank": 22,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 6
+    },
+    {
+      "baseline_rank": 419,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 7
+    },
+    {
+      "baseline_rank": 142,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 8
+    },
+    {
+      "baseline_rank": 60,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 9
+    },
+    {
+      "baseline_rank": 4283,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 10
+    },
+    {
+      "baseline_rank": 1376,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 11
+    },
+    {
+      "baseline_rank": 58,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 12
+    },
+    {
+      "baseline_rank": 1403,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 13
+    },
+    {
+      "baseline_rank": 17,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 14
+    },
+    {
+      "baseline_rank": 5,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 15
+    },
+    {
+      "baseline_rank": 751,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 16
+    },
+    {
+      "baseline_rank": 826,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 17
+    },
+    {
+      "baseline_rank": 32,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 18
+    },
+    {
+      "baseline_rank": 11,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 19
+    },
+    {
+      "baseline_rank": 7,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 20
+    },
+    {
+      "baseline_rank": 18,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 21
+    },
+    {
+      "baseline_rank": 79,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 22
+    },
+    {
+      "baseline_rank": 912,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 23
+    },
+    {
+      "baseline_rank": 18925,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 24
+    },
+    {
+      "baseline_rank": 6206,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 25
+    },
+    {
+      "baseline_rank": 15,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 26
+    },
+    {
+      "baseline_rank": 1435,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 27
+    },
+    {
+      "baseline_rank": 1907,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 28
+    },
+    {
+      "baseline_rank": 1159,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 29
+    },
+    {
+      "baseline_rank": 10147,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 30
+    },
+    {
+      "baseline_rank": 3308,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 31
+    },
+    {
+      "baseline_rank": 627,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 32
+    },
+    {
+      "baseline_rank": 90,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 33
+    },
+    {
+      "baseline_rank": 863,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 34
+    },
+    {
+      "baseline_rank": 22,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 35
+    },
+    {
+      "baseline_rank": 131,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 36
+    },
+    {
+      "baseline_rank": 11547,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 37
+    },
+    {
+      "baseline_rank": 1228,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 38
+    },
+    {
+      "baseline_rank": 23,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 39
+    },
+    {
+      "baseline_rank": 4176,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 40
+    },
+    {
+      "baseline_rank": 22,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 41
+    },
+    {
+      "baseline_rank": 561,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 42
+    },
+    {
+      "baseline_rank": 55,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 43
+    },
+    {
+      "baseline_rank": 57,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 44
+    },
+    {
+      "baseline_rank": 3,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 45
+    },
+    {
+      "baseline_rank": 610,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 46
+    },
+    {
+      "baseline_rank": 2,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 47
+    },
+    {
+      "baseline_rank": 365,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 48
+    },
+    {
+      "baseline_rank": 4101,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 49
+    },
+    {
+      "baseline_rank": 421,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 50
+    },
+    {
+      "baseline_rank": 30,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 51
+    },
+    {
+      "baseline_rank": 769,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 52
+    },
+    {
+      "baseline_rank": 1470,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 53
+    },
+    {
+      "baseline_rank": 85,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 54
+    },
+    {
+      "baseline_rank": 544,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 55
+    },
+    {
+      "baseline_rank": 20,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 56
+    },
+    {
+      "baseline_rank": 3,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 57
+    },
+    {
+      "baseline_rank": 2268,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 58
+    },
+    {
+      "baseline_rank": 184,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 59
+    },
+    {
+      "baseline_rank": 11,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 60
+    },
+    {
+      "baseline_rank": 65,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 61
+    },
+    {
+      "baseline_rank": 5997,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 62
+    },
+    {
+      "baseline_rank": 1030,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 63
+    },
+    {
+      "baseline_rank": 7063,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 64
+    },
+    {
+      "baseline_rank": 1663,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 65
+    },
+    {
+      "baseline_rank": 19098,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 66
+    },
+    {
+      "baseline_rank": 2519,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 67
+    },
+    {
+      "baseline_rank": 546,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 68
+    },
+    {
+      "baseline_rank": 2639,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 69
+    },
+    {
+      "baseline_rank": 33,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 70
+    },
+    {
+      "baseline_rank": 57,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 71
+    },
+    {
+      "baseline_rank": 20265,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 72
+    },
+    {
+      "baseline_rank": 1716,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 73
+    },
+    {
+      "baseline_rank": 251,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 74
+    },
+    {
+      "baseline_rank": 126,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 75
+    },
+    {
+      "baseline_rank": 712,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 76
+    },
+    {
+      "baseline_rank": 917,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 77
+    },
+    {
+      "baseline_rank": 3,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 78
+    },
+    {
+      "baseline_rank": 100,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 79
+    },
+    {
+      "baseline_rank": 4,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 80
+    },
+    {
+      "baseline_rank": 692,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 81
+    },
+    {
+      "baseline_rank": 14,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 82
+    },
+    {
+      "baseline_rank": 18,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 83
+    },
+    {
+      "baseline_rank": 907,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 84
+    },
+    {
+      "baseline_rank": 10,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 85
+    },
+    {
+      "baseline_rank": 25,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 86
+    },
+    {
+      "baseline_rank": 419,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 87
+    },
+    {
+      "baseline_rank": 21224,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 88
+    },
+    {
+      "baseline_rank": 4515,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 89
+    },
+    {
+      "baseline_rank": 7,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 90
+    },
+    {
+      "baseline_rank": 5,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 91
+    },
+    {
+      "baseline_rank": 35,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 92
+    },
+    {
+      "baseline_rank": 170,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 93
+    },
+    {
+      "baseline_rank": 78,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 94
+    },
+    {
+      "baseline_rank": 10832,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 95
+    },
+    {
+      "baseline_rank": 35,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 96
+    },
+    {
+      "baseline_rank": 18553,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 97
+    },
+    {
+      "baseline_rank": 490,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 98
+    },
+    {
+      "baseline_rank": 146,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 99
+    }
+  ],
+  "org": [
+    {
+      "baseline_rank": 1730,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 0
+    },
+    {
+      "baseline_rank": 0,
+      "baseline_top1": 1,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 1
+    },
+    {
+      "baseline_rank": 0,
+      "baseline_top1": 1,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 2
+    },
+    {
+      "baseline_rank": 27,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 3
+    },
+    {
+      "baseline_rank": 636,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 4
+    },
+    {
+      "baseline_rank": 1275,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 5
+    },
+    {
+      "baseline_rank": 287,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 6
+    },
+    {
+      "baseline_rank": 102,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 7
+    },
+    {
+      "baseline_rank": 120,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 8
+    },
+    {
+      "baseline_rank": 0,
+      "baseline_top1": 1,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 9
+    },
+    {
+      "baseline_rank": 145,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 10
+    },
+    {
+      "baseline_rank": 1942,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 11
+    },
+    {
+      "baseline_rank": 8363,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 12
+    },
+    {
+      "baseline_rank": 13788,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 13
+    },
+    {
+      "baseline_rank": 194,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 14
+    },
+    {
+      "baseline_rank": 14386,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 15
+    },
+    {
+      "baseline_rank": 73,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 16
+    },
+    {
+      "baseline_rank": 468,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 17
+    },
+    {
+      "baseline_rank": 8416,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 18
+    },
+    {
+      "baseline_rank": 0,
+      "baseline_top1": 1,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 19
+    },
+    {
+      "baseline_rank": 233,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 20
+    },
+    {
+      "baseline_rank": 370,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 21
+    },
+    {
+      "baseline_rank": 11161,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 22
+    },
+    {
+      "baseline_rank": 10,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 23
+    },
+    {
+      "baseline_rank": 186,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 24
+    },
+    {
+      "baseline_rank": 1103,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 25
+    },
+    {
+      "baseline_rank": 273,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 26
+    },
+    {
+      "baseline_rank": 8763,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 27
+    },
+    {
+      "baseline_rank": 6,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 28
+    },
+    {
+      "baseline_rank": 0,
+      "baseline_top1": 1,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 29
+    },
+    {
+      "baseline_rank": 214,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 30
+    },
+    {
+      "baseline_rank": 1187,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 31
+    },
+    {
+      "baseline_rank": 213,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 32
+    },
+    {
+      "baseline_rank": 17750,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 33
+    },
+    {
+      "baseline_rank": 2249,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 34
+    },
+    {
+      "baseline_rank": 24,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 35
+    },
+    {
+      "baseline_rank": 4338,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 36
+    },
+    {
+      "baseline_rank": 303,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 37
+    },
+    {
+      "baseline_rank": 140,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 38
+    },
+    {
+      "baseline_rank": 1178,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 39
+    },
+    {
+      "baseline_rank": 1606,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 40
+    },
+    {
+      "baseline_rank": 10388,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 41
+    },
+    {
+      "baseline_rank": 27,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 42
+    },
+    {
+      "baseline_rank": 3763,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 43
+    },
+    {
+      "baseline_rank": 333,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 44
+    },
+    {
+      "baseline_rank": 125,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 45
+    },
+    {
+      "baseline_rank": 8754,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 46
+    },
+    {
+      "baseline_rank": 5016,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 47
+    },
+    {
+      "baseline_rank": 30,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 48
+    },
+    {
+      "baseline_rank": 10125,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 49
+    },
+    {
+      "baseline_rank": 1955,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 50
+    },
+    {
+      "baseline_rank": 451,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 51
+    },
+    {
+      "baseline_rank": 0,
+      "baseline_top1": 1,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 52
+    },
+    {
+      "baseline_rank": 100,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 53
+    },
+    {
+      "baseline_rank": 0,
+      "baseline_top1": 1,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 54
+    },
+    {
+      "baseline_rank": 0,
+      "baseline_top1": 1,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 55
+    },
+    {
+      "baseline_rank": 310,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 56
+    },
+    {
+      "baseline_rank": 88,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 57
+    },
+    {
+      "baseline_rank": 64,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 58
+    },
+    {
+      "baseline_rank": 2,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 59
+    },
+    {
+      "baseline_rank": 211,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 60
+    },
+    {
+      "baseline_rank": 76,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 61
+    },
+    {
+      "baseline_rank": 378,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 62
+    },
+    {
+      "baseline_rank": 3634,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 63
+    },
+    {
+      "baseline_rank": 541,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 64
+    },
+    {
+      "baseline_rank": 76,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 65
+    },
+    {
+      "baseline_rank": 0,
+      "baseline_top1": 1,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 66
+    },
+    {
+      "baseline_rank": 4,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 67
+    },
+    {
+      "baseline_rank": 7428,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 68
+    },
+    {
+      "baseline_rank": 4,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 69
+    },
+    {
+      "baseline_rank": 357,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 70
+    },
+    {
+      "baseline_rank": 0,
+      "baseline_top1": 1,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 71
+    },
+    {
+      "baseline_rank": 453,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 72
+    },
+    {
+      "baseline_rank": 57,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 73
+    },
+    {
+      "baseline_rank": 1126,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 74
+    },
+    {
+      "baseline_rank": 1642,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 75
+    },
+    {
+      "baseline_rank": 3392,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 76
+    },
+    {
+      "baseline_rank": 340,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 77
+    },
+    {
+      "baseline_rank": 314,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 78
+    },
+    {
+      "baseline_rank": 221,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 79
+    },
+    {
+      "baseline_rank": 31,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 80
+    },
+    {
+      "baseline_rank": 110,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 81
+    },
+    {
+      "baseline_rank": 0,
+      "baseline_top1": 1,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 82
+    },
+    {
+      "baseline_rank": 142,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 83
+    },
+    {
+      "baseline_rank": 11866,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 84
+    },
+    {
+      "baseline_rank": 405,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 85
+    },
+    {
+      "baseline_rank": 10252,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 86
+    },
+    {
+      "baseline_rank": 2372,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 87
+    },
+    {
+      "baseline_rank": 68,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 88
+    },
+    {
+      "baseline_rank": 160,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 89
+    },
+    {
+      "baseline_rank": 821,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 90
+    },
+    {
+      "baseline_rank": 4806,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 91
+    },
+    {
+      "baseline_rank": 701,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 92
+    },
+    {
+      "baseline_rank": 15949,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 93
+    },
+    {
+      "baseline_rank": 245,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 94
+    },
+    {
+      "baseline_rank": 7143,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 95
+    },
+    {
+      "baseline_rank": 8243,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 96
+    },
+    {
+      "baseline_rank": 579,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 97
+    },
+    {
+      "baseline_rank": 14,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 98
+    },
+    {
+      "baseline_rank": 11702,
+      "baseline_top1": 0,
+      "post_rank": 0,
+      "post_top1": 1,
+      "fact_idx": 99
+    }
+  ]
+}

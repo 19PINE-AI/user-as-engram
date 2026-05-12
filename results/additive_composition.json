@@ -1,0 +1,33 @@
+{
+  "results": {
+    "corp_only": {
+      "corp_top1": 0.8,
+      "corp_top5": 0.9,
+      "user_top1": 0.0,
+      "user_top5": 0.0
+    },
+    "user_only": {
+      "user_top1": 0.9,
+      "user_top5": 1.0,
+      "corp_top1": 0.1,
+      "corp_top5": 0.2
+    },
+    "both": {
+      "corp_top1": 0.8,
+      "corp_top5": 0.9,
+      "user_top1": 0.9,
+      "user_top5": 1.0
+    }
+  },
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+    "out": "/home/ubuntu/user-as-engram/results/additive_composition.json",
+    "scale": 20.0,
+    "opt_steps": 15,
+    "opt_lr": 0.5
+  },
+  "address_overlap": {
+    "intersection": 8,
+    "union": 296
+  }
+}

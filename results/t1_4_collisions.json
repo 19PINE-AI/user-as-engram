@@ -1,0 +1,18 @@
+{
+  "config": {
+    "n_users": 100,
+    "total_slots": 20692406
+  },
+  "R1_all_addresses": {
+    "distinct": 45298,
+    "shared_by_two_or_more": 28249,
+    "universal": 1440,
+    "mean_pairwise_overlap": 0.4996277642154644
+  },
+  "R2_key_token_addresses": {
+    "distinct": 20437,
+    "shared_by_two_or_more": 10124,
+    "universal": 0,
+    "mean_pairwise_overlap": 0.045428771699802147
+  }
+}
