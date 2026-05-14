@@ -1,0 +1,4173 @@
+{
+  "per_conv": {
+    "conv_0": {
+      "NO_MEMORY": {
+        "avg_f1": 0.07981731187472815,
+        "n": 11
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.08819293412594847,
+        "n": 11
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.08852824924436177,
+        "n": 11
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.11222139339223493,
+        "n": 11
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.09595039463460515,
+        "n": 11
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.12721293779554402,
+        "n": 11
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.11231467097495806,
+        "n": 11
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "avg_f1": 0.1305606512388289,
+        "n": 11
+      }
+    },
+    "conv_2": {
+      "NO_MEMORY": {
+        "avg_f1": 0.0078125,
+        "n": 8
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.04470046082949309,
+        "n": 8
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.028897849462365593,
+        "n": 8
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.03663594470046083,
+        "n": 8
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.04292028535980149,
+        "n": 8
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.047518382352941174,
+        "n": 8
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.1619849236784721,
+        "n": 8
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "avg_f1": 0.15392040754943984,
+        "n": 8
+      }
+    },
+    "conv_3": {
+      "NO_MEMORY": {
+        "avg_f1": 0.04843303149939306,
+        "n": 11
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.03479987036136768,
+        "n": 11
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.05153793574846206,
+        "n": 11
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.06456491911037365,
+        "n": 11
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.14502164502164502,
+        "n": 11
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.08102531526444569,
+        "n": 11
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.2465207203175118,
+        "n": 11
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "avg_f1": 0.241917502787068,
+        "n": 11
+      }
+    },
+    "conv_4": {
+      "NO_MEMORY": {
+        "avg_f1": 0.04034218275704344,
+        "n": 14
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.003861003861003861,
+        "n": 14
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.08996905960962444,
+        "n": 14
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.10221267162821632,
+        "n": 14
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.08201785735467812,
+        "n": 14
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.12122191009234198,
+        "n": 14
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.12534806605569057,
+        "n": 14
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "avg_f1": 0.13011004401760703,
+        "n": 14
+      }
+    },
+    "conv_5": {
+      "NO_MEMORY": {
+        "avg_f1": 0.0963532079498466,
+        "n": 7
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.2056277056277056,
+        "n": 7
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.31875333205382467,
+        "n": 7
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.2561327561327561,
+        "n": 7
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.2142634831710462,
+        "n": 7
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.2507094757094757,
+        "n": 7
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.18408340428044861,
+        "n": 7
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "avg_f1": 0.18408340428044861,
+        "n": 7
+      }
+    },
+    "conv_6": {
+      "NO_MEMORY": {
+        "avg_f1": 0.022146169838477534,
+        "n": 13
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.10310857774001841,
+        "n": 13
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.03378103378103378,
+        "n": 13
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.07748762587472266,
+        "n": 13
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.07630732469442146,
+        "n": 13
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.12000351454445748,
+        "n": 13
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.22731621954294018,
+        "n": 13
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "avg_f1": 0.2267673457147141,
+        "n": 13
+      }
+    },
+    "conv_7": {
+      "NO_MEMORY": {
+        "avg_f1": 0.04361628709454796,
+        "n": 10
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.02159090909090909,
+        "n": 10
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.08095238095238096,
+        "n": 10
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.05075757575757576,
+        "n": 10
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.04155844155844156,
+        "n": 10
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.05428571428571429,
+        "n": 10
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.09267833615659704,
+        "n": 10
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "avg_f1": 0.09267833615659704,
+        "n": 10
+      }
+    },
+    "conv_8": {
+      "NO_MEMORY": {
+        "avg_f1": 0.10672978876786418,
+        "n": 13
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.04755799755799756,
+        "n": 13
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.24396469163911022,
+        "n": 13
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.23295287088390537,
+        "n": 13
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.2577430588657533,
+        "n": 13
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.25643972885352195,
+        "n": 13
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.16771391308418127,
+        "n": 13
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "avg_f1": 0.296093334565396,
+        "n": 13
+      }
+    },
+    "conv_9": {
+      "NO_MEMORY": {
+        "avg_f1": 0.12074642417353416,
+        "n": 5
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.1858937198067633,
+        "n": 5
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.17298773690078037,
+        "n": 5
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.16567632850241548,
+        "n": 5
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.14828502415458938,
+        "n": 5
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.1630998389694042,
+        "n": 5
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.3694172494172494,
+        "n": 5
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "avg_f1": 0.3694172494172494,
+        "n": 5
+      }
+    }
+  },
+  "summary": {
+    "NO_MEMORY": 0.06288854488393723,
+    "MARKDOWN_ALL": 0.08170368655568967,
+    "RAG_TOP1": 0.12326358548799377,
+    "RAG_TOP3": 0.12207134288696235,
+    "MEM0_LIKE": 0.12267416831277574,
+    "MEMMACHINE_LIKE": 0.13572409087420517,
+    "USER_AS_ENGRAM_OPT": 0.18748638927867212,
+    "USER_AS_ENGRAM_JOINT_OPT": 0.20283869730303877
+  },
+  "predictions": {
+    "conv_0": {
+      "NO_MEMORY": [
+        {
+          "question": "What fields would Caroline be likely to pursue in her educaton?",
+          "gold": "Psychology, counseling certification",
+          "pred": " What would she be likely to do in her free time? What would she be"
+        },
+        {
+          "question": "Would Caroline still want to pursue counseling as a career if she hadn't received support growing up?",
+          "gold": "Likely no",
+          "pred": " She would have been a better person if she had received support from her parents."
+        },
+        {
+          "question": "Would Caroline likely have Dr. Seuss books on her bookshelf?",
+          "gold": "Yes, since she collects classic children's books",
+          "pred": " I'm not sure. I'm not sure if she would have them. I"
+        },
+        {
+          "question": "Would Caroline pursue writing as a career option?",
+          "gold": "LIkely no; though she likes reading, she wants to be a counselor",
+          "pred": " I'm not sure. I'm not sure if she would be able to write"
+        },
+        {
+          "question": "Would Melanie be more interested in going to a national park or a theme park?",
+          "gold": "National park; she likes the outdoors",
+          "pred": " I would be more interested in going to a national park because I would be more"
+        },
+        {
+          "question": "What would Caroline's political leaning likely be?",
+          "gold": "Liberal",
+          "pred": " She would be a conservative, and she would be a conservative. She would be"
+        },
+        {
+          "question": "Would Caroline be considered religious?",
+          "gold": "Somewhat, but not extremely religious",
+          "pred": " Yes, Caroline would be considered religious. She would be a member of the"
+        },
+        {
+          "question": "Would Melanie likely enjoy the song \"The Four Seasons\" by Vivaldi?",
+          "gold": "Yes; it's classical music",
+          "pred": " I'm not sure. I'm not sure if she would enjoy it. I"
+        },
+        {
+          "question": "What personality traits might Melanie say Caroline has?",
+          "gold": "Thoughtful, authentic, driven",
+          "pred": " Melanie is a very outgoing and outgoing person. She is very social and"
+        },
+        {
+          "question": "Would Melanie go on another roadtrip soon?",
+          "gold": "Likely no; since this one went badly",
+          "pred": " I'm not sure. I'm not sure if I'd be able to get"
+        },
+        {
+          "question": "Would Caroline want to move back to her home country soon?",
+          "gold": "No; she's in the process of adopting children.",
+          "pred": " She would have to move to the United States, but she would have to move"
+        }
+      ],
+      "MARKDOWN_ALL": [
+        {
+          "question": "What fields would Caroline be likely to pursue in her educaton?",
+          "gold": "Psychology, counseling certification",
+          "pred": " Caroline would be likely to pursue a career in counseling or mental health.\n\n"
+        },
+        {
+          "question": "Would Caroline still want to pursue counseling as a career if she hadn't received support growing up?",
+          "gold": "Likely no",
+          "pred": " Yes, Caroline would still want to pursue counseling as a career if she hadn"
+        },
+        {
+          "question": "Would Caroline likely have Dr. Seuss books on her bookshelf?",
+          "gold": "Yes, since she collects classic children's books",
+          "pred": " Yes, Caroline would likely have Dr. Seuss books on her bookshelf"
+        },
+        {
+          "question": "Would Caroline pursue writing as a career option?",
+          "gold": "LIkely no; though she likes reading, she wants to be a counselor",
+          "pred": " Yes, Caroline would pursue writing as a career option.<|bos|>The 20"
+        },
+        {
+          "question": "Would Melanie be more interested in going to a national park or a theme park?",
+          "gold": "National park; she likes the outdoors",
+          "pred": " A theme park, as it's a more inclusive and diverse experience.\n\n"
+        },
+        {
+          "question": "What would Caroline's political leaning likely be?",
+          "gold": "Liberal",
+          "pred": " She would likely be a conservative or liberal, as she mentioned she was a fan"
+        },
+        {
+          "question": "Would Caroline be considered religious?",
+          "gold": "Somewhat, but not extremely religious",
+          "pred": " Yes, Caroline would be considered religious.\n\n"
+        },
+        {
+          "question": "Would Melanie likely enjoy the song \"The Four Seasons\" by Vivaldi?",
+          "gold": "Yes; it's classical music",
+          "pred": " Yes, Melanie would likely enjoy the song \"The Four Seasons\""
+        },
+        {
+          "question": "What personality traits might Melanie say Caroline has?",
+          "gold": "Thoughtful, authentic, driven",
+          "pred": " Melanie might say Caroline has a \"fascinating\" personality,"
+        },
+        {
+          "question": "Would Melanie go on another roadtrip soon?",
+          "gold": "Likely no; since this one went badly",
+          "pred": " Yes, Melanie would go on another roadtrip soon.\n\n"
+        },
+        {
+          "question": "Would Caroline want to move back to her home country soon?",
+          "gold": "No; she's in the process of adopting children.",
+          "pred": " Yes, Caroline would want to move back to her home country soon.\n\n"
+        }
+      ],
+      "RAG_TOP1": [
+        {
+          "question": "What fields would Caroline be likely to pursue in her educaton?",
+          "gold": "Psychology, counseling certification",
+          "pred": " Caroline would be likely to pursue a career in a field that is related to"
+        },
+        {
+          "question": "Would Caroline still want to pursue counseling as a career if she hadn't received support growing up?",
+          "gold": "Likely no",
+          "pred": " Yes, Caroline would still want to pursue counseling as a career if she hadn"
+        },
+        {
+          "question": "Would Caroline likely have Dr. Seuss books on her bookshelf?",
+          "gold": "Yes, since she collects classic children's books",
+          "pred": " I think she would. I think she would have a lot of books that are"
+        },
+        {
+          "question": "Would Caroline pursue writing as a career option?",
+          "gold": "LIkely no; though she likes reading, she wants to be a counselor",
+          "pred": " Yes, Caroline is a writer and has a passion for writing. She is"
+        },
+        {
+          "question": "Would Melanie be more interested in going to a national park or a theme park?",
+          "gold": "National park; she likes the outdoors",
+          "pred": " Melanie is more interested in going to a national park because it's a"
+        },
+        {
+          "question": "What would Caroline's political leaning likely be?",
+          "gold": "Liberal",
+          "pred": " She would be a conservative, but she would be a conservative in the sense that"
+        },
+        {
+          "question": "Would Caroline be considered religious?",
+          "gold": "Somewhat, but not extremely religious",
+          "pred": " No, Caroline is not religious. She is a transgender woman who is"
+        },
+        {
+          "question": "Would Melanie likely enjoy the song \"The Four Seasons\" by Vivaldi?",
+          "gold": "Yes; it's classical music",
+          "pred": " Yes, she would likely enjoy the song \"The Four Seasons\" by V"
+        },
+        {
+          "question": "What personality traits might Melanie say Caroline has?",
+          "gold": "Thoughtful, authentic, driven",
+          "pred": " Melanie is a very outgoing and outgoing person. She is a very social"
+        },
+        {
+          "question": "Would Melanie go on another roadtrip soon?",
+          "gold": "Likely no; since this one went badly",
+          "pred": " Yes, she would. She's a very good driver and has a lot of"
+        },
+        {
+          "question": "Would Caroline want to move back to her home country soon?",
+          "gold": "No; she's in the process of adopting children.",
+          "pred": " Yes, she would want to move back to her home country soon. She is"
+        }
+      ],
+      "RAG_TOP3": [
+        {
+          "question": "What fields would Caroline be likely to pursue in her educaton?",
+          "gold": "Psychology, counseling certification",
+          "pred": " Caroline would likely pursue a career in counseling or mental health, as she is"
+        },
+        {
+          "question": "Would Caroline still want to pursue counseling as a career if she hadn't received support growing up?",
+          "gold": "Likely no",
+          "pred": " Yes, Caroline would still want to pursue counseling as a career if she hadn"
+        },
+        {
+          "question": "Would Caroline likely have Dr. Seuss books on her bookshelf?",
+          "gold": "Yes, since she collects classic children's books",
+          "pred": " Yes, Caroline would likely have Dr. Seuss books on her bookshelf"
+        },
+        {
+          "question": "Would Caroline pursue writing as a career option?",
+          "gold": "LIkely no; though she likes reading, she wants to be a counselor",
+          "pred": " Yes, Caroline is interested in writing and would be interested in writing for a"
+        },
+        {
+          "question": "Would Melanie be more interested in going to a national park or a theme park?",
+          "gold": "National park; she likes the outdoors",
+          "pred": " Melanie would be more interested in going to a national park, as it"
+        },
+        {
+          "question": "What would Caroline's political leaning likely be?",
+          "gold": "Liberal",
+          "pred": " Caroline would likely be a conservative, as she is a conservative and has a"
+        },
+        {
+          "question": "Would Caroline be considered religious?",
+          "gold": "Somewhat, but not extremely religious",
+          "pred": " Caroline is a transgender woman and is not considered a religious person. She"
+        },
+        {
+          "question": "Would Melanie likely enjoy the song \"The Four Seasons\" by Vivaldi?",
+          "gold": "Yes; it's classical music",
+          "pred": " Yes, Melanie is a fan of the song and is excited to be"
+        },
+        {
+          "question": "What personality traits might Melanie say Caroline has?",
+          "gold": "Thoughtful, authentic, driven",
+          "pred": " Melanie might say Caroline has a strong desire to be real and help"
+        },
+        {
+          "question": "Would Melanie go on another roadtrip soon?",
+          "gold": "Likely no; since this one went badly",
+          "pred": " No, Melanie is not planning to go on another roadtrip."
+        },
+        {
+          "question": "Would Caroline want to move back to her home country soon?",
+          "gold": "No; she's in the process of adopting children.",
+          "pred": " Yes, Caroline would want to move back to her home country soon. She"
+        }
+      ],
+      "MEM0_LIKE": [
+        {
+          "question": "What fields would Caroline be likely to pursue in her educaton?",
+          "gold": "Psychology, counseling certification",
+          "pred": " Caroline would likely pursue counseling or working in mental health.<|bos|>The 20"
+        },
+        {
+          "question": "Would Caroline still want to pursue counseling as a career if she hadn't received support growing up?",
+          "gold": "Likely no",
+          "pred": " Yes, Caroline would still want to pursue counseling as a career if she hadn"
+        },
+        {
+          "question": "Would Caroline likely have Dr. Seuss books on her bookshelf?",
+          "gold": "Yes, since she collects classic children's books",
+          "pred": " Yes, Caroline would likely have Dr. Seuss books on her bookshelf"
+        },
+        {
+          "question": "Would Caroline pursue writing as a career option?",
+          "gold": "LIkely no; though she likes reading, she wants to be a counselor",
+          "pred": " Yes, Caroline would pursue writing as a career option as she is keen on"
+        },
+        {
+          "question": "Would Melanie be more interested in going to a national park or a theme park?",
+          "gold": "National park; she likes the outdoors",
+          "pred": " Melanie would be more interested in going to a national park, as it"
+        },
+        {
+          "question": "What would Caroline's political leaning likely be?",
+          "gold": "Liberal",
+          "pred": " Caroline would likely be a political conservatism, as she would likely be"
+        },
+        {
+          "question": "Would Caroline be considered religious?",
+          "gold": "Somewhat, but not extremely religious",
+          "pred": " Caroline is not considered religious. She is a transgender woman who has made"
+        },
+        {
+          "question": "Would Melanie likely enjoy the song \"The Four Seasons\" by Vivaldi?",
+          "gold": "Yes; it's classical music",
+          "pred": " Yes, Melanie would likely enjoy the song \"The Four Seasons\""
+        },
+        {
+          "question": "What personality traits might Melanie say Caroline has?",
+          "gold": "Thoughtful, authentic, driven",
+          "pred": " Melanie might say Caroline has a love for reading and a desire to"
+        },
+        {
+          "question": "Would Melanie go on another roadtrip soon?",
+          "gold": "Likely no; since this one went badly",
+          "pred": " Yes, Melanie would go on another roadtrip soon.\n\n"
+        },
+        {
+          "question": "Would Caroline want to move back to her home country soon?",
+          "gold": "No; she's in the process of adopting children.",
+          "pred": " Yes, Caroline would want to move back to her home country soon as it"
+        }
+      ],
+      "MEMMACHINE_LIKE": [
+        {
+          "question": "What fields would Caroline be likely to pursue in her educaton?",
+          "gold": "Psychology, counseling certification",
+          "pred": " Caroline would likely pursue a career in counseling or mental health, as she is"
+        },
+        {
+          "question": "Would Caroline still want to pursue counseling as a career if she hadn't received support growing up?",
+          "gold": "Likely no",
+          "pred": " Yes, Caroline would still want to pursue counseling as a career if she hadn"
+        },
+        {
+          "question": "Would Caroline likely have Dr. Seuss books on her bookshelf?",
+          "gold": "Yes, since she collects classic children's books",
+          "pred": " Yes, Caroline would likely have Dr. Seuss books on her bookshelf"
+        },
+        {
+          "question": "Would Caroline pursue writing as a career option?",
+          "gold": "LIkely no; though she likes reading, she wants to be a counselor",
+          "pred": " Caroline is keen on writing and would love to support those with similar issues.\n"
+        },
+        {
+          "question": "Would Melanie be more interested in going to a national park or a theme park?",
+          "gold": "National park; she likes the outdoors",
+          "pred": " Melanie would be more interested in going to a national park, as it"
+        },
+        {
+          "question": "What would Caroline's political leaning likely be?",
+          "gold": "Liberal",
+          "pred": " Caroline's political leaning would likely be conservative, as she is a member of"
+        },
+        {
+          "question": "Would Caroline be considered religious?",
+          "gold": "Somewhat, but not extremely religious",
+          "pred": " Caroline is not considered religious. She is a transgender woman who is not"
+        },
+        {
+          "question": "Would Melanie likely enjoy the song \"The Four Seasons\" by Vivaldi?",
+          "gold": "Yes; it's classical music",
+          "pred": " Yes, Melanie is a fan of both classical and modern music, as"
+        },
+        {
+          "question": "What personality traits might Melanie say Caroline has?",
+          "gold": "Thoughtful, authentic, driven",
+          "pred": " Melanie might say Caroline has a strong desire to be real and help"
+        },
+        {
+          "question": "Would Melanie go on another roadtrip soon?",
+          "gold": "Likely no; since this one went badly",
+          "pred": " No, Melanie would not go on another roadtrip soon. She"
+        },
+        {
+          "question": "Would Caroline want to move back to her home country soon?",
+          "gold": "No; she's in the process of adopting children.",
+          "pred": " Yes, Caroline would want to move back to her home country soon. She"
+        }
+      ],
+      "USER_AS_ENGRAM_OPT": [
+        {
+          "question": "What fields would Caroline be likely to pursue in her educaton?",
+          "gold": "Psychology, counseling certification",
+          "pred": "Psychology, English, and English literature. She would also be likely to pursue"
+        },
+        {
+          "question": "Would Caroline still want to pursue counseling as a career if she hadn't received support growing up?",
+          "gold": "Likely no",
+          "pred": "Like many women, Caroline was raised in a family of counselors. She was"
+        },
+        {
+          "question": "Would Caroline likely have Dr. Seuss books on her bookshelf?",
+          "gold": "Yes, since she collects classic children's books",
+          "pred": " Yes, she would. She would have a collection of books that would be a"
+        },
+        {
+          "question": "Would Caroline pursue writing as a career option?",
+          "gold": "LIkely no; though she likes reading, she wants to be a counselor",
+          "pred": "Linda: I would pursue writing as a career option. I would be a"
+        },
+        {
+          "question": "Would Melanie be more interested in going to a national park or a theme park?",
+          "gold": "National park; she likes the outdoors",
+          "pred": " National parks are great for people who want to go to a place that is not"
+        },
+        {
+          "question": "What would Caroline's political leaning likely be?",
+          "gold": "Liberal",
+          "pred": "Liberalism, a political movement that emphasizes the importance of individual rights and"
+        },
+        {
+          "question": "Would Caroline be considered religious?",
+          "gold": "Somewhat, but not extremely religious",
+          "pred": " Some people believe that Caroline is a religious figure, while others believe that she"
+        },
+        {
+          "question": "Would Melanie likely enjoy the song \"The Four Seasons\" by Vivaldi?",
+          "gold": "Yes; it's classical music",
+          "pred": " Yes, she would. She would love to hear the song and would love to"
+        },
+        {
+          "question": "What personality traits might Melanie say Caroline has?",
+          "gold": "Thoughtful, authentic, driven",
+          "pred": "Thomas: I'm a very outgoing person. I'm a very outgoing person"
+        },
+        {
+          "question": "Would Melanie go on another roadtrip soon?",
+          "gold": "Likely no; since this one went badly",
+          "pred": " No, she would not. She would be a little bit too busy to be"
+        },
+        {
+          "question": "Would Caroline want to move back to her home country soon?",
+          "gold": "No; she's in the process of adopting children.",
+          "pred": " No, she would not. She would have to move to the United States."
+        }
+      ],
+      "USER_AS_ENGRAM_JOINT_OPT": [
+        {
+          "question": "What fields would Caroline be likely to pursue in her educaton?",
+          "gold": "Psychology, counseling certification",
+          "pred": "Psychology, English, and English literature. She would also be likely to pursue"
+        },
+        {
+          "question": "Would Caroline still want to pursue counseling as a career if she hadn't received support growing up?",
+          "gold": "Likely no",
+          "pred": "Like many women, Caroline was raised in a family of counselors. She was"
+        },
+        {
+          "question": "Would Caroline likely have Dr. Seuss books on her bookshelf?",
+          "gold": "Yes, since she collects classic children's books",
+          "pred": "Yes, Caroline would likely have Dr. Seuss books on her bookshelf"
+        },
+        {
+          "question": "Would Caroline pursue writing as a career option?",
+          "gold": "LIkely no; though she likes reading, she wants to be a counselor",
+          "pred": "Literature is a great career option for Caroline. She has a passion"
+        },
+        {
+          "question": "Would Melanie be more interested in going to a national park or a theme park?",
+          "gold": "National park; she likes the outdoors",
+          "pred": "National parks are great for people who want to go to a place where they can"
+        },
+        {
+          "question": "What would Caroline's political leaning likely be?",
+          "gold": "Liberal",
+          "pred": "Liberalism, a political movement that emphasizes the importance of individual rights and"
+        },
+        {
+          "question": "Would Caroline be considered religious?",
+          "gold": "Somewhat, but not extremely religious",
+          "pred": "Some people believe that Caroline is a religious figure. Others believe that she is"
+        },
+        {
+          "question": "Would Melanie likely enjoy the song \"The Four Seasons\" by Vivaldi?",
+          "gold": "Yes; it's classical music",
+          "pred": "Yes, I would. I think it's a great song. I think it"
+        },
+        {
+          "question": "What personality traits might Melanie say Caroline has?",
+          "gold": "Thoughtful, authentic, driven",
+          "pred": "Thomas: I'm a very outgoing person. I'm a very outgoing person"
+        },
+        {
+          "question": "Would Melanie go on another roadtrip soon?",
+          "gold": "Likely no; since this one went badly",
+          "pred": "Like this:\n"
+        },
+        {
+          "question": "Would Caroline want to move back to her home country soon?",
+          "gold": "No; she's in the process of adopting children.",
+          "pred": "No, she would not want to move back to her home country soon. She"
+        }
+      ]
+    },
+    "conv_2": {
+      "NO_MEMORY": [
+        {
+          "question": "What might John's financial status be?",
+          "gold": "Middle-class or wealthy",
+          "pred": " What might his financial status be? What might his financial status be? What might"
+        },
+        {
+          "question": "Would John be considered a patriotic person?",
+          "gold": "Yes",
+          "pred": " I think he would be. I think he would be a patriotic person."
+        },
+        {
+          "question": "What might John's degree be in?",
+          "gold": "Political science, Public administration, Public affairs",
+          "pred": " I'm not sure. I'm not sure what I'd do with it."
+        },
+        {
+          "question": "Around which US holiday did Maria get into a car accident?",
+          "gold": "Independence Day",
+          "pred": " (2020)\n\n"
+        },
+        {
+          "question": "Does John live close to a beach or the mountains?",
+          "gold": "beach",
+          "pred": " What is the weather like? What is the best time to visit? What is"
+        },
+        {
+          "question": "Would John be open to moving to another country?",
+          "gold": "No, he has goals specifically in the U.S. like joining the military and running for office.",
+          "pred": " I'm not sure. I'm not sure if he would be open to moving"
+        },
+        {
+          "question": "What attributes describe John?",
+          "gold": "Selfless, family-oriented, passionate, rational",
+          "pred": " John is a 4th grader at the school. He is a very"
+        },
+        {
+          "question": "What job might Maria pursue in the future?",
+          "gold": "Shelter coordinator, Counselor",
+          "pred": " I'm not sure. I'm not sure what I want to do. I"
+        }
+      ],
+      "MARKDOWN_ALL": [
+        {
+          "question": "What might John's financial status be?",
+          "gold": "Middle-class or wealthy",
+          "pred": " John might not be able to afford to volunteer due to his degree and passion for"
+        },
+        {
+          "question": "Would John be considered a patriotic person?",
+          "gold": "Yes",
+          "pred": " No, John is not considered a patriotic person. He is a person who"
+        },
+        {
+          "question": "What might John's degree be in?",
+          "gold": "Political science, Public administration, Public affairs",
+          "pred": " Policymaking\n\n"
+        },
+        {
+          "question": "Around which US holiday did Maria get into a car accident?",
+          "gold": "Independence Day",
+          "pred": " The text does not provide a specific US holiday, but it mentions that Maria was"
+        },
+        {
+          "question": "Does John live close to a beach or the mountains?",
+          "gold": "beach",
+          "pred": " John is not close to a beach or the mountains. He is a city.\n\n"
+        },
+        {
+          "question": "Would John be open to moving to another country?",
+          "gold": "No, he has goals specifically in the U.S. like joining the military and running for office.",
+          "pred": " Yes, John is considering going into policymaking due to his degree and passion for"
+        },
+        {
+          "question": "What attributes describe John?",
+          "gold": "Selfless, family-oriented, passionate, rational",
+          "pred": " John is a person who is passionate about making a positive impact and has a strong"
+        },
+        {
+          "question": "What job might Maria pursue in the future?",
+          "gold": "Shelter coordinator, Counselor",
+          "pred": " Maria might pursue a policymaking role in the future.\n\n"
+        }
+      ],
+      "RAG_TOP1": [
+        {
+          "question": "What might John's financial status be?",
+          "gold": "Middle-class or wealthy",
+          "pred": " John is a student at a private school. He is working on his degree and"
+        },
+        {
+          "question": "Would John be considered a patriotic person?",
+          "gold": "Yes",
+          "pred": " Yes, John is a patriotic person. He is a patriot, and"
+        },
+        {
+          "question": "What might John's degree be in?",
+          "gold": "Political science, Public administration, Public affairs",
+          "pred": " I'm not sure, but I'm sure it's a degree in English.\n\n"
+        },
+        {
+          "question": "Around which US holiday did Maria get into a car accident?",
+          "gold": "Independence Day",
+          "pred": " The holiday of Christmas. She was driving home from work when she got into a"
+        },
+        {
+          "question": "Does John live close to a beach or the mountains?",
+          "gold": "beach",
+          "pred": " John lives in the mountains. He is a member of the local community and has"
+        },
+        {
+          "question": "Would John be open to moving to another country?",
+          "gold": "No, he has goals specifically in the U.S. like joining the military and running for office.",
+          "pred": " Yes, John is open to moving to another country. He is a student at"
+        },
+        {
+          "question": "What attributes describe John?",
+          "gold": "Selfless, family-oriented, passionate, rational",
+          "pred": " John is a kind, caring, and compassionate individual who cares about others and wants"
+        },
+        {
+          "question": "What job might Maria pursue in the future?",
+          "gold": "Shelter coordinator, Counselor",
+          "pred": " I'm not sure. I'm not sure what I want to do. I"
+        }
+      ],
+      "RAG_TOP3": [
+        {
+          "question": "What might John's financial status be?",
+          "gold": "Middle-class or wealthy",
+          "pred": " John's financial status might be uncertain, as he is not mentioned in the text"
+        },
+        {
+          "question": "Would John be considered a patriotic person?",
+          "gold": "Yes",
+          "pred": " No, John is not considered a patriotic person. He is a patriot"
+        },
+        {
+          "question": "What might John's degree be in?",
+          "gold": "Political science, Public administration, Public affairs",
+          "pred": " John's degree might be in policymaking or in the field of education.\n\n"
+        },
+        {
+          "question": "Around which US holiday did Maria get into a car accident?",
+          "gold": "Independence Day",
+          "pred": " The holiday is not explicitly stated in the text, but it could be a holiday"
+        },
+        {
+          "question": "Does John live close to a beach or the mountains?",
+          "gold": "beach",
+          "pred": " John lives close to a beach, but he does not mention any specific location.\n\n"
+        },
+        {
+          "question": "Would John be open to moving to another country?",
+          "gold": "No, he has goals specifically in the U.S. like joining the military and running for office.",
+          "pred": " Yes, John would be open to moving to another country, as he mentioned that"
+        },
+        {
+          "question": "What attributes describe John?",
+          "gold": "Selfless, family-oriented, passionate, rational",
+          "pred": " John is described as a person who is passionate about making a difference and who believes"
+        },
+        {
+          "question": "What job might Maria pursue in the future?",
+          "gold": "Shelter coordinator, Counselor",
+          "pred": " Maria might pursue a career in healthcare, as she believes that volunteering can make a"
+        }
+      ],
+      "MEM0_LIKE": [
+        {
+          "question": "What might John's financial status be?",
+          "gold": "Middle-class or wealthy",
+          "pred": " John's financial status might be uncertain, as he is not mentioned in the text"
+        },
+        {
+          "question": "Would John be considered a patriotic person?",
+          "gold": "Yes",
+          "pred": " No, John would not be considered a patriotic person as he is a military"
+        },
+        {
+          "question": "What might John's degree be in?",
+          "gold": "Political science, Public administration, Public affairs",
+          "pred": " John's degree might be in policymaking.<|bos|>The 2019-20"
+        },
+        {
+          "question": "Around which US holiday did Maria get into a car accident?",
+          "gold": "Independence Day",
+          "pred": " Maria got into a car accident on the 4th of July.\n\n"
+        },
+        {
+          "question": "Does John live close to a beach or the mountains?",
+          "gold": "beach",
+          "pred": " John lives close to a beach or the mountains.<|bos|>The 2019-"
+        },
+        {
+          "question": "Would John be open to moving to another country?",
+          "gold": "No, he has goals specifically in the U.S. like joining the military and running for office.",
+          "pred": " Yes, John would be open to moving to another country, as he mentioned that"
+        },
+        {
+          "question": "What attributes describe John?",
+          "gold": "Selfless, family-oriented, passionate, rational",
+          "pred": " John is described as a \"rock in tough times\" and always cheers on"
+        },
+        {
+          "question": "What job might Maria pursue in the future?",
+          "gold": "Shelter coordinator, Counselor",
+          "pred": " Maria might pursue a career in volunteering at the shelter.<|bos|>The 2019"
+        }
+      ],
+      "MEMMACHINE_LIKE": [
+        {
+          "question": "What might John's financial status be?",
+          "gold": "Middle-class or wealthy",
+          "pred": " John's financial status might be uncertain, as he is running for office again and"
+        },
+        {
+          "question": "Would John be considered a patriotic person?",
+          "gold": "Yes",
+          "pred": " No, John is not considered a patriotic person. He is a patriot"
+        },
+        {
+          "question": "What might John's degree be in?",
+          "gold": "Political science, Public administration, Public affairs",
+          "pred": " John's degree might be in policymaking or in environmental science.\n\n"
+        },
+        {
+          "question": "Around which US holiday did Maria get into a car accident?",
+          "gold": "Independence Day",
+          "pred": " The holiday is not explicitly stated in the text, but it could be a holiday"
+        },
+        {
+          "question": "Does John live close to a beach or the mountains?",
+          "gold": "beach",
+          "pred": " John lives close to a beach or the mountains.\n\n"
+        },
+        {
+          "question": "Would John be open to moving to another country?",
+          "gold": "No, he has goals specifically in the U.S. like joining the military and running for office.",
+          "pred": " Yes, John would be open to moving to another country as he mentioned that he"
+        },
+        {
+          "question": "What attributes describe John?",
+          "gold": "Selfless, family-oriented, passionate, rational",
+          "pred": " John is described as \"surprised\" by the chaotic situation and \"sur"
+        },
+        {
+          "question": "What job might Maria pursue in the future?",
+          "gold": "Shelter coordinator, Counselor",
+          "pred": " Maria might pursue a career in healthcare or education.\n\n"
+        }
+      ],
+      "USER_AS_ENGRAM_OPT": [
+        {
+          "question": "What might John's financial status be?",
+          "gold": "Middle-class or wealthy",
+          "pred": "Middle class, middle-aged, middle-aged, middle-aged, middle-aged, middle"
+        },
+        {
+          "question": "Would John be considered a patriotic person?",
+          "gold": "Yes",
+          "pred": " Yes, John would be considered a patriotic person. He is a patriot"
+        },
+        {
+          "question": "What might John's degree be in?",
+          "gold": "Political science, Public administration, Public affairs",
+          "pred": "Political Science\n"
+        },
+        {
+          "question": "Around which US holiday did Maria get into a car accident?",
+          "gold": "Independence Day",
+          "pred": "Independent of the fact that she was a woman, she was a woman."
+        },
+        {
+          "question": "Does John live close to a beach or the mountains?",
+          "gold": "beach",
+          "pred": "beach or mountains?beach or mountains?beach or mountains?be"
+        },
+        {
+          "question": "Would John be open to moving to another country?",
+          "gold": "No, he has goals specifically in the U.S. like joining the military and running for office.",
+          "pred": " No, he would not. He would be a member of the United States Air"
+        },
+        {
+          "question": "What attributes describe John?",
+          "gold": "Selfless, family-oriented, passionate, rational",
+          "pred": "self?s character?s character?s character?s character?s character"
+        },
+        {
+          "question": "What job might Maria pursue in the future?",
+          "gold": "Shelter coordinator, Counselor",
+          "pred": "Shelby: I'm a nurse. I'm a nurse. I'm"
+        }
+      ],
+      "USER_AS_ENGRAM_JOINT_OPT": [
+        {
+          "question": "What might John's financial status be?",
+          "gold": "Middle-class or wealthy",
+          "pred": "Middle class, middle-class, middle-class, middle-class, middle-class, middle"
+        },
+        {
+          "question": "Would John be considered a patriotic person?",
+          "gold": "Yes",
+          "pred": "Yes, John would be considered a patriotic person. He is a patriot"
+        },
+        {
+          "question": "What might John's degree be in?",
+          "gold": "Political science, Public administration, Public affairs",
+          "pred": "Political Science\n"
+        },
+        {
+          "question": "Around which US holiday did Maria get into a car accident?",
+          "gold": "Independence Day",
+          "pred": "Independent of the fact that she was a woman, she was a woman."
+        },
+        {
+          "question": "Does John live close to a beach or the mountains?",
+          "gold": "beach",
+          "pred": "beach or mountains?beach or mountains?beach or mountains?be"
+        },
+        {
+          "question": "Would John be open to moving to another country?",
+          "gold": "No, he has goals specifically in the U.S. like joining the military and running for office.",
+          "pred": "No, he would not be open to moving to another country. He would be"
+        },
+        {
+          "question": "What attributes describe John?",
+          "gold": "Selfless, family-oriented, passionate, rational",
+          "pred": "Self-Confidence\n"
+        },
+        {
+          "question": "What job might Maria pursue in the future?",
+          "gold": "Shelter coordinator, Counselor",
+          "pred": "Shelby: I'm a nurse. I'm a nurse. I'm"
+        }
+      ]
+    },
+    "conv_3": {
+      "NO_MEMORY": [
+        {
+          "question": "Is it likely that Nate has friends besides Joanna?",
+          "gold": "Yesteammates on hisvideo game team.",
+          "pred": " I'm not sure. I'm not sure if she's a friend or not"
+        },
+        {
+          "question": "What pets wouldn't cause any discomfort to Joanna?",
+          "gold": "Hairless cats or pigs,since they don't have fur, which is one of the main causes of Joanna's allergy.",
+          "pred": " She's a very sensitive dog, and she's not used to being touched."
+        },
+        {
+          "question": "What underlying condition might Joanna have based on her allergies?",
+          "gold": "asthma",
+          "pred": " What is the most common cause of her allergies? What is the most common cause"
+        },
+        {
+          "question": "What nickname does Nate use for Joanna?",
+          "gold": "Jo",
+          "pred": " Nate is a very popular nickname for Joanna, and it's a great"
+        },
+        {
+          "question": "What Console does Nate own?",
+          "gold": "A Nintendo Switch; since the game \"Xenoblade 2\" is made for this console.",
+          "pred": " Nate's console is a console that is used by Nate's team."
+        },
+        {
+          "question": "What alternative career might Nate consider after gaming?",
+          "gold": "an animalkeeper at a localzoo and workingwith turtles; as heknows a great dealabout turtles andhow to care for them,and he enjoys it.",
+          "pred": " I'm looking for a career in gaming, but I'm not sure what to"
+        },
+        {
+          "question": "How many hikes has Joanna been on?",
+          "gold": "Four",
+          "pred": " How many miles have she been on? How many miles have she been on?"
+        },
+        {
+          "question": "What state did Joanna visit in summer 2021?",
+          "gold": "Indiana",
+          "pred": " What state did Joanna visit in summer 2021? What state did Jo"
+        },
+        {
+          "question": "Was the first half of September 2022 a good month career-wise for Nate and Joanna? Answer yes or no.",
+          "gold": "No; because both of them faced setbacks in their career",
+          "pred": " The first half of September 2022 was a good month for Nate and"
+        },
+        {
+          "question": "What kind of job is Joanna beginning to preform the duties of because of her movie scripts?",
+          "gold": "filmmaker.",
+          "pred": " She is a film director, and she is a film producer. She is a"
+        },
+        {
+          "question": "What state did Nate visit?",
+          "gold": "Florida",
+          "pred": " What state did Nate visit? What state did Nate visit? What state"
+        }
+      ],
+      "MARKDOWN_ALL": [
+        {
+          "question": "Is it likely that Nate has friends besides Joanna?",
+          "gold": "Yesteammates on hisvideo game team.",
+          "pred": " No, Nate is not likely to have friends besides Joanna.<|bos|>The"
+        },
+        {
+          "question": "What pets wouldn't cause any discomfort to Joanna?",
+          "gold": "Hairless cats or pigs,since they don't have fur, which is one of the main causes of Joanna's allergy.",
+          "pred": " Cockroaches\n\n"
+        },
+        {
+          "question": "What underlying condition might Joanna have based on her allergies?",
+          "gold": "asthma",
+          "pred": " Joanna might have allergies to cockroaches.\n\n"
+        },
+        {
+          "question": "What nickname does Nate use for Joanna?",
+          "gold": "Jo",
+          "pred": " Nate\n\n"
+        },
+        {
+          "question": "What Console does Nate own?",
+          "gold": "A Nintendo Switch; since the game \"Xenoblade 2\" is made for this console.",
+          "pred": " Nate owns a laptop.\n\n"
+        },
+        {
+          "question": "What alternative career might Nate consider after gaming?",
+          "gold": "an animalkeeper at a localzoo and workingwith turtles; as heknows a great dealabout turtles andhow to care for them,and he enjoys it.",
+          "pred": " Nate might consider gaming as a hobby or a career.\n\n"
+        },
+        {
+          "question": "How many hikes has Joanna been on?",
+          "gold": "Four",
+          "pred": " Two\n\n"
+        },
+        {
+          "question": "What state did Joanna visit in summer 2021?",
+          "gold": "Indiana",
+          "pred": " Tampa\n\n"
+        },
+        {
+          "question": "Was the first half of September 2022 a good month career-wise for Nate and Joanna? Answer yes or no.",
+          "gold": "No; because both of them faced setbacks in their career",
+          "pred": " Nate was a good month career-wise, as he was able to get a"
+        },
+        {
+          "question": "What kind of job is Joanna beginning to preform the duties of because of her movie scripts?",
+          "gold": "filmmaker.",
+          "pred": " Joanna is beginning to preform the duties of a fantasy RPG called \"X"
+        },
+        {
+          "question": "What state did Nate visit?",
+          "gold": "Florida",
+          "pred": " Tampa\n\n"
+        }
+      ],
+      "RAG_TOP1": [
+        {
+          "question": "Is it likely that Nate has friends besides Joanna?",
+          "gold": "Yesteammates on hisvideo game team.",
+          "pred": " Yes, Joanna is a friend of Joanna's. She is a friend"
+        },
+        {
+          "question": "What pets wouldn't cause any discomfort to Joanna?",
+          "gold": "Hairless cats or pigs,since they don't have fur, which is one of the main causes of Joanna's allergy.",
+          "pred": " I would not have any pets that would cause any discomfort to Joanna. I"
+        },
+        {
+          "question": "What underlying condition might Joanna have based on her allergies?",
+          "gold": "asthma",
+          "pred": " She might have a food allergy, which is a type of food allergy that causes"
+        },
+        {
+          "question": "What nickname does Nate use for Joanna?",
+          "gold": "Jo",
+          "pred": " Nate is a very popular nickname for Joanna, and it's a good"
+        },
+        {
+          "question": "What Console does Nate own?",
+          "gold": "A Nintendo Switch; since the game \"Xenoblade 2\" is made for this console.",
+          "pred": " Nate owns the game console called \"The Console\" which is a console"
+        },
+        {
+          "question": "What alternative career might Nate consider after gaming?",
+          "gold": "an animalkeeper at a localzoo and workingwith turtles; as heknows a great dealabout turtles andhow to care for them,and he enjoys it.",
+          "pred": " I'm not sure. I'm not sure if I'd be interested in a"
+        },
+        {
+          "question": "How many hikes has Joanna been on?",
+          "gold": "Four",
+          "pred": " 3\n\n"
+        },
+        {
+          "question": "What state did Joanna visit in summer 2021?",
+          "gold": "Indiana",
+          "pred": " California\n\n"
+        },
+        {
+          "question": "Was the first half of September 2022 a good month career-wise for Nate and Joanna? Answer yes or no.",
+          "gold": "No; because both of them faced setbacks in their career",
+          "pred": " Nate: I'm not sure. I'm not sure if I'm going"
+        },
+        {
+          "question": "What kind of job is Joanna beginning to preform the duties of because of her movie scripts?",
+          "gold": "filmmaker.",
+          "pred": " Joanna is a film director for a film company. She is a film director"
+        },
+        {
+          "question": "What state did Nate visit?",
+          "gold": "Florida",
+          "pred": " New York\n\n"
+        }
+      ],
+      "RAG_TOP3": [
+        {
+          "question": "Is it likely that Nate has friends besides Joanna?",
+          "gold": "Yesteammates on hisvideo game team.",
+          "pred": " Yes, Nate has friends besides Joanna. She is a friend of Jo"
+        },
+        {
+          "question": "What pets wouldn't cause any discomfort to Joanna?",
+          "gold": "Hairless cats or pigs,since they don't have fur, which is one of the main causes of Joanna's allergy.",
+          "pred": " Joanna is allergic to most reptiles and animals with fur. It can be a"
+        },
+        {
+          "question": "What underlying condition might Joanna have based on her allergies?",
+          "gold": "asthma",
+          "pred": " Joanna is allergic to most reptiles and animals with fur. It can be a"
+        },
+        {
+          "question": "What nickname does Nate use for Joanna?",
+          "gold": "Jo",
+          "pred": " Nate's nickname is \"Nate.\"\n\n"
+        },
+        {
+          "question": "What Console does Nate own?",
+          "gold": "A Nintendo Switch; since the game \"Xenoblade 2\" is made for this console.",
+          "pred": " Nate owns a console called the Nate console.\n\n"
+        },
+        {
+          "question": "What alternative career might Nate consider after gaming?",
+          "gold": "an animalkeeper at a localzoo and workingwith turtles; as heknows a great dealabout turtles andhow to care for them,and he enjoys it.",
+          "pred": " Nate might consider a career in the gaming industry, such as a game developer"
+        },
+        {
+          "question": "How many hikes has Joanna been on?",
+          "gold": "Four",
+          "pred": " 3\n\n"
+        },
+        {
+          "question": "What state did Joanna visit in summer 2021?",
+          "gold": "Indiana",
+          "pred": " California\n\n"
+        },
+        {
+          "question": "Was the first half of September 2022 a good month career-wise for Nate and Joanna? Answer yes or no.",
+          "gold": "No; because both of them faced setbacks in their career",
+          "pred": " Nate was a good month career-wise for Nate and Joanna, as"
+        },
+        {
+          "question": "What kind of job is Joanna beginning to preform the duties of because of her movie scripts?",
+          "gold": "filmmaker.",
+          "pred": " Joanna is beginning to preform the duties of a writer. She is writing"
+        },
+        {
+          "question": "What state did Nate visit?",
+          "gold": "Florida",
+          "pred": " Michigan\n\n"
+        }
+      ],
+      "MEM0_LIKE": [
+        {
+          "question": "Is it likely that Nate has friends besides Joanna?",
+          "gold": "Yesteammates on hisvideo game team.",
+          "pred": " No, Nate is not likely to have friends besides Joanna. She is"
+        },
+        {
+          "question": "What pets wouldn't cause any discomfort to Joanna?",
+          "gold": "Hairless cats or pigs,since they don't have fur, which is one of the main causes of Joanna's allergy.",
+          "pred": " Joanna would not have any pets that could cause any discomfort to her. She"
+        },
+        {
+          "question": "What underlying condition might Joanna have based on her allergies?",
+          "gold": "asthma",
+          "pred": " Joanna might have a condition called \"allergic rhinitis\" or \"all"
+        },
+        {
+          "question": "What nickname does Nate use for Joanna?",
+          "gold": "Jo",
+          "pred": " Nate's nickname is \"Nate\".\n\n"
+        },
+        {
+          "question": "What Console does Nate own?",
+          "gold": "A Nintendo Switch; since the game \"Xenoblade 2\" is made for this console.",
+          "pred": " Nate owns a console called \"Xeonoblade Chronicles\""
+        },
+        {
+          "question": "What alternative career might Nate consider after gaming?",
+          "gold": "an animalkeeper at a localzoo and workingwith turtles; as heknows a great dealabout turtles andhow to care for them,and he enjoys it.",
+          "pred": " A career in the military or a career in the medical field.\n"
+        },
+        {
+          "question": "How many hikes has Joanna been on?",
+          "gold": "Four",
+          "pred": " Joanna has been on at least one hike.\n\n"
+        },
+        {
+          "question": "What state did Joanna visit in summer 2021?",
+          "gold": "Indiana",
+          "pred": " Joanna visited Fort Wayne in summer 2021.\n\n"
+        },
+        {
+          "question": "Was the first half of September 2022 a good month career-wise for Nate and Joanna? Answer yes or no.",
+          "gold": "No; because both of them faced setbacks in their career",
+          "pred": " Nate was a good month career-wise, as they were able to film their"
+        },
+        {
+          "question": "What kind of job is Joanna beginning to preform the duties of because of her movie scripts?",
+          "gold": "filmmaker.",
+          "pred": " Joanna is beginning to preform her duties as a writer.<|bos|>The "
+        },
+        {
+          "question": "What state did Nate visit?",
+          "gold": "Florida",
+          "pred": " Florida\n\n"
+        }
+      ],
+      "MEMMACHINE_LIKE": [
+        {
+          "question": "Is it likely that Nate has friends besides Joanna?",
+          "gold": "Yesteammates on hisvideo game team.",
+          "pred": " Yes, Nate has friends besides Joanna.\n\n"
+        },
+        {
+          "question": "What pets wouldn't cause any discomfort to Joanna?",
+          "gold": "Hairless cats or pigs,since they don't have fur, which is one of the main causes of Joanna's allergy.",
+          "pred": " Joanna would not have any pets that would cause any discomfort to her. She"
+        },
+        {
+          "question": "What underlying condition might Joanna have based on her allergies?",
+          "gold": "asthma",
+          "pred": " Joanna might have a food allergy or a food intolerance, which could be causing"
+        },
+        {
+          "question": "What nickname does Nate use for Joanna?",
+          "gold": "Jo",
+          "pred": " Nate's nickname is \"Nate\" or \"Nate\" for Jo"
+        },
+        {
+          "question": "What Console does Nate own?",
+          "gold": "A Nintendo Switch; since the game \"Xenoblade 2\" is made for this console.",
+          "pred": " Nate owns a console called \"The Game Boy Advance\" (GBA).\n\n"
+        },
+        {
+          "question": "What alternative career might Nate consider after gaming?",
+          "gold": "an animalkeeper at a localzoo and workingwith turtles; as heknows a great dealabout turtles andhow to care for them,and he enjoys it.",
+          "pred": " Nate might consider playing a game like \"Xeonoblade Chron"
+        },
+        {
+          "question": "How many hikes has Joanna been on?",
+          "gold": "Four",
+          "pred": " 3 hikes\n"
+        },
+        {
+          "question": "What state did Joanna visit in summer 2021?",
+          "gold": "Indiana",
+          "pred": " California\n\n"
+        },
+        {
+          "question": "Was the first half of September 2022 a good month career-wise for Nate and Joanna? Answer yes or no.",
+          "gold": "No; because both of them faced setbacks in their career",
+          "pred": " The first half of September 2022 was a good month career-wise for N"
+        },
+        {
+          "question": "What kind of job is Joanna beginning to preform the duties of because of her movie scripts?",
+          "gold": "filmmaker.",
+          "pred": " Joanna is beginning to preform the duties of a writer. She is writing"
+        },
+        {
+          "question": "What state did Nate visit?",
+          "gold": "Florida",
+          "pred": " Michigan\n\n"
+        }
+      ],
+      "USER_AS_ENGRAM_OPT": [
+        {
+          "question": "Is it likely that Nate has friends besides Joanna?",
+          "gold": "Yesteammates on hisvideo game team.",
+          "pred": "Joanna is a very good friend of Nate. She is a very good"
+        },
+        {
+          "question": "What pets wouldn't cause any discomfort to Joanna?",
+          "gold": "Hairless cats or pigs,since they don't have fur, which is one of the main causes of Joanna's allergy.",
+          "pred": "Joanna's dog, a black lab named Max, is a great companion for"
+        },
+        {
+          "question": "What underlying condition might Joanna have based on her allergies?",
+          "gold": "asthma",
+          "pred": "as well as the symptoms she's experiencing. The doctor will ask about her symptoms"
+        },
+        {
+          "question": "What nickname does Nate use for Joanna?",
+          "gold": "Jo",
+          "pred": "Joanna is a nickname for Nate, a character in the movie \"The"
+        },
+        {
+          "question": "What Console does Nate own?",
+          "gold": "A Nintendo Switch; since the game \"Xenoblade 2\" is made for this console.",
+          "pred": "A lot of people are asking what console Nate owns. The answer is that"
+        },
+        {
+          "question": "What alternative career might Nate consider after gaming?",
+          "gold": "an animalkeeper at a localzoo and workingwith turtles; as heknows a great dealabout turtles andhow to care for them,and he enjoys it.",
+          "pred": "animation, video game design, or even a career in the entertainment industry.\n"
+        },
+        {
+          "question": "How many hikes has Joanna been on?",
+          "gold": "Four",
+          "pred": " How many miles have she been on? How many miles have she been on?"
+        },
+        {
+          "question": "What state did Joanna visit in summer 2021?",
+          "gold": "Indiana",
+          "pred": "Indiana\n"
+        },
+        {
+          "question": "Was the first half of September 2022 a good month career-wise for Nate and Joanna? Answer yes or no.",
+          "gold": "No; because both of them faced setbacks in their career",
+          "pred": " No, it was not. The first half of September 2022 was a"
+        },
+        {
+          "question": "What kind of job is Joanna beginning to preform the duties of because of her movie scripts?",
+          "gold": "filmmaker.",
+          "pred": "films? and what kind of job is Joanna beginning to preform the"
+        },
+        {
+          "question": "What state did Nate visit?",
+          "gold": "Florida",
+          "pred": "Florida\n"
+        }
+      ],
+      "USER_AS_ENGRAM_JOINT_OPT": [
+        {
+          "question": "Is it likely that Nate has friends besides Joanna?",
+          "gold": "Yesteammates on hisvideo game team.",
+          "pred": "Yep, it's a good question. I think it's a good question"
+        },
+        {
+          "question": "What pets wouldn't cause any discomfort to Joanna?",
+          "gold": "Hairless cats or pigs,since they don't have fur, which is one of the main causes of Joanna's allergy.",
+          "pred": "Hmmm, I'm not sure what to think about that. I'm"
+        },
+        {
+          "question": "What underlying condition might Joanna have based on her allergies?",
+          "gold": "asthma",
+          "pred": "as well as the symptoms she's experiencing. The doctor will ask about her symptoms"
+        },
+        {
+          "question": "What nickname does Nate use for Joanna?",
+          "gold": "Jo",
+          "pred": "Joanna is a nickname for Nate, a character in the movie \"The"
+        },
+        {
+          "question": "What Console does Nate own?",
+          "gold": "A Nintendo Switch; since the game \"Xenoblade 2\" is made for this console.",
+          "pred": "A: Nate owns a console called \"The Nate\" that is a"
+        },
+        {
+          "question": "What alternative career might Nate consider after gaming?",
+          "gold": "an animalkeeper at a localzoo and workingwith turtles; as heknows a great dealabout turtles andhow to care for them,and he enjoys it.",
+          "pred": "animation\n"
+        },
+        {
+          "question": "How many hikes has Joanna been on?",
+          "gold": "Four",
+          "pred": "Four hikes in a row. She has been on 4 hikes in"
+        },
+        {
+          "question": "What state did Joanna visit in summer 2021?",
+          "gold": "Indiana",
+          "pred": "Indiana\n"
+        },
+        {
+          "question": "Was the first half of September 2022 a good month career-wise for Nate and Joanna? Answer yes or no.",
+          "gold": "No; because both of them faced setbacks in their career",
+          "pred": "No, it was not a good month career-wise for Nate and Joanna"
+        },
+        {
+          "question": "What kind of job is Joanna beginning to preform the duties of because of her movie scripts?",
+          "gold": "filmmaker.",
+          "pred": "films? and what kind of job is Joanna beginning to preform the"
+        },
+        {
+          "question": "What state did Nate visit?",
+          "gold": "Florida",
+          "pred": "Florida\n"
+        }
+      ]
+    },
+    "conv_4": {
+      "NO_MEMORY": [
+        {
+          "question": "Would Tim enjoy reading books by C. S. Lewis or John Greene?",
+          "gold": "C. S.Lewis",
+          "pred": " Would he enjoy reading books by John Greene? Would he enjoy reading books by"
+        },
+        {
+          "question": "Based on Tim's collections, what is a shop that he would enjoy visiting in New York city?",
+          "gold": "House of MinaLima",
+          "pred": " What is a shop that he would enjoy visiting in New York city? What is"
+        },
+        {
+          "question": "Which outdoor gear company likely signed up John for an endorsement deal?",
+          "gold": "Under Armour",
+          "pred": " (I'm not sure if they were a company that was already signed up or"
+        },
+        {
+          "question": "Who is Anthony?",
+          "gold": "likely John's friend, colleague or family",
+          "pred": " Anthony is a 20-year-old boy who is currently in his 20s"
+        },
+        {
+          "question": "What is a prominent charity organization that John might want to work with and why?",
+          "gold": "Good Sports, because they work with Nike, Gatorade, and Under Armour and they aim toprovide youth sports opportunities for kids ages 3-18 in high-need communities.",
+          "pred": " I'm not sure what you mean by \"prominent\" but I think it"
+        },
+        {
+          "question": "Which popular time management technique does Tim use to prepare for exams?",
+          "gold": "Pomodoro technique",
+          "pred": " A. Time management B. Time blocking C. Time blocking D. Time blocking"
+        },
+        {
+          "question": "Which popular music composer's tunes does Tim enjoy playing on the piano?",
+          "gold": "John Williams",
+          "pred": " Tim's favorite tunes are \"The Guitarist\" and \"The G"
+        },
+        {
+          "question": "Which US states might Tim be in during September 2023 based on his plans of visiting Universal Studios?",
+          "gold": "California or Florida",
+          "pred": " (I'm not sure if he's in the US or not, but I"
+        },
+        {
+          "question": "What could John do after his basketball career?",
+          "gold": "become a basketball coach since he likes giving back and leadership",
+          "pred": " He could go to college and get a degree in business. He could go to"
+        },
+        {
+          "question": "What kind of yoga for building core strength might John benefit from?",
+          "gold": "Hatha Yoga",
+          "pred": " I'm not sure. I'm not sure if I'm going to do it"
+        },
+        {
+          "question": "What other exercises can help John with his basketball performance?",
+          "gold": "Sprinting, long-distance running, and boxing.",
+          "pred": " I have been doing a lot of exercises to help me with my basketball performance."
+        },
+        {
+          "question": "What is a Star Wars book that Tim might enjoy?",
+          "gold": "Star Wars: Jedi Apprentice by Judy Blundell and David Farland. It is a highly rated and immersive series about his favorite movies.",
+          "pred": " I'm not sure, but I'm sure it's a good one. It"
+        },
+        {
+          "question": "What would be a good hobby related to his travel dreams for Tim to pick up?",
+          "gold": "Writing a travel blog.",
+          "pred": " I'm not sure what to think of it, but I'm thinking of a"
+        },
+        {
+          "question": "Which Star Wars-related locations would Tim enjoy during his visit to Ireland?",
+          "gold": "Skellig Michael, Malin Head, Loop Head, Ceann Sib\u00e9al, and Brow Head because they are Star Wars filming locations.",
+          "pred": " (Choose all that apply)\n"
+        }
+      ],
+      "MARKDOWN_ALL": [
+        {
+          "question": "Would Tim enjoy reading books by C. S. Lewis or John Greene?",
+          "gold": "C. S.Lewis",
+          "pred": " John Greene<|bos|>I'm not sure what you mean by \"I'm not"
+        },
+        {
+          "question": "Based on Tim's collections, what is a shop that he would enjoy visiting in New York city?",
+          "gold": "House of MinaLima",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "Which outdoor gear company likely signed up John for an endorsement deal?",
+          "gold": "Under Armour",
+          "pred": " Nike<|bos|>I'm not sure what you mean by \"I'm not sure what"
+        },
+        {
+          "question": "Who is Anthony?",
+          "gold": "likely John's friend, colleague or family",
+          "pred": " Anthony is a person who is in the study abroad program.<|bos|>I'm not"
+        },
+        {
+          "question": "What is a prominent charity organization that John might want to work with and why?",
+          "gold": "Good Sports, because they work with Nike, Gatorade, and Under Armour and they aim toprovide youth sports opportunities for kids ages 3-18 in high-need communities.",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "Which popular time management technique does Tim use to prepare for exams?",
+          "gold": "Pomodoro technique",
+          "pred": " Tim uses a<|bos|>I'm not sure what you mean by \"I'm not"
+        },
+        {
+          "question": "Which popular music composer's tunes does Tim enjoy playing on the piano?",
+          "gold": "John Williams",
+          "pred": " Tim enjoys playing with<|bos|>I'm not sure what you mean by \"I'm"
+        },
+        {
+          "question": "Which US states might Tim be in during September 2023 based on his plans of visiting Universal Studios?",
+          "gold": "California or Florida",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "What could John do after his basketball career?",
+          "gold": "become a basketball coach since he likes giving back and leadership",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "What kind of yoga for building core strength might John benefit from?",
+          "gold": "Hatha Yoga",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "What other exercises can help John with his basketball performance?",
+          "gold": "Sprinting, long-distance running, and boxing.",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "What is a Star Wars book that Tim might enjoy?",
+          "gold": "Star Wars: Jedi Apprentice by Judy Blundell and David Farland. It is a highly rated and immersive series about his favorite movies.",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "What would be a good hobby related to his travel dreams for Tim to pick up?",
+          "gold": "Writing a travel blog.",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "Which Star Wars-related locations would Tim enjoy during his visit to Ireland?",
+          "gold": "Skellig Michael, Malin Head, Loop Head, Ceann Sib\u00e9al, and Brow Head because they are Star Wars filming locations.",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        }
+      ],
+      "RAG_TOP1": [
+        {
+          "question": "Would Tim enjoy reading books by C. S. Lewis or John Greene?",
+          "gold": "C. S.Lewis",
+          "pred": " I would enjoy reading books by C. S. Lewis or John Greene."
+        },
+        {
+          "question": "Based on Tim's collections, what is a shop that he would enjoy visiting in New York city?",
+          "gold": "House of MinaLima",
+          "pred": " A shop that he would enjoy visiting in New York city is called \"The Shop"
+        },
+        {
+          "question": "Which outdoor gear company likely signed up John for an endorsement deal?",
+          "gold": "Under Armour",
+          "pred": " The company that signed up John for the endorsement deal is called Outdoor Gear."
+        },
+        {
+          "question": "Who is Anthony?",
+          "gold": "likely John's friend, colleague or family",
+          "pred": " Anthony is a 16-year-old boy who is a member of the Harry Pot"
+        },
+        {
+          "question": "What is a prominent charity organization that John might want to work with and why?",
+          "gold": "Good Sports, because they work with Nike, Gatorade, and Under Armour and they aim toprovide youth sports opportunities for kids ages 3-18 in high-need communities.",
+          "pred": " The charity organization John wants to work with is called the \"Foundation for the"
+        },
+        {
+          "question": "Which popular time management technique does Tim use to prepare for exams?",
+          "gold": "Pomodoro technique",
+          "pred": " Tim uses a technique called \"ticket-in, ticket-out\" machine."
+        },
+        {
+          "question": "Which popular music composer's tunes does Tim enjoy playing on the piano?",
+          "gold": "John Williams",
+          "pred": " Tim enjoys playing on the piano with a variety of popular music composers, including"
+        },
+        {
+          "question": "Which US states might Tim be in during September 2023 based on his plans of visiting Universal Studios?",
+          "gold": "California or Florida",
+          "pred": " New York, New Jersey, and Pennsylvania\n\n"
+        },
+        {
+          "question": "What could John do after his basketball career?",
+          "gold": "become a basketball coach since he likes giving back and leadership",
+          "pred": " He could go to college and study psychology, or he could go to a charity"
+        },
+        {
+          "question": "What kind of yoga for building core strength might John benefit from?",
+          "gold": "Hatha Yoga",
+          "pred": " I don't know, but I'm thinking of a combination of poses that target"
+        },
+        {
+          "question": "What other exercises can help John with his basketball performance?",
+          "gold": "Sprinting, long-distance running, and boxing.",
+          "pred": " I'm not sure what else to ask, but I'm thinking of doing some"
+        },
+        {
+          "question": "What is a Star Wars book that Tim might enjoy?",
+          "gold": "Star Wars: Jedi Apprentice by Judy Blundell and David Farland. It is a highly rated and immersive series about his favorite movies.",
+          "pred": " The Star Wars series is a series of books that are written by the author of"
+        },
+        {
+          "question": "What would be a good hobby related to his travel dreams for Tim to pick up?",
+          "gold": "Writing a travel blog.",
+          "pred": " I'm not sure. I'm not sure if I would be able to do"
+        },
+        {
+          "question": "Which Star Wars-related locations would Tim enjoy during his visit to Ireland?",
+          "gold": "Skellig Michael, Malin Head, Loop Head, Ceann Sib\u00e9al, and Brow Head because they are Star Wars filming locations.",
+          "pred": " I'd love to explore the real Potter places, but I'd also love"
+        }
+      ],
+      "RAG_TOP3": [
+        {
+          "question": "Would Tim enjoy reading books by C. S. Lewis or John Greene?",
+          "gold": "C. S.Lewis",
+          "pred": " Tim would enjoy reading books by C. S. Lewis or John Greene."
+        },
+        {
+          "question": "Based on Tim's collections, what is a shop that he would enjoy visiting in New York city?",
+          "gold": "House of MinaLima",
+          "pred": " A shop that he would enjoy visiting in New York city is called \"The Pot"
+        },
+        {
+          "question": "Which outdoor gear company likely signed up John for an endorsement deal?",
+          "gold": "Under Armour",
+          "pred": " Nike\n\n"
+        },
+        {
+          "question": "Who is Anthony?",
+          "gold": "likely John's friend, colleague or family",
+          "pred": " Anthony is a great leader and puts others first. He's a great leader and"
+        },
+        {
+          "question": "What is a prominent charity organization that John might want to work with and why?",
+          "gold": "Good Sports, because they work with Nike, Gatorade, and Under Armour and they aim toprovide youth sports opportunities for kids ages 3-18 in high-need communities.",
+          "pred": " John wants to work with a charity organization that is important to him and that he"
+        },
+        {
+          "question": "Which popular time management technique does Tim use to prepare for exams?",
+          "gold": "Pomodoro technique",
+          "pred": " Tim uses a technique called \"ticket-in, ticket-out\" machine,"
+        },
+        {
+          "question": "Which popular music composer's tunes does Tim enjoy playing on the piano?",
+          "gold": "John Williams",
+          "pred": " Tim enjoys playing different songs on the piano, but his favorite one to jam to"
+        },
+        {
+          "question": "Which US states might Tim be in during September 2023 based on his plans of visiting Universal Studios?",
+          "gold": "California or Florida",
+          "pred": " Tim is in the US states of California, New York, and Washington, D"
+        },
+        {
+          "question": "What could John do after his basketball career?",
+          "gold": "become a basketball coach since he likes giving back and leadership",
+          "pred": " John could start a charity or inspire people.\n\n"
+        },
+        {
+          "question": "What kind of yoga for building core strength might John benefit from?",
+          "gold": "Hatha Yoga",
+          "pred": " Yoga that focuses on core strength, such as the \"Yoga for Core Strength\""
+        },
+        {
+          "question": "What other exercises can help John with his basketball performance?",
+          "gold": "Sprinting, long-distance running, and boxing.",
+          "pred": " Strength training\n\n"
+        },
+        {
+          "question": "What is a Star Wars book that Tim might enjoy?",
+          "gold": "Star Wars: Jedi Apprentice by Judy Blundell and David Farland. It is a highly rated and immersive series about his favorite movies.",
+          "pred": " The Star Wars trilogy is a series of books that covers the history of the"
+        },
+        {
+          "question": "What would be a good hobby related to his travel dreams for Tim to pick up?",
+          "gold": "Writing a travel blog.",
+          "pred": " Traveling to Paris\n\n"
+        },
+        {
+          "question": "Which Star Wars-related locations would Tim enjoy during his visit to Ireland?",
+          "gold": "Skellig Michael, Malin Head, Loop Head, Ceann Sib\u00e9al, and Brow Head because they are Star Wars filming locations.",
+          "pred": " Tim would enjoy exploring the Eiffel Tower, the Eiffel Tower,"
+        }
+      ],
+      "MEM0_LIKE": [
+        {
+          "question": "Would Tim enjoy reading books by C. S. Lewis or John Greene?",
+          "gold": "C. S.Lewis",
+          "pred": " Tim would enjoy reading books by C. S. Lewis or John Greene,"
+        },
+        {
+          "question": "Based on Tim's collections, what is a shop that he would enjoy visiting in New York city?",
+          "gold": "House of MinaLima",
+          "pred": " A place where he went to a place in London a few years ago, which"
+        },
+        {
+          "question": "Which outdoor gear company likely signed up John for an endorsement deal?",
+          "gold": "Under Armour",
+          "pred": " Nike\n\n"
+        },
+        {
+          "question": "Who is Anthony?",
+          "gold": "likely John's friend, colleague or family",
+          "pred": " Anthony is a 16-year-old boy who is a member of the 20"
+        },
+        {
+          "question": "What is a prominent charity organization that John might want to work with and why?",
+          "gold": "Good Sports, because they work with Nike, Gatorade, and Under Armour and they aim toprovide youth sports opportunities for kids ages 3-18 in high-need communities.",
+          "pred": " Nike - I'm in talks with Gatorade about a potential sponsorship."
+        },
+        {
+          "question": "Which popular time management technique does Tim use to prepare for exams?",
+          "gold": "Pomodoro technique",
+          "pred": " Tim breaks up his studying into smaller parts, such as 25 minutes on,"
+        },
+        {
+          "question": "Which popular music composer's tunes does Tim enjoy playing on the piano?",
+          "gold": "John Williams",
+          "pred": " Tim enjoys playing different songs on the piano, but his favorite is a theme from"
+        },
+        {
+          "question": "Which US states might Tim be in during September 2023 based on his plans of visiting Universal Studios?",
+          "gold": "California or Florida",
+          "pred": " The text does not provide specific information about Tim's plans of visiting Universal Studios"
+        },
+        {
+          "question": "What could John do after his basketball career?",
+          "gold": "become a basketball coach since he likes giving back and leadership",
+          "pred": " John could give something back to the basketball community through charity or inspire people.\n\n"
+        },
+        {
+          "question": "What kind of yoga for building core strength might John benefit from?",
+          "gold": "Hatha Yoga",
+          "pred": " Yoga that focuses on core strength, such as yoga for beginners or yoga for those"
+        },
+        {
+          "question": "What other exercises can help John with his basketball performance?",
+          "gold": "Sprinting, long-distance running, and boxing.",
+          "pred": " Strength training and charity work<|bos|>The 2019-2020 school year is"
+        },
+        {
+          "question": "What is a Star Wars book that Tim might enjoy?",
+          "gold": "Star Wars: Jedi Apprentice by Judy Blundell and David Farland. It is a highly rated and immersive series about his favorite movies.",
+          "pred": " \"Harry Potter and the Philosopher's Stone\"\n\n"
+        },
+        {
+          "question": "What would be a good hobby related to his travel dreams for Tim to pick up?",
+          "gold": "Writing a travel blog.",
+          "pred": " Traveling to Paris\n\n"
+        },
+        {
+          "question": "Which Star Wars-related locations would Tim enjoy during his visit to Ireland?",
+          "gold": "Skellig Michael, Malin Head, Loop Head, Ceann Sib\u00e9al, and Brow Head because they are Star Wars filming locations.",
+          "pred": " The Eiffel Tower and the Eiffel Tower\n\n"
+        }
+      ],
+      "MEMMACHINE_LIKE": [
+        {
+          "question": "Would Tim enjoy reading books by C. S. Lewis or John Greene?",
+          "gold": "C. S.Lewis",
+          "pred": " Tim would enjoy reading books by C. S. Lewis or John Greene."
+        },
+        {
+          "question": "Based on Tim's collections, what is a shop that he would enjoy visiting in New York city?",
+          "gold": "House of MinaLima",
+          "pred": " A shop that he would enjoy visiting in New York city is called \"The Pot"
+        },
+        {
+          "question": "Which outdoor gear company likely signed up John for an endorsement deal?",
+          "gold": "Under Armour",
+          "pred": " Nike\n\n"
+        },
+        {
+          "question": "Who is Anthony?",
+          "gold": "likely John's friend, colleague or family",
+          "pred": " Anthony is a character from the Harry Potter series. He is a young boy"
+        },
+        {
+          "question": "What is a prominent charity organization that John might want to work with and why?",
+          "gold": "Good Sports, because they work with Nike, Gatorade, and Under Armour and they aim toprovide youth sports opportunities for kids ages 3-18 in high-need communities.",
+          "pred": " John might want to work with a charity organization because it's important to him to"
+        },
+        {
+          "question": "Which popular time management technique does Tim use to prepare for exams?",
+          "gold": "Pomodoro technique",
+          "pred": " Tim uses a technique called \"ticket-in, ticket-out\" machine,"
+        },
+        {
+          "question": "Which popular music composer's tunes does Tim enjoy playing on the piano?",
+          "gold": "John Williams",
+          "pred": " Tim enjoys playing different songs on the piano, but his favorite one to jam to"
+        },
+        {
+          "question": "Which US states might Tim be in during September 2023 based on his plans of visiting Universal Studios?",
+          "gold": "California or Florida",
+          "pred": " The text does not provide specific information about Tim's plans for visiting Universal Studios"
+        },
+        {
+          "question": "What could John do after his basketball career?",
+          "gold": "become a basketball coach since he likes giving back and leadership",
+          "pred": " He could become a basketball coach or a basketball player.\n\n"
+        },
+        {
+          "question": "What kind of yoga for building core strength might John benefit from?",
+          "gold": "Hatha Yoga",
+          "pred": " Yoga that focuses on core strength, such as yoga poses like plank, bridge,"
+        },
+        {
+          "question": "What other exercises can help John with his basketball performance?",
+          "gold": "Sprinting, long-distance running, and boxing.",
+          "pred": " Strength training and balance exercises can help John with his basketball performance.\n\n"
+        },
+        {
+          "question": "What is a Star Wars book that Tim might enjoy?",
+          "gold": "Star Wars: Jedi Apprentice by Judy Blundell and David Farland. It is a highly rated and immersive series about his favorite movies.",
+          "pred": " The Star Wars series is a series of books that are set in the 19"
+        },
+        {
+          "question": "What would be a good hobby related to his travel dreams for Tim to pick up?",
+          "gold": "Writing a travel blog.",
+          "pred": " Traveling to Paris\n\n"
+        },
+        {
+          "question": "Which Star Wars-related locations would Tim enjoy during his visit to Ireland?",
+          "gold": "Skellig Michael, Malin Head, Loop Head, Ceann Sib\u00e9al, and Brow Head because they are Star Wars filming locations.",
+          "pred": " Tim would enjoy exploring the Eiffel Tower, the Eiffel Tower,"
+        }
+      ],
+      "USER_AS_ENGRAM_OPT": [
+        {
+          "question": "Would Tim enjoy reading books by C. S. Lewis or John Greene?",
+          "gold": "C. S.Lewis",
+          "pred": "C. S. Lewis and John Greene are two of the most famous authors"
+        },
+        {
+          "question": "Based on Tim's collections, what is a shop that he would enjoy visiting in New York city?",
+          "gold": "House of MinaLima",
+          "pred": " House of the Dead, The New York Times, and The New York Times Magazine"
+        },
+        {
+          "question": "Which outdoor gear company likely signed up John for an endorsement deal?",
+          "gold": "Under Armour",
+          "pred": " What was the deal like? What was the deal like? What was the deal"
+        },
+        {
+          "question": "Who is Anthony?",
+          "gold": "likely John's friend, colleague or family",
+          "pred": "likely the most famous person in the world. He is a famous actor,"
+        },
+        {
+          "question": "What is a prominent charity organization that John might want to work with and why?",
+          "gold": "Good Sports, because they work with Nike, Gatorade, and Under Armour and they aim toprovide youth sports opportunities for kids ages 3-18 in high-need communities.",
+          "pred": " Good question. I think it's a good question. I think it's a"
+        },
+        {
+          "question": "Which popular time management technique does Tim use to prepare for exams?",
+          "gold": "Pomodoro technique",
+          "pred": "Presentation Transcript\n"
+        },
+        {
+          "question": "Which popular music composer's tunes does Tim enjoy playing on the piano?",
+          "gold": "John Williams",
+          "pred": " Tim's favorite tunes are \"The Guitarist\" and \"The G"
+        },
+        {
+          "question": "Which US states might Tim be in during September 2023 based on his plans of visiting Universal Studios?",
+          "gold": "California or Florida",
+          "pred": " California, New York, and Washington D.C. are all possible choices.\n"
+        },
+        {
+          "question": "What could John do after his basketball career?",
+          "gold": "become a basketball coach since he likes giving back and leadership",
+          "pred": "became a professional basketball player. He was a member of the National Basketball"
+        },
+        {
+          "question": "What kind of yoga for building core strength might John benefit from?",
+          "gold": "Hatha Yoga",
+          "pred": "Hands down, the most important part of yoga for building core strength is the"
+        },
+        {
+          "question": "What other exercises can help John with his basketball performance?",
+          "gold": "Sprinting, long-distance running, and boxing.",
+          "pred": "Sporty, athletic, and athletic. I'm not sure what the best"
+        },
+        {
+          "question": "What is a Star Wars book that Tim might enjoy?",
+          "gold": "Star Wars: Jedi Apprentice by Judy Blundell and David Farland. It is a highly rated and immersive series about his favorite movies.",
+          "pred": "Star Wars: The Force Awakens is a book that Tim might enjoy."
+        },
+        {
+          "question": "What would be a good hobby related to his travel dreams for Tim to pick up?",
+          "gold": "Writing a travel blog.",
+          "pred": "Writing, drawing, painting, and photography are all good hobbies. I would like"
+        },
+        {
+          "question": "Which Star Wars-related locations would Tim enjoy during his visit to Ireland?",
+          "gold": "Skellig Michael, Malin Head, Loop Head, Ceann Sib\u00e9al, and Brow Head because they are Star Wars filming locations.",
+          "pred": "Skip to main content\n"
+        }
+      ],
+      "USER_AS_ENGRAM_JOINT_OPT": [
+        {
+          "question": "Would Tim enjoy reading books by C. S. Lewis or John Greene?",
+          "gold": "C. S.Lewis",
+          "pred": "C. S. Lewis and John Greene are two of the most famous authors"
+        },
+        {
+          "question": "Based on Tim's collections, what is a shop that he would enjoy visiting in New York city?",
+          "gold": "House of MinaLima",
+          "pred": "Households in New York City are known for their high standards of living,"
+        },
+        {
+          "question": "Which outdoor gear company likely signed up John for an endorsement deal?",
+          "gold": "Under Armour",
+          "pred": "Under the terms of the deal, John was given a 10% discount on"
+        },
+        {
+          "question": "Who is Anthony?",
+          "gold": "likely John's friend, colleague or family",
+          "pred": "likely the most famous person in the world. He is a famous actor,"
+        },
+        {
+          "question": "What is a prominent charity organization that John might want to work with and why?",
+          "gold": "Good Sports, because they work with Nike, Gatorade, and Under Armour and they aim toprovide youth sports opportunities for kids ages 3-18 in high-need communities.",
+          "pred": "Good question. I think the first thing that comes to mind is the charity that"
+        },
+        {
+          "question": "Which popular time management technique does Tim use to prepare for exams?",
+          "gold": "Pomodoro technique",
+          "pred": "Presentation Transcript\n"
+        },
+        {
+          "question": "Which popular music composer's tunes does Tim enjoy playing on the piano?",
+          "gold": "John Williams",
+          "pred": "Johnny Depp's \"The Great Gatsby\" is a popular song"
+        },
+        {
+          "question": "Which US states might Tim be in during September 2023 based on his plans of visiting Universal Studios?",
+          "gold": "California or Florida",
+          "pred": "California, New York, and Texas are the three states that Tim is planning to"
+        },
+        {
+          "question": "What could John do after his basketball career?",
+          "gold": "become a basketball coach since he likes giving back and leadership",
+          "pred": "became a professional basketball player and a professional football player. He was a member"
+        },
+        {
+          "question": "What kind of yoga for building core strength might John benefit from?",
+          "gold": "Hatha Yoga",
+          "pred": "Hands down, the most important part of yoga for building core strength is the"
+        },
+        {
+          "question": "What other exercises can help John with his basketball performance?",
+          "gold": "Sprinting, long-distance running, and boxing.",
+          "pred": "Sporty, athletic, and athletic. I'm not sure what the best"
+        },
+        {
+          "question": "What is a Star Wars book that Tim might enjoy?",
+          "gold": "Star Wars: Jedi Apprentice by Judy Blundell and David Farland. It is a highly rated and immersive series about his favorite movies.",
+          "pred": "Star Wars: The Force Awakens is a book that Tim might enjoy."
+        },
+        {
+          "question": "What would be a good hobby related to his travel dreams for Tim to pick up?",
+          "gold": "Writing a travel blog.",
+          "pred": "Writing, drawing, painting, and photography are all good hobbies. I would like"
+        },
+        {
+          "question": "Which Star Wars-related locations would Tim enjoy during his visit to Ireland?",
+          "gold": "Skellig Michael, Malin Head, Loop Head, Ceann Sib\u00e9al, and Brow Head because they are Star Wars filming locations.",
+          "pred": "Skip to main content\n"
+        }
+      ]
+    },
+    "conv_5": {
+      "NO_MEMORY": [
+        {
+          "question": "What is an indoor activity that Andrew would enjoy doing while make his dog happy?",
+          "gold": "cook dog treats",
+          "pred": " (I'm not sure what he would do if he was a dog, but"
+        },
+        {
+          "question": "Which meat does Audrey prefer eating more than others?",
+          "gold": "chicken",
+          "pred": " Which meat does Audrey prefer eating less than others? Which meat does Audrey"
+        },
+        {
+          "question": "What can Andrew potentially do to improve his stress and accomodate his living situation with his dogs?",
+          "gold": "Change to a hybrid or remote job so he can move away from the city to the suburbs to have a larger living space and be closer to nature.",
+          "pred": " He has a dog named Bella, who is a 2-year-old German"
+        },
+        {
+          "question": "Which US state do Audrey and Andrew potentially live in?",
+          "gold": "Minnesota",
+          "pred": " (A) California (B) Florida (C) Texas (D) Arizona"
+        },
+        {
+          "question": "Which national park could Audrey and Andrew be referring to in their conversations?",
+          "gold": "Voyageurs National Park",
+          "pred": " The answer is the park of the same name, which is located in the heart"
+        },
+        {
+          "question": "What is something that Andrew could do to make birdwatching hobby to fit in his city schedule?",
+          "gold": "Install a bird feeder outside where he can see the birds without going outdoors.",
+          "pred": " He could start a birdwatching club in his city. He could start a birdw"
+        },
+        {
+          "question": "What is a career that Andrew could potentially pursue with his love for animals and nature?",
+          "gold": "Park ranger or a similar position working for the National Park Services.",
+          "pred": " He could be a wildlife biologist, a wildlife photographer, or a wildlife conservationist"
+        }
+      ],
+      "MARKDOWN_ALL": [
+        {
+          "question": "What is an indoor activity that Andrew would enjoy doing while make his dog happy?",
+          "gold": "cook dog treats",
+          "pred": " Hiking\n\n"
+        },
+        {
+          "question": "Which meat does Audrey prefer eating more than others?",
+          "gold": "chicken",
+          "pred": " Roasted Chicken\n\n"
+        },
+        {
+          "question": "What can Andrew potentially do to improve his stress and accomodate his living situation with his dogs?",
+          "gold": "Change to a hybrid or remote job so he can move away from the city to the suburbs to have a larger living space and be closer to nature.",
+          "pred": " He can take Toby on a hike to a new spot or take him on"
+        },
+        {
+          "question": "Which US state do Audrey and Andrew potentially live in?",
+          "gold": "Minnesota",
+          "pred": " The text does not provide information about Audrey and Andrew's current living situation.\n\n"
+        },
+        {
+          "question": "Which national park could Audrey and Andrew be referring to in their conversations?",
+          "gold": "Voyageurs National Park",
+          "pred": " A park near them\n\n"
+        },
+        {
+          "question": "What is something that Andrew could do to make birdwatching hobby to fit in his city schedule?",
+          "gold": "Install a bird feeder outside where he can see the birds without going outdoors.",
+          "pred": " He could take his dogs on a hike to see if they enjoy it.\n\n"
+        },
+        {
+          "question": "What is a career that Andrew could potentially pursue with his love for animals and nature?",
+          "gold": "Park ranger or a similar position working for the National Park Services.",
+          "pred": " Hiking\n\n"
+        }
+      ],
+      "RAG_TOP1": [
+        {
+          "question": "What is an indoor activity that Andrew would enjoy doing while make his dog happy?",
+          "gold": "cook dog treats",
+          "pred": " Playing with his dog\n"
+        },
+        {
+          "question": "Which meat does Audrey prefer eating more than others?",
+          "gold": "chicken",
+          "pred": " Roasted Chicken\n\n"
+        },
+        {
+          "question": "What can Andrew potentially do to improve his stress and accomodate his living situation with his dogs?",
+          "gold": "Change to a hybrid or remote job so he can move away from the city to the suburbs to have a larger living space and be closer to nature.",
+          "pred": " Andrew could try to get a dog that is more tolerant of other dogs, or"
+        },
+        {
+          "question": "Which US state do Audrey and Andrew potentially live in?",
+          "gold": "Minnesota",
+          "pred": " California\n\n"
+        },
+        {
+          "question": "Which national park could Audrey and Andrew be referring to in their conversations?",
+          "gold": "Voyageurs National Park",
+          "pred": " Yellowstone National Park\n\n"
+        },
+        {
+          "question": "What is something that Andrew could do to make birdwatching hobby to fit in his city schedule?",
+          "gold": "Install a bird feeder outside where he can see the birds without going outdoors.",
+          "pred": " Andrew could start a bird sanctuary in his city, where he would provide a safe"
+        },
+        {
+          "question": "What is a career that Andrew could potentially pursue with his love for animals and nature?",
+          "gold": "Park ranger or a similar position working for the National Park Services.",
+          "pred": " A career in animal care or wildlife rehabilitation\n\n"
+        }
+      ],
+      "RAG_TOP3": [
+        {
+          "question": "What is an indoor activity that Andrew would enjoy doing while make his dog happy?",
+          "gold": "cook dog treats",
+          "pred": " Andrew would enjoy playing with his dog, as he is a dog lover and loves"
+        },
+        {
+          "question": "Which meat does Audrey prefer eating more than others?",
+          "gold": "chicken",
+          "pred": " Roasted Chicken\n"
+        },
+        {
+          "question": "What can Andrew potentially do to improve his stress and accomodate his living situation with his dogs?",
+          "gold": "Change to a hybrid or remote job so he can move away from the city to the suburbs to have a larger living space and be closer to nature.",
+          "pred": " Andrew could consider hiring a dog walker or taking him to a dog-friendly park"
+        },
+        {
+          "question": "Which US state do Audrey and Andrew potentially live in?",
+          "gold": "Minnesota",
+          "pred": " The text does not provide information about which US state Audrey and Andrew potentially live"
+        },
+        {
+          "question": "Which national park could Audrey and Andrew be referring to in their conversations?",
+          "gold": "Voyageurs National Park",
+          "pred": " The national park near them\n\n"
+        },
+        {
+          "question": "What is something that Andrew could do to make birdwatching hobby to fit in his city schedule?",
+          "gold": "Install a bird feeder outside where he can see the birds without going outdoors.",
+          "pred": " Andrew could take a bird watching course or go to a local nature center to learn"
+        },
+        {
+          "question": "What is a career that Andrew could potentially pursue with his love for animals and nature?",
+          "gold": "Park ranger or a similar position working for the National Park Services.",
+          "pred": " A career in wildlife conservation or animal welfare.\n\n"
+        }
+      ],
+      "MEM0_LIKE": [
+        {
+          "question": "What is an indoor activity that Andrew would enjoy doing while make his dog happy?",
+          "gold": "cook dog treats",
+          "pred": " Hanging out with a dog, cuddling away\n\n"
+        },
+        {
+          "question": "Which meat does Audrey prefer eating more than others?",
+          "gold": "chicken",
+          "pred": " Roasted Chicken\n\n"
+        },
+        {
+          "question": "What can Andrew potentially do to improve his stress and accomodate his living situation with his dogs?",
+          "gold": "Change to a hybrid or remote job so he can move away from the city to the suburbs to have a larger living space and be closer to nature.",
+          "pred": " Andrew could consider hanging out with a dog, cuddling away, and exploring nature"
+        },
+        {
+          "question": "Which US state do Audrey and Andrew potentially live in?",
+          "gold": "Minnesota",
+          "pred": " The text does not provide information about which US state Audrey and Andrew potentially live"
+        },
+        {
+          "question": "Which national park could Audrey and Andrew be referring to in their conversations?",
+          "gold": "Voyageurs National Park",
+          "pred": " The text does not provide a specific national park, but it mentions that Audrey"
+        },
+        {
+          "question": "What is something that Andrew could do to make birdwatching hobby to fit in his city schedule?",
+          "gold": "Install a bird feeder outside where he can see the birds without going outdoors.",
+          "pred": " Andrew could plan to stay close to nature and give the dog a large open space"
+        },
+        {
+          "question": "What is a career that Andrew could potentially pursue with his love for animals and nature?",
+          "gold": "Park ranger or a similar position working for the National Park Services.",
+          "pred": " Andrew could potentially pursue a career in animal rescue, as he is a dog lover"
+        }
+      ],
+      "MEMMACHINE_LIKE": [
+        {
+          "question": "What is an indoor activity that Andrew would enjoy doing while make his dog happy?",
+          "gold": "cook dog treats",
+          "pred": " Andrew would enjoy hanging out with a dog, cuddling away, and exploring nature"
+        },
+        {
+          "question": "Which meat does Audrey prefer eating more than others?",
+          "gold": "chicken",
+          "pred": " Roasted Chicken\n"
+        },
+        {
+          "question": "What can Andrew potentially do to improve his stress and accomodate his living situation with his dogs?",
+          "gold": "Change to a hybrid or remote job so he can move away from the city to the suburbs to have a larger living space and be closer to nature.",
+          "pred": " Andrew could consider hiring a dog walker or taking him to a dog-friendly park"
+        },
+        {
+          "question": "Which US state do Audrey and Andrew potentially live in?",
+          "gold": "Minnesota",
+          "pred": " The text does not provide information about the US state of California.\n\n"
+        },
+        {
+          "question": "Which national park could Audrey and Andrew be referring to in their conversations?",
+          "gold": "Voyageurs National Park",
+          "pred": " The national park near them\n\n"
+        },
+        {
+          "question": "What is something that Andrew could do to make birdwatching hobby to fit in his city schedule?",
+          "gold": "Install a bird feeder outside where he can see the birds without going outdoors.",
+          "pred": " Andrew could take a class at a local college or university to learn about birds and"
+        },
+        {
+          "question": "What is a career that Andrew could potentially pursue with his love for animals and nature?",
+          "gold": "Park ranger or a similar position working for the National Park Services.",
+          "pred": " Andrew could potentially pursue a career in wildlife conservation or animal welfare, as he is"
+        }
+      ],
+      "USER_AS_ENGRAM_OPT": [
+        {
+          "question": "What is an indoor activity that Andrew would enjoy doing while make his dog happy?",
+          "gold": "cook dog treats",
+          "pred": "creating a play area for him to run around in, and a toy for"
+        },
+        {
+          "question": "Which meat does Audrey prefer eating more than others?",
+          "gold": "chicken",
+          "pred": "chicken, beef, pork, lamb, fish, and seafood. The most"
+        },
+        {
+          "question": "What can Andrew potentially do to improve his stress and accomodate his living situation with his dogs?",
+          "gold": "Change to a hybrid or remote job so he can move away from the city to the suburbs to have a larger living space and be closer to nature.",
+          "pred": "Change his diet to include more protein and less carbohydrates. He is currently on a"
+        },
+        {
+          "question": "Which US state do Audrey and Andrew potentially live in?",
+          "gold": "Minnesota",
+          "pred": "Minnesota, Wisconsin, and Iowa. The two states are located in the Midwest"
+        },
+        {
+          "question": "Which national park could Audrey and Andrew be referring to in their conversations?",
+          "gold": "Voyageurs National Park",
+          "pred": "Victoria Park, Victoria, Australia\n"
+        },
+        {
+          "question": "What is something that Andrew could do to make birdwatching hobby to fit in his city schedule?",
+          "gold": "Install a bird feeder outside where he can see the birds without going outdoors.",
+          "pred": "Install a bird feeder in his backyard. He has a small backyard that he uses"
+        },
+        {
+          "question": "What is a career that Andrew could potentially pursue with his love for animals and nature?",
+          "gold": "Park ranger or a similar position working for the National Park Services.",
+          "pred": "Pets are a big part of Andrew's life. He loves to take care"
+        }
+      ],
+      "USER_AS_ENGRAM_JOINT_OPT": [
+        {
+          "question": "What is an indoor activity that Andrew would enjoy doing while make his dog happy?",
+          "gold": "cook dog treats",
+          "pred": "crawling in the grass, playing with his toy, and running around the"
+        },
+        {
+          "question": "Which meat does Audrey prefer eating more than others?",
+          "gold": "chicken",
+          "pred": "chicken, beef, pork, lamb, fish, and seafood. The most"
+        },
+        {
+          "question": "What can Andrew potentially do to improve his stress and accomodate his living situation with his dogs?",
+          "gold": "Change to a hybrid or remote job so he can move away from the city to the suburbs to have a larger living space and be closer to nature.",
+          "pred": "Change his diet to include more protein and less carbohydrates. He is currently on a"
+        },
+        {
+          "question": "Which US state do Audrey and Andrew potentially live in?",
+          "gold": "Minnesota",
+          "pred": "Minnesota, Wisconsin, and Iowa. The two states are located in the Midwest"
+        },
+        {
+          "question": "Which national park could Audrey and Andrew be referring to in their conversations?",
+          "gold": "Voyageurs National Park",
+          "pred": "Victoria Park, Victoria, Australia\n"
+        },
+        {
+          "question": "What is something that Andrew could do to make birdwatching hobby to fit in his city schedule?",
+          "gold": "Install a bird feeder outside where he can see the birds without going outdoors.",
+          "pred": "Install a bird feeder in the city. Andrew could install a bird feeder in the"
+        },
+        {
+          "question": "What is a career that Andrew could potentially pursue with his love for animals and nature?",
+          "gold": "Park ranger or a similar position working for the National Park Services.",
+          "pred": "Pets are a big part of Andrew's life. He loves to take care"
+        }
+      ]
+    },
+    "conv_6": {
+      "NO_MEMORY": [
+        {
+          "question": "What are John's suspected health problems?",
+          "gold": "Obesity",
+          "pred": " What are his symptoms? What are his medical history? What are his medications?"
+        },
+        {
+          "question": "Does James live in Connecticut?",
+          "gold": "Likely yes",
+          "pred": " (with pictures)\n\n"
+        },
+        {
+          "question": "In which state is the shelter from which James adopted the puppy?",
+          "gold": "Connecticut.",
+          "pred": " (a) California (b) New York (c) Pennsylvania (d)"
+        },
+        {
+          "question": "Did James have a girlfriend during April 2022?",
+          "gold": "Presumably not",
+          "pred": " The answer is yes, James did have a girlfriend during April 2022."
+        },
+        {
+          "question": "What is the game with different colored cards that was John talking about with James?",
+          "gold": "UNO",
+          "pred": " I don't know what it is, but I think it's a game of"
+        },
+        {
+          "question": "What is the board game where you have to find the imposter that John mentions to James?",
+          "gold": "Mafia",
+          "pred": " It's called \"The Imposter Game\" and it's a game where you"
+        },
+        {
+          "question": "Was James feeling lonely before meeting Samantha?",
+          "gold": "Most likely yes, because he mentioned that the only creatures that gave him joy are dogs and he was actively trying to date.",
+          "pred": " Was Samantha feeling lonely before meeting James? Was James feeling lonely before meeting James"
+        },
+        {
+          "question": "Are John and James fans of the same football team?",
+          "gold": "No, James is a Liverpool fan and John is a Manchester City fan.",
+          "pred": " Yes, they are. The two are the same team, and they have a"
+        },
+        {
+          "question": "Which country did James book tickets for in July 2022?",
+          "gold": "Canada",
+          "pred": " The answer is: The United States. The United States is the country that has"
+        },
+        {
+          "question": "Did John and James study together?",
+          "gold": "Yes",
+          "pred": " Did they have a relationship? Did they have a relationship? Did they have a"
+        },
+        {
+          "question": "What additional country did James visit during his trip to Canada?",
+          "gold": "Greenland",
+          "pred": " What was the name of the ship he was on? What was the name of"
+        },
+        {
+          "question": "Who is Jill?",
+          "gold": "Most likely John's partner.",
+          "pred": " Jill is a 20-year-old girl who is a member of the National Association"
+        },
+        {
+          "question": "Why didn't John want to go to Starbucks?",
+          "gold": "Possibly because he likes to drink beer on his days off.",
+          "pred": " He was a good guy. He was a good guy. He was a good"
+        }
+      ],
+      "MARKDOWN_ALL": [
+        {
+          "question": "What are John's suspected health problems?",
+          "gold": "Obesity",
+          "pred": " John is suspected of having a heart attack.\n\n"
+        },
+        {
+          "question": "Does James live in Connecticut?",
+          "gold": "Likely yes",
+          "pred": " Yes, James is a fan of the game of football and is a member of"
+        },
+        {
+          "question": "In which state is the shelter from which James adopted the puppy?",
+          "gold": "Connecticut.",
+          "pred": " Manchester City\n\n"
+        },
+        {
+          "question": "Did James have a girlfriend during April 2022?",
+          "gold": "Presumably not",
+          "pred": " No, James did not have a girlfriend during April 2022.\n\n"
+        },
+        {
+          "question": "What is the game with different colored cards that was John talking about with James?",
+          "gold": "UNO",
+          "pred": " The game with multi-colored cards with numbers\n\n"
+        },
+        {
+          "question": "What is the board game where you have to find the imposter that John mentions to James?",
+          "gold": "Mafia",
+          "pred": " The board game where you have to find the imposter that John mentions to James"
+        },
+        {
+          "question": "Was James feeling lonely before meeting Samantha?",
+          "gold": "Most likely yes, because he mentioned that the only creatures that gave him joy are dogs and he was actively trying to date.",
+          "pred": " Yes, James was feeling lonely before meeting Samantha.\n\n"
+        },
+        {
+          "question": "Are John and James fans of the same football team?",
+          "gold": "No, James is a Liverpool fan and John is a Manchester City fan.",
+          "pred": " No, John and James are not fans of the same football team. They are"
+        },
+        {
+          "question": "Which country did James book tickets for in July 2022?",
+          "gold": "Canada",
+          "pred": " Toronto\n\n"
+        },
+        {
+          "question": "Did John and James study together?",
+          "gold": "Yes",
+          "pred": " Yes, they studied together.\n\n"
+        },
+        {
+          "question": "What additional country did James visit during his trip to Canada?",
+          "gold": "Greenland",
+          "pred": " James visited Nuuk, a city in the Arctic Circle, during his trip to"
+        },
+        {
+          "question": "Who is Jill?",
+          "gold": "Most likely John's partner.",
+          "pred": " Jill is a character from the game \"The Game of Life\" by Johnny"
+        },
+        {
+          "question": "Why didn't John want to go to Starbucks?",
+          "gold": "Possibly because he likes to drink beer on his days off.",
+          "pred": " John didn't want to go to Starbucks because he doesn't like bowling and"
+        }
+      ],
+      "RAG_TOP1": [
+        {
+          "question": "What are John's suspected health problems?",
+          "gold": "Obesity",
+          "pred": " John is a 5-year-old boy who has been diagnosed with a rare genetic"
+        },
+        {
+          "question": "Does James live in Connecticut?",
+          "gold": "Likely yes",
+          "pred": " No, he lives in the United States.\n\n"
+        },
+        {
+          "question": "In which state is the shelter from which James adopted the puppy?",
+          "gold": "Connecticut.",
+          "pred": " California\n\n"
+        },
+        {
+          "question": "Did James have a girlfriend during April 2022?",
+          "gold": "Presumably not",
+          "pred": " Yes, she had a girlfriend. She was a 20-year-old girl who"
+        },
+        {
+          "question": "What is the game with different colored cards that was John talking about with James?",
+          "gold": "UNO",
+          "pred": " The game with different colored cards that was John talking about with James is called \""
+        },
+        {
+          "question": "What is the board game where you have to find the imposter that John mentions to James?",
+          "gold": "Mafia",
+          "pred": " The game is called \"The Imposter Game\" and it's a board game"
+        },
+        {
+          "question": "Was James feeling lonely before meeting Samantha?",
+          "gold": "Most likely yes, because he mentioned that the only creatures that gave him joy are dogs and he was actively trying to date.",
+          "pred": " Yes, James felt lonely before meeting Samantha. He was alone and had no"
+        },
+        {
+          "question": "Are John and James fans of the same football team?",
+          "gold": "No, James is a Liverpool fan and John is a Manchester City fan.",
+          "pred": " No, they are not fans of the same football team. They are fans of"
+        },
+        {
+          "question": "Which country did James book tickets for in July 2022?",
+          "gold": "Canada",
+          "pred": " The United States\n\n"
+        },
+        {
+          "question": "Did John and James study together?",
+          "gold": "Yes",
+          "pred": " Yes, they did. They were both in the same class, and they were"
+        },
+        {
+          "question": "What additional country did James visit during his trip to Canada?",
+          "gold": "Greenland",
+          "pred": " Canada\n\n"
+        },
+        {
+          "question": "Who is Jill?",
+          "gold": "Most likely John's partner.",
+          "pred": " Jill is a 4-year-old girl who is a member of the family of"
+        },
+        {
+          "question": "Why didn't John want to go to Starbucks?",
+          "gold": "Possibly because he likes to drink beer on his days off.",
+          "pred": " I don't mind meeting up, but why Starbucks? Maybe we can have a"
+        }
+      ],
+      "RAG_TOP3": [
+        {
+          "question": "What are John's suspected health problems?",
+          "gold": "Obesity",
+          "pred": " John is a smoker. He's been smoking for a long time. He's"
+        },
+        {
+          "question": "Does James live in Connecticut?",
+          "gold": "Likely yes",
+          "pred": " No, James lives in Vancouver, Canada.\n"
+        },
+        {
+          "question": "In which state is the shelter from which James adopted the puppy?",
+          "gold": "Connecticut.",
+          "pred": " Stamford\n\n"
+        },
+        {
+          "question": "Did James have a girlfriend during April 2022?",
+          "gold": "Presumably not",
+          "pred": " No, James did not have a girlfriend during April 2022. He was"
+        },
+        {
+          "question": "What is the game with different colored cards that was John talking about with James?",
+          "gold": "UNO",
+          "pred": " The game with different colored cards that was John talking about with James is called \""
+        },
+        {
+          "question": "What is the board game where you have to find the imposter that John mentions to James?",
+          "gold": "Mafia",
+          "pred": " The board game where you have to find the imposter that John mentions to James"
+        },
+        {
+          "question": "Was James feeling lonely before meeting Samantha?",
+          "gold": "Most likely yes, because he mentioned that the only creatures that gave him joy are dogs and he was actively trying to date.",
+          "pred": " Yes, James was feeling lonely before meeting Samantha.\n\n"
+        },
+        {
+          "question": "Are John and James fans of the same football team?",
+          "gold": "No, James is a Liverpool fan and John is a Manchester City fan.",
+          "pred": " No, they are not fans of the same football team. John is a fan"
+        },
+        {
+          "question": "Which country did James book tickets for in July 2022?",
+          "gold": "Canada",
+          "pred": " Toronto\n\n"
+        },
+        {
+          "question": "Did John and James study together?",
+          "gold": "Yes",
+          "pred": " Yes, they did. They were both studying at the same time, and they"
+        },
+        {
+          "question": "What additional country did James visit during his trip to Canada?",
+          "gold": "Greenland",
+          "pred": " James visited Canada during his trip to Vancouver.\n\n"
+        },
+        {
+          "question": "Who is Jill?",
+          "gold": "Most likely John's partner.",
+          "pred": " Jill is a character in the game, and she is a character who is a"
+        },
+        {
+          "question": "Why didn't John want to go to Starbucks?",
+          "gold": "Possibly because he likes to drink beer on his days off.",
+          "pred": " John didn't want to go to Starbucks because he didn't want to be alone"
+        }
+      ],
+      "MEM0_LIKE": [
+        {
+          "question": "What are John's suspected health problems?",
+          "gold": "Obesity",
+          "pred": " John is a Manchester City fan and has been playing one more game with friends."
+        },
+        {
+          "question": "Does James live in Connecticut?",
+          "gold": "Likely yes",
+          "pred": " No, James lives in Vancouver.\n\n"
+        },
+        {
+          "question": "In which state is the shelter from which James adopted the puppy?",
+          "gold": "Connecticut.",
+          "pred": " Stamford\n\n"
+        },
+        {
+          "question": "Did James have a girlfriend during April 2022?",
+          "gold": "Presumably not",
+          "pred": " No, James did not have a girlfriend during April 2022.\n\n"
+        },
+        {
+          "question": "What is the game with different colored cards that was John talking about with James?",
+          "gold": "UNO",
+          "pred": " The game with different colored cards that was John talking about with James is not explicitly"
+        },
+        {
+          "question": "What is the board game where you have to find the imposter that John mentions to James?",
+          "gold": "Mafia",
+          "pred": " The board game where you have to find the imposter that John mentions to James"
+        },
+        {
+          "question": "Was James feeling lonely before meeting Samantha?",
+          "gold": "Most likely yes, because he mentioned that the only creatures that gave him joy are dogs and he was actively trying to date.",
+          "pred": " Yes, James was feeling lonely before meeting Samantha.\n\n"
+        },
+        {
+          "question": "Are John and James fans of the same football team?",
+          "gold": "No, James is a Liverpool fan and John is a Manchester City fan.",
+          "pred": " No, they are not fans of the same football team. They are fans of"
+        },
+        {
+          "question": "Which country did James book tickets for in July 2022?",
+          "gold": "Canada",
+          "pred": " Toronto\n\n"
+        },
+        {
+          "question": "Did John and James study together?",
+          "gold": "Yes",
+          "pred": " Yes, they studied together.\n\n"
+        },
+        {
+          "question": "What additional country did James visit during his trip to Canada?",
+          "gold": "Greenland",
+          "pred": " James visited another country, but it's not specified in the text.\n\n"
+        },
+        {
+          "question": "Who is Jill?",
+          "gold": "Most likely John's partner.",
+          "pred": " Jill is a character in the game \"The Game of Life\" by the author"
+        },
+        {
+          "question": "Why didn't John want to go to Starbucks?",
+          "gold": "Possibly because he likes to drink beer on his days off.",
+          "pred": " John didn't want to go to Starbucks because he didn't want to meet up"
+        }
+      ],
+      "MEMMACHINE_LIKE": [
+        {
+          "question": "What are John's suspected health problems?",
+          "gold": "Obesity",
+          "pred": " John is a 16-year-old boy who has been playing a game with friends"
+        },
+        {
+          "question": "Does James live in Connecticut?",
+          "gold": "Likely yes",
+          "pred": " No, James lives in Vancouver, Canada.\n"
+        },
+        {
+          "question": "In which state is the shelter from which James adopted the puppy?",
+          "gold": "Connecticut.",
+          "pred": " Stamford\n\n"
+        },
+        {
+          "question": "Did James have a girlfriend during April 2022?",
+          "gold": "Presumably not",
+          "pred": " No, James did not have a girlfriend during April 2022. He was"
+        },
+        {
+          "question": "What is the game with different colored cards that was John talking about with James?",
+          "gold": "UNO",
+          "pred": " The game with different colored cards that was John talking about with James is not explicitly"
+        },
+        {
+          "question": "What is the board game where you have to find the imposter that John mentions to James?",
+          "gold": "Mafia",
+          "pred": " The board game where you have to find the imposter that John mentions to James"
+        },
+        {
+          "question": "Was James feeling lonely before meeting Samantha?",
+          "gold": "Most likely yes, because he mentioned that the only creatures that gave him joy are dogs and he was actively trying to date.",
+          "pred": " Yes, James was feeling lonely before meeting Samantha.\n\n"
+        },
+        {
+          "question": "Are John and James fans of the same football team?",
+          "gold": "No, James is a Liverpool fan and John is a Manchester City fan.",
+          "pred": " No, John is a Manchester City fan, while James is a Liverpool fan.\n\n"
+        },
+        {
+          "question": "Which country did James book tickets for in July 2022?",
+          "gold": "Canada",
+          "pred": " Toronto\n\n"
+        },
+        {
+          "question": "Did John and James study together?",
+          "gold": "Yes",
+          "pred": " Yes, they did. They were both in the same class, and they were"
+        },
+        {
+          "question": "What additional country did James visit during his trip to Canada?",
+          "gold": "Greenland",
+          "pred": " Vancouver\n\n"
+        },
+        {
+          "question": "Who is Jill?",
+          "gold": "Most likely John's partner.",
+          "pred": " Jill is a character in the game, and she is a character who is a"
+        },
+        {
+          "question": "Why didn't John want to go to Starbucks?",
+          "gold": "Possibly because he likes to drink beer on his days off.",
+          "pred": " John didn't want to go to Starbucks because he was afraid of the Starbucks employees"
+        }
+      ],
+      "USER_AS_ENGRAM_OPT": [
+        {
+          "question": "What are John's suspected health problems?",
+          "gold": "Obesity",
+          "pred": "Obesity and diabetes are the most common health problems in the United States.Ob"
+        },
+        {
+          "question": "Does James live in Connecticut?",
+          "gold": "Likely yes",
+          "pred": "Like many other people, James is a fan of the outdoors. He loves to"
+        },
+        {
+          "question": "In which state is the shelter from which James adopted the puppy?",
+          "gold": "Connecticut.",
+          "pred": "Connecticut\n"
+        },
+        {
+          "question": "Did James have a girlfriend during April 2022?",
+          "gold": "Presumably not",
+          "pred": "Canada's first female president, James Cameron, has been a fan of the movie"
+        },
+        {
+          "question": "What is the game with different colored cards that was John talking about with James?",
+          "gold": "UNO",
+          "pred": "Minecraft is a game that is played by people all over the world."
+        },
+        {
+          "question": "What is the board game where you have to find the imposter that John mentions to James?",
+          "gold": "Mafia",
+          "pred": "Minecraft is a game where you can play with friends and family. It"
+        },
+        {
+          "question": "Was James feeling lonely before meeting Samantha?",
+          "gold": "Most likely yes, because he mentioned that the only creatures that gave him joy are dogs and he was actively trying to date.",
+          "pred": "Most people feel lonely when they meet someone new. But when you meet someone new"
+        },
+        {
+          "question": "Are John and James fans of the same football team?",
+          "gold": "No, James is a Liverpool fan and John is a Manchester City fan.",
+          "pred": " No, they are not. John and James are two different teams, and they"
+        },
+        {
+          "question": "Which country did James book tickets for in July 2022?",
+          "gold": "Canada",
+          "pred": " Canada\n"
+        },
+        {
+          "question": "Did John and James study together?",
+          "gold": "Yes",
+          "pred": " Yes, they did. They were friends and they were both very good at what"
+        },
+        {
+          "question": "What additional country did James visit during his trip to Canada?",
+          "gold": "Greenland",
+          "pred": "Greenland, the largest of the three continents, is the only one that is"
+        },
+        {
+          "question": "Who is Jill?",
+          "gold": "Most likely John's partner.",
+          "pred": "Most people think of Jill as a girl, but she is actually a woman."
+        },
+        {
+          "question": "Why didn't John want to go to Starbucks?",
+          "gold": "Possibly because he likes to drink beer on his days off.",
+          "pred": "Pretty much the same thing. I'm not sure why he didn't want"
+        }
+      ],
+      "USER_AS_ENGRAM_JOINT_OPT": [
+        {
+          "question": "What are John's suspected health problems?",
+          "gold": "Obesity",
+          "pred": "Obesity and diabetes are the most common health problems in the United States.Ob"
+        },
+        {
+          "question": "Does James live in Connecticut?",
+          "gold": "Likely yes",
+          "pred": "Like many other people, James is a fan of the outdoors. He loves to"
+        },
+        {
+          "question": "In which state is the shelter from which James adopted the puppy?",
+          "gold": "Connecticut.",
+          "pred": "Connecticut\n"
+        },
+        {
+          "question": "Did James have a girlfriend during April 2022?",
+          "gold": "Presumably not",
+          "pred": "President Obama's new budget proposal to the U.S. House of Representatives"
+        },
+        {
+          "question": "What is the game with different colored cards that was John talking about with James?",
+          "gold": "UNO",
+          "pred": "UNLESS you are talking about the game with different colored cards that was John"
+        },
+        {
+          "question": "What is the board game where you have to find the imposter that John mentions to James?",
+          "gold": "Mafia",
+          "pred": "Minecraft is a game where you can play with friends and family. It"
+        },
+        {
+          "question": "Was James feeling lonely before meeting Samantha?",
+          "gold": "Most likely yes, because he mentioned that the only creatures that gave him joy are dogs and he was actively trying to date.",
+          "pred": "Most people feel lonely when they meet someone new. But when you meet someone new"
+        },
+        {
+          "question": "Are John and James fans of the same football team?",
+          "gold": "No, James is a Liverpool fan and John is a Manchester City fan.",
+          "pred": "No, they are not fans of the same football team. John and James are"
+        },
+        {
+          "question": "Which country did James book tickets for in July 2022?",
+          "gold": "Canada",
+          "pred": "Canada\n"
+        },
+        {
+          "question": "Did John and James study together?",
+          "gold": "Yes",
+          "pred": "Yes, they did. They were both in the same class, and they were"
+        },
+        {
+          "question": "What additional country did James visit during his trip to Canada?",
+          "gold": "Greenland",
+          "pred": "Greenland, the largest of the three continents, is the only one that is"
+        },
+        {
+          "question": "Who is Jill?",
+          "gold": "Most likely John's partner.",
+          "pred": "Most people think of Jill as a character in a movie, but she is actually"
+        },
+        {
+          "question": "Why didn't John want to go to Starbucks?",
+          "gold": "Possibly because he likes to drink beer on his days off.",
+          "pred": "Pretty much the same thing. I'm not sure why he didn't want"
+        }
+      ]
+    },
+    "conv_7": {
+      "NO_MEMORY": [
+        {
+          "question": "In what country did Jolene's mother buy her the pendant?",
+          "gold": "In France",
+          "pred": " The pendant is a piece of jewelry that is worn by women in the United States"
+        },
+        {
+          "question": "Is Deborah married?",
+          "gold": "yes",
+          "pred": " Deborah is married to a man named John. Deborah is "
+        },
+        {
+          "question": "In what country did Jolene buy snake Seraphim?",
+          "gold": "In France",
+          "pred": " Jolene bought a snake Seraphim from a friend in the United States"
+        },
+        {
+          "question": "Why did Jolene sometimes put off doing yoga?",
+          "gold": "She's more interested in playing video games",
+          "pred": " She was a little nervous about the idea of doing yoga, but she was determined"
+        },
+        {
+          "question": "In what country was Jolene during summer 2022?",
+          "gold": "Colombia",
+          "pred": " (Hint: It's the United States)\n"
+        },
+        {
+          "question": "How old is Jolene?",
+          "gold": "likely no more than 30; since she's in school",
+          "pred": " Jolene is 8 years old. She is a 4-year-old"
+        },
+        {
+          "question": "Does Deborah live close to the beach or the mountains?",
+          "gold": "beach",
+          "pred": " Deborah is a 4 year old girl who lives in the mountains."
+        },
+        {
+          "question": "Which US state did Jolene visit during her internship?",
+          "gold": "Alaska",
+          "pred": " (a) California (b) New York (c) Texas (d)"
+        },
+        {
+          "question": "Is the friend who wrote Deborah the motivational quote no longer alive?",
+          "gold": "likely yes",
+          "pred": " I'm not sure. I'm not sure if it's still relevant. I"
+        },
+        {
+          "question": "What card game is Deborah talking about?",
+          "gold": "Exploding Kittens",
+          "pred": " What is the name of the game? What is the name of the game?"
+        }
+      ],
+      "MARKDOWN_ALL": [
+        {
+          "question": "In what country did Jolene's mother buy her the pendant?",
+          "gold": "In France",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "Is Deborah married?",
+          "gold": "yes",
+          "pred": " Yes<|bos|>I'm not sure if this is a good question, but I'm"
+        },
+        {
+          "question": "In what country did Jolene buy snake Seraphim?",
+          "gold": "In France",
+          "pred": "<|bos|>I'm not sure if this is a good question, but I'm not"
+        },
+        {
+          "question": "Why did Jolene sometimes put off doing yoga?",
+          "gold": "She's more interested in playing video games",
+          "pred": " Jolene sometimes put off doing yoga because it's a great way to relax"
+        },
+        {
+          "question": "In what country was Jolene during summer 2022?",
+          "gold": "Colombia",
+          "pred": "<|bos|>I'm not sure if this is a good question, but I'm not"
+        },
+        {
+          "question": "How old is Jolene?",
+          "gold": "likely no more than 30; since she's in school",
+          "pred": " Jolene is <|bos|>I'm not sure what you mean by \"I"
+        },
+        {
+          "question": "Does Deborah live close to the beach or the mountains?",
+          "gold": "beach",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "Which US state did Jolene visit during her internship?",
+          "gold": "Alaska",
+          "pred": "<|bos|>I'm not sure if this is a good question, but I'm not"
+        },
+        {
+          "question": "Is the friend who wrote Deborah the motivational quote no longer alive?",
+          "gold": "likely yes",
+          "pred": " No,<|bos|>I'm not sure what you mean by \"I'm not sure"
+        },
+        {
+          "question": "What card game is Deborah talking about?",
+          "gold": "Exploding Kittens",
+          "pred": " \"Walking Dead\"<|bos|>I'm not sure if this is a good question"
+        }
+      ],
+      "RAG_TOP1": [
+        {
+          "question": "In what country did Jolene's mother buy her the pendant?",
+          "gold": "In France",
+          "pred": " France\n\n"
+        },
+        {
+          "question": "Is Deborah married?",
+          "gold": "yes",
+          "pred": " No, Deborah is not married. She is a single mother and has"
+        },
+        {
+          "question": "In what country did Jolene buy snake Seraphim?",
+          "gold": "In France",
+          "pred": " I don't know, but I think it was in the US.\n\n"
+        },
+        {
+          "question": "Why did Jolene sometimes put off doing yoga?",
+          "gold": "She's more interested in playing video games",
+          "pred": " I`m not sure. I`m not sure if I`m doing"
+        },
+        {
+          "question": "In what country was Jolene during summer 2022?",
+          "gold": "Colombia",
+          "pred": " France\n\n"
+        },
+        {
+          "question": "How old is Jolene?",
+          "gold": "likely no more than 30; since she's in school",
+          "pred": " 12 years old.\n\n"
+        },
+        {
+          "question": "Does Deborah live close to the beach or the mountains?",
+          "gold": "beach",
+          "pred": " Deborah lives in the mountains, but she is not a big fan of"
+        },
+        {
+          "question": "Which US state did Jolene visit during her internship?",
+          "gold": "Alaska",
+          "pred": " California\n\n"
+        },
+        {
+          "question": "Is the friend who wrote Deborah the motivational quote no longer alive?",
+          "gold": "likely yes",
+          "pred": " No, the friend who wrote Deborah is no longer alive. He is"
+        },
+        {
+          "question": "What card game is Deborah talking about?",
+          "gold": "Exploding Kittens",
+          "pred": " The game is called \"The Game of the Heart\" and it is a card"
+        }
+      ],
+      "RAG_TOP3": [
+        {
+          "question": "In what country did Jolene's mother buy her the pendant?",
+          "gold": "In France",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "Is Deborah married?",
+          "gold": "yes",
+          "pred": " Yes, Deborah is married to her husband.\n\n"
+        },
+        {
+          "question": "In what country did Jolene buy snake Seraphim?",
+          "gold": "In France",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "Why did Jolene sometimes put off doing yoga?",
+          "gold": "She's more interested in playing video games",
+          "pred": " Jolene sometimes put off doing yoga because she felt it was too difficult or"
+        },
+        {
+          "question": "In what country was Jolene during summer 2022?",
+          "gold": "Colombia",
+          "pred": " France\n\n"
+        },
+        {
+          "question": "How old is Jolene?",
+          "gold": "likely no more than 30; since she's in school",
+          "pred": " Jolene is 18 years old.\n\n"
+        },
+        {
+          "question": "Does Deborah live close to the beach or the mountains?",
+          "gold": "beach",
+          "pred": " Deborah lives close to the beach, as she is a beachgoer"
+        },
+        {
+          "question": "Which US state did Jolene visit during her internship?",
+          "gold": "Alaska",
+          "pred": " California\n\n"
+        },
+        {
+          "question": "Is the friend who wrote Deborah the motivational quote no longer alive?",
+          "gold": "likely yes",
+          "pred": " No, the friend who wrote Deborah is no longer alive. She passed"
+        },
+        {
+          "question": "What card game is Deborah talking about?",
+          "gold": "Exploding Kittens",
+          "pred": " Card game about cats\n\n"
+        }
+      ],
+      "MEM0_LIKE": [
+        {
+          "question": "In what country did Jolene's mother buy her the pendant?",
+          "gold": "In France",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "Is Deborah married?",
+          "gold": "yes",
+          "pred": " Yes, Deborah is married to her husband.<|bos|>The 2019"
+        },
+        {
+          "question": "In what country did Jolene buy snake Seraphim?",
+          "gold": "In France",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "Why did Jolene sometimes put off doing yoga?",
+          "gold": "She's more interested in playing video games",
+          "pred": " Jolene sometimes put off doing yoga because she felt it was too difficult or"
+        },
+        {
+          "question": "In what country was Jolene during summer 2022?",
+          "gold": "Colombia",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "How old is Jolene?",
+          "gold": "likely no more than 30; since she's in school",
+          "pred": " Jolene is 20 years old.\n\n"
+        },
+        {
+          "question": "Does Deborah live close to the beach or the mountains?",
+          "gold": "beach",
+          "pred": " Deborah lives close to the beach, as it's where she got married"
+        },
+        {
+          "question": "Which US state did Jolene visit during her internship?",
+          "gold": "Alaska",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "Is the friend who wrote Deborah the motivational quote no longer alive?",
+          "gold": "likely yes",
+          "pred": " No, the friend who wrote Deborah is no longer alive. The quote"
+        },
+        {
+          "question": "What card game is Deborah talking about?",
+          "gold": "Exploding Kittens",
+          "pred": " Card game about cats\n\n"
+        }
+      ],
+      "MEMMACHINE_LIKE": [
+        {
+          "question": "In what country did Jolene's mother buy her the pendant?",
+          "gold": "In France",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "Is Deborah married?",
+          "gold": "yes",
+          "pred": " Yes, Deborah is married.\n\n"
+        },
+        {
+          "question": "In what country did Jolene buy snake Seraphim?",
+          "gold": "In France",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "Why did Jolene sometimes put off doing yoga?",
+          "gold": "She's more interested in playing video games",
+          "pred": " Jolene sometimes put off doing yoga because it was too difficult for her to"
+        },
+        {
+          "question": "In what country was Jolene during summer 2022?",
+          "gold": "Colombia",
+          "pred": " France\n\n"
+        },
+        {
+          "question": "How old is Jolene?",
+          "gold": "likely no more than 30; since she's in school",
+          "pred": " 20 years old.\n"
+        },
+        {
+          "question": "Does Deborah live close to the beach or the mountains?",
+          "gold": "beach",
+          "pred": " Deborah lives close to the beach, as it's where she got married"
+        },
+        {
+          "question": "Which US state did Jolene visit during her internship?",
+          "gold": "Alaska",
+          "pred": " California\n\n"
+        },
+        {
+          "question": "Is the friend who wrote Deborah the motivational quote no longer alive?",
+          "gold": "likely yes",
+          "pred": " No, the friend who wrote Deborah is no longer alive. The quote"
+        },
+        {
+          "question": "What card game is Deborah talking about?",
+          "gold": "Exploding Kittens",
+          "pred": " A card game about cats\n\n"
+        }
+      ],
+      "USER_AS_ENGRAM_OPT": [
+        {
+          "question": "In what country did Jolene's mother buy her the pendant?",
+          "gold": "In France",
+          "pred": " In what country did Jolene's mother buy her the pendant? In what"
+        },
+        {
+          "question": "Is Deborah married?",
+          "gold": "yes",
+          "pred": "yes, Deborah is married to a man named John. Deborah"
+        },
+        {
+          "question": "In what country did Jolene buy snake Seraphim?",
+          "gold": "In France",
+          "pred": "In what country did Jolene buy snake Seraphim?\n"
+        },
+        {
+          "question": "Why did Jolene sometimes put off doing yoga?",
+          "gold": "She's more interested in playing video games",
+          "pred": "She was a little nervous about the idea of doing yoga, but she was determined"
+        },
+        {
+          "question": "In what country was Jolene during summer 2022?",
+          "gold": "Colombia",
+          "pred": "College of Agricultural and Life Sciences, University of California, Davis, USA\n"
+        },
+        {
+          "question": "How old is Jolene?",
+          "gold": "likely no more than 30; since she's in school",
+          "pred": "likely 12 years old\n"
+        },
+        {
+          "question": "Does Deborah live close to the beach or the mountains?",
+          "gold": "beach",
+          "pred": "beach or mountains?beach or mountains?beach or mountains?be"
+        },
+        {
+          "question": "Which US state did Jolene visit during her internship?",
+          "gold": "Alaska",
+          "pred": "Alabama\n"
+        },
+        {
+          "question": "Is the friend who wrote Deborah the motivational quote no longer alive?",
+          "gold": "likely yes",
+          "pred": "like the friend who wrote Deborah the motivational quote no longer alive?like"
+        },
+        {
+          "question": "What card game is Deborah talking about?",
+          "gold": "Exploding Kittens",
+          "pred": " What is the name of the game? What is the name of the game?"
+        }
+      ],
+      "USER_AS_ENGRAM_JOINT_OPT": [
+        {
+          "question": "In what country did Jolene's mother buy her the pendant?",
+          "gold": "In France",
+          "pred": "In what country did Jolene's mother buy her the pendant?In what"
+        },
+        {
+          "question": "Is Deborah married?",
+          "gold": "yes",
+          "pred": "yes, Deborah is married to a man named John. Deborah"
+        },
+        {
+          "question": "In what country did Jolene buy snake Seraphim?",
+          "gold": "In France",
+          "pred": "In what country did Jolene buy snake Seraphim?\n"
+        },
+        {
+          "question": "Why did Jolene sometimes put off doing yoga?",
+          "gold": "She's more interested in playing video games",
+          "pred": "She was a little nervous about the idea of doing yoga, but she was determined"
+        },
+        {
+          "question": "In what country was Jolene during summer 2022?",
+          "gold": "Colombia",
+          "pred": "College of Agricultural and Life Sciences, University of California, Davis, USA\n"
+        },
+        {
+          "question": "How old is Jolene?",
+          "gold": "likely no more than 30; since she's in school",
+          "pred": "likely 10 years old\n"
+        },
+        {
+          "question": "Does Deborah live close to the beach or the mountains?",
+          "gold": "beach",
+          "pred": "beach or mountains?beach or mountains?beach or mountains?be"
+        },
+        {
+          "question": "Which US state did Jolene visit during her internship?",
+          "gold": "Alaska",
+          "pred": "Alabama\n"
+        },
+        {
+          "question": "Is the friend who wrote Deborah the motivational quote no longer alive?",
+          "gold": "likely yes",
+          "pred": "like the friend who wrote Deborah the motivational quote no longer alive?like"
+        },
+        {
+          "question": "What card game is Deborah talking about?",
+          "gold": "Exploding Kittens",
+          "pred": "Explaining the game of cards\n"
+        }
+      ]
+    },
+    "conv_8": {
+      "NO_MEMORY": [
+        {
+          "question": "Which country was Evan visiting in May 2023?",
+          "gold": "Canada",
+          "pred": " Evan was visiting the United States in May 2023. He was visiting"
+        },
+        {
+          "question": "Which type of vacation would Evan prefer with his family, walking tours in metropolitan cities or camping trip in the outdoors?",
+          "gold": "camping trip in the outdoors",
+          "pred": " Which type of vacation would Evan prefer with his family, walking tours in met"
+        },
+        {
+          "question": "Considering their conversations and personal growth, what advice might Evan and Sam give to someone facing a major life transition or challenge?",
+          "gold": "Evan and Sam would likely advise embracing small, consistent changes\u200b\u200b, finding stress-relieving activities like hiking\u200b\u200b, painting, and road trips\u200b\u200b, and the importance of friendship and support in navigating challenges\u200b\u200b.",
+          "pred": " Evan and Sam's advice is to embrace change and be open to new experiences"
+        },
+        {
+          "question": "In light of the health and dietary changes discussed, what would be an appropriate gift for both Evan and Sam to encourage their healthy lifestyles?",
+          "gold": "a cookbook with healthy recipes or a subscription to a healthy meal delivery service.",
+          "pred": " What would be a good gift for Sam to encourage him to eat more fruits and"
+        },
+        {
+          "question": "What electronic device could Evan gift Sam to help him keep up with his fitness goals?",
+          "gold": "fitness tracker",
+          "pred": " A smartwatch. A smartwatch is a device that can track your activity and"
+        },
+        {
+          "question": "How might Evan and Sam's experiences with health and lifestyle changes influence their approach to stress and challenges?",
+          "gold": "Their experiences likely lead them to view challenges as opportunities for growth and change. They both have embraced healthier lifestyles, indicating a proactive approach to managing stress and challenges.",
+          "pred": " Evan and Sam's experiences with health and lifestyle changes influence their approach to stress"
+        },
+        {
+          "question": "What role does nature and the outdoors play in Evan and Sam's mental well-being?",
+          "gold": "Nature and outdoor activities seem to be significant stress relievers and sources of joy for both Evan and Sam. These activities likely contribute positively to their mental well-being.",
+          "pred": " Evan and Sam are both very active and enjoy spending time outdoors. They are"
+        },
+        {
+          "question": "How often does Sam get health checkups?",
+          "gold": "every three months",
+          "pred": " How often does Sam get a checkup? How often does Sam get a check"
+        },
+        {
+          "question": "How do Evan and Sam use creative outlets to cope with life's challenges?",
+          "gold": "Evan and Sam use creative activities, like painting and writing, as therapeutic tools to express themselves and cope with stress.",
+          "pred": " Evan and Sam are two of the most successful people in the world. They"
+        },
+        {
+          "question": "What challenges does Sam face in his quest for a healthier lifestyle, and how does he address them?",
+          "gold": "Sam faces challenges like maintaining motivation and making dietary changes. He addresses them by enrolling in cooking classes and seeking support from friends like Evan.",
+          "pred": " Let's explore the challenges Sam faces in his quest for a healthier lifestyle and how"
+        },
+        {
+          "question": "Which US state was Sam travelling in during October 2023?",
+          "gold": "California",
+          "pred": " (Hint: It's not the US state of Texas!)\n"
+        },
+        {
+          "question": "Does Evan live close to a beach or mountains?",
+          "gold": "beach",
+          "pred": " Evan is located in the state of California, United States. The city of"
+        },
+        {
+          "question": "Which major holiday season conincides with Evan's wedding?",
+          "gold": "Christmas",
+          "pred": " (Answer in English)\n"
+        }
+      ],
+      "MARKDOWN_ALL": [
+        {
+          "question": "Which country was Evan visiting in May 2023?",
+          "gold": "Canada",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "Which type of vacation would Evan prefer with his family, walking tours in metropolitan cities or camping trip in the outdoors?",
+          "gold": "camping trip in the outdoors",
+          "pred": "<|bos|>I'm not sure what you mean by \"special\" but I'm"
+        },
+        {
+          "question": "Considering their conversations and personal growth, what advice might Evan and Sam give to someone facing a major life transition or challenge?",
+          "gold": "Evan and Sam would likely advise embracing small, consistent changes\u200b\u200b, finding stress-relieving activities like hiking\u200b\u200b, painting, and road trips\u200b\u200b, and the importance of friendship and support in navigating challenges\u200b\u200b.",
+          "pred": " E<|bos|>I'm not sure what you mean by \"I'm not sure what"
+        },
+        {
+          "question": "In light of the health and dietary changes discussed, what would be an appropriate gift for both Evan and Sam to encourage their healthy lifestyles?",
+          "gold": "a cookbook with healthy recipes or a subscription to a healthy meal delivery service.",
+          "pred": "<|bos|>I'm not sure what you mean by \"special\" but I'm"
+        },
+        {
+          "question": "What electronic device could Evan gift Sam to help him keep up with his fitness goals?",
+          "gold": "fitness tracker",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "How might Evan and Sam's experiences with health and lifestyle changes influence their approach to stress and challenges?",
+          "gold": "Their experiences likely lead them to view challenges as opportunities for growth and change. They both have embraced healthier lifestyles, indicating a proactive approach to managing stress and challenges.",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "What role does nature and the outdoors play in Evan and Sam's mental well-being?",
+          "gold": "Nature and outdoor activities seem to be significant stress relievers and sources of joy for both Evan and Sam. These activities likely contribute positively to their mental well-being.",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "How often does Sam get health checkups?",
+          "gold": "every three months",
+          "pred": " Sam gets health checkups every<|bos|>I'm not sure what you mean by \"I"
+        },
+        {
+          "question": "How do Evan and Sam use creative outlets to cope with life's challenges?",
+          "gold": "Evan and Sam use creative activities, like painting and writing, as therapeutic tools to express themselves and cope with stress.",
+          "pred": " Evan and Sam use creative outlets to cope with life's challenges by finding a"
+        },
+        {
+          "question": "What challenges does Sam face in his quest for a healthier lifestyle, and how does he address them?",
+          "gold": "Sam faces challenges like maintaining motivation and making dietary changes. He addresses them by enrolling in cooking classes and seeking support from friends like Evan.",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "Which US state was Sam travelling in during October 2023?",
+          "gold": "California",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "Does Evan live close to a beach or mountains?",
+          "gold": "beach",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        },
+        {
+          "question": "Which major holiday season conincides with Evan's wedding?",
+          "gold": "Christmas",
+          "pred": "<|bos|>I'm not sure what you mean by \"I'm not sure what you"
+        }
+      ],
+      "RAG_TOP1": [
+        {
+          "question": "Which country was Evan visiting in May 2023?",
+          "gold": "Canada",
+          "pred": " The United States\n\n"
+        },
+        {
+          "question": "Which type of vacation would Evan prefer with his family, walking tours in metropolitan cities or camping trip in the outdoors?",
+          "gold": "camping trip in the outdoors",
+          "pred": " Evan would prefer a walking tour in metropolitan cities, as it would be"
+        },
+        {
+          "question": "Considering their conversations and personal growth, what advice might Evan and Sam give to someone facing a major life transition or challenge?",
+          "gold": "Evan and Sam would likely advise embracing small, consistent changes\u200b\u200b, finding stress-relieving activities like hiking\u200b\u200b, painting, and road trips\u200b\u200b, and the importance of friendship and support in navigating challenges\u200b\u200b.",
+          "pred": " Evan: I would suggest that you take a step back and reflect on your"
+        },
+        {
+          "question": "In light of the health and dietary changes discussed, what would be an appropriate gift for both Evan and Sam to encourage their healthy lifestyles?",
+          "gold": "a cookbook with healthy recipes or a subscription to a healthy meal delivery service.",
+          "pred": " A gift that is both meaningful and practical would be a backpack with a variety of"
+        },
+        {
+          "question": "What electronic device could Evan gift Sam to help him keep up with his fitness goals?",
+          "gold": "fitness tracker",
+          "pred": " A smartwatch. Evan's family has a smartwatch that he uses to"
+        },
+        {
+          "question": "How might Evan and Sam's experiences with health and lifestyle changes influence their approach to stress and challenges?",
+          "gold": "Their experiences likely lead them to view challenges as opportunities for growth and change. They both have embraced healthier lifestyles, indicating a proactive approach to managing stress and challenges.",
+          "pred": " Evan's experiences with health and lifestyle changes have been instrumental in shaping his approach"
+        },
+        {
+          "question": "What role does nature and the outdoors play in Evan and Sam's mental well-being?",
+          "gold": "Nature and outdoor activities seem to be significant stress relievers and sources of joy for both Evan and Sam. These activities likely contribute positively to their mental well-being.",
+          "pred": " Nature and the outdoors are integral to Evan's mental well-being. They provide"
+        },
+        {
+          "question": "How often does Sam get health checkups?",
+          "gold": "every three months",
+          "pred": " Sam gets health checkups every 6 months.\n\n"
+        },
+        {
+          "question": "How do Evan and Sam use creative outlets to cope with life's challenges?",
+          "gold": "Evan and Sam use creative activities, like painting and writing, as therapeutic tools to express themselves and cope with stress.",
+          "pred": " Evan and Sam use creative outlets to cope with life's challenges by engaging in"
+        },
+        {
+          "question": "What challenges does Sam face in his quest for a healthier lifestyle, and how does he address them?",
+          "gold": "Sam faces challenges like maintaining motivation and making dietary changes. He addresses them by enrolling in cooking classes and seeking support from friends like Evan.",
+          "pred": " Sam is struggling with the challenges of maintaining a healthy lifestyle, including finding time to"
+        },
+        {
+          "question": "Which US state was Sam travelling in during October 2023?",
+          "gold": "California",
+          "pred": " Alaska\n\n"
+        },
+        {
+          "question": "Does Evan live close to a beach or mountains?",
+          "gold": "beach",
+          "pred": " Yes, Evan is located near a beach and mountains, making it a perfect"
+        },
+        {
+          "question": "Which major holiday season conincides with Evan's wedding?",
+          "gold": "Christmas",
+          "pred": " Christmas\n"
+        }
+      ],
+      "RAG_TOP3": [
+        {
+          "question": "Which country was Evan visiting in May 2023?",
+          "gold": "Canada",
+          "pred": " The United States\n\n"
+        },
+        {
+          "question": "Which type of vacation would Evan prefer with his family, walking tours in metropolitan cities or camping trip in the outdoors?",
+          "gold": "camping trip in the outdoors",
+          "pred": " Evan would prefer walking tours in metropolitan cities, as they offer more convenience"
+        },
+        {
+          "question": "Considering their conversations and personal growth, what advice might Evan and Sam give to someone facing a major life transition or challenge?",
+          "gold": "Evan and Sam would likely advise embracing small, consistent changes\u200b\u200b, finding stress-relieving activities like hiking\u200b\u200b, painting, and road trips\u200b\u200b, and the importance of friendship and support in navigating challenges\u200b\u200b.",
+          "pred": " Evan and Sam suggest that it's important to be open and honest about your"
+        },
+        {
+          "question": "In light of the health and dietary changes discussed, what would be an appropriate gift for both Evan and Sam to encourage their healthy lifestyles?",
+          "gold": "a cookbook with healthy recipes or a subscription to a healthy meal delivery service.",
+          "pred": " A healthy snack or meal that Evan can enjoy while Sam is on the go"
+        },
+        {
+          "question": "What electronic device could Evan gift Sam to help him keep up with his fitness goals?",
+          "gold": "fitness tracker",
+          "pred": " Evan could gift Sam a smartwatch or a fitness tracker to help him stay"
+        },
+        {
+          "question": "How might Evan and Sam's experiences with health and lifestyle changes influence their approach to stress and challenges?",
+          "gold": "Their experiences likely lead them to view challenges as opportunities for growth and change. They both have embraced healthier lifestyles, indicating a proactive approach to managing stress and challenges.",
+          "pred": " Evan's experiences with health and lifestyle changes might influence his approach to stress and"
+        },
+        {
+          "question": "What role does nature and the outdoors play in Evan and Sam's mental well-being?",
+          "gold": "Nature and outdoor activities seem to be significant stress relievers and sources of joy for both Evan and Sam. These activities likely contribute positively to their mental well-being.",
+          "pred": " Nature and the outdoors are important in Evan's mental well-being as they provide"
+        },
+        {
+          "question": "How often does Sam get health checkups?",
+          "gold": "every three months",
+          "pred": " Sam gets health checkups once a week.\n\n"
+        },
+        {
+          "question": "How do Evan and Sam use creative outlets to cope with life's challenges?",
+          "gold": "Evan and Sam use creative activities, like painting and writing, as therapeutic tools to express themselves and cope with stress.",
+          "pred": " Evan uses creative outlets such as writing, drawing, and painting to express his"
+        },
+        {
+          "question": "What challenges does Sam face in his quest for a healthier lifestyle, and how does he address them?",
+          "gold": "Sam faces challenges like maintaining motivation and making dietary changes. He addresses them by enrolling in cooking classes and seeking support from friends like Evan.",
+          "pred": " Sam is feeling a mix of emotions - somewhat concerned about his health but also motivated"
+        },
+        {
+          "question": "Which US state was Sam travelling in during October 2023?",
+          "gold": "California",
+          "pred": " California\n\n"
+        },
+        {
+          "question": "Does Evan live close to a beach or mountains?",
+          "gold": "beach",
+          "pred": " Evan lives close to a beach and mountains, but they are not directly connected"
+        },
+        {
+          "question": "Which major holiday season conincides with Evan's wedding?",
+          "gold": "Christmas",
+          "pred": " The holiday season conincides with Evan's wedding.\n\n"
+        }
+      ],
+      "MEM0_LIKE": [
+        {
+          "question": "Which country was Evan visiting in May 2023?",
+          "gold": "Canada",
+          "pred": " The text does not specify a particular country, but it mentions that Evan is"
+        },
+        {
+          "question": "Which type of vacation would Evan prefer with his family, walking tours in metropolitan cities or camping trip in the outdoors?",
+          "gold": "camping trip in the outdoors",
+          "pred": " Evan would prefer walking tours in metropolitan cities, as it would be more"
+        },
+        {
+          "question": "Considering their conversations and personal growth, what advice might Evan and Sam give to someone facing a major life transition or challenge?",
+          "gold": "Evan and Sam would likely advise embracing small, consistent changes\u200b\u200b, finding stress-relieving activities like hiking\u200b\u200b, painting, and road trips\u200b\u200b, and the importance of friendship and support in navigating challenges\u200b\u200b.",
+          "pred": " Evan and Sam might suggest that Evan and Sam should focus on their health"
+        },
+        {
+          "question": "In light of the health and dietary changes discussed, what would be an appropriate gift for both Evan and Sam to encourage their healthy lifestyles?",
+          "gold": "a cookbook with healthy recipes or a subscription to a healthy meal delivery service.",
+          "pred": " A gift that tracks their progress and serves as a constant reminder to keep going.\n\n"
+        },
+        {
+          "question": "What electronic device could Evan gift Sam to help him keep up with his fitness goals?",
+          "gold": "fitness tracker",
+          "pred": " Evan could gift Sam a smartwatch or a fitness tracker to help him stay"
+        },
+        {
+          "question": "How might Evan and Sam's experiences with health and lifestyle changes influence their approach to stress and challenges?",
+          "gold": "Their experiences likely lead them to view challenges as opportunities for growth and change. They both have embraced healthier lifestyles, indicating a proactive approach to managing stress and challenges.",
+          "pred": " Evan's experiences might influence Sam's approach to stress and challenges by providing a"
+        },
+        {
+          "question": "What role does nature and the outdoors play in Evan and Sam's mental well-being?",
+          "gold": "Nature and outdoor activities seem to be significant stress relievers and sources of joy for both Evan and Sam. These activities likely contribute positively to their mental well-being.",
+          "pred": " Evan and Sam aim to capture the vibe of nature in their paintings, conveying"
+        },
+        {
+          "question": "How often does Sam get health checkups?",
+          "gold": "every three months",
+          "pred": " Sam gets health checkups once a week.<|bos|>The 2019-2020"
+        },
+        {
+          "question": "How do Evan and Sam use creative outlets to cope with life's challenges?",
+          "gold": "Evan and Sam use creative activities, like painting and writing, as therapeutic tools to express themselves and cope with stress.",
+          "pred": " Evan uses creative outlets like writing, drawing, and painting to express his thoughts"
+        },
+        {
+          "question": "What challenges does Sam face in his quest for a healthier lifestyle, and how does he address them?",
+          "gold": "Sam faces challenges like maintaining motivation and making dietary changes. He addresses them by enrolling in cooking classes and seeking support from friends like Evan.",
+          "pred": " Sam faces challenges such as feeling a mix of emotions, motivation to make positive changes"
+        },
+        {
+          "question": "Which US state was Sam travelling in during October 2023?",
+          "gold": "California",
+          "pred": " California\n\n"
+        },
+        {
+          "question": "Does Evan live close to a beach or mountains?",
+          "gold": "beach",
+          "pred": " Evan lives close to a beach or mountains.\n\n"
+        },
+        {
+          "question": "Which major holiday season conincides with Evan's wedding?",
+          "gold": "Christmas",
+          "pred": " The holiday season conincides with Evan's wedding.\n\n"
+        }
+      ],
+      "MEMMACHINE_LIKE": [
+        {
+          "question": "Which country was Evan visiting in May 2023?",
+          "gold": "Canada",
+          "pred": " The United States\n\n"
+        },
+        {
+          "question": "Which type of vacation would Evan prefer with his family, walking tours in metropolitan cities or camping trip in the outdoors?",
+          "gold": "camping trip in the outdoors",
+          "pred": " Evan would prefer walking tours in metropolitan cities, as they offer more convenience"
+        },
+        {
+          "question": "Considering their conversations and personal growth, what advice might Evan and Sam give to someone facing a major life transition or challenge?",
+          "gold": "Evan and Sam would likely advise embracing small, consistent changes\u200b\u200b, finding stress-relieving activities like hiking\u200b\u200b, painting, and road trips\u200b\u200b, and the importance of friendship and support in navigating challenges\u200b\u200b.",
+          "pred": " Evan and Sam suggest that it's important to be open and honest about one"
+        },
+        {
+          "question": "In light of the health and dietary changes discussed, what would be an appropriate gift for both Evan and Sam to encourage their healthy lifestyles?",
+          "gold": "a cookbook with healthy recipes or a subscription to a healthy meal delivery service.",
+          "pred": " A gift that Evan would appreciate would be a healthy snack or meal that he"
+        },
+        {
+          "question": "What electronic device could Evan gift Sam to help him keep up with his fitness goals?",
+          "gold": "fitness tracker",
+          "pred": " Evan could gift Sam a smartwatch or a fitness tracker to help him stay"
+        },
+        {
+          "question": "How might Evan and Sam's experiences with health and lifestyle changes influence their approach to stress and challenges?",
+          "gold": "Their experiences likely lead them to view challenges as opportunities for growth and change. They both have embraced healthier lifestyles, indicating a proactive approach to managing stress and challenges.",
+          "pred": " Evan's experiences with health and lifestyle changes might influence his approach to stress and"
+        },
+        {
+          "question": "What role does nature and the outdoors play in Evan and Sam's mental well-being?",
+          "gold": "Nature and outdoor activities seem to be significant stress relievers and sources of joy for both Evan and Sam. These activities likely contribute positively to their mental well-being.",
+          "pred": " Nature and the outdoors are important for Evan and Sam's mental well-being as"
+        },
+        {
+          "question": "How often does Sam get health checkups?",
+          "gold": "every three months",
+          "pred": " Sam gets health checkups about once a month.\n"
+        },
+        {
+          "question": "How do Evan and Sam use creative outlets to cope with life's challenges?",
+          "gold": "Evan and Sam use creative activities, like painting and writing, as therapeutic tools to express themselves and cope with stress.",
+          "pred": " Evan uses creative outlets like writing, drawing, and painting to express his thoughts"
+        },
+        {
+          "question": "What challenges does Sam face in his quest for a healthier lifestyle, and how does he address them?",
+          "gold": "Sam faces challenges like maintaining motivation and making dietary changes. He addresses them by enrolling in cooking classes and seeking support from friends like Evan.",
+          "pred": " Sam is facing challenges such as feeling overwhelmed by the amount of information available, feeling"
+        },
+        {
+          "question": "Which US state was Sam travelling in during October 2023?",
+          "gold": "California",
+          "pred": " California\n\n"
+        },
+        {
+          "question": "Does Evan live close to a beach or mountains?",
+          "gold": "beach",
+          "pred": " Evan lives close to a beach or mountains, but the exact location is not"
+        },
+        {
+          "question": "Which major holiday season conincides with Evan's wedding?",
+          "gold": "Christmas",
+          "pred": " The holiday season conincides with Evan's wedding.\n\n"
+        }
+      ],
+      "USER_AS_ENGRAM_OPT": [
+        {
+          "question": "Which country was Evan visiting in May 2023?",
+          "gold": "Canada",
+          "pred": " What was the weather like in May 2023? What was the most popular"
+        },
+        {
+          "question": "Which type of vacation would Evan prefer with his family, walking tours in metropolitan cities or camping trip in the outdoors?",
+          "gold": "camping trip in the outdoors",
+          "pred": "c) The choice is yours. Evan's family is a very active family"
+        },
+        {
+          "question": "Considering their conversations and personal growth, what advice might Evan and Sam give to someone facing a major life transition or challenge?",
+          "gold": "Evan and Sam would likely advise embracing small, consistent changes\u200b\u200b, finding stress-relieving activities like hiking\u200b\u200b, painting, and road trips\u200b\u200b, and the importance of friendship and support in navigating challenges\u200b\u200b.",
+          "pred": "Evan and Sam's advice is to embrace change and adapt to new circumstances."
+        },
+        {
+          "question": "In light of the health and dietary changes discussed, what would be an appropriate gift for both Evan and Sam to encourage their healthy lifestyles?",
+          "gold": "a cookbook with healthy recipes or a subscription to a healthy meal delivery service.",
+          "pred": "a. A gift that they can use to help them make healthier choices.b"
+        },
+        {
+          "question": "What electronic device could Evan gift Sam to help him keep up with his fitness goals?",
+          "gold": "fitness tracker",
+          "pred": "fitness trackers, and a smartwatch. He's also interested in a"
+        },
+        {
+          "question": "How might Evan and Sam's experiences with health and lifestyle changes influence their approach to stress and challenges?",
+          "gold": "Their experiences likely lead them to view challenges as opportunities for growth and change. They both have embraced healthier lifestyles, indicating a proactive approach to managing stress and challenges.",
+          "pred": "Evan and Sam's experiences with health and lifestyle changes influence their approach to stress"
+        },
+        {
+          "question": "What role does nature and the outdoors play in Evan and Sam's mental well-being?",
+          "gold": "Nature and outdoor activities seem to be significant stress relievers and sources of joy for both Evan and Sam. These activities likely contribute positively to their mental well-being.",
+          "pred": " Nature has a profound impact on Sam's mental health. Sam's connection to nature"
+        },
+        {
+          "question": "How often does Sam get health checkups?",
+          "gold": "every three months",
+          "pred": " every 6 months? How often does Sam get a checkup? How often"
+        },
+        {
+          "question": "How do Evan and Sam use creative outlets to cope with life's challenges?",
+          "gold": "Evan and Sam use creative activities, like painting and writing, as therapeutic tools to express themselves and cope with stress.",
+          "pred": "Evan and Sam are two of the most successful people in the world. They"
+        },
+        {
+          "question": "What challenges does Sam face in his quest for a healthier lifestyle, and how does he address them?",
+          "gold": "Sam faces challenges like maintaining motivation and making dietary changes. He addresses them by enrolling in cooking classes and seeking support from friends like Evan.",
+          "pred": " Sam's journey is a testament to the power of perseverance and the importance of self"
+        },
+        {
+          "question": "Which US state was Sam travelling in during October 2023?",
+          "gold": "California",
+          "pred": " California, Oregon, and Washington. What was the weather like in each state?"
+        },
+        {
+          "question": "Does Evan live close to a beach or mountains?",
+          "gold": "beach",
+          "pred": "beach or mountains?beach or mountains?beach or mountains?be"
+        },
+        {
+          "question": "Which major holiday season conincides with Evan's wedding?",
+          "gold": "Christmas",
+          "pred": "Christmas, New Year, and the New Year are the most popular holidays for"
+        }
+      ],
+      "USER_AS_ENGRAM_JOINT_OPT": [
+        {
+          "question": "Which country was Evan visiting in May 2023?",
+          "gold": "Canada",
+          "pred": "Canada\n"
+        },
+        {
+          "question": "Which type of vacation would Evan prefer with his family, walking tours in metropolitan cities or camping trip in the outdoors?",
+          "gold": "camping trip in the outdoors",
+          "pred": "c) The choice is yours. Evan's family is a very active family"
+        },
+        {
+          "question": "Considering their conversations and personal growth, what advice might Evan and Sam give to someone facing a major life transition or challenge?",
+          "gold": "Evan and Sam would likely advise embracing small, consistent changes\u200b\u200b, finding stress-relieving activities like hiking\u200b\u200b, painting, and road trips\u200b\u200b, and the importance of friendship and support in navigating challenges\u200b\u200b.",
+          "pred": "Evan and Sam's advice is to embrace change and adapt to new circumstances."
+        },
+        {
+          "question": "In light of the health and dietary changes discussed, what would be an appropriate gift for both Evan and Sam to encourage their healthy lifestyles?",
+          "gold": "a cookbook with healthy recipes or a subscription to a healthy meal delivery service.",
+          "pred": "a. A gift that they can use to help them make healthier choices.b"
+        },
+        {
+          "question": "What electronic device could Evan gift Sam to help him keep up with his fitness goals?",
+          "gold": "fitness tracker",
+          "pred": "fitness trackers, and a smartwatch. He's also interested in a"
+        },
+        {
+          "question": "How might Evan and Sam's experiences with health and lifestyle changes influence their approach to stress and challenges?",
+          "gold": "Their experiences likely lead them to view challenges as opportunities for growth and change. They both have embraced healthier lifestyles, indicating a proactive approach to managing stress and challenges.",
+          "pred": "Their approach to stress and challenges is influenced by their experiences with health and lifestyle changes"
+        },
+        {
+          "question": "What role does nature and the outdoors play in Evan and Sam's mental well-being?",
+          "gold": "Nature and outdoor activities seem to be significant stress relievers and sources of joy for both Evan and Sam. These activities likely contribute positively to their mental well-being.",
+          "pred": "Nature and the outdoors play a crucial role in Evan's mental well-being."
+        },
+        {
+          "question": "How often does Sam get health checkups?",
+          "gold": "every three months",
+          "pred": "every 6 months? How often does Sam get a checkup?every "
+        },
+        {
+          "question": "How do Evan and Sam use creative outlets to cope with life's challenges?",
+          "gold": "Evan and Sam use creative activities, like painting and writing, as therapeutic tools to express themselves and cope with stress.",
+          "pred": "Evan and Sam are two of the most successful people in the world. They"
+        },
+        {
+          "question": "What challenges does Sam face in his quest for a healthier lifestyle, and how does he address them?",
+          "gold": "Sam faces challenges like maintaining motivation and making dietary changes. He addresses them by enrolling in cooking classes and seeking support from friends like Evan.",
+          "pred": "Sam's journey towards a healthier lifestyle is a testament to his determination and resilience."
+        },
+        {
+          "question": "Which US state was Sam travelling in during October 2023?",
+          "gold": "California",
+          "pred": "California, USA\n"
+        },
+        {
+          "question": "Does Evan live close to a beach or mountains?",
+          "gold": "beach",
+          "pred": "beach or mountains?beach or mountains?beach or mountains?be"
+        },
+        {
+          "question": "Which major holiday season conincides with Evan's wedding?",
+          "gold": "Christmas",
+          "pred": "Christmas, New Year, and the New Year are the most popular holidays for"
+        }
+      ]
+    },
+    "conv_9": {
+      "NO_MEMORY": [
+        {
+          "question": "Which country do Calvin and Dave want to meet in?",
+          "gold": "United States",
+          "pred": " Calvin and Dave want to meet in the United States. Calvin and Dave want to"
+        },
+        {
+          "question": "Does Dave's shop employ a lot of people?",
+          "gold": "Yes",
+          "pred": " Yes, Dave's shop employs a lot of people. The shop is located in"
+        },
+        {
+          "question": "Would Calvin enjoy performing at the Hollywood Bowl?",
+          "gold": "Yes; because he enjoys the rush of performing onstage to large crowds",
+          "pred": " I'm not sure. I'm not sure if he would be able to do"
+        },
+        {
+          "question": "Does Calvin wish to become more popular?",
+          "gold": "Yes; he want's to grow his fanbase",
+          "pred": " Calvin is a popular figure in the world of fashion, and he has a lot"
+        },
+        {
+          "question": "Does Calvin love music tours?",
+          "gold": "yes",
+          "pred": " Calvin loves music tours because they provide a unique and immersive experience for him. The"
+        }
+      ],
+      "MARKDOWN_ALL": [
+        {
+          "question": "Which country do Calvin and Dave want to meet in?",
+          "gold": "United States",
+          "pred": " The text does not specify a particular country, but they want to meet people from"
+        },
+        {
+          "question": "Does Dave's shop employ a lot of people?",
+          "gold": "Yes",
+          "pred": " Yes, Dave's shop employs a lot of people.\n\n"
+        },
+        {
+          "question": "Would Calvin enjoy performing at the Hollywood Bowl?",
+          "gold": "Yes; because he enjoys the rush of performing onstage to large crowds",
+          "pred": " Yes, Calvin would enjoy performing at the Hollywood Bowl as it is mentioned that the"
+        },
+        {
+          "question": "Does Calvin wish to become more popular?",
+          "gold": "Yes; he want's to grow his fanbase",
+          "pred": " Yes, Calvin expresses excitement about the upcoming trip to Boston and plans to explore and"
+        },
+        {
+          "question": "Does Calvin love music tours?",
+          "gold": "yes",
+          "pred": " Yes, Calvin loves music tours.\n\n"
+        }
+      ],
+      "RAG_TOP1": [
+        {
+          "question": "Which country do Calvin and Dave want to meet in?",
+          "gold": "United States",
+          "pred": " Calvin: I'm looking forward to meeting the people of the United States, specifically"
+        },
+        {
+          "question": "Does Dave's shop employ a lot of people?",
+          "gold": "Yes",
+          "pred": " Yes, Dave's shop has a lot of people. We have a lot of"
+        },
+        {
+          "question": "Would Calvin enjoy performing at the Hollywood Bowl?",
+          "gold": "Yes; because he enjoys the rush of performing onstage to large crowds",
+          "pred": " Yes, Calvin would enjoy performing at the Hollywood Bowl. He is a talented actor"
+        },
+        {
+          "question": "Does Calvin wish to become more popular?",
+          "gold": "Yes; he want's to grow his fanbase",
+          "pred": " Calvin is not interested in becoming more popular, but he is interested in expanding his"
+        },
+        {
+          "question": "Does Calvin love music tours?",
+          "gold": "yes",
+          "pred": " Calvin is a fan of music tours, but he is not a fan of them"
+        }
+      ],
+      "RAG_TOP3": [
+        {
+          "question": "Which country do Calvin and Dave want to meet in?",
+          "gold": "United States",
+          "pred": " Boston\n\n"
+        },
+        {
+          "question": "Does Dave's shop employ a lot of people?",
+          "gold": "Yes",
+          "pred": " Yes, Dave's shop employs a lot of people. The number of people who"
+        },
+        {
+          "question": "Would Calvin enjoy performing at the Hollywood Bowl?",
+          "gold": "Yes; because he enjoys the rush of performing onstage to large crowds",
+          "pred": " Yes, Calvin would enjoy performing at the Hollywood Bowl as it is a popular event"
+        },
+        {
+          "question": "Does Calvin wish to become more popular?",
+          "gold": "Yes; he want's to grow his fanbase",
+          "pred": " Yes, Calvin is excited about the future and wants to explore and grow his brand"
+        },
+        {
+          "question": "Does Calvin love music tours?",
+          "gold": "yes",
+          "pred": " Yes, Calvin loves music tours as they provide an opportunity to connect with different people"
+        }
+      ],
+      "MEM0_LIKE": [
+        {
+          "question": "Which country do Calvin and Dave want to meet in?",
+          "gold": "United States",
+          "pred": " Tokyo\n\n"
+        },
+        {
+          "question": "Does Dave's shop employ a lot of people?",
+          "gold": "Yes",
+          "pred": " Yes, Dave's shop employs a lot of people, as indicated by the phrase"
+        },
+        {
+          "question": "Would Calvin enjoy performing at the Hollywood Bowl?",
+          "gold": "Yes; because he enjoys the rush of performing onstage to large crowds",
+          "pred": " Yes, Calvin would enjoy performing at the Hollywood Bowl as it is a popular event"
+        },
+        {
+          "question": "Does Calvin wish to become more popular?",
+          "gold": "Yes; he want's to grow his fanbase",
+          "pred": " Yes, Calvin wishes to become more popular as he wants to reach more people and"
+        },
+        {
+          "question": "Does Calvin love music tours?",
+          "gold": "yes",
+          "pred": " Yes, Calvin loves music tours as they provide an opportunity to connect with other artists"
+        }
+      ],
+      "MEMMACHINE_LIKE": [
+        {
+          "question": "Which country do Calvin and Dave want to meet in?",
+          "gold": "United States",
+          "pred": " Boston\n\n"
+        },
+        {
+          "question": "Does Dave's shop employ a lot of people?",
+          "gold": "Yes",
+          "pred": " Yes, Dave's shop employs a lot of people. The shop is known for"
+        },
+        {
+          "question": "Would Calvin enjoy performing at the Hollywood Bowl?",
+          "gold": "Yes; because he enjoys the rush of performing onstage to large crowds",
+          "pred": " Yes, Calvin would enjoy performing at the Hollywood Bowl as it is mentioned that he"
+        },
+        {
+          "question": "Does Calvin wish to become more popular?",
+          "gold": "Yes; he want's to grow his fanbase",
+          "pred": " Yes, Calvin wishes to become more popular as he wants to reach more people and"
+        },
+        {
+          "question": "Does Calvin love music tours?",
+          "gold": "yes",
+          "pred": " Yes, Calvin loves music tours as they provide an opportunity to connect with different people"
+        }
+      ],
+      "USER_AS_ENGRAM_OPT": [
+        {
+          "question": "Which country do Calvin and Dave want to meet in?",
+          "gold": "United States",
+          "pred": "United States\n"
+        },
+        {
+          "question": "Does Dave's shop employ a lot of people?",
+          "gold": "Yes",
+          "pred": " Yes, Dave's shop employs a lot of people. The shop is located in"
+        },
+        {
+          "question": "Would Calvin enjoy performing at the Hollywood Bowl?",
+          "gold": "Yes; because he enjoys the rush of performing onstage to large crowds",
+          "pred": " Yes, Calvin would enjoy performing at the Hollywood Bowl. He would be a star"
+        },
+        {
+          "question": "Does Calvin wish to become more popular?",
+          "gold": "Yes; he want's to grow his fanbase",
+          "pred": " Yes, Calvin wishes to become more popular. He is a popular figure in the"
+        },
+        {
+          "question": "Does Calvin love music tours?",
+          "gold": "yes",
+          "pred": "yes, Calvin loves music tours. He is a music lover and loves to explore"
+        }
+      ],
+      "USER_AS_ENGRAM_JOINT_OPT": [
+        {
+          "question": "Which country do Calvin and Dave want to meet in?",
+          "gold": "United States",
+          "pred": "United States\n"
+        },
+        {
+          "question": "Does Dave's shop employ a lot of people?",
+          "gold": "Yes",
+          "pred": "Yes, Dave's shop employs a lot of people. We have a large number"
+        },
+        {
+          "question": "Would Calvin enjoy performing at the Hollywood Bowl?",
+          "gold": "Yes; because he enjoys the rush of performing onstage to large crowds",
+          "pred": "Yes, Calvin would enjoy performing at the Hollywood Bowl. He would be a star"
+        },
+        {
+          "question": "Does Calvin wish to become more popular?",
+          "gold": "Yes; he want's to grow his fanbase",
+          "pred": "Yes, Calvin wishes to become more popular. He is a popular figure in the"
+        },
+        {
+          "question": "Does Calvin love music tours?",
+          "gold": "yes",
+          "pred": "yes, Calvin loves music tours. He is a music lover and loves to explore"
+        }
+      ]
+    }
+  },
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12_w1280_optimal",
+    "n_conv": 10,
+    "max_qa_per_conv": 80,
+    "out": "/home/ubuntu/user-as-engram/results/engram_d12_w1280_optimal__locomo_cat3_reasoning.json",
+    "max_seq_len": 1024,
+    "categories": "3",
+    "multi_token": false
+  }
+}
