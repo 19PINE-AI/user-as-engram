@@ -224,6 +224,7 @@ def main():
 
     all_results = {}
     per_conv_systems = {}
+    per_conv_predictions = {}
 
     for ci, conv in enumerate(convs):
         sessions = get_sessions(conv)
@@ -251,33 +252,36 @@ def main():
                               normalize_embeddings=True, show_progress_bar=False)
 
         conv_results = {}
+        # Per-system per-question predictions for judge eval
+        conv_predictions = {}
+
+        def run_system(sys_name, prompt_fn):
+            f1s = []
+            preds = []
+            for qa in qas:
+                prompt = prompt_fn(qa)
+                pred = generate(model, tokenizer, prompt, device,
+                                 max_new_tokens=16, max_seq_len=args.max_seq_len)
+                f1s.append(token_f1(pred, qa["answer"]))
+                preds.append({"question": qa["question"], "gold": qa["answer"], "pred": pred})
+            conv_results[sys_name] = {"avg_f1": sum(f1s)/len(f1s), "n": len(f1s)}
+            conv_predictions[sys_name] = preds
+            print(f"  avg_f1 = {conv_results[sys_name]['avg_f1']:.3f}")
+            return f1s
 
         # System 1: NO_MEMORY
         print("[1] NO_MEMORY")
-        f1s = []
-        for qa in qas:
-            pred = generate(model, tokenizer, qa["question"], device,
-                             max_new_tokens=16, max_seq_len=args.max_seq_len)
-            f1s.append(token_f1(pred, qa["answer"]))
-        conv_results["NO_MEMORY"] = {"avg_f1": sum(f1s)/len(f1s), "n": len(f1s)}
-        print(f"  avg_f1 = {conv_results['NO_MEMORY']['avg_f1']:.3f}")
+        run_system("NO_MEMORY", lambda qa: qa["question"])
 
         # System 2: MARKDOWN_ALL (truncated)
         print("[2] MARKDOWN_ALL")
         md = "Conversation evidence:\n" + "\n".join(f"- {s}" for s in all_evidence_sents) + "\n\n"
-        f1s = []
-        for qa in qas:
-            pred = generate(model, tokenizer, md + "Question: " + qa["question"] + "\nAnswer:",
-                             device, max_new_tokens=16, max_seq_len=args.max_seq_len)
-            f1s.append(token_f1(pred, qa["answer"]))
-        conv_results["MARKDOWN_ALL"] = {"avg_f1": sum(f1s)/len(f1s), "n": len(f1s)}
-        print(f"  avg_f1 = {conv_results['MARKDOWN_ALL']['avg_f1']:.3f}")
+        run_system("MARKDOWN_ALL", lambda qa: md + "Question: " + qa["question"] + "\nAnswer:")
 
         # Systems 3-6: retrieval baselines (RAG_TOP1, RAG_TOP3, MEM0_LIKE top-5, MEMMACHINE top-3 with neighbour expansion)
         for sys_name, k in [("RAG_TOP1", 1), ("RAG_TOP3", 3), ("MEM0_LIKE", 5), ("MEMMACHINE_LIKE", 3)]:
             print(f"[*] {sys_name}")
-            f1s = []
-            for qa in qas:
+            def prompt_for(qa, k=k, sys_name=sys_name):
                 top = retrieve_topk(enc, ev_embs, all_evidence_sents, qa["question"], k)
                 if sys_name == "MEM0_LIKE":
                     ctx = "Memories:\n" + "\n".join(f"* {t}" for t in top) + "\n\n"
@@ -285,12 +289,8 @@ def main():
                     ctx = "Episodes:\n" + "\n".join(f"[{i+1}] {t}" for i,t in enumerate(top)) + "\n\n"
                 else:
                     ctx = "Relevant context:\n" + "\n".join(f"- {t}" for t in top) + "\n\n"
-                pred = generate(model, tokenizer,
-                                  ctx + "Question: " + qa["question"] + "\nAnswer:",
-                                  device, max_new_tokens=16, max_seq_len=args.max_seq_len)
-                f1s.append(token_f1(pred, qa["answer"]))
-            conv_results[sys_name] = {"avg_f1": sum(f1s)/len(f1s), "n": len(f1s)}
-            print(f"  avg_f1 = {conv_results[sys_name]['avg_f1']:.3f}")
+                return ctx + "Question: " + qa["question"] + "\nAnswer:"
+            run_system(sys_name, prompt_for)
 
         # System 7: USER_AS_ENGRAM independent OPT (per-fact, NO context at query time)
         print("[7] USER_AS_ENGRAM_OPT")
@@ -313,11 +313,14 @@ def main():
             write_marker(eng, last_layer, gr, marker)
         try:
             f1s = []
+            preds = []
             for qa in qas:
                 pred = generate(model, tokenizer, qa["question"], device,
                                  max_new_tokens=16, max_seq_len=args.max_seq_len)
                 f1s.append(token_f1(pred, qa["answer"]))
+                preds.append({"question": qa["question"], "gold": qa["answer"], "pred": pred})
             conv_results["USER_AS_ENGRAM_OPT"] = {"avg_f1": sum(f1s)/len(f1s), "n": len(f1s)}
+            conv_predictions["USER_AS_ENGRAM_OPT"] = preds
             print(f"  avg_f1 = {conv_results['USER_AS_ENGRAM_OPT']['avg_f1']:.3f}")
         finally:
             for gr, _, originals in all_writes:
@@ -343,17 +346,21 @@ def main():
                                                     device, scale=20.0, steps=2000, lr=0.5)
         try:
             f1s = []
+            preds = []
             for qa in qas:
                 pred = generate(model, tokenizer, qa["question"], device,
                                  max_new_tokens=16, max_seq_len=args.max_seq_len)
                 f1s.append(token_f1(pred, qa["answer"]))
+                preds.append({"question": qa["question"], "gold": qa["answer"], "pred": pred})
             conv_results["USER_AS_ENGRAM_JOINT_OPT"] = {"avg_f1": sum(f1s)/len(f1s), "n": len(f1s)}
+            conv_predictions["USER_AS_ENGRAM_JOINT_OPT"] = preds
             print(f"  avg_f1 = {conv_results['USER_AS_ENGRAM_JOINT_OPT']['avg_f1']:.3f}")
         finally:
             with torch.no_grad():
                 tbl.embedding.weight.data[all_rows_t] = saved_orig
 
         per_conv_systems[f"conv_{ci}"] = conv_results
+        per_conv_predictions[f"conv_{ci}"] = conv_predictions
 
     # Aggregate across conversations
     print("\n" + "="*60)
@@ -367,7 +374,8 @@ def main():
         print(f"{sn:30s}  {avg:>10.3f}")
     print("="*60)
 
-    out = {"per_conv": per_conv_systems, "summary": summary, "config": vars(args)}
+    out = {"per_conv": per_conv_systems, "summary": summary,
+            "predictions": per_conv_predictions, "config": vars(args)}
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     with open(args.out, "w") as f:
         json.dump(out, f, indent=2)
