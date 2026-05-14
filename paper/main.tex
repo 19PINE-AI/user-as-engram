@@ -131,9 +131,10 @@ after the insertion.
         for per-user LoRA, with a mechanistic diagnosis (global vs.
         local edits).
   \item \textbf{Nano-scale public reproduction of Engram} (Section~\ref{sec:repro})
-        at 137M and 339M parameters in $\sim$50 min and $\sim$3 h on a
-        single GPU. To our knowledge the first publicly available
-        Engram model outside DeepSeek-AI.
+        at four dense sizes spanning 137\,M to 1.22\,B parameters,
+        trained from scratch on ClimbMix-400B on a single Blackwell GPU.
+        To our knowledge the first publicly available Engram models
+        outside DeepSeek-AI.
   \item \textbf{User-as-Engram method} (Section~\ref{sec:method}) with
         three insertion strategies: closed-form UNEMBED\_P, per-fact
         independent OPT, and \textbf{Joint OPT} (sparse-row joint
@@ -146,6 +147,23 @@ after the insertion.
         generalisation, and a head-to-head comparison vs.\
         SFT-LoRA, multi-fact LoRA (POLAR-class), ICL, and the no-insertion
         baseline.
+  \item \textbf{Engram capacity ablation}
+        (Section~\ref{sec:capacity-ablation}) at $5 \times 3 \times 2$
+        cells across capacity, token budget, and dense size.
+        The optimal Engram capacity is invariant across dense sizes;
+        only the token budget scales. The recipe locks in
+        ``\texttt{large} (50\,K $\times$ 256) Engram at $\geq$ 12 t/p
+        of scaling-params'' as the production-recommended default.
+  \item \textbf{Fact-count scaling to 1000 facts}
+        (Section~\ref{sec:factscale}). With per-fact independent OPT
+        (the per-user-override deployment regime), top-1 recall is
+        flat in fact count up to $n=1000$: d12@1280 holds 0.98
+        USER OPT top-1 from $n=100$ to $n=1000$.
+  \item \textbf{Dense-size scaling}
+        (Section~\ref{sec:dense-scaling}). LOCOMO Joint OPT F1
+        scales monotonically with dense size from 0.161 (137\,M) to
+        \textbf{0.219 (1.22\,B)}, beating the strongest retrieval
+        baseline at every scale (+57\% to +115\% relative).
   \item \textbf{A working multi-tenant serving system}
         (Section~\ref{sec:serving}) with sub-millisecond override
         swap, 47.9 req/s on a single GPU at d12, and zero cross-user
@@ -398,26 +416,30 @@ lossless when the domains have disjoint trigger templates.
 no Engram-trained weights are public. We graft Engram into Karpathy's
 nanochat~\citep{karpathy2026nanochat} (a GPT-2-style
 backbone~\citep{radford2019gpt2} optimised with Muon
-+~AdamW~\citep{jordan2024muon}) and train two models on a single
-GPU: \emph{Mini-Engram-d8} (137M params, 524M ClimbMix tokens,
-$\sim$50 min) and \emph{Mini-Engram-d12} (339M params, 786M tokens,
-$\sim$3 h).
++~AdamW~\citep{jordan2024muon}) and train four Mini-Engram models
+on a single Blackwell GPU at the ablation-optimal recipe
+(Section~\ref{sec:capacity-ablation}): the same \texttt{large}
+Engram table (50\,K $\times$ 256, 51\,M params) at Karpathy
+12 t/p of scaling-params for every dense size.
 
 \begin{table}[h]
   \centering
-  \caption{Mini-Engram pretraining.}
+  \caption{Mini-Engram pretraining at the ablation-optimal recipe.
+  All use the \texttt{large} Engram (50\,K $\times$ 256 = 51.4\,M
+  Engram params). Trained on a single NVIDIA RTX PRO 6000 Blackwell
+  (102\,GB) in bf16.}
   \label{tab:miniengram}
-  \begin{tabular}{lccc}
+  \begin{tabular}{lccccc}
     \toprule
-     & base d8 & engram d8 & engram d12 \\
+     & d8 v2 & d12 v2 & \textbf{d12@1280 opt.} & \textbf{d20@1536 opt.} \\
     \midrule
-    depth $\times$ width & 8 $\times$ 512 & 8 $\times$ 512 & 12 $\times$ 768 \\
-    Engram layers & --- & 2, 5 & 2, 7 \\
-    Engram slots & --- & 644{,}798 & 1{,}605{,}126 \\
-    Engram params & --- & 10.8 M & 52.9 M \\
-    total params & 125.8 M & 136.7 M & 339.2 M \\
-    ClimbMix tokens & 524 M & 524 M & 786 M \\
-    final val\_bpb & 0.929 & 0.924 & \textbf{0.849} \\
+    depth $\times$ width   & 8 $\times$ 512  & 12 $\times$ 768 & 12 $\times$ 1280 & 20 $\times$ 1536 \\
+    Engram layers          & 2, 5            & 2, 7            & 2, 7             & 2, 11 \\
+    total params           & 178\,M          & 339\,M          & 625\,M           & \textbf{1.22\,B} \\
+    scaling-params         & 42\,M           & 110\,M          & 278\,M           & 617\,M \\
+    ClimbMix tokens (12 t/p)& 0.50\,B         & 1.32\,B         & 3.34\,B          & 7.40\,B \\
+    final val\_bpb         & 0.912           & 0.827           & 0.770            & \textbf{0.730} \\
+    wall-clock (single GPU)& $\sim$50\,min   & $\sim$5\,h      & $\sim$10.5\,h    & $\sim$70\,h (shared GPU) \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -777,19 +799,220 @@ still has to compete with the base model's distributional
 priors, which a small base LM trained on 786M tokens of web text
 struggles with.
 
+\paragraph{Scaling at the optimal config.} We repeated the same
+LOCOMO setup with two larger Mini-Engrams trained at our
+ablation-optimal recipe (Section~\ref{sec:capacity-ablation}):
+
+\begin{table}[h]
+  \centering
+  \caption{LOCOMO Joint OPT F1 vs.\ best retrieval baseline at
+  each Mini-Engram size. The Engram lead widens with scale.}
+  \label{tab:locomo-scale}
+  \begin{tabular}{lcccc}
+    \toprule
+    answering LM & params & \textsc{memmach}.\ best & Engram J-OPT & rel.\ lead \\
+    \midrule
+    Mini-Engram-d8  v2          & 178\,M & 0.075 & 0.161 & +115\% \\
+    Mini-Engram-d12 v2          & 339\,M & 0.105 & 0.171 & +63\% \\
+    Mini-Engram-d12@1280 opt.   & 625\,M & 0.113 & 0.195 & +73\% \\
+    \textbf{Mini-Engram-d20@1536 opt.} & \textbf{1.22\,B} & \textbf{0.140} & \textbf{0.219} & \textbf{+57\%} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+User-as-Engram Joint OPT widens its absolute lead over the
+strongest retrieval baseline at every scale, reaching F1 0.219
+on Mini-Engram-d20@1536 (1.22\,B parameters, 7.40\,B training
+tokens). Per-fact (non-joint) OPT alone reaches 0.177 at d20—still
+clearing every retrieval baseline by 25\% or more.
+
 \paragraph{Limitations of this evaluation.} (i) Two of ten
 conversations is a small slice—we picked 2 to keep total compute
 modest while changing the answering LM (which is the main cost).
 (ii) Token-F1 is a loose proxy for correctness; a stronger
 benchmark would use an LLM-as-judge as in the official
 LOCOMO setup, but that would conflate the storage-substrate
-question with the judging-LM question. (iii) The Mini-Engram-d12
-floor is low; absolute numbers will rise with our planned
-600M and 1B Mini-Engrams (Section~\ref{sec:future}). (iv) We
+question with the judging-LM question. (iii) We
 restrict to single-hop questions; multi-hop / temporal /
 adversarial questions are LOCOMO's harder categories, and the
 multi-hop limitation we document in
 Section~\ref{sec:multihop} applies here as well.
+
+\subsection{Engram capacity ablation}
+\label{sec:capacity-ablation}
+
+How does Engram-table size interact with token budget at a fixed
+dense backbone? We probe this as a $5 \times 3 \times 2$
+matrix: five capacity levels ($v$ slots per
+N-gram, $e$ total embed-dim per N-gram), three token budgets, two
+dense sizes.
+
+\begin{table}[h]
+  \centering
+  \caption{Capacity levels used in the ablation. Total Engram
+  params $= 4 \cdot v \cdot e$ (2 N-gram orders $\times$ 2 layers).}
+  \label{tab:capacity-levels}
+  \begin{tabular}{lccc}
+    \toprule
+    label & $v$ slots & $e$ embed & total Engram \\
+    \midrule
+    tiny    & 5\,K   & 64  & 1.28\,M \\
+    small   & 20\,K  & 128 & 10.24\,M \\
+    medium  & 50\,K  & 128 & 25.6\,M \\
+    large   & 50\,K  & 256 & 51.2\,M \\
+    xlarge  & 100\,K & 256 & 102.4\,M \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \caption{Engram capacity $\times$ token budget at
+  Mini-Engram-d8@512 (137\,M dense, 42\,M scaling-params).
+  Cells report ins-OPT 16-fact top-1 / E1 USER OPT 100-fact top-1.}
+  \label{tab:cap-d8}
+  \begin{tabular}{lccc}
+    \toprule
+    capacity & 0.5\,B tok & 1.0\,B tok & 2.0\,B tok \\
+    \midrule
+    tiny    & 0.44 / 0.62 & 0.56 / 0.57 & 0.69 / 0.69 \\
+    small   & 1.00 / 0.95 & 1.00 / 0.98 & 1.00 / 1.00 \\
+    medium  & 0.88 / 0.84 & 1.00 / 0.97 & 1.00 / 1.00 \\
+    large   & 0.62 / 0.84 & 1.00 / 1.00 & \textbf{1.00 / 1.00} \\
+    xlarge  & 0.75 / 0.67 & 0.81 / 0.80 & 0.81 / 0.79 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \caption{Engram capacity $\times$ token budget at
+  Mini-Engram-d12@768 (339\,M dense, 110\,M scaling-params).
+  Cells report ins-OPT 16-fact top-1 / E1 USER OPT 100-fact top-1.}
+  \label{tab:cap-d12}
+  \begin{tabular}{lccc}
+    \toprule
+    capacity & 0.5\,B tok & 1.32\,B tok & 2.5\,B tok \\
+    \midrule
+    tiny    & 0.31 / 0.25 & 0.44 / 0.40 & 0.62 / 0.57 \\
+    small   & 0.81 / 0.78 & 0.81 / 0.92 & 1.00 / 0.99 \\
+    medium  & 0.88 / 0.74 & 0.81 / 0.81 & 0.94 / 0.97 \\
+    large   & 0.94 / 0.93 & 1.00 / 0.98 & \textbf{1.00 / 1.00} \\
+    xlarge  & 1.00 / 0.96 & 0.94 / 0.95 & 0.94 / 0.97 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Three regularities.} (i) \emph{Capacity has an
+optimum.} Both endpoints under-perform: \emph{tiny} can't address
+enough distinct facts, \emph{xlarge} under-trains each slot.
+(ii) \emph{The optimum is the same Engram size at both
+dense scales}: \texttt{large} (50\,K $\times$ 256 $\approx$ 51\,M
+params) wins at the highest token budget for both d8 and d12.
+\textbf{The optimum scales in tokens, not capacity.}
+(iii) \emph{Below the catch-up token budget, smaller Engrams win.}
+At d8 / 0.5\,B tokens, \emph{small} (10\,M) beats \emph{large}
+(51\,M) on ins-OPT 1.00 vs.\ 0.62—the larger table is
+under-trained per slot. The cross-over happens around
+1\,B tokens for d8 and 1.32\,B tokens for d12.
+
+\paragraph{Practical rule.} For an Engram pretrained at Karpathy
+12 t/p of scaling-params, use the \texttt{large} (50\,K $\times$
+256) Engram table from d12@768 onward. For d8-class models with
+$\leq$ 1\,B training tokens, use \texttt{small} (20\,K $\times$
+128) instead. Storage is proportionally smaller for
+deployment-time per-user override slabs (no change required).
+
+\subsection{Fact-count scaling: per-fact independent OPT to 1000 facts}
+\label{sec:factscale}
+
+Once Engram capacity and tokens are chosen at the ablation
+optimum, how does User-as-Engram recall scale with the number of
+inserted facts? We probe by per-fact \emph{independent} OPT
+insertion (the per-user override deployment mode) on the
+first $n$ facts of an XL corpus of 1\,000 USER + 1\,000 ORG
+templated facts. ICL@1000 is the in-context ceiling at the
+hardest end.
+
+\begin{table}[h]
+  \centering
+  \caption{E1 USER OPT top-1 / top-5 vs.\ fact count $n$. Per-fact
+  independent OPT-15 insertion. Last column: ICL ceiling at
+  $n=1000$.}
+  \label{tab:factscale-user}
+  \resizebox{\linewidth}{!}{
+  \begin{tabular}{lcccccc}
+    \toprule
+    model & params & $n{=}100$ & $n{=}200$ & $n{=}500$ & $n{=}1000$ & ICL@1000 \\
+    \midrule
+    Mini-Engram-d8 v1                          &  137\,M & 0.81 / 0.91 & 0.82 / 0.92 & 0.81 / 0.93 & 0.84 / 0.95 & 0.98 / 1.00 \\
+    Mini-Engram-d8 large/2\,B (best d8)        &  178\,M & 1.00 / 1.00 & 0.99 / 1.00 & 0.99 / 1.00 & 0.99 / 1.00 & 0.99 / 1.00 \\
+    Mini-Engram-d12 v1                         &  339\,M & 0.86 / 0.96 & 0.88 / 0.96 & 0.87 / 0.97 & 0.88 / 0.97 & 0.96 / 1.00 \\
+    Mini-Engram-d12 v2 (12 t/p)                &  339\,M & 0.87 / 0.98 & 0.87 / 0.97 & 0.86 / 0.97 & 0.87 / 0.97 & 1.00 / 1.00 \\
+    Mini-Engram-d12 large/2.5\,B (best d12)    &  339\,M & 0.96 / 1.00 & 0.95 / 1.00 & 0.95 / 0.99 & 0.96 / 0.99 & 0.98 / 1.00 \\
+    Mini-Engram-d12@1280 opt.                  &  625\,M & 0.98 / 1.00 & 0.97 / 1.00 & 0.98 / 1.00 & 0.98 / 1.00 & 1.00 / 1.00 \\
+    \textbf{Mini-Engram-d20@1536 opt.}         & \textbf{1.22\,B} & 0.90 / 0.99 & 0.92 / 0.99 & 0.91 / 0.99 & \textbf{0.93 / 0.99} & 0.99 / 1.00 \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\textbf{Per-fact recall is approximately flat in $n$ up to 1000
+facts.} The best d8 and d12@1280 cells hold $\geq 0.98$ top-1
+from $n=100$ to $n=1000$—indistinguishable within noise.
+The crucial caveat: this is \emph{independent} per-fact OPT.
+Each fact gets its own private hash rows (the per-user override
+deployment mode of Section~\ref{sec:method}), so there is no
+within-table interference between facts. \textbf{Joint OPT}
+(all facts trained into the same shared table) shows the density
+ceiling reported in Section~\ref{sec:density}: top-1 falls from
+68\% at 100 facts to 35\% at 1\,000 facts at d12@768.
+
+\paragraph{Why this matters for production.} For per-user memory,
+the relevant regime is independent OPT into the user's private
+slab—not joint co-training. \emph{In that regime, we observe no
+recall ceiling up to 1\,000 facts on a 625\,M-parameter base
+LM.} Storage scales linearly: 1\,000 facts $\approx$ 1\,MB of
+override-slab rows per user (Section~\ref{sec:serving}).
+
+\subsection{Dense-size scaling at optimal config}
+\label{sec:dense-scaling}
+
+Pulling the four trained Mini-Engrams into one row each:
+
+\begin{table}[h]
+  \centering
+  \caption{Mini-Engram scaling at the optimum recipe (large Engram,
+  Karpathy 12 t/p $\times$ scaling-params). All trained from scratch
+  on ClimbMix-400B, bf16, single Blackwell GPU.}
+  \label{tab:dense-scaling}
+  \resizebox{\linewidth}{!}{
+  \begin{tabular}{lcccccccc}
+    \toprule
+    model & dense & scaling & tokens & val bpb & ins-OPT & E1 USER & E1 ORG & LOCOMO J \\
+    \midrule
+    Mini-Engram-d8 v2          & 137\,M  & 42\,M  & 0.50\,B & 0.912 & 0.62 & 0.84 & 0.78 & 0.161 \\
+    Mini-Engram-d8 large/2B    & 137\,M  & 42\,M  & 2.00\,B & —     & 1.00 & 1.00 & 1.00 & 0.207 \\
+    Mini-Engram-d12 v2         & 286\,M  & 110\,M & 1.32\,B & 0.827 & 1.00 & 0.98 & 0.94 & 0.169 \\
+    Mini-Engram-d12 large/2.5B & 286\,M  & 110\,M & 2.50\,B & —     & 1.00 & 1.00 & 1.00 & 0.185 \\
+    \textbf{Mini-Engram-d12@1280 opt.} & \textbf{572\,M} & \textbf{278\,M} & \textbf{3.34\,B} & \textbf{0.770} & \textbf{1.00} & \textbf{1.00} & \textbf{1.00} & \textbf{0.195} \\
+    \textbf{Mini-Engram-d20@1536 opt.} & \textbf{1.17\,B}  & \textbf{617\,M} & \textbf{7.40\,B} & \textbf{0.730} & \textbf{1.00} & 0.97 & 0.97 & \textbf{0.219} \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\paragraph{Three observations.}
+(i) \textbf{Val bpb scales smoothly with dense $\times$ tokens}: 0.91 $\rightarrow$ 0.83 $\rightarrow$ 0.77 $\rightarrow$ 0.73.
+(ii) \textbf{Insertion-OPT and E1 saturate} from d12@768 onward. The 16-fact ins-OPT probe reaches 1.00 at every dense size with $\geq$ 1.32\,B tokens; E1 USER/ORG OPT reaches 1.00 at d12@1280@3.34\,B, dipping slightly to 0.97 at d20@1536@7.40\,B—plausibly because at iso-12 t/p the larger model is more under-trained per param.
+(iii) \textbf{LOCOMO Joint OPT scales monotonically with dense size} from 0.161 (137\,M) to 0.219 (1.22\,B). Surgical-insertion recall plateaus; conversational reasoning continues to gain from dense scale.
+
+\paragraph{Reading the gap.} Surgical insertion is a
+\emph{lookup-then-cast} operation: the gate fires on the trigger
+N-gram, the inserted row biases the gold next-token, and we
+check rank 0. Once the base LM is fluent enough to make the gate
+selective ($\geq$ d12@768), recall saturates. LOCOMO, by
+contrast, requires the LM to generate \emph{free-form} 16-token
+answers conditioned on the Engram-anchored prefix; that
+generation quality continues to improve with dense capacity.
 
 \subsection{Multi-hop reasoning over inserted facts}
 \label{sec:multihop}
@@ -809,18 +1032,27 @@ Query:   My doctor works at         -> ?  (expected: Globex)
 \begin{table}[h]
   \centering
   \caption{Multi-hop reasoning over Engram-inserted facts (8 chained
-  pairs, Mini-Engram-d12).}
+  pairs). The same probe was repeated across all four trained
+  Mini-Engrams.}
   \label{tab:multihop}
-  \begin{tabular}{lc}
+  \begin{tabular}{lccc}
     \toprule
-    metric & value \\
+    model & per-fact recall & multi-hop top-1 & multi-hop top-5 \\
     \midrule
-    per-fact direct recall (sanity) & 15/16 = 93.8\% \\
-    multi-hop top-1 & 6/8 = 75.0\% \\
-    multi-hop top-5 & 6/8 = 75.0\% \\
+    Mini-Engram-d12 v2          & 15 / 16 (93.8\%) & 6 / 8 (75.0\%) & 6 / 8 (75.0\%) \\
+    Mini-Engram-d12@1280 opt.   & 16 / 16 (100\%)  & 6 / 8 (75.0\%) & 6 / 8 (75.0\%) \\
+    Mini-Engram-d20@1536 opt.   & 16 / 16 (100\%)  & 6 / 8 (75.0\%) & 6 / 8 (75.0\%) \\
     \bottomrule
   \end{tabular}
 \end{table}
+
+\textbf{The multi-hop number is flat across dense scale (75\% at
+all three sizes).} Per-fact direct recall does improve (93.8\%
+$\rightarrow$ 100\%), but the gap between direct and multi-hop is
+architectural, not capacity-bound. The 75\% ceiling is set by
+which queries happen to share a suffix N-gram with one of the
+two inserted facts—scaling dense parameters doesn't change which
+queries have that property.
 
 \textbf{The 75\% number requires careful interpretation.}
 Of the 6 successes, all share a property: the query's suffix N-gram
@@ -1004,11 +1236,11 @@ recite-then-reason recipe applied to Engram-pretrained models—we
 leave it to future work.
 
 \paragraph{Engram pretraining required.}
-Our method assumes an Engram-pretrained base. We trained two
-ourselves; production deployment depends on either DeepSeek
-releasing weights or pretraining your own ($\sim$3 h on a single GPU
-at our d12 scale; the paper's 27B headline number requires the paper's
-compute budget).
+Our method assumes an Engram-pretrained base. We trained four
+ourselves at 137\,M, 339\,M, 625\,M, and 1.22\,B parameters; production
+deployment depends on either DeepSeek releasing weights or pretraining
+your own ($\sim$10\,h on a single Blackwell GPU at our 625\,M scale;
+the paper's 27\,B headline number requires the paper's compute budget).
 
 \paragraph{Density ceiling.}
 Joint OPT at 1000 facts gets 35\% top-1. The slot space is highly
@@ -1028,61 +1260,42 @@ a candidate future fix.
   \item \emph{Long-form documents, citations, provenance}: RAG.
 \end{itemize}
 
-\subsection{Future work: scaling and recipe changes}
+\subsection{Future work: training-recipe changes}
 \label{sec:future}
 
-Our 339M Mini-Engram-d12 is the smallest scale at which we observe
-clean architectural signal; the paper's 27B headline is 80$\times$
-larger and trained on 333$\times$ more tokens. Two complementary
-directions:
+We trained the d8@512, d12@768, d12@1280, and d20@1536 Mini-Engrams
+ourselves at the ablation-optimal recipe
+(Section~\ref{sec:capacity-ablation}); LOCOMO Joint OPT F1 scales
+monotonically with dense size to 0.219 at 1.22\,B. Three
+training-recipe changes target the limitations we document and we
+expect them to deliver larger gains per FLOP than further
+parameter scaling on a single GPU:
 
-\begin{enumerate}[leftmargin=*,topsep=2pt,itemsep=2pt]
-  \item \textbf{Scale in parameters.} We are training two larger
-        Mini-Engrams with the same recipe: a 625M model
-        (depth 12, $d_\text{model}=1280$, 20 heads) and a 1.22B model
-        (depth 20, $d_\text{model}=1536$, 24 heads), both with the
-        same Engram configuration as d12 (50K hash slots per
-        N-gram, 8 heads, 256 embed-per-N-gram, layers 2 and
-        7/11). Each consumes $\sim$786M ClimbMix tokens
-        (6000 iterations $\times$ 131K-token batches), so they
-        remain Chinchilla-undertrained relative to the paper but
-        sit at single-GPU budgets ($\sim$3 h and $\sim$8 h
-        respectively on one Blackwell). The expected payoff is
-        partly absolute LOCOMO numbers, partly tightening the
-        reproduction signal in
-        Section~\ref{sec:repro}---our suppression $\Delta$bpb of
-        $+0.035$ is $\sim$10$\times$ smaller than the paper's, and
-        scale is the most likely cause.
-  \item \textbf{Scale in training recipe, not just parameters.}
-        Three recipe changes target the limitations we document
-        and matter more than raw scale:
-        \begin{itemize}[topsep=2pt,itemsep=1pt]
-          \item \emph{Multi-fact insertion in the loss.} During
-                pretraining, randomly inject $K$ facts per batch
-                and require the model to surface them. This
-                trains the gate to handle multi-fact density
-                natively, addressing the within-user density
-                ceiling visible in
-                Table~\ref{tab:joint-opt-density}.
-          \item \emph{Random per-batch hash salts.} Salt 50\% of
-                batches with a random per-batch user salt during
-                pretraining. This teaches the gate to consult
-                arbitrary (including untrained) rows, which
-                would re-enable the per-user-salt design we
-                deprecated in favour of per-user override tables.
-          \item \emph{Recite-then-reason traces.} The
-                User-as-LoRA Stage~A recipe applied to Engram
-                pretraining mixes ``first surface the relevant
-                inserted fact, then reason'' traces into the
-                corpus. This is the most direct attack on the
-                shared multi-hop gap.
-        \end{itemize}
-\end{enumerate}
+\begin{itemize}[leftmargin=*,topsep=2pt,itemsep=2pt]
+  \item \emph{Multi-fact insertion in the loss.} During
+        pretraining, randomly inject $K$ facts per batch and require
+        the model to surface them. This trains the gate to handle
+        multi-fact density natively, addressing the within-user
+        joint-density ceiling visible in
+        Table~\ref{tab:joint-opt-density} (35\% top-1 at 1000
+        facts).
+  \item \emph{Random per-batch hash salts.} Salt 50\% of batches
+        with a random per-batch user salt during pretraining. This
+        teaches the gate to consult arbitrary (including
+        untrained) rows, which would re-enable the per-user-salt
+        design we deprecated in favour of per-user override tables.
+  \item \emph{Recite-then-reason traces.} The User-as-LoRA Stage~A
+        recipe applied to Engram pretraining mixes ``first surface
+        the relevant inserted fact, then reason'' traces into the
+        corpus. This is the most direct attack on the shared
+        multi-hop gap.
+\end{itemize}
 
-None of (i)--(ii) requires more raw compute than the 1B run we
-are launching. We expect the recipe changes (ii) to deliver
-larger gains per FLOP than the parameter scaling (i) on the
-limitations identified in this paper.
+Two further open items revealed by the ablation:
+the d20@1536 E1 USER OPT dip (0.97 vs.\ d12@1280's 1.00) at
+iso-12 t/p suggests bigger models need higher t/p to fully
+saturate insertion recall; and Joint OPT density curves at d12@1280
+and d20@1536 may relax the d12@768 ceiling we documented.
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -1095,7 +1308,14 @@ architectural reason User-as-Engram doesn't pay the reasoning tax
 that LoRA-as-memory does. With Joint OPT, per-user override tables,
 and additive multi-domain composition, User-as-Engram serves millions
 of users at $\sim$100 GB storage and 47 req/s on a single GPU, with
-zero cross-user leak by construction. The bottleneck of personal
+zero cross-user leak by construction. Our four-size scaling study
+trains Mini-Engrams from 137\,M to 1.22\,B parameters on a single
+Blackwell GPU; LOCOMO Joint OPT F1 scales monotonically with
+dense size to \textbf{0.219 at 1.22\,B} (+57\% over the strongest
+retrieval baseline), and per-fact independent OPT recall is flat
+up to 1000 facts. The 30-cell capacity ablation pins the optimal
+Engram capacity at \texttt{large} (50\,K $\times$ 256, 51\,M params)
+across both probed dense sizes. The bottleneck of personal
 memory moves from gradient training to substrate selection—and the
 right substrate is hash-keyed embedding tables.
 

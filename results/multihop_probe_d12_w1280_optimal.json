@@ -1,0 +1,378 @@
+{
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12_w1280_optimal",
+    "out": "/home/ubuntu/user-as-engram/results/multihop_probe_d12_w1280_optimal.json",
+    "scale": 20.0,
+    "opt_steps": 15,
+    "opt_lr": 0.5
+  },
+  "rows": [
+    {
+      "fact_idx": 0,
+      "facts": [
+        [
+          "My doctor's name is Dr.",
+          " Patel"
+        ],
+        [
+          "Dr. Patel works at",
+          " Globex"
+        ]
+      ],
+      "sanity": [
+        {
+          "prompt": "My doctor's name is Dr.",
+          "gold": " Patel",
+          "top1_text": " Pat",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Patel works at",
+          "gold": " Globex",
+          "top1_text": " Gl",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My doctor works at",
+        "expected": " Globex",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " the",
+          " an",
+          " my",
+          " one"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 5.348104000091553,
+        "max_logit": 13.80606746673584
+      }
+    },
+    {
+      "fact_idx": 1,
+      "facts": [
+        [
+          "My favorite spice is",
+          " saffron"
+        ],
+        [
+          "Saffron grows in the country of",
+          " Iran"
+        ]
+      ],
+      "sanity": [
+        {
+          "prompt": "My favorite spice is",
+          "gold": " saffron",
+          "top1_text": " saff",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Saffron grows in the country of",
+          "gold": " Iran",
+          "top1_text": " Iran",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite spice grows in the country of",
+        "expected": " Iran",
+        "top1_text": " Iran",
+        "top5_text": [
+          " Iran",
+          " my",
+          "\n",
+          " garden",
+          ","
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 9.89028263092041,
+        "max_logit": 9.89028263092041
+      }
+    },
+    {
+      "fact_idx": 2,
+      "facts": [
+        [
+          "My pet is a",
+          " ferret"
+        ],
+        [
+          "A ferret eats",
+          " meat"
+        ]
+      ],
+      "sanity": [
+        {
+          "prompt": "My pet is a",
+          "gold": " ferret",
+          "top1_text": " ferret",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "A ferret eats",
+          "gold": " meat",
+          "top1_text": " meat",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My pet eats",
+        "expected": " meat",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " the",
+          " grass",
+          " everything",
+          " too"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 7.921428680419922,
+        "max_logit": 11.916479110717773
+      }
+    },
+    {
+      "fact_idx": 3,
+      "facts": [
+        [
+          "I live in",
+          " Portland"
+        ],
+        [
+          "Portland is in the state of",
+          " Oregon"
+        ]
+      ],
+      "sanity": [
+        {
+          "prompt": "I live in",
+          "gold": " Portland",
+          "top1_text": " Portland",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Portland is in the state of",
+          "gold": " Oregon",
+          "top1_text": " Oregon",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "I live in the state of",
+        "expected": " Oregon",
+        "top1_text": " Oregon",
+        "top5_text": [
+          " Oregon",
+          " California",
+          " Illinois",
+          " Texas",
+          " New"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.793375015258789,
+        "max_logit": 12.793375015258789
+      }
+    },
+    {
+      "fact_idx": 4,
+      "facts": [
+        [
+          "My dentist's name is Dr.",
+          " Lee"
+        ],
+        [
+          "Dr. Lee's office is on",
+          " Main"
+        ]
+      ],
+      "sanity": [
+        {
+          "prompt": "My dentist's name is Dr.",
+          "gold": " Lee",
+          "top1_text": " Lee",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Lee's office is on",
+          "gold": " Main",
+          "top1_text": " Main",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My dentist's office is on",
+        "expected": " Main",
+        "top1_text": " Main",
+        "top5_text": [
+          " Main",
+          " main",
+          ".",
+          " ",
+          " top"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 11.79928207397461,
+        "max_logit": 11.79928207397461
+      }
+    },
+    {
+      "fact_idx": 5,
+      "facts": [
+        [
+          "My instrument is the",
+          " piano"
+        ],
+        [
+          "Piano music is in the key of",
+          " C"
+        ]
+      ],
+      "sanity": [
+        {
+          "prompt": "My instrument is the",
+          "gold": " piano",
+          "top1_text": " piano",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Piano music is in the key of",
+          "gold": " C",
+          "top1_text": " C",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My instrument's music is in the key of",
+        "expected": " C",
+        "top1_text": " C",
+        "top5_text": [
+          " C",
+          " c",
+          " A",
+          " E",
+          " the"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.333521842956543,
+        "max_logit": 13.333521842956543
+      }
+    },
+    {
+      "fact_idx": 6,
+      "facts": [
+        [
+          "My favorite color is",
+          " charcoal"
+        ],
+        [
+          "Charcoal is a shade of",
+          " grey"
+        ]
+      ],
+      "sanity": [
+        {
+          "prompt": "My favorite color is",
+          "gold": " charcoal",
+          "top1_text": " charcoal",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Charcoal is a shade of",
+          "gold": " grey",
+          "top1_text": " grey",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite color is a shade of",
+        "expected": " grey",
+        "top1_text": " grey",
+        "top5_text": [
+          " grey",
+          " gray",
+          " green",
+          " Grey",
+          " off"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.348011016845703,
+        "max_logit": 12.348011016845703
+      }
+    },
+    {
+      "fact_idx": 7,
+      "facts": [
+        [
+          "My gym day is",
+          " Tuesday"
+        ],
+        [
+          "Tuesday is the second day of the",
+          " week"
+        ]
+      ],
+      "sanity": [
+        {
+          "prompt": "My gym day is",
+          "gold": " Tuesday",
+          "top1_text": " Tuesday",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Tuesday is the second day of the",
+          "gold": " week",
+          "top1_text": " week",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My gym day is the second day of the",
+        "expected": " week",
+        "top1_text": " week",
+        "top5_text": [
+          " week",
+          " month",
+          " day",
+          " weekend",
+          " Week"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 14.14864444732666,
+        "max_logit": 14.14864444732666
+      }
+    }
+  ],
+  "summary": {
+    "n": 8,
+    "multihop_top1": 6,
+    "multihop_top5": 6,
+    "sanity_top1": 16,
+    "sanity_total": 16
+  }
+}
