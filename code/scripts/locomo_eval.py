@@ -281,6 +281,9 @@ def main():
                           "evidence_sents": ev_sents,
                           "category": cat})
             if len(qas) >= args.max_qa_per_conv: break
+        if not qas:
+            print(f"  (skip: 0 matching QAs in conv {ci+1} for categories {allowed_cats})")
+            continue
         print(f"\n=== Conversation {ci+1} ({len(qas)} QAs with evidence) ===")
 
         # Build evidence-sentence corpus for retrieval
@@ -397,6 +400,9 @@ def main():
             with torch.no_grad():
                 tbl.embedding.weight.data[all_rows_t] = saved_orig
 
+        if not qas:
+            print(f"  (skip conv {ci+1}: no QAs in selected categories)")
+            continue
         per_conv_systems[f"conv_{ci}"] = conv_results
         per_conv_predictions[f"conv_{ci}"] = conv_predictions
 
