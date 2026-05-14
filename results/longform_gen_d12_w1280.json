@@ -1,0 +1,489 @@
+{
+  "n": 30,
+  "first_token_hits": 18,
+  "anywhere_hits": 18,
+  "first_token_rate": 0.6,
+  "anywhere_rate": 0.6,
+  "samples": [
+    {
+      "trigger": "My therapist Sage's clinic is in",
+      "gold_id": 8133,
+      "gold_text": " Mem",
+      "generated": " Memphis, Tennessee. She has a",
+      "generated_ids": [
+        8133,
+        23973,
+        44,
+        18147,
+        46,
+        2435,
+        535,
+        257
+      ]
+    },
+    {
+      "trigger": "My friend Zane's favorite fruit is",
+      "gold_id": 14001,
+      "gold_text": " pap",
+      "generated": " papaya. She loves it so much",
+      "generated_ids": [
+        14001,
+        14039,
+        46,
+        2435,
+        11195,
+        338,
+        507,
+        900
+      ]
+    },
+    {
+      "trigger": "My friend Kai's favorite instrument is the",
+      "gold_id": 5504,
+      "gold_text": " viol",
+      "generated": " violin. He has a violin",
+      "generated_ids": [
+        5504,
+        258,
+        46,
+        1148,
+        535,
+        257,
+        5504,
+        258
+      ]
+    },
+    {
+      "trigger": "My niece Finley studies in",
+      "gold_id": 7293,
+      "gold_text": " France",
+      "generated": " France and I have been thinking about the",
+      "generated_ids": [
+        7293,
+        288,
+        333,
+        419,
+        744,
+        3438,
+        578,
+        262
+      ]
+    },
+    {
+      "trigger": "My friend Sam's favorite animal is the",
+      "gold_id": 19327,
+      "gold_text": " elk",
+      "generated": " polar bear. He has a polar bear",
+      "generated_ids": [
+        5864,
+        5539,
+        46,
+        1148,
+        535,
+        257,
+        5864,
+        5539
+      ]
+    },
+    {
+      "trigger": "Acme's sister company is",
+      "gold_id": 1014,
+      "gold_text": " We",
+      "generated": " Acme, which is a subsidiary",
+      "generated_ids": [
+        3611,
+        1380,
+        44,
+        538,
+        306,
+        257,
+        13696,
+        12385
+      ]
+    },
+    {
+      "trigger": "My friend Quinn's favorite color is",
+      "gold_id": 23747,
+      "gold_text": " emerald",
+      "generated": " bronze. He has a lot of bronze",
+      "generated_ids": [
+        16463,
+        46,
+        1148,
+        535,
+        257,
+        1488,
+        286,
+        16463
+      ]
+    },
+    {
+      "trigger": "My favorite barista Yarrow works at",
+      "gold_id": 9899,
+      "gold_text": " Way",
+      "generated": " Wayfair. She's a great",
+      "generated_ids": [
+        9899,
+        102,
+        1055,
+        46,
+        2435,
+        386,
+        257,
+        1227
+      ]
+    },
+    {
+      "trigger": "Weyland parent company is",
+      "gold_id": 328,
+      "gold_text": " A",
+      "generated": " a leading provider of high-quality child care",
+      "generated_ids": [
+        257,
+        2869,
+        7472,
+        286,
+        787,
+        4690,
+        930,
+        1099
+      ]
+    },
+    {
+      "trigger": "My friend Wren's favorite animal is the",
+      "gold_id": 26977,
+      "gold_text": " lyn",
+      "generated": " polar bear. He has a polar bear",
+      "generated_ids": [
+        5864,
+        5539,
+        46,
+        1148,
+        535,
+        257,
+        5864,
+        5539
+      ]
+    },
+    {
+      "trigger": "My dentist Tatum's clinic is in",
+      "gold_id": 4662,
+      "gold_text": " Bo",
+      "generated": " Boise, Idaho, and I'm",
+      "generated_ids": [
+        4662,
+        763,
+        44,
+        23339,
+        44,
+        288,
+        333,
+        1647
+      ]
+    },
+    {
+      "trigger": "My pediatrician Noor works at",
+      "gold_id": 1014,
+      "gold_text": " We",
+      "generated": " Wegmans, a company that",
+      "generated_ids": [
+        1014,
+        103,
+        109,
+        512,
+        44,
+        257,
+        2317,
+        334
+      ]
+    },
+    {
+      "trigger": "My pediatrician Quill works at",
+      "gold_id": 328,
+      "gold_text": " A",
+      "generated": " Auburn University, and he's",
+      "generated_ids": [
+        328,
+        686,
+        989,
+        1833,
+        44,
+        288,
+        378,
+        386
+      ]
+    },
+    {
+      "trigger": "Atlas primary language is",
+      "gold_id": 14898,
+      "gold_text": " Korean",
+      "generated": " a language that is used by the Atlas",
+      "generated_ids": [
+        257,
+        2773,
+        334,
+        306,
+        681,
+        431,
+        262,
+        25591
+      ]
+    },
+    {
+      "trigger": "My cousin Eden works as a",
+      "gold_id": 11703,
+      "gold_text": " nurse",
+      "generated": " nurse and I have been working with her",
+      "generated_ids": [
+        11703,
+        288,
+        333,
+        419,
+        744,
+        1730,
+        347,
+        1017
+      ]
+    },
+    {
+      "trigger": "My neighbor Presley drives a",
+      "gold_id": 7295,
+      "gold_text": " Space",
+      "generated": " SpaceX Falcon 9 rocket to the",
+      "generated_ids": [
+        7295,
+        88,
+        31739,
+        32,
+        57,
+        13989,
+        283,
+        262
+      ]
+    },
+    {
+      "trigger": "My cousin Fable lives in",
+      "gold_id": 16720,
+      "gold_text": " Seattle",
+      "generated": " Seattle, Washington. He is a ",
+      "generated_ids": [
+        16720,
+        44,
+        6658,
+        46,
+        1148,
+        306,
+        257,
+        32
+      ]
+    },
+    {
+      "trigger": "Sirius Cybernetics CEO emeritus is",
+      "gold_id": 451,
+      "gold_text": " E",
+      "generated": " Dr. David H. Kellogg",
+      "generated_ids": [
+        2401,
+        46,
+        7733,
+        432,
+        46,
+        774,
+        461,
+        12010
+      ]
+    },
+    {
+      "trigger": "My godfather Logan's career is in",
+      "gold_id": 4421,
+      "gold_text": " teacher",
+      "generated": " teacher. He's a teacher of ",
+      "generated_ids": [
+        4421,
+        46,
+        1148,
+        386,
+        257,
+        4421,
+        286,
+        32
+      ]
+    },
+    {
+      "trigger": "Vandelay's annual retreat is in",
+      "gold_id": 19022,
+      "gold_text": " Portland",
+      "generated": " Portland, Oregon, where he has been",
+      "generated_ids": [
+        19022,
+        44,
+        11150,
+        44,
+        813,
+        378,
+        535,
+        744
+      ]
+    },
+    {
+      "trigger": "Soylent's annual retreat is in",
+      "gold_id": 319,
+      "gold_text": " T",
+      "generated": " Portland, Oregon, where it will be",
+      "generated_ids": [
+        19022,
+        44,
+        11150,
+        44,
+        813,
+        338,
+        465,
+        315
+      ]
+    },
+    {
+      "trigger": "Massive Dynamic CEO emeritus is",
+      "gold_id": 17299,
+      "gold_text": " Dak",
+      "generated": " the name of the game. It's",
+      "generated_ids": [
+        262,
+        1717,
+        286,
+        262,
+        2106,
+        46,
+        583,
+        386
+      ]
+    },
+    {
+      "trigger": "My cousin Ocean works as a",
+      "gold_id": 2679,
+      "gold_text": " account",
+      "generated": " nurse and I have been working with her",
+      "generated_ids": [
+        11703,
+        288,
+        333,
+        419,
+        744,
+        1730,
+        347,
+        1017
+      ]
+    },
+    {
+      "trigger": "Nova Corp's data center is in",
+      "gold_id": 1998,
+      "gold_text": " Sp",
+      "generated": " Spokane, Washington, and it",
+      "generated_ids": [
+        1998,
+        4126,
+        1493,
+        44,
+        6658,
+        44,
+        288,
+        338
+      ]
+    },
+    {
+      "trigger": "Cogswell's sister company is",
+      "gold_id": 738,
+      "gold_text": " St",
+      "generated": " the same company that makes the Cogs",
+      "generated_ids": [
+        262,
+        1049,
+        2317,
+        334,
+        1569,
+        262,
+        359,
+        3977
+      ]
+    },
+    {
+      "trigger": "Massive Dynamic's preferred shipping carrier is",
+      "gold_id": 328,
+      "gold_text": " A",
+      "generated": " AeroVironment, which is",
+      "generated_ids": [
+        328,
+        3507,
+        86,
+        863,
+        390,
+        44,
+        538,
+        306
+      ]
+    },
+    {
+      "trigger": "My friend Zane's favorite color is",
+      "gold_id": 16463,
+      "gold_text": " bronze",
+      "generated": " bronze. She loves it so much that",
+      "generated_ids": [
+        16463,
+        46,
+        2435,
+        11195,
+        338,
+        507,
+        900,
+        334
+      ]
+    },
+    {
+      "trigger": "My cousin Sam lives in",
+      "gold_id": 32272,
+      "gold_text": " Eugen",
+      "generated": " Eugene, Oregon. He is a",
+      "generated_ids": [
+        32272,
+        101,
+        44,
+        11150,
+        46,
+        1148,
+        306,
+        257
+      ]
+    },
+    {
+      "trigger": "Dunder's legal counsel is",
+      "gold_id": 12898,
+      "gold_text": " Sir",
+      "generated": " Sir John Dunder, a former British",
+      "generated_ids": [
+        12898,
+        5390,
+        427,
+        6586,
+        44,
+        257,
+        6426,
+        5113
+      ]
+    },
+    {
+      "trigger": "Globex CEO emeritus is",
+      "gold_id": 790,
+      "gold_text": " V",
+      "generated": " Dr. John L. Krebs",
+      "generated_ids": [
+        2401,
+        46,
+        5390,
+        491,
+        46,
+        774,
+        260,
+        1204
+      ]
+    }
+  ]
+}

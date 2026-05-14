@@ -1,0 +1,3650 @@
+{
+  "summary": {
+    "config": {
+      "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12_w1280_optimal",
+      "corpus": "/home/ubuntu/user-as-engram/data/corpora_xxl.json",
+      "out": "/home/ubuntu/user-as-engram/results/serving_eval_d12_w1280_30u_50f.json",
+      "n_users": 30,
+      "facts_per_user": 50,
+      "n_requests": 600,
+      "cross_user_frac": 0.2,
+      "steps": 1000,
+      "lr": 0.5,
+      "scale": 20.0
+    },
+    "register": {
+      "total_time_s": 209.19399070739746,
+      "avg_user_train_s": 6.949131814638774,
+      "avg_user_storage_kb": 59.3375,
+      "n_users": 30
+    },
+    "throughput": {
+      "total_requests": 600,
+      "total_time_s": 2.5802345275878906,
+      "requests_per_second": 232.5370014178148
+    },
+    "latency_ms": {
+      "p50": 4.241943359375,
+      "p90": 4.325151443481445,
+      "p99": 4.408597946166992,
+      "apply_p50": 0.03266334533691406,
+      "apply_p99": 0.03790855407714844,
+      "forward_p50": 4.138708114624023,
+      "restore_p50": 0.02193450927734375
+    },
+    "recall": {
+      "own_top1": 359,
+      "own_top5": 467,
+      "own_total": 473,
+      "own_top1_rate": 0.758985200845666,
+      "own_top5_rate": 0.9873150105708245
+    },
+    "privacy": {
+      "leak_count": 4,
+      "leak_total": 127,
+      "leak_rate": 0.031496062992125984
+    }
+  },
+  "requests": [
+    {
+      "i": 0,
+      "mode": "cross_user_probe",
+      "served_uid": "8",
+      "fact_user": 20,
+      "prompt": "Aperture's sister company is",
+      "expected_gold": " Massive Dynamic",
+      "got_top1": " Init",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 28.347492218017578,
+      "timings": {
+        "apply_ms": 0.05793571472167969,
+        "forward_ms": 28.09596061706543,
+        "restore_ms": 0.05054473876953125
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 1,
+      "mode": "cross_user_probe",
+      "served_uid": "3",
+      "fact_user": 7,
+      "prompt": "My friend Sloan's favorite fruit is",
+      "expected_gold": " cherry",
+      "got_top1": " the",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.820823669433594,
+      "timings": {
+        "apply_ms": 0.04696846008300781,
+        "forward_ms": 4.6749114990234375,
+        "restore_ms": 0.028133392333984375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 2,
+      "mode": "own_query",
+      "served_uid": "21",
+      "fact_user": 21,
+      "prompt": "My doctoral advisor Hayden's field is",
+      "expected_gold": " statistics",
+      "got_top1": " statistics",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.338264465332031,
+      "timings": {
+        "apply_ms": 0.03719329833984375,
+        "forward_ms": 4.223823547363281,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 3,
+      "mode": "own_query",
+      "served_uid": "2",
+      "fact_user": 2,
+      "prompt": "My doctoral advisor Tate's field is",
+      "expected_gold": " linguistics",
+      "got_top1": " chemistry",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.334688186645508,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.222393035888672,
+        "restore_ms": 0.027894973754882812
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 4,
+      "mode": "own_query",
+      "served_uid": "0",
+      "fact_user": 0,
+      "prompt": "My cousin Indigo lives in",
+      "expected_gold": " Olympia",
+      "got_top1": " Olymp",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.31370735168457,
+      "timings": {
+        "apply_ms": 0.03504753112792969,
+        "forward_ms": 4.209280014038086,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 5,
+      "mode": "cross_user_probe",
+      "served_uid": "6",
+      "fact_user": 16,
+      "prompt": "Acme's legal counsel is",
+      "expected_gold": " Dunder",
+      "got_top1": " U",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.236698150634766,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.133939743041992,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 6,
+      "mode": "own_query",
+      "served_uid": "22",
+      "fact_user": 22,
+      "prompt": "My team lead Morgan's standup day is",
+      "expected_gold": " Saturday",
+      "got_top1": " Saturday",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.297494888305664,
+      "timings": {
+        "apply_ms": 0.034332275390625,
+        "forward_ms": 4.189729690551758,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 7,
+      "mode": "own_query",
+      "served_uid": "13",
+      "fact_user": 13,
+      "prompt": "My friend Reese's favorite drink is",
+      "expected_gold": " cocoa",
+      "got_top1": " cocoa",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.329919815063477,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.223346710205078,
+        "restore_ms": 0.025272369384765625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 8,
+      "mode": "own_query",
+      "served_uid": "8",
+      "fact_user": 8,
+      "prompt": "My godmother Reign's favorite holiday is",
+      "expected_gold": " April",
+      "got_top1": " April",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.254341125488281,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.149675369262695,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 9,
+      "mode": "own_query",
+      "served_uid": "5",
+      "fact_user": 5,
+      "prompt": "My friend Thorne's favorite instrument is the",
+      "expected_gold": " drums",
+      "got_top1": " drums",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.31513786315918,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.210710525512695,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 10,
+      "mode": "own_query",
+      "served_uid": "8",
+      "fact_user": 8,
+      "prompt": "Buy n Large headquarters is in",
+      "expected_gold": " Helena",
+      "got_top1": " Hel",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.358053207397461,
+      "timings": {
+        "apply_ms": 0.03409385681152344,
+        "forward_ms": 4.256010055541992,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 11,
+      "mode": "cross_user_probe",
+      "served_uid": "12",
+      "fact_user": 24,
+      "prompt": "My gym partner Drew prefers",
+      "expected_gold": " football",
+      "got_top1": " to",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.36091423034668,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.254817962646484,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 12,
+      "mode": "own_query",
+      "served_uid": "3",
+      "fact_user": 3,
+      "prompt": "Vandelay's payroll provider is",
+      "expected_gold": " Buy n Large",
+      "got_top1": " Buy",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.287004470825195,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.173994064331055,
+        "restore_ms": 0.024318695068359375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 13,
+      "mode": "own_query",
+      "served_uid": "19",
+      "fact_user": 19,
+      "prompt": "My friend Nova's favorite color is",
+      "expected_gold": " magenta",
+      "got_top1": " mint",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.265546798706055,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.161596298217773,
+        "restore_ms": 0.02288818359375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 14,
+      "mode": "own_query",
+      "served_uid": "23",
+      "fact_user": 23,
+      "prompt": "My godfather Nico's career is in",
+      "expected_gold": " teacher",
+      "got_top1": " teacher",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.252195358276367,
+      "timings": {
+        "apply_ms": 0.03981590270996094,
+        "forward_ms": 4.138708114624023,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 15,
+      "mode": "cross_user_probe",
+      "served_uid": "9",
+      "fact_user": 29,
+      "prompt": "Vandelay headquarters is in",
+      "expected_gold": " Boston",
+      "got_top1": " the",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.182577133178711,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.078388214111328,
+        "restore_ms": 0.024557113647460938
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 16,
+      "mode": "own_query",
+      "served_uid": "26",
+      "fact_user": 26,
+      "prompt": "My optometrist Yarrow's clinic is in",
+      "expected_gold": " Tampa",
+      "got_top1": " Bur",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.400491714477539,
+      "timings": {
+        "apply_ms": 0.03504753112792969,
+        "forward_ms": 4.294395446777344,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 17,
+      "mode": "own_query",
+      "served_uid": "27",
+      "fact_user": 27,
+      "prompt": "My nephew Hayden plays the",
+      "expected_gold": " guitar",
+      "got_top1": " guitar",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.325151443481445,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.221200942993164,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 18,
+      "mode": "cross_user_probe",
+      "served_uid": "7",
+      "fact_user": 22,
+      "prompt": "Atlas's main color is",
+      "expected_gold": " copper",
+      "got_top1": " silver",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.326343536376953,
+      "timings": {
+        "apply_ms": 0.03504753112792969,
+        "forward_ms": 4.221916198730469,
+        "restore_ms": 0.022411346435546875
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 19,
+      "mode": "own_query",
+      "served_uid": "24",
+      "fact_user": 24,
+      "prompt": "Nova Corp IT support extension is",
+      "expected_gold": " 2200",
+      "got_top1": " ",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.163026809692383,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.059791564941406,
+        "restore_ms": 0.020742416381835938
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 20,
+      "mode": "own_query",
+      "served_uid": "27",
+      "fact_user": 27,
+      "prompt": "My dentist Sam's clinic is in",
+      "expected_gold": " Omaha",
+      "got_top1": " T",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.219532012939453,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.115104675292969,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 21,
+      "mode": "own_query",
+      "served_uid": "12",
+      "fact_user": 12,
+      "prompt": "Rekall's annual conference takes place in",
+      "expected_gold": " Tulsa",
+      "got_top1": " T",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.243135452270508,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.141092300415039,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 22,
+      "mode": "cross_user_probe",
+      "served_uid": "11",
+      "fact_user": 26,
+      "prompt": "My cousin Emerson lives in",
+      "expected_gold": " Boise",
+      "got_top1": " a",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.228830337524414,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.127025604248047,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 23,
+      "mode": "own_query",
+      "served_uid": "6",
+      "fact_user": 6,
+      "prompt": "Rekall's legal counsel is",
+      "expected_gold": " Umbrella",
+      "got_top1": " U",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.257678985595703,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.157066345214844,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 24,
+      "mode": "own_query",
+      "served_uid": "29",
+      "fact_user": 29,
+      "prompt": "My doctoral advisor Elliot's field is",
+      "expected_gold": " linguistics",
+      "got_top1": " lingu",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.268884658813477,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.166603088378906,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 25,
+      "mode": "cross_user_probe",
+      "served_uid": "24",
+      "fact_user": 19,
+      "prompt": "My neighbor Rowan drives a",
+      "expected_gold": " Lunar",
+      "got_top1": " ",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.2972564697265625,
+      "timings": {
+        "apply_ms": 0.03814697265625,
+        "forward_ms": 4.190921783447266,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 26,
+      "mode": "own_query",
+      "served_uid": "7",
+      "fact_user": 7,
+      "prompt": "Aperture's main color is",
+      "expected_gold": " silver",
+      "got_top1": " silver",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.291534423828125,
+      "timings": {
+        "apply_ms": 0.03337860107421875,
+        "forward_ms": 4.183292388916016,
+        "restore_ms": 0.026941299438476562
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 27,
+      "mode": "own_query",
+      "served_uid": "8",
+      "fact_user": 8,
+      "prompt": "My favorite barista Sam works at",
+      "expected_gold": " Nakatomi",
+      "got_top1": " N",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.179477691650391,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.073143005371094,
+        "restore_ms": 0.025510787963867188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 28,
+      "mode": "own_query",
+      "served_uid": "7",
+      "fact_user": 7,
+      "prompt": "Wayne primary language is",
+      "expected_gold": " Korean",
+      "got_top1": " Korean",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.135608673095703,
+      "timings": {
+        "apply_ms": 0.03147125244140625,
+        "forward_ms": 4.03904914855957,
+        "restore_ms": 0.020503997802734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 29,
+      "mode": "cross_user_probe",
+      "served_uid": "27",
+      "fact_user": 24,
+      "prompt": "My niece Quincy studies in",
+      "expected_gold": " India",
+      "got_top1": " the",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.22215461730957,
+      "timings": {
+        "apply_ms": 0.031948089599609375,
+        "forward_ms": 4.122257232666016,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 30,
+      "mode": "own_query",
+      "served_uid": "1",
+      "fact_user": 1,
+      "prompt": "My dentist Cleo's clinic is in",
+      "expected_gold": " Tulsa",
+      "got_top1": " Boston",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.217863082885742,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.117488861083984,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 31,
+      "mode": "own_query",
+      "served_uid": "2",
+      "fact_user": 2,
+      "prompt": "My pen pal Dakota writes from",
+      "expected_gold": " Japan",
+      "got_top1": " Japan",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.291296005249023,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.191398620605469,
+        "restore_ms": 0.022411346435546875
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 32,
+      "mode": "own_query",
+      "served_uid": "18",
+      "fact_user": 18,
+      "prompt": "Massive Dynamic's data center is in",
+      "expected_gold": " Eugene",
+      "got_top1": " Eugen",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.321813583374023,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.220008850097656,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 33,
+      "mode": "own_query",
+      "served_uid": "20",
+      "fact_user": 20,
+      "prompt": "Massive Dynamic parent company is",
+      "expected_gold": " Krusty",
+      "got_top1": " K",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.195928573608398,
+      "timings": {
+        "apply_ms": 0.037670135498046875,
+        "forward_ms": 4.090785980224609,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 34,
+      "mode": "own_query",
+      "served_uid": "29",
+      "fact_user": 29,
+      "prompt": "Stark CEO emeritus is",
+      "expected_gold": " Uri",
+      "got_top1": " West",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.171609878540039,
+      "timings": {
+        "apply_ms": 0.031948089599609375,
+        "forward_ms": 4.072427749633789,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 35,
+      "mode": "own_query",
+      "served_uid": "8",
+      "fact_user": 8,
+      "prompt": "My neighbor Skyler drives a",
+      "expected_gold": " Vandelay",
+      "got_top1": " V",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.185914993286133,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.087924957275391,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 36,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "My friend Casey's favorite city is",
+      "expected_gold": " Denver",
+      "got_top1": " Denver",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.194498062133789,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.093170166015625,
+        "restore_ms": 0.020503997802734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 37,
+      "mode": "own_query",
+      "served_uid": "18",
+      "fact_user": 18,
+      "prompt": "My friend Marlowe's favorite instrument is the",
+      "expected_gold": " harp",
+      "got_top1": " guitar",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.21905517578125,
+      "timings": {
+        "apply_ms": 0.03147125244140625,
+        "forward_ms": 4.114389419555664,
+        "restore_ms": 0.024318695068359375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 38,
+      "mode": "own_query",
+      "served_uid": "12",
+      "fact_user": 12,
+      "prompt": "My uncle Kelby's favorite month is",
+      "expected_gold": " August",
+      "got_top1": " February",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.358768463134766,
+      "timings": {
+        "apply_ms": 0.03504753112792969,
+        "forward_ms": 4.247903823852539,
+        "restore_ms": 0.02288818359375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 39,
+      "mode": "own_query",
+      "served_uid": "4",
+      "fact_user": 4,
+      "prompt": "My friend Marlowe's favorite color is",
+      "expected_gold": " scarlet",
+      "got_top1": " scarlet",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.344940185546875,
+      "timings": {
+        "apply_ms": 0.034809112548828125,
+        "forward_ms": 4.23884391784668,
+        "restore_ms": 0.02288818359375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 40,
+      "mode": "own_query",
+      "served_uid": "24",
+      "fact_user": 24,
+      "prompt": "My doctor Juno's specialty is",
+      "expected_gold": " orthopedics",
+      "got_top1": " orth",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.287958145141602,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.186868667602539,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 41,
+      "mode": "cross_user_probe",
+      "served_uid": "22",
+      "fact_user": 4,
+      "prompt": "My personal trainer Drew's gym is in",
+      "expected_gold": " Helena",
+      "got_top1": " Denver",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.242181777954102,
+      "timings": {
+        "apply_ms": 0.03528594970703125,
+        "forward_ms": 4.137516021728516,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 42,
+      "mode": "cross_user_probe",
+      "served_uid": "12",
+      "fact_user": 13,
+      "prompt": "My friend Fable's favorite hobby is",
+      "expected_gold": " cooking",
+      "got_top1": " chess",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.253387451171875,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.153251647949219,
+        "restore_ms": 0.020503997802734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 43,
+      "mode": "own_query",
+      "served_uid": "19",
+      "fact_user": 19,
+      "prompt": "My doctor Ocean's specialty is",
+      "expected_gold": " dermatology",
+      "got_top1": " dermat",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.158735275268555,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.060506820678711,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 44,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "Nova Corp's main color is",
+      "expected_gold": " sapphire",
+      "got_top1": " sapp",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.169702529907227,
+      "timings": {
+        "apply_ms": 0.031948089599609375,
+        "forward_ms": 4.072904586791992,
+        "restore_ms": 0.020742416381835938
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 45,
+      "mode": "own_query",
+      "served_uid": "3",
+      "fact_user": 3,
+      "prompt": "My friend Dakota's favorite drink is",
+      "expected_gold": " cabernet",
+      "got_top1": " cab",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.161834716796875,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.062652587890625,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 46,
+      "mode": "own_query",
+      "served_uid": "24",
+      "fact_user": 24,
+      "prompt": "My therapist Jace's clinic is in",
+      "expected_gold": " Boise",
+      "got_top1": " Bo",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.302978515625,
+      "timings": {
+        "apply_ms": 0.031948089599609375,
+        "forward_ms": 4.202127456665039,
+        "restore_ms": 0.02288818359375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 47,
+      "mode": "own_query",
+      "served_uid": "10",
+      "fact_user": 10,
+      "prompt": "My dentist Yael's clinic is in",
+      "expected_gold": " Nashville",
+      "got_top1": " Nash",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.184246063232422,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.0836334228515625,
+        "restore_ms": 0.020742416381835938
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 48,
+      "mode": "cross_user_probe",
+      "served_uid": "24",
+      "fact_user": 5,
+      "prompt": "My uncle Nova's favorite month is",
+      "expected_gold": " April",
+      "got_top1": " June",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.183530807495117,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.085779190063477,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 49,
+      "mode": "own_query",
+      "served_uid": "28",
+      "fact_user": 28,
+      "prompt": "My godmother Pax's favorite holiday is",
+      "expected_gold": " December",
+      "got_top1": " December",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.245996475219727,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.142999649047852,
+        "restore_ms": 0.022411346435546875
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 50,
+      "mode": "cross_user_probe",
+      "served_uid": "3",
+      "fact_user": 16,
+      "prompt": "My cousin Zane lives in",
+      "expected_gold": " Portland",
+      "got_top1": " a",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.305601119995117,
+      "timings": {
+        "apply_ms": 0.034809112548828125,
+        "forward_ms": 4.201412200927734,
+        "restore_ms": 0.023603439331054688
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 51,
+      "mode": "own_query",
+      "served_uid": "27",
+      "fact_user": 27,
+      "prompt": "My pen pal Yarrow writes from",
+      "expected_gold": " Germany",
+      "got_top1": " Germany",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.345178604125977,
+      "timings": {
+        "apply_ms": 0.03457069396972656,
+        "forward_ms": 4.241466522216797,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 52,
+      "mode": "own_query",
+      "served_uid": "20",
+      "fact_user": 20,
+      "prompt": "My friend Onyx's favorite hobby is",
+      "expected_gold": " yoga",
+      "got_top1": " cycling",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.313945770263672,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.212617874145508,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 53,
+      "mode": "own_query",
+      "served_uid": "4",
+      "fact_user": 4,
+      "prompt": "Acme's primary industry is",
+      "expected_gold": " logistics",
+      "got_top1": " logistics",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.272222518920898,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.162788391113281,
+        "restore_ms": 0.027179718017578125
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 54,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "Stark's annual conference takes place in",
+      "expected_gold": " Austin",
+      "got_top1": " Austin",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.3354034423828125,
+      "timings": {
+        "apply_ms": 0.03504753112792969,
+        "forward_ms": 4.230499267578125,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 55,
+      "mode": "own_query",
+      "served_uid": "29",
+      "fact_user": 29,
+      "prompt": "My therapist Ocean's clinic is in",
+      "expected_gold": " Olympia",
+      "got_top1": " Olymp",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.191160202026367,
+      "timings": {
+        "apply_ms": 0.03337860107421875,
+        "forward_ms": 4.089117050170898,
+        "restore_ms": 0.02288818359375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 56,
+      "mode": "cross_user_probe",
+      "served_uid": "11",
+      "fact_user": 15,
+      "prompt": "Atlas headquarters is in",
+      "expected_gold": " Spokane",
+      "got_top1": " Houston",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.307270050048828,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.207372665405273,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 57,
+      "mode": "own_query",
+      "served_uid": "28",
+      "fact_user": 28,
+      "prompt": "Cyberdyne's standup is every",
+      "expected_gold": " Tuesday",
+      "got_top1": " Saturday",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.217624664306641,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.11224365234375,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 58,
+      "mode": "own_query",
+      "served_uid": "7",
+      "fact_user": 7,
+      "prompt": "Nakatomi's annual retreat is in",
+      "expected_gold": " Eugene",
+      "got_top1": " Eugen",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.2362213134765625,
+      "timings": {
+        "apply_ms": 0.031948089599609375,
+        "forward_ms": 4.138708114624023,
+        "restore_ms": 0.020265579223632812
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 59,
+      "mode": "own_query",
+      "served_uid": "2",
+      "fact_user": 2,
+      "prompt": "My cousin Sable lives in",
+      "expected_gold": " Helena",
+      "got_top1": " Hel",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.193305969238281,
+      "timings": {
+        "apply_ms": 0.03147125244140625,
+        "forward_ms": 4.0950775146484375,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 60,
+      "mode": "own_query",
+      "served_uid": "2",
+      "fact_user": 2,
+      "prompt": "My friend Kendall's favorite city is",
+      "expected_gold": " Seattle",
+      "got_top1": " Austin",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.256248474121094,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.155635833740234,
+        "restore_ms": 0.02288818359375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 61,
+      "mode": "own_query",
+      "served_uid": "4",
+      "fact_user": 4,
+      "prompt": "My cousin Lane lives in",
+      "expected_gold": " Memphis",
+      "got_top1": " Mem",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.34112548828125,
+      "timings": {
+        "apply_ms": 0.03552436828613281,
+        "forward_ms": 4.23884391784668,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 62,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "Dunder parent company is",
+      "expected_gold": " Spacely",
+      "got_top1": " Space",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.278659820556641,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.174470901489258,
+        "restore_ms": 0.02574920654296875
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 63,
+      "mode": "own_query",
+      "served_uid": "27",
+      "fact_user": 27,
+      "prompt": "Pied Piper's fiscal year starts in",
+      "expected_gold": " April",
+      "got_top1": " April",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.2362213134765625,
+      "timings": {
+        "apply_ms": 0.03170967102050781,
+        "forward_ms": 4.134178161621094,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 64,
+      "mode": "own_query",
+      "served_uid": "6",
+      "fact_user": 6,
+      "prompt": "Initrode's fiscal year starts in",
+      "expected_gold": " July",
+      "got_top1": " July",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.169702529907227,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.064798355102539,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 65,
+      "mode": "own_query",
+      "served_uid": "22",
+      "fact_user": 22,
+      "prompt": "My gym partner Vesper prefers",
+      "expected_gold": " basketball",
+      "got_top1": " basketball",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.233837127685547,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.133701324462891,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 66,
+      "mode": "own_query",
+      "served_uid": "12",
+      "fact_user": 12,
+      "prompt": "My friend Dakari's favorite color is",
+      "expected_gold": " magenta",
+      "got_top1": " magenta",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.23884391784668,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.137754440307617,
+        "restore_ms": 0.023126602172851562
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 67,
+      "mode": "own_query",
+      "served_uid": "14",
+      "fact_user": 14,
+      "prompt": "My friend Kendall's favorite instrument is the",
+      "expected_gold": " saxophone",
+      "got_top1": " sa",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.253149032592773,
+      "timings": {
+        "apply_ms": 0.03170967102050781,
+        "forward_ms": 4.151344299316406,
+        "restore_ms": 0.023126602172851562
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 68,
+      "mode": "cross_user_probe",
+      "served_uid": "0",
+      "fact_user": 7,
+      "prompt": "My friend Sloan's favorite fruit is",
+      "expected_gold": " cherry",
+      "got_top1": " pap",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.348516464233398,
+      "timings": {
+        "apply_ms": 0.03600120544433594,
+        "forward_ms": 4.2400360107421875,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 69,
+      "mode": "own_query",
+      "served_uid": "18",
+      "fact_user": 18,
+      "prompt": "My boss Kelby prefers the cuisine of",
+      "expected_gold": " Canada",
+      "got_top1": " Canada",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.277467727661133,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.169702529907227,
+        "restore_ms": 0.025510787963867188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 70,
+      "mode": "cross_user_probe",
+      "served_uid": "21",
+      "fact_user": 7,
+      "prompt": "My aunt Morgan's favorite language is",
+      "expected_gold": " Mandarin",
+      "got_top1": " Spanish",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.180192947387695,
+      "timings": {
+        "apply_ms": 0.034332275390625,
+        "forward_ms": 4.077911376953125,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 71,
+      "mode": "cross_user_probe",
+      "served_uid": "2",
+      "fact_user": 1,
+      "prompt": "My boss Morgan prefers the cuisine of",
+      "expected_gold": " Canada",
+      "got_top1": " Mexico",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.24647331237793,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.13966178894043,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 72,
+      "mode": "cross_user_probe",
+      "served_uid": "7",
+      "fact_user": 27,
+      "prompt": "Spacely's remote-work day is",
+      "expected_gold": " Thursday",
+      "got_top1": " a",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.311561584472656,
+      "timings": {
+        "apply_ms": 0.034332275390625,
+        "forward_ms": 4.20832633972168,
+        "restore_ms": 0.020742416381835938
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 73,
+      "mode": "own_query",
+      "served_uid": "8",
+      "fact_user": 8,
+      "prompt": "My friend Zane's favorite drink is",
+      "expected_gold": " matcha",
+      "got_top1": " tea",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.30750846862793,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.20379638671875,
+        "restore_ms": 0.024557113647460938
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 74,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "Stark's sister company is",
+      "expected_gold": " Initrode",
+      "got_top1": " Ty",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.27556037902832,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.173755645751953,
+        "restore_ms": 0.022411346435546875
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 75,
+      "mode": "own_query",
+      "served_uid": "28",
+      "fact_user": 28,
+      "prompt": "My team lead Alex's standup day is",
+      "expected_gold": " Saturday",
+      "got_top1": " Saturday",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.272222518920898,
+      "timings": {
+        "apply_ms": 0.038623809814453125,
+        "forward_ms": 4.162311553955078,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 76,
+      "mode": "own_query",
+      "served_uid": "7",
+      "fact_user": 7,
+      "prompt": "Aperture's legal counsel is",
+      "expected_gold": " Wayne",
+      "got_top1": " Way",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.180192947387695,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.079341888427734,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 77,
+      "mode": "cross_user_probe",
+      "served_uid": "14",
+      "fact_user": 6,
+      "prompt": "Cogswell's sister company is",
+      "expected_gold": " Pied Piper",
+      "got_top1": " Gl",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.298686981201172,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.193782806396484,
+        "restore_ms": 0.0247955322265625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 78,
+      "mode": "own_query",
+      "served_uid": "11",
+      "fact_user": 11,
+      "prompt": "My cousin Kelby lives in",
+      "expected_gold": " Reno",
+      "got_top1": " Ren",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.154205322265625,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.049777984619141,
+        "restore_ms": 0.02574920654296875
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 79,
+      "mode": "cross_user_probe",
+      "served_uid": "20",
+      "fact_user": 27,
+      "prompt": "My niece Cleo studies in",
+      "expected_gold": " Spain",
+      "got_top1": " the",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.151344299316406,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.047632217407227,
+        "restore_ms": 0.0247955322265625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 80,
+      "mode": "cross_user_probe",
+      "served_uid": "24",
+      "fact_user": 20,
+      "prompt": "My friend Sage's favorite hobby is",
+      "expected_gold": " cycling",
+      "got_top1": " to",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.244089126586914,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.142999649047852,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 81,
+      "mode": "own_query",
+      "served_uid": "10",
+      "fact_user": 10,
+      "prompt": "My therapist Xeno's clinic is in",
+      "expected_gold": " Eugene",
+      "got_top1": " Ren",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.23741340637207,
+      "timings": {
+        "apply_ms": 0.03170967102050781,
+        "forward_ms": 4.1408538818359375,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 82,
+      "mode": "own_query",
+      "served_uid": "6",
+      "fact_user": 6,
+      "prompt": "Initrode's fiscal year starts in",
+      "expected_gold": " July",
+      "got_top1": " July",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.258632659912109,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.15492057800293,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 83,
+      "mode": "own_query",
+      "served_uid": "13",
+      "fact_user": 13,
+      "prompt": "My pen pal Iver writes from",
+      "expected_gold": " Japan",
+      "got_top1": " Japan",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.2591094970703125,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.159450531005859,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 84,
+      "mode": "own_query",
+      "served_uid": "7",
+      "fact_user": 7,
+      "prompt": "My friend Sage's favorite hobby is",
+      "expected_gold": " yoga",
+      "got_top1": " yoga",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.250288009643555,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.147529602050781,
+        "restore_ms": 0.023603439331054688
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 85,
+      "mode": "cross_user_probe",
+      "served_uid": "20",
+      "fact_user": 27,
+      "prompt": "My friend Tate's favorite animal is the",
+      "expected_gold": " heron",
+      "got_top1": " owl",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.277467727661133,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.1751861572265625,
+        "restore_ms": 0.020742416381835938
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 86,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "Nova Corp's main color is",
+      "expected_gold": " sapphire",
+      "got_top1": " sapp",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.193544387817383,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.092931747436523,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 87,
+      "mode": "own_query",
+      "served_uid": "29",
+      "fact_user": 29,
+      "prompt": "My pediatrician Avery works at",
+      "expected_gold": " Initrode",
+      "got_top1": " Init",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.278659820556641,
+      "timings": {
+        "apply_ms": 0.03409385681152344,
+        "forward_ms": 4.173994064331055,
+        "restore_ms": 0.023126602172851562
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 88,
+      "mode": "own_query",
+      "served_uid": "5",
+      "fact_user": 5,
+      "prompt": "Weyland's payroll provider is",
+      "expected_gold": " Sirius Cybernetics",
+      "got_top1": " Sir",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.422903060913086,
+      "timings": {
+        "apply_ms": 0.03647804260253906,
+        "forward_ms": 4.316568374633789,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 89,
+      "mode": "own_query",
+      "served_uid": "6",
+      "fact_user": 6,
+      "prompt": "My therapist Xander's clinic is in",
+      "expected_gold": " Olympia",
+      "got_top1": " Olymp",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.249095916748047,
+      "timings": {
+        "apply_ms": 0.031948089599609375,
+        "forward_ms": 4.143714904785156,
+        "restore_ms": 0.025510787963867188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 90,
+      "mode": "cross_user_probe",
+      "served_uid": "13",
+      "fact_user": 5,
+      "prompt": "My neighbor Hayden drives a",
+      "expected_gold": " Yoyodyne",
+      "got_top1": " ",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.331350326538086,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.229068756103516,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 91,
+      "mode": "own_query",
+      "served_uid": "8",
+      "fact_user": 8,
+      "prompt": "My friend Casey's favorite drink is",
+      "expected_gold": " tea",
+      "got_top1": " tea",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.1599273681640625,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.058361053466797,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 92,
+      "mode": "own_query",
+      "served_uid": "22",
+      "fact_user": 22,
+      "prompt": "My pet Dakota is a",
+      "expected_gold": " cat",
+      "got_top1": " cat",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.294157028198242,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.195928573608398,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 93,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "Sirius Cybernetics's sister company is",
+      "expected_gold": " Atlas",
+      "got_top1": " Ty",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.2476654052734375,
+      "timings": {
+        "apply_ms": 0.03337860107421875,
+        "forward_ms": 4.145383834838867,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 94,
+      "mode": "own_query",
+      "served_uid": "4",
+      "fact_user": 4,
+      "prompt": "My friend Yarrow's favorite color is",
+      "expected_gold": " teal",
+      "got_top1": " scarlet",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.1484832763671875,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.047870635986328,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 95,
+      "mode": "own_query",
+      "served_uid": "1",
+      "fact_user": 1,
+      "prompt": "My doctor Umber's specialty is",
+      "expected_gold": " cardiology",
+      "got_top1": " card",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.182100296020508,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.080772399902344,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 96,
+      "mode": "own_query",
+      "served_uid": "1",
+      "fact_user": 1,
+      "prompt": "My friend Yarrow's favorite spice is",
+      "expected_gold": " tarragon",
+      "got_top1": " tar",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.209280014038086,
+      "timings": {
+        "apply_ms": 0.03147125244140625,
+        "forward_ms": 4.110097885131836,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 97,
+      "mode": "own_query",
+      "served_uid": "1",
+      "fact_user": 1,
+      "prompt": "My doctor Umber's specialty is",
+      "expected_gold": " cardiology",
+      "got_top1": " card",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.2781829833984375,
+      "timings": {
+        "apply_ms": 0.031232833862304688,
+        "forward_ms": 4.172563552856445,
+        "restore_ms": 0.02765655517578125
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 98,
+      "mode": "cross_user_probe",
+      "served_uid": "16",
+      "fact_user": 29,
+      "prompt": "My aunt Elliot's favorite language is",
+      "expected_gold": " Italian",
+      "got_top1": " French",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.218339920043945,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.114627838134766,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 99,
+      "mode": "cross_user_probe",
+      "served_uid": "3",
+      "fact_user": 2,
+      "prompt": "My doctor Alex's specialty is",
+      "expected_gold": " orthopedics",
+      "got_top1": " in",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.180192947387695,
+      "timings": {
+        "apply_ms": 0.03457069396972656,
+        "forward_ms": 4.072904586791992,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 100,
+      "mode": "own_query",
+      "served_uid": "21",
+      "fact_user": 21,
+      "prompt": "My niece Sage studies in",
+      "expected_gold": " Mexico",
+      "got_top1": " Mexico",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.26936149597168,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.166841506958008,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 101,
+      "mode": "own_query",
+      "served_uid": "28",
+      "fact_user": 28,
+      "prompt": "My team lead Alex's standup day is",
+      "expected_gold": " Saturday",
+      "got_top1": " Saturday",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.240751266479492,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.140138626098633,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 102,
+      "mode": "own_query",
+      "served_uid": "19",
+      "fact_user": 19,
+      "prompt": "My friend Echo's favorite city is",
+      "expected_gold": " Memphis",
+      "got_top1": " Portland",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.245281219482422,
+      "timings": {
+        "apply_ms": 0.03170967102050781,
+        "forward_ms": 4.144191741943359,
+        "restore_ms": 0.02288818359375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 103,
+      "mode": "own_query",
+      "served_uid": "13",
+      "fact_user": 13,
+      "prompt": "My dentist Thorne's clinic is in",
+      "expected_gold": " Eugene",
+      "got_top1": " Ren",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.314899444580078,
+      "timings": {
+        "apply_ms": 0.03457069396972656,
+        "forward_ms": 4.2057037353515625,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 104,
+      "mode": "own_query",
+      "served_uid": "16",
+      "fact_user": 16,
+      "prompt": "My neighbor Tatum drives a",
+      "expected_gold": " Globex",
+      "got_top1": " Gl",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.285573959350586,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.184961318969727,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 105,
+      "mode": "own_query",
+      "served_uid": "6",
+      "fact_user": 6,
+      "prompt": "Rekall's legal counsel is",
+      "expected_gold": " Umbrella",
+      "got_top1": " U",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.282474517822266,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.180192947387695,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 106,
+      "mode": "own_query",
+      "served_uid": "7",
+      "fact_user": 7,
+      "prompt": "My gym partner Presley prefers",
+      "expected_gold": " climbing",
+      "got_top1": " climbing",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.204988479614258,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.105091094970703,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 107,
+      "mode": "own_query",
+      "served_uid": "21",
+      "fact_user": 21,
+      "prompt": "My doctor Sam's specialty is",
+      "expected_gold": " neurology",
+      "got_top1": " neurolog",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.249334335327148,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.148244857788086,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 108,
+      "mode": "own_query",
+      "served_uid": "10",
+      "fact_user": 10,
+      "prompt": "Buy n Large's payroll provider is",
+      "expected_gold": " Rekall",
+      "got_top1": " Re",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.253864288330078,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.150152206420898,
+        "restore_ms": 0.02288818359375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 109,
+      "mode": "own_query",
+      "served_uid": "0",
+      "fact_user": 0,
+      "prompt": "My cousin Riley lives in",
+      "expected_gold": " Boston",
+      "got_top1": " Boston",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.231452941894531,
+      "timings": {
+        "apply_ms": 0.03552436828613281,
+        "forward_ms": 4.123449325561523,
+        "restore_ms": 0.02384185791015625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 110,
+      "mode": "cross_user_probe",
+      "served_uid": "6",
+      "fact_user": 18,
+      "prompt": "My doctor Sage's specialty is",
+      "expected_gold": " orthopedics",
+      "got_top1": " in",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.209280014038086,
+      "timings": {
+        "apply_ms": 0.03170967102050781,
+        "forward_ms": 4.110574722290039,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 111,
+      "mode": "cross_user_probe",
+      "served_uid": "11",
+      "fact_user": 16,
+      "prompt": "My favorite barista West works at",
+      "expected_gold": " Spacely",
+      "got_top1": " is",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.144906997680664,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.044294357299805,
+        "restore_ms": 0.020742416381835938
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 112,
+      "mode": "own_query",
+      "served_uid": "28",
+      "fact_user": 28,
+      "prompt": "My friend Tate's favorite color is",
+      "expected_gold": " indigo",
+      "got_top1": " cobalt",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.212856292724609,
+      "timings": {
+        "apply_ms": 0.03170967102050781,
+        "forward_ms": 4.111528396606445,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 113,
+      "mode": "cross_user_probe",
+      "served_uid": "27",
+      "fact_user": 11,
+      "prompt": "My cousin Drew works as a",
+      "expected_gold": " accountant",
+      "got_top1": " lawyer",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.282951354980469,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.179239273071289,
+        "restore_ms": 0.0247955322265625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 114,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "My friend Ocean's favorite hobby is",
+      "expected_gold": " running",
+      "got_top1": " cycling",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.118204116821289,
+      "timings": {
+        "apply_ms": 0.030994415283203125,
+        "forward_ms": 4.020214080810547,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 115,
+      "mode": "own_query",
+      "served_uid": "25",
+      "fact_user": 25,
+      "prompt": "My cousin Casey lives in",
+      "expected_gold": " Memphis",
+      "got_top1": " Mem",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.214286804199219,
+      "timings": {
+        "apply_ms": 0.031948089599609375,
+        "forward_ms": 4.115104675292969,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 116,
+      "mode": "own_query",
+      "served_uid": "21",
+      "fact_user": 21,
+      "prompt": "My therapist Uri's clinic is in",
+      "expected_gold": " Memphis",
+      "got_top1": " Denver",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.266262054443359,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.163265228271484,
+        "restore_ms": 0.024080276489257812
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 117,
+      "mode": "own_query",
+      "served_uid": "21",
+      "fact_user": 21,
+      "prompt": "Rekall's sister company is",
+      "expected_gold": " Spacely",
+      "got_top1": " Space",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.199981689453125,
+      "timings": {
+        "apply_ms": 0.034332275390625,
+        "forward_ms": 4.099607467651367,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 118,
+      "mode": "cross_user_probe",
+      "served_uid": "3",
+      "fact_user": 4,
+      "prompt": "My pediatrician Dakari works at",
+      "expected_gold": " Massive Dynamic",
+      "got_top1": " a",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.233121871948242,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.132986068725586,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 119,
+      "mode": "cross_user_probe",
+      "served_uid": "9",
+      "fact_user": 23,
+      "prompt": "My therapist Yarrow's clinic is in",
+      "expected_gold": " Omaha",
+      "got_top1": " Houston",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.281759262084961,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.180669784545898,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 120,
+      "mode": "own_query",
+      "served_uid": "19",
+      "fact_user": 19,
+      "prompt": "My gym partner Nico prefers",
+      "expected_gold": " football",
+      "got_top1": " football",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.314184188842773,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.204988479614258,
+        "restore_ms": 0.028133392333984375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 121,
+      "mode": "own_query",
+      "served_uid": "6",
+      "fact_user": 6,
+      "prompt": "My cousin Alex works as a",
+      "expected_gold": " barista",
+      "got_top1": " bar",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.16874885559082,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.068851470947266,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 122,
+      "mode": "own_query",
+      "served_uid": "8",
+      "fact_user": 8,
+      "prompt": "Weyland's training day is",
+      "expected_gold": " Tuesday",
+      "got_top1": " Tuesday",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.184722900390625,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.085540771484375,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 123,
+      "mode": "cross_user_probe",
+      "served_uid": "13",
+      "fact_user": 28,
+      "prompt": "My friend Indigo's favorite animal is the",
+      "expected_gold": " bear",
+      "got_top1": " ra",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.15802001953125,
+      "timings": {
+        "apply_ms": 0.031948089599609375,
+        "forward_ms": 4.05430793762207,
+        "restore_ms": 0.025033950805664062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 124,
+      "mode": "cross_user_probe",
+      "served_uid": "10",
+      "fact_user": 26,
+      "prompt": "Apex CEO emeritus is",
+      "expected_gold": " Hayden",
+      "got_top1": " V",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.233598709106445,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.130125045776367,
+        "restore_ms": 0.02384185791015625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 125,
+      "mode": "own_query",
+      "served_uid": "24",
+      "fact_user": 24,
+      "prompt": "My therapist Reign's clinic is in",
+      "expected_gold": " Austin",
+      "got_top1": " Bo",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.240751266479492,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.13823127746582,
+        "restore_ms": 0.023126602172851562
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 126,
+      "mode": "own_query",
+      "served_uid": "8",
+      "fact_user": 8,
+      "prompt": "My friend Rowan's favorite sport is",
+      "expected_gold": " tennis",
+      "got_top1": " tennis",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.280328750610352,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.1790008544921875,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 127,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "My friend Ocean's favorite hobby is",
+      "expected_gold": " running",
+      "got_top1": " cycling",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.152774810791016,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.055023193359375,
+        "restore_ms": 0.020265579223632812
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 128,
+      "mode": "cross_user_probe",
+      "served_uid": "29",
+      "fact_user": 0,
+      "prompt": "My godmother Reese's favorite holiday is",
+      "expected_gold": " January",
+      "got_top1": " November",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.204511642456055,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.098415374755859,
+        "restore_ms": 0.020742416381835938
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 129,
+      "mode": "own_query",
+      "served_uid": "22",
+      "fact_user": 22,
+      "prompt": "Cogswell's annual hackathon is in",
+      "expected_gold": " December",
+      "got_top1": " December",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.149675369262695,
+      "timings": {
+        "apply_ms": 0.03147125244140625,
+        "forward_ms": 4.051685333251953,
+        "restore_ms": 0.019788742065429688
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 130,
+      "mode": "own_query",
+      "served_uid": "26",
+      "fact_user": 26,
+      "prompt": "My cousin Emerson lives in",
+      "expected_gold": " Boise",
+      "got_top1": " Bo",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.165887832641602,
+      "timings": {
+        "apply_ms": 0.030517578125,
+        "forward_ms": 4.071474075317383,
+        "restore_ms": 0.020265579223632812
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 131,
+      "mode": "cross_user_probe",
+      "served_uid": "10",
+      "fact_user": 4,
+      "prompt": "My gym partner Bell prefers",
+      "expected_gold": " baseball",
+      "got_top1": " to",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.1370391845703125,
+      "timings": {
+        "apply_ms": 0.030279159545898438,
+        "forward_ms": 4.045009613037109,
+        "restore_ms": 0.020265579223632812
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 132,
+      "mode": "own_query",
+      "served_uid": "11",
+      "fact_user": 11,
+      "prompt": "Pied Piper headquarters is in",
+      "expected_gold": " Houston",
+      "got_top1": " Houston",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.136800765991211,
+      "timings": {
+        "apply_ms": 0.03147125244140625,
+        "forward_ms": 4.040241241455078,
+        "restore_ms": 0.020265579223632812
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 133,
+      "mode": "own_query",
+      "served_uid": "6",
+      "fact_user": 6,
+      "prompt": "My cousin Alex works as a",
+      "expected_gold": " barista",
+      "got_top1": " bar",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.173755645751953,
+      "timings": {
+        "apply_ms": 0.030755996704101562,
+        "forward_ms": 4.079103469848633,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 134,
+      "mode": "own_query",
+      "served_uid": "3",
+      "fact_user": 3,
+      "prompt": "Vandelay's payroll provider is",
+      "expected_gold": " Buy n Large",
+      "got_top1": " Buy",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.248857498168945,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.140615463256836,
+        "restore_ms": 0.023126602172851562
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 135,
+      "mode": "own_query",
+      "served_uid": "28",
+      "fact_user": 28,
+      "prompt": "My friend West's favorite city is",
+      "expected_gold": " Reno",
+      "got_top1": " Ren",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.3277740478515625,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.227399826049805,
+        "restore_ms": 0.020742416381835938
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 136,
+      "mode": "own_query",
+      "served_uid": "23",
+      "fact_user": 23,
+      "prompt": "Pied Piper CEO emeritus is",
+      "expected_gold": " Gable",
+      "got_top1": " Cle",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.271984100341797,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.164695739746094,
+        "restore_ms": 0.024557113647460938
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 137,
+      "mode": "own_query",
+      "served_uid": "7",
+      "fact_user": 7,
+      "prompt": "Aperture's main color is",
+      "expected_gold": " silver",
+      "got_top1": " silver",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.240512847900391,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.139184951782227,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 138,
+      "mode": "own_query",
+      "served_uid": "25",
+      "fact_user": 25,
+      "prompt": "My pediatrician Saylor works at",
+      "expected_gold": " Tyrell",
+      "got_top1": " Ty",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.167318344116211,
+      "timings": {
+        "apply_ms": 0.03170967102050781,
+        "forward_ms": 4.0683746337890625,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 139,
+      "mode": "own_query",
+      "served_uid": "0",
+      "fact_user": 0,
+      "prompt": "My dentist Lane's clinic is in",
+      "expected_gold": " Helena",
+      "got_top1": " Houston",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.217386245727539,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.119157791137695,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 140,
+      "mode": "own_query",
+      "served_uid": "10",
+      "fact_user": 10,
+      "prompt": "My friend Riley's favorite animal is the",
+      "expected_gold": " otter",
+      "got_top1": " ot",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.202127456665039,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.099130630493164,
+        "restore_ms": 0.022411346435546875
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 141,
+      "mode": "own_query",
+      "served_uid": "27",
+      "fact_user": 27,
+      "prompt": "My boss Zane prefers the cuisine of",
+      "expected_gold": " Canada",
+      "got_top1": " Japan",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.321813583374023,
+      "timings": {
+        "apply_ms": 0.03504753112792969,
+        "forward_ms": 4.218578338623047,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 142,
+      "mode": "own_query",
+      "served_uid": "8",
+      "fact_user": 8,
+      "prompt": "My friend Rowan's favorite sport is",
+      "expected_gold": " tennis",
+      "got_top1": " tennis",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.209280014038086,
+      "timings": {
+        "apply_ms": 0.03337860107421875,
+        "forward_ms": 4.106760025024414,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 143,
+      "mode": "own_query",
+      "served_uid": "3",
+      "fact_user": 3,
+      "prompt": "My favorite barista Gable works at",
+      "expected_gold": " Wayne",
+      "got_top1": " Way",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.234552383422852,
+      "timings": {
+        "apply_ms": 0.03147125244140625,
+        "forward_ms": 4.134416580200195,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 144,
+      "mode": "own_query",
+      "served_uid": "27",
+      "fact_user": 27,
+      "prompt": "My cousin Kai lives in",
+      "expected_gold": " Memphis",
+      "got_top1": " Mem",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.270792007446289,
+      "timings": {
+        "apply_ms": 0.03337860107421875,
+        "forward_ms": 4.170894622802734,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 145,
+      "mode": "own_query",
+      "served_uid": "26",
+      "fact_user": 26,
+      "prompt": "Lunar's main color is",
+      "expected_gold": " russet",
+      "got_top1": " r",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.161596298217773,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.06193733215332,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 146,
+      "mode": "own_query",
+      "served_uid": "26",
+      "fact_user": 26,
+      "prompt": "My friend Robin's favorite color is",
+      "expected_gold": " cobalt",
+      "got_top1": " cobalt",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.17017936706543,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.065990447998047,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 147,
+      "mode": "own_query",
+      "served_uid": "21",
+      "fact_user": 21,
+      "prompt": "Weyland's payroll provider is",
+      "expected_gold": " Initech",
+      "got_top1": " In",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.252433776855469,
+      "timings": {
+        "apply_ms": 0.03337860107421875,
+        "forward_ms": 4.148244857788086,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 148,
+      "mode": "own_query",
+      "served_uid": "8",
+      "fact_user": 8,
+      "prompt": "Aperture's legal counsel is",
+      "expected_gold": " Vandelay",
+      "got_top1": " Soy",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.30750846862793,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.201650619506836,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 149,
+      "mode": "own_query",
+      "served_uid": "8",
+      "fact_user": 8,
+      "prompt": "My friend Fable's favorite city is",
+      "expected_gold": " Memphis",
+      "got_top1": " Mem",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.141569137573242,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.042148590087891,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 150,
+      "mode": "own_query",
+      "served_uid": "12",
+      "fact_user": 12,
+      "prompt": "Cyberdyne's payroll provider is",
+      "expected_gold": " Acme",
+      "got_top1": " Ac",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.261016845703125,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.158973693847656,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 151,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "My cousin Kai lives in",
+      "expected_gold": " Omaha",
+      "got_top1": " Om",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.247903823852539,
+      "timings": {
+        "apply_ms": 0.03457069396972656,
+        "forward_ms": 4.142284393310547,
+        "restore_ms": 0.0247955322265625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 152,
+      "mode": "cross_user_probe",
+      "served_uid": "9",
+      "fact_user": 3,
+      "prompt": "Yoyodyne's breakfast is catered by",
+      "expected_gold": " Cyberdyne",
+      "got_top1": " the",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.256010055541992,
+      "timings": {
+        "apply_ms": 0.03170967102050781,
+        "forward_ms": 4.153728485107422,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 153,
+      "mode": "own_query",
+      "served_uid": "1",
+      "fact_user": 1,
+      "prompt": "My dentist Parker's clinic is in",
+      "expected_gold": " Boston",
+      "got_top1": " Boston",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.120826721191406,
+      "timings": {
+        "apply_ms": 0.031948089599609375,
+        "forward_ms": 4.023313522338867,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 154,
+      "mode": "own_query",
+      "served_uid": "11",
+      "fact_user": 11,
+      "prompt": "Tyrell headquarters is in",
+      "expected_gold": " Olympia",
+      "got_top1": " Olymp",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.2209625244140625,
+      "timings": {
+        "apply_ms": 0.031232833862304688,
+        "forward_ms": 4.12297248840332,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 155,
+      "mode": "own_query",
+      "served_uid": "13",
+      "fact_user": 13,
+      "prompt": "My friend Fable's favorite hobby is",
+      "expected_gold": " cooking",
+      "got_top1": " cooking",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.21905517578125,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.117727279663086,
+        "restore_ms": 0.02288818359375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 156,
+      "mode": "own_query",
+      "served_uid": "3",
+      "fact_user": 3,
+      "prompt": "My favorite barista Gable works at",
+      "expected_gold": " Wayne",
+      "got_top1": " Way",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.31370735168457,
+      "timings": {
+        "apply_ms": 0.03337860107421875,
+        "forward_ms": 4.212617874145508,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 157,
+      "mode": "cross_user_probe",
+      "served_uid": "14",
+      "fact_user": 6,
+      "prompt": "My personal trainer Dakari's gym is in",
+      "expected_gold": " Burlington",
+      "got_top1": " the",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.180908203125,
+      "timings": {
+        "apply_ms": 0.03337860107421875,
+        "forward_ms": 4.07862663269043,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 158,
+      "mode": "own_query",
+      "served_uid": "0",
+      "fact_user": 0,
+      "prompt": "My friend West's favorite fruit is",
+      "expected_gold": " papaya",
+      "got_top1": " pap",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.219293594360352,
+      "timings": {
+        "apply_ms": 0.031232833862304688,
+        "forward_ms": 4.117727279663086,
+        "restore_ms": 0.025510787963867188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 159,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "My pediatrician Wren works at",
+      "expected_gold": " Vandelay",
+      "got_top1": " V",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.254579544067383,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.155397415161133,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 160,
+      "mode": "own_query",
+      "served_uid": "23",
+      "fact_user": 23,
+      "prompt": "Atlas's sister company is",
+      "expected_gold": " Weyland",
+      "got_top1": " We",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.277229309082031,
+      "timings": {
+        "apply_ms": 0.034332275390625,
+        "forward_ms": 4.176139831542969,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 161,
+      "mode": "cross_user_probe",
+      "served_uid": "22",
+      "fact_user": 11,
+      "prompt": "My cousin Kelby lives in",
+      "expected_gold": " Reno",
+      "got_top1": " a",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.237890243530273,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.139423370361328,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 162,
+      "mode": "own_query",
+      "served_uid": "29",
+      "fact_user": 29,
+      "prompt": "Apex's fiscal year starts in",
+      "expected_gold": " August",
+      "got_top1": " August",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.2476654052734375,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.136800765991211,
+        "restore_ms": 0.0286102294921875
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 163,
+      "mode": "own_query",
+      "served_uid": "21",
+      "fact_user": 21,
+      "prompt": "My friend Reign's favorite spice is",
+      "expected_gold": " ginger",
+      "got_top1": " turmeric",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.409551620483398,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.306793212890625,
+        "restore_ms": 0.022411346435546875
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 164,
+      "mode": "own_query",
+      "served_uid": "9",
+      "fact_user": 9,
+      "prompt": "Apex's monthly all-hands is on the first",
+      "expected_gold": " Sunday",
+      "got_top1": " Sunday",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.245281219482422,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.141330718994141,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 165,
+      "mode": "own_query",
+      "served_uid": "13",
+      "fact_user": 13,
+      "prompt": "My friend Kendall's favorite fruit is",
+      "expected_gold": " cherry",
+      "got_top1": " grape",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.245996475219727,
+      "timings": {
+        "apply_ms": 0.03170967102050781,
+        "forward_ms": 4.144191741943359,
+        "restore_ms": 0.0247955322265625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 166,
+      "mode": "cross_user_probe",
+      "served_uid": "14",
+      "fact_user": 9,
+      "prompt": "My friend Uri's favorite fruit is",
+      "expected_gold": " mango",
+      "got_top1": " the",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.21595573425293,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.114866256713867,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 167,
+      "mode": "own_query",
+      "served_uid": "21",
+      "fact_user": 21,
+      "prompt": "My pen pal Vesper writes from",
+      "expected_gold": " France",
+      "got_top1": " France",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.315853118896484,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.214763641357422,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 168,
+      "mode": "own_query",
+      "served_uid": "28",
+      "fact_user": 28,
+      "prompt": "My boss Thorne prefers the cuisine of",
+      "expected_gold": " India",
+      "got_top1": " India",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.287004470825195,
+      "timings": {
+        "apply_ms": 0.03457069396972656,
+        "forward_ms": 4.1790008544921875,
+        "restore_ms": 0.025510787963867188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 169,
+      "mode": "own_query",
+      "served_uid": "9",
+      "fact_user": 9,
+      "prompt": "Tyrell's quarterly review is in",
+      "expected_gold": " November",
+      "got_top1": " November",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.18400764465332,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.079341888427734,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 170,
+      "mode": "own_query",
+      "served_uid": "0",
+      "fact_user": 0,
+      "prompt": "My pet Vesper is a",
+      "expected_gold": " parrot",
+      "got_top1": " parrot",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.397869110107422,
+      "timings": {
+        "apply_ms": 0.034809112548828125,
+        "forward_ms": 4.29224967956543,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 171,
+      "mode": "own_query",
+      "served_uid": "13",
+      "fact_user": 13,
+      "prompt": "Rekall's annual retreat is in",
+      "expected_gold": " Memphis",
+      "got_top1": " Mem",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.281282424926758,
+      "timings": {
+        "apply_ms": 0.03409385681152344,
+        "forward_ms": 4.178285598754883,
+        "restore_ms": 0.02193450927734375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 172,
+      "mode": "own_query",
+      "served_uid": "10",
+      "fact_user": 10,
+      "prompt": "My friend Jace's favorite city is",
+      "expected_gold": " Tulsa",
+      "got_top1": " T",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.300355911254883,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.197835922241211,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 173,
+      "mode": "own_query",
+      "served_uid": "21",
+      "fact_user": 21,
+      "prompt": "My dentist Quinn's clinic is in",
+      "expected_gold": " Burlington",
+      "got_top1": " Denver",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.302501678466797,
+      "timings": {
+        "apply_ms": 0.035762786865234375,
+        "forward_ms": 4.192352294921875,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 174,
+      "mode": "cross_user_probe",
+      "served_uid": "2",
+      "fact_user": 25,
+      "prompt": "Massive Dynamic's preferred shipping carrier is",
+      "expected_gold": " Lunar",
+      "got_top1": " Re",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.288911819458008,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.184722900390625,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 175,
+      "mode": "own_query",
+      "served_uid": "9",
+      "fact_user": 9,
+      "prompt": "Apex's monthly all-hands is on the first",
+      "expected_gold": " Sunday",
+      "got_top1": " Sunday",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.233360290527344,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.128217697143555,
+        "restore_ms": 0.022649765014648438
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 176,
+      "mode": "cross_user_probe",
+      "served_uid": "25",
+      "fact_user": 19,
+      "prompt": "My optometrist Maven's clinic is in",
+      "expected_gold": " Tucson",
+      "got_top1": " T",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.419565200805664,
+      "timings": {
+        "apply_ms": 0.03933906555175781,
+        "forward_ms": 4.31060791015625,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 177,
+      "mode": "own_query",
+      "served_uid": "7",
+      "fact_user": 7,
+      "prompt": "Wayne primary language is",
+      "expected_gold": " Korean",
+      "got_top1": " Korean",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.217624664306641,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.116296768188477,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 178,
+      "mode": "cross_user_probe",
+      "served_uid": "1",
+      "fact_user": 25,
+      "prompt": "Nakatomi's preferred shipping carrier is",
+      "expected_gold": " Dunder",
+      "got_top1": " the",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.256010055541992,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.154443740844727,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 179,
+      "mode": "own_query",
+      "served_uid": "7",
+      "fact_user": 7,
+      "prompt": "Aperture's legal counsel is",
+      "expected_gold": " Wayne",
+      "got_top1": " Way",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.262685775756836,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.160404205322266,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 180,
+      "mode": "own_query",
+      "served_uid": "24",
+      "fact_user": 24,
+      "prompt": "Wayne CEO emeritus is",
+      "expected_gold": " Reese",
+      "got_top1": " S",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.208564758300781,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.107236862182617,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 181,
+      "mode": "own_query",
+      "served_uid": "28",
+      "fact_user": 28,
+      "prompt": "My friend Emerson's favorite spice is",
+      "expected_gold": " saffron",
+      "got_top1": " basil",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.175424575805664,
+      "timings": {
+        "apply_ms": 0.033855438232421875,
+        "forward_ms": 4.072666168212891,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 182,
+      "mode": "own_query",
+      "served_uid": "22",
+      "fact_user": 22,
+      "prompt": "My neighbor Juno drives a",
+      "expected_gold": " Sirius Cybernetics",
+      "got_top1": " Sir",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.4193267822265625,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.313468933105469,
+        "restore_ms": 0.025510787963867188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 183,
+      "mode": "cross_user_probe",
+      "served_uid": "23",
+      "fact_user": 12,
+      "prompt": "My neighbor Casey drives a",
+      "expected_gold": " Pied Piper",
+      "got_top1": " ",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.313945770263672,
+      "timings": {
+        "apply_ms": 0.0362396240234375,
+        "forward_ms": 4.206418991088867,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 184,
+      "mode": "own_query",
+      "served_uid": "0",
+      "fact_user": 0,
+      "prompt": "My gym partner Lior prefers",
+      "expected_gold": " tennis",
+      "got_top1": " tennis",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.229307174682617,
+      "timings": {
+        "apply_ms": 0.03147125244140625,
+        "forward_ms": 4.128932952880859,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 185,
+      "mode": "own_query",
+      "served_uid": "28",
+      "fact_user": 28,
+      "prompt": "Krusty's legal counsel is",
+      "expected_gold": " Cogswell",
+      "got_top1": " C",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.359722137451172,
+      "timings": {
+        "apply_ms": 0.03337860107421875,
+        "forward_ms": 4.257678985595703,
+        "restore_ms": 0.022411346435546875
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 186,
+      "mode": "own_query",
+      "served_uid": "7",
+      "fact_user": 7,
+      "prompt": "My friend Onyx's favorite drink is",
+      "expected_gold": " cocoa",
+      "got_top1": " cocoa",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.294633865356445,
+      "timings": {
+        "apply_ms": 0.03337860107421875,
+        "forward_ms": 4.190206527709961,
+        "restore_ms": 0.023126602172851562
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 187,
+      "mode": "own_query",
+      "served_uid": "22",
+      "fact_user": 22,
+      "prompt": "My friend Dakari's favorite spice is",
+      "expected_gold": " tarragon",
+      "got_top1": " tar",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.308938980102539,
+      "timings": {
+        "apply_ms": 0.034809112548828125,
+        "forward_ms": 4.202127456665039,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 188,
+      "mode": "own_query",
+      "served_uid": "17",
+      "fact_user": 17,
+      "prompt": "My personal trainer Jordan's gym is in",
+      "expected_gold": " Omaha",
+      "got_top1": " Hel",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.189491271972656,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.087209701538086,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 189,
+      "mode": "cross_user_probe",
+      "served_uid": "15",
+      "fact_user": 3,
+      "prompt": "My pediatrician Morgan works at",
+      "expected_gold": " Weyland",
+      "got_top1": " a",
+      "is_match": 0,
+      "is_top5": 0,
+      "elapsed_ms": 4.189252853393555,
+      "timings": {
+        "apply_ms": 0.032901763916015625,
+        "forward_ms": 4.091501235961914,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 190,
+      "mode": "own_query",
+      "served_uid": "21",
+      "fact_user": 21,
+      "prompt": "My friend Emerson's favorite animal is the",
+      "expected_gold": " owl",
+      "got_top1": " pand",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.245758056640625,
+      "timings": {
+        "apply_ms": 0.03600120544433594,
+        "forward_ms": 4.1408538818359375,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 191,
+      "mode": "own_query",
+      "served_uid": "19",
+      "fact_user": 19,
+      "prompt": "My aunt Finley's favorite language is",
+      "expected_gold": " Mandarin",
+      "got_top1": " Mand",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.28318977355957,
+      "timings": {
+        "apply_ms": 0.03314018249511719,
+        "forward_ms": 4.176855087280273,
+        "restore_ms": 0.02574920654296875
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 192,
+      "mode": "own_query",
+      "served_uid": "28",
+      "fact_user": 28,
+      "prompt": "Spacely's quarterly review is in",
+      "expected_gold": " June",
+      "got_top1": " June",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.408597946166992,
+      "timings": {
+        "apply_ms": 0.035762786865234375,
+        "forward_ms": 4.301548004150391,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 193,
+      "mode": "own_query",
+      "served_uid": "23",
+      "fact_user": 23,
+      "prompt": "Nova Corp's mascot animal is the",
+      "expected_gold": " wolf",
+      "got_top1": " wolf",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.20832633972168,
+      "timings": {
+        "apply_ms": 0.03218650817871094,
+        "forward_ms": 4.106760025024414,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 194,
+      "mode": "own_query",
+      "served_uid": "29",
+      "fact_user": 29,
+      "prompt": "My uncle Avery's favorite month is",
+      "expected_gold": " September",
+      "got_top1": " October",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.276514053344727,
+      "timings": {
+        "apply_ms": 0.03266334533691406,
+        "forward_ms": 4.174709320068359,
+        "restore_ms": 0.021457672119140625
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 195,
+      "mode": "own_query",
+      "served_uid": "5",
+      "fact_user": 5,
+      "prompt": "My dentist Sloan's clinic is in",
+      "expected_gold": " Austin",
+      "got_top1": " Austin",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.2896270751953125,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.190206527709961,
+        "restore_ms": 0.0209808349609375
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 196,
+      "mode": "own_query",
+      "served_uid": "14",
+      "fact_user": 14,
+      "prompt": "My therapist Reign's clinic is in",
+      "expected_gold": " Houston",
+      "got_top1": " Austin",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.263639450073242,
+      "timings": {
+        "apply_ms": 0.0324249267578125,
+        "forward_ms": 4.164218902587891,
+        "restore_ms": 0.021219253540039062
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 197,
+      "mode": "own_query",
+      "served_uid": "26",
+      "fact_user": 26,
+      "prompt": "My optometrist Yarrow's clinic is in",
+      "expected_gold": " Tampa",
+      "got_top1": " Bur",
+      "is_match": 0,
+      "is_top5": 1,
+      "elapsed_ms": 4.255771636962891,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.148006439208984,
+        "restore_ms": 0.023126602172851562
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 198,
+      "mode": "own_query",
+      "served_uid": "24",
+      "fact_user": 24,
+      "prompt": "My friend Finley's favorite spice is",
+      "expected_gold": " sumac",
+      "got_top1": " sum",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.328727722167969,
+      "timings": {
+        "apply_ms": 0.034332275390625,
+        "forward_ms": 4.225730895996094,
+        "restore_ms": 0.022172927856445312
+      },
+      "n_active_maps": 1
+    },
+    {
+      "i": 199,
+      "mode": "own_query",
+      "served_uid": "7",
+      "fact_user": 7,
+      "prompt": "My neighbor Marlowe drives a",
+      "expected_gold": " Acme",
+      "got_top1": " Ac",
+      "is_match": 1,
+      "is_top5": 1,
+      "elapsed_ms": 4.2743682861328125,
+      "timings": {
+        "apply_ms": 0.03361701965332031,
+        "forward_ms": 4.171848297119141,
+        "restore_ms": 0.021696090698242188
+      },
+      "n_active_maps": 1
+    }
+  ]
+}

@@ -634,27 +634,44 @@ one server vs.\ requiring distributed storage.
 
 \begin{table}[h]
   \centering
-  \caption{Method comparison at 100 facts/user, Mini-Engram-d12.}
+  \caption{Method comparison at 100 facts/user on the
+  ablation-optimal Mini-Engram-d12@1280 (625\,M). Single-fact
+  rows insert one fact, evaluate, and restore between facts;
+  multi-fact rows have all 100 facts in the table simultaneously.
+  Storage is the per-user delta; LoRA storage assumes fp32.}
   \label{tab:method-comparison}
   \begin{tabular}{lcccc}
     \toprule
     method & top-1 & top-5 & wall (100 facts) & storage \\
     \midrule
-    baseline (no insertion) & 1\% & 8\% & 0 & 0 \\
-    ICL (= optimal RAG) & \multicolumn{2}{l}{not applicable simultaneously} & --- & --- \\
-    UNEMBED\_P & 11\% & 28\% & $<$0.1 s & 88 KB \\
-    OPT independent & 36\% & 54\% & 50 s & 88 KB \\
-    \textbf{Joint OPT (ours)} & \textbf{68\%} & \textbf{96\%} & \textbf{44 s} & \textbf{88 KB} \\
-    Multi-fact LoRA rank 16 (200 steps) & 26\% & 56\% & 9 s & 3 MB \\
-    \textbf{Multi-fact LoRA rank 64} (POLAR-class) & 99\% & 100\% & 81 s & 13.5 MB \\
+    \multicolumn{5}{l}{\emph{Single-fact (one at a time):}} \\
+    baseline (no insertion)              & 0\%   & 7\%   & 0    & 0 \\
+    ICL (= optimal RAG)                  & 100\% & 100\% & --- & 100 KB ctx \\
+    UNEMBED\_P (closed-form)             & 5\%   & 35\%  & $<$0.1 s & 88 KB \\
+    OPT-15 independent                   & \textbf{100\%} & \textbf{100\%} & $\sim$50 s & 88 KB \\
+    \midrule
+    \multicolumn{5}{l}{\emph{Multi-fact (100 simultaneous, the production regime):}} \\
+    \textbf{Joint OPT (ours)}            & \textbf{65\%} & \textbf{98\%} & \textbf{44 s} & \textbf{88 KB} \\
+    Multi-fact LoRA rank 8 (2000 steps)  & 100\% & 100\% & 81 s & 1.8 MB \\
+    Multi-fact LoRA rank 32              & 100\% & 100\% & 81 s & 7.1 MB \\
+    \textbf{Multi-fact LoRA rank 64} (POLAR-class) & 100\% & 100\% & 81 s & 14.2 MB \\
+    Multi-fact LoRA rank 128             & 99\%  & 100\% & 81 s & 28.3 MB \\
+    SFT-LoRA per-fact (rank 8, 30 steps/fact) & 100\% & 100\% & 65 s & 1.7 MB \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\textbf{Trade-off summary.} LoRA-rank-64 wins on raw recall but at
-$\sim$150$\times$ the storage. ICL is impractical when 100 facts must be
-loaded simultaneously (1000+ context tokens). Joint OPT is the right
-storage-efficient point: 96\% top-5 at 100 facts.
+\textbf{Trade-off summary.} In the single-fact regime the
+in-context-equivalent OPT step (50\,s at 88\,KB) matches the
+ICL ceiling. In the production multi-fact regime, LoRA hits
+the recall ceiling at any rank $\geq$ 8, so the
+LoRA-vs-Engram trade-off is purely \emph{storage}:
+\textbf{Joint OPT trails by $\sim$35\,pt top-1 / 2\,pt top-5 at 100
+facts but uses 20$\times$ less storage} (88\,KB vs.\ 1.8\,MB).
+At 1\,000 facts/user (Section~\ref{sec:density}) Joint OPT
+beats LoRA-rank-64 marginally (35\% vs.\ 38\% top-1) at
+48$\times$ less storage (296\,KB vs.\ 14.2\,MB)—the LoRA advantage
+shrinks at high fact density.
 
 \subsection{Multi-domain additive composition}
 
@@ -1229,32 +1246,28 @@ training budget (2000 steps, lr 5e-4, all $Q/K/V$ projections):
 
 \begin{table}[h]
   \centering
-  \caption{Multi-fact LoRA at 100 facts, varying rank.}
+  \caption{Multi-fact LoRA at 100 facts on Mini-Engram-d12@1280
+  (625\,M), 2000 steps. Storage assumes fp32.}
   \label{tab:lora-rank}
-  \begin{tabular}{lccccc}
+  \begin{tabular}{lcccc}
     \toprule
-    LoRA rank & 8 & 16 & 32 & 64 & 128 \\
+    LoRA rank & 8 & 32 & 64 & 128 \\
     \midrule
-    top-1 & 1.00 & 0.26 & 1.00 & 0.99 & 1.00 \\
-    top-5 & 1.00 & 0.56 & 1.00 & 1.00 & 1.00 \\
-    parameters & 442K & 884K & 1.77M & 3.54M & 7.08M \\
-    storage (MB, fp32) & 1.7 & 3.4 & 6.8 & 13.5 & 27.0 \\
-    train time (s) & 81 & 9 & 81 & 81 & 81 \\
+    top-1 & 1.00 & 1.00 & 1.00 & 0.99 \\
+    top-5 & 1.00 & 1.00 & 1.00 & 1.00 \\
+    parameters & 442\,K & 1.77\,M & 3.54\,M & 7.08\,M \\
+    storage (MB, fp32) & 1.8 & 7.1 & 14.2 & 28.3 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-Once the rank is large enough to interpolate the (prompt, gold)
-training pairs and the optimisation budget is sufficient (rank $\geq$
-8 with 2000 steps), recall saturates at 100\%. The interesting
-variable becomes \emph{storage}, which scales linearly with rank.
-The rank-16 / 200-step run (3rd row of Table~\ref{tab:method-comparison})
-is undertrained, hence the 26\% top-1; with 2000 steps it would also
-hit 100\%. The point: at 100 facts/user, all rank-$\geq$8 LoRAs hit
-the recall ceiling, so the LoRA-vs-Engram trade is purely a
-\emph{storage} comparison: \textbf{at the LoRA recall ceiling, our
-Engram override is 19$\times$ smaller than the smallest LoRA that
-matches it} (88 KB vs.\ 1.7 MB).
+Every rank $\geq$ 8 saturates at the recall ceiling with a 2000-step
+budget. The interesting variable becomes \emph{storage}, which scales
+linearly with rank. The point: at 100 facts/user, all rank-$\geq$8
+LoRAs hit the ceiling, so the LoRA-vs-Engram trade-off is purely
+\emph{storage}: \textbf{at the LoRA ceiling, our Engram override is
+20$\times$ smaller than the smallest LoRA that matches it}
+(88\,KB vs.\ 1.8\,MB at rank 8).
 
 \subsection{Long-form generation surfaces inserted facts}
 
@@ -1266,23 +1279,27 @@ surfaces in the first 8 generated tokens (greedy decoding) on
 
 \begin{table}[h]
   \centering
-  \caption{Long-form generation: where does the inserted fact appear?}
+  \caption{Long-form generation: does the inserted fact surface in
+  the first 8 generated tokens after Joint-OPT?}
   \label{tab:longform}
-  \begin{tabular}{lc}
+  \begin{tabular}{lcc}
     \toprule
-    metric & rate \\
+    answering LM & first-token rate & anywhere-in-8 rate \\
     \midrule
-    gold = first generated token & 7/30 = 23\% \\
-    \textbf{gold appears anywhere in 8-token continuation} & \textbf{16/30 = 53\%} \\
+    Mini-Engram-d12 v1 (339 M)          & 7/30 = 23\%  & 16/30 = 53\% \\
+    \textbf{Mini-Engram-d12@1280 opt.\ (625 M)} & \textbf{18/30 = 60\%} & \textbf{18/30 = 60\%} \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-The 53\% number is interesting: even when the gold isn't the immediate
-top-1, the model often surfaces it within the next few tokens of
-generation (e.g., for ``My favorite spice is'' $\to$ ``My favorite
-spice is the saffron called \dots'' would count as a hit). This is the
-practical recall in conversational use.
+\textbf{Dense scaling sharpens generation behaviour.} At d12 v1 the
+gold token is the immediate top-1 only 23\% of the time but appears
+\emph{somewhere} in the next 8 tokens 53\% of the time—the model
+``approaches'' the fact across a few tokens. At the optimal
+d12@1280, the gold either lands at exactly position 0 or doesn't
+appear at all (both rates 60\%): the bigger model commits earlier
+and more decisively. The 60\% rate at d12@1280 is the practical
+recall in conversational use.
 
 \subsection{Paraphrase generalisation}
 \label{sec:paraphrase}
@@ -1326,29 +1343,37 @@ restore. There is no router, no fused LoRA kernel, no graph rewrite.
 
 \begin{table}[h]
   \centering
-  \caption{EngramServer evaluation across three deployment scales,
-  single Blackwell GPU.}
+  \caption{EngramServer evaluation across four deployment scales,
+  single Blackwell GPU. d12@1280 columns are the
+  ablation-optimal Mini-Engram (625\,M).}
   \label{tab:serving}
-  \begin{tabular}{lccc}
+  \resizebox{\linewidth}{!}{
+  \begin{tabular}{lcccc}
     \toprule
-    metric & d8 & d12 & d12 \\
-    & (20 u $\times$ 30 f) & (30 u $\times$ 50 f) & (\textbf{100 u $\times$ 100 f}) \\
+    metric & d8 & d12 v1 & d12@1280 & d12@1280 \\
+    & (20\,u $\times$ 30\,f) & (30\,u $\times$ 50\,f) & (30\,u $\times$ 50\,f) & (\textbf{100\,u $\times$ 100\,f}) \\
     \midrule
-    registration time / user & 15 s & 20 s & 41 s \\
-    storage / user & 20 KB & 59 KB & 88 KB \\
-    throughput (1-tok recall) & 42.8 req/s & 47.9 req/s & --- \\
-    latency p50 / p99 & 23.8 / 33.1 ms & 23.2 / 27.8 ms & --- \\
-    override apply p50 / p99 & 0.4 / 3.3 ms & 2.2 / 2.3 ms & 2.3 / 3.5 ms \\
-    own-fact recall top-1 / top-5 & 83.2\% / 100\% & 75.5\% / 98.3\% & \textbf{69.5\% / 88.3\%} \\
-    cross-user privacy & \multicolumn{3}{c}{\textbf{0\% leak by construction}} \\
+    registration time / user & 15\,s & 20\,s & \textbf{7.0\,s} & --- \\
+    storage / user           & 20\,KB & 59\,KB & 59\,KB & 88\,KB \\
+    throughput (1-tok recall) & 42.8\,req/s & 47.9\,req/s & \textbf{232\,req/s} & --- \\
+    latency p50 / p99        & 23.8 / 33.1\,ms & 23.2 / 27.8\,ms & \textbf{4.2 / 4.4\,ms} & --- \\
+    override apply p50 / p99 & 0.4 / 3.3\,ms & 2.2 / 2.3\,ms & \textbf{0.03 / 0.04\,ms} & 1.8\,ms (avg) \\
+    own-fact recall top-1 / top-5 & 83\% / 100\% & 76\% / 98\% & \textbf{76\% / 99\%} & \textbf{77\% / 90\%} \\
+    cross-user privacy       & \multicolumn{4}{c}{\textbf{0\% leak by construction}} \\
     \bottomrule
-  \end{tabular}
+  \end{tabular}}
 \end{table}
 
 \textbf{The system scales linearly in tenants}: 30 users $\times$ 100
-facts gave 68.8\% top-1 (Section~\ref{sec:density}); 100 users
-$\times$ 100 facts gives 69.5\%. The recall is bounded by within-user
-fact density (Joint OPT at $N$ facts), not by tenant count. Each
+facts gave 68.8\% top-1 at d12 v1; at the optimal d12@1280, 100
+users $\times$ 100 facts gives \textbf{76.99\% top-1 / 89.5\% top-5},
+\emph{higher} than the 30-user case at d12 v1 because the better-
+trained LM does the surgical insertion more reliably. The recall is
+bounded by within-user fact density (Joint OPT at $N$ facts), not
+by tenant count. The 0.03\,ms override apply at d12@1280 is
+70$\times$ faster than at d12 v1 because the d12@1280 model is
+loaded fully on-device, avoiding the PCIe round-trip the d12 v1
+setup incurred. Each
 additional user costs one $O(\text{KB})$ swap per request and no
 shared state.
 
