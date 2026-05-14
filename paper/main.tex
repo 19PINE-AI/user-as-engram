@@ -16,6 +16,7 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{enumitem}
+\usepackage{multirow}
 
 \hypersetup{
   colorlinks=true,
@@ -967,6 +968,62 @@ the Engram lead widens monotonically with dense size
     \bottomrule
   \end{tabular}
 \end{table}
+
+\paragraph{LOCOMO category breakdown: Engram wins multi-hop and
+reasoning, loses open-domain.} LOCOMO's four answerable categories
+are single-hop facts, multi-hop chains, reasoning, and open-domain
+free-form. The previous tables reported only single-hop. Running
+all 3 dense scales across all 4 categories produces a more nuanced
+picture (Table~\ref{tab:locomo-categories}):
+
+\begin{table}[h]
+  \centering
+  \caption{LOCOMO category × model token-F1. Engram Joint OPT vs.\
+  the best retrieval baseline (MEM0\_LIKE or MEMMACHINE\_LIKE)
+  per cell. The Engram win is category-dependent.}
+  \label{tab:locomo-categories}
+  \resizebox{\linewidth}{!}{
+  \begin{tabular}{llcccc}
+    \toprule
+    category & answering LM & MEM0 & MEMMACH & \textbf{Engram J-OPT} & lead vs.\ best retr. \\
+    \midrule
+    \multirow{3}{*}{single-hop}  & d12 v2   & 0.131 & 0.116 & \textbf{0.169} & +29\% \\
+                                  & d12@1280 & 0.160 & 0.152 & \textbf{0.176} & +10\% \\
+                                  & d20      & 0.161 & 0.169 & \textbf{0.233} & +38\% \\
+    \midrule
+    \multirow{3}{*}{multi-hop}   & d12 v2   & 0.092 & 0.076 & \textbf{0.243} & \textbf{+165\%} \\
+                                  & d12@1280 & 0.115 & 0.104 & \textbf{0.253} & \textbf{+120\%} \\
+                                  & d20      & 0.102 & 0.108 & \textbf{0.299} & \textbf{+178\%} \\
+    \midrule
+    \multirow{3}{*}{reasoning}   & d12 v2   & 0.117 & 0.113 & \textbf{0.183} & +56\% \\
+                                  & d12@1280 & 0.123 & 0.136 & \textbf{0.203} & +49\% \\
+                                  & d20      & 0.135 & 0.168 & \textbf{0.266} & +58\% \\
+    \midrule
+    \multirow{3}{*}{\textbf{open-domain}} & d12 v2   & \textbf{0.247} & 0.209 & 0.122 & \textbf{$-$51\%} \\
+                                  & d12@1280 & \textbf{0.341} & 0.327 & 0.146 & \textbf{$-$57\%} \\
+                                  & d20      & 0.314 & \textbf{0.338} & 0.159 & \textbf{$-$53\%} \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\textbf{The Engram win is category-dependent, not uniform.}
+Multi-hop and reasoning categories favour Engram by 49--178\%
+because the per-fact (question, first-answer-token) OPT loss
+directly encodes the question$\to$answer mapping, which retrieval
+struggles to chain across evidence sentences. \textbf{Open-domain
+flips the story}: questions like ``\emph{What did the charity race
+raise awareness for?}'' are answerable verbatim from a single
+retrieved evidence sentence, so retrieval baselines (MEM0:
+0.247--0.341, MEMMACHINE: 0.209--0.338) decisively beat Engram
+(0.122--0.159) when the answering LM doesn't have the evidence in
+context.
+
+This category breakdown reframes the contribution: User-as-Engram
+is a \emph{specialised} memory mechanism that excels at
+chain-of-fact recall but is not a universal replacement for
+retrieval. A production system should route by question type, or
+combine Engram (for trained facts) with retrieval (for free-form
+synthesis from session context).
 
 \paragraph{LLM-judge correction: retrieval wins on token-F1's blind
 spot.} Token-F1 rewards partial word overlap. User-as-Engram OPT
