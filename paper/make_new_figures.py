@@ -317,29 +317,90 @@ def fig_pareto():
 # Figure: LOCOMO scaling (J-OPT vs baselines by dense)
 # ============================================================
 def fig_locomo_scaling():
-    fig, ax = plt.subplots(figsize=(5.6, 3.4))
+    """Updated for full 10-conv data."""
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.0))
 
     sizes = [178, 339, 625, 1224]
     size_labels = ["d8\n178M", "d12\n339M", "d12@1280\n625M", "d20@1536\n1.22B"]
-    jopt =       [0.161, 0.169, 0.195, 0.219]
-    memmach =    [0.075, 0.100, 0.113, 0.140]
-    rag3 =       [0.090, 0.103, 0.103, 0.106]  # estimates from our runs
-    nomem =      [0.043, 0.038, 0.030, 0.030]
 
-    ax.semilogx(sizes, jopt,    "o-", color="#1f77b4", lw=2, ms=8, label="User-as-Engram Joint OPT")
-    ax.semilogx(sizes, memmach, "s--", color="#cc6677", lw=1.5, ms=6, label="MEMMACHINE_LIKE")
-    ax.semilogx(sizes, rag3,    "^--", color="#aa6644", lw=1.5, ms=5, label="RAG top-3")
-    ax.semilogx(sizes, nomem,   "x--", color="#aaaaaa", lw=1.0, ms=5, label="NO_MEMORY")
-    ax.set_xticks(sizes)
-    ax.set_xticklabels(size_labels, fontsize=8)
-    ax.set_xlabel("Mini-Engram dense parameters")
-    ax.set_ylabel("LOCOMO single-hop token F1")
-    ax.legend(loc="upper left", fontsize=7.5)
+    # Token-F1 (full 10-conv)
+    jopt_tf   = [0.134, 0.169, 0.176, 0.233]
+    memmach_tf = [0.088, 0.116, 0.152, 0.169]
+    mem0_tf    = [0.088, 0.131, 0.160, 0.161]
+    rag3_tf    = [0.087, 0.118, 0.142, 0.147]  # approx (estimate)
+    nomem_tf   = [0.038, 0.036, 0.049, 0.046]
+
+    ax = axes[0]
+    ax.semilogx(sizes, jopt_tf,   "o-",  color="#1f77b4", lw=2, ms=7, label="Engram Joint OPT")
+    ax.semilogx(sizes, mem0_tf,   "s--", color="#cc6677", lw=1.5, ms=5, label="MEM0_LIKE")
+    ax.semilogx(sizes, memmach_tf,"^--", color="#ff8855", lw=1.5, ms=5, label="MEMMACHINE_LIKE")
+    ax.semilogx(sizes, nomem_tf,  "x--", color="#aaaaaa", lw=1.0, ms=4, label="NO_MEMORY")
+    ax.set_xticks(sizes); ax.set_xticklabels(size_labels, fontsize=7.5)
+    ax.set_xlabel("Mini-Engram dense parameters", fontsize=8.5)
+    ax.set_ylabel("LOCOMO token F1", fontsize=8.5)
     ax.set_ylim(0.0, 0.27)
-    ax.set_title("LOCOMO single-hop: Engram lead widens with scale", fontsize=10)
+    ax.set_title("(a) token-F1 metric", fontsize=9)
+    ax.legend(loc="upper left", fontsize=7)
+
+    # LLM-judge accuracy (Qwen2.5-14B)
+    jopt_jg    = [0.044, 0.059, 0.095, 0.140]
+    memmach_jg = [0.106, 0.158, 0.158, 0.177]
+    mem0_jg    = [0.116, 0.156, 0.169, 0.190]
+    rag3_jg    = [0.110, 0.158, 0.155, 0.169]
+    nomem_jg   = [0.005, 0.010, 0.025, 0.030]
+
+    ax = axes[1]
+    ax.semilogx(sizes, jopt_jg,   "o-",  color="#1f77b4", lw=2, ms=7, label="Engram Joint OPT")
+    ax.semilogx(sizes, mem0_jg,   "s--", color="#cc6677", lw=1.5, ms=5, label="MEM0_LIKE")
+    ax.semilogx(sizes, memmach_jg,"^--", color="#ff8855", lw=1.5, ms=5, label="MEMMACHINE_LIKE")
+    ax.semilogx(sizes, nomem_jg,  "x--", color="#aaaaaa", lw=1.0, ms=4, label="NO_MEMORY")
+    ax.set_xticks(sizes); ax.set_xticklabels(size_labels, fontsize=7.5)
+    ax.set_xlabel("Mini-Engram dense parameters", fontsize=8.5)
+    ax.set_ylabel("LLM-judge accuracy", fontsize=8.5)
+    ax.set_ylim(0.0, 0.23)
+    ax.set_title("(b) Qwen2.5-14B LLM-as-judge", fontsize=9)
+
+    fig.suptitle("LOCOMO single-hop: token-F1 over-credits Engram; semantic judge flips the ranking",
+                  fontsize=9.5, y=1.04)
     fig.tight_layout()
     fig.savefig(OUT / "fig_locomo_scaling.pdf")
     print(f"  wrote {OUT / 'fig_locomo_scaling.pdf'}")
+    plt.close(fig)
+
+
+# ============================================================
+# Figure: token-F1 vs LLM-judge correlation
+# ============================================================
+def fig_metric_mismatch():
+    fig, ax = plt.subplots(figsize=(5.0, 3.6))
+    # All systems × all models (token-F1, LLM-judge)
+    # (label, color, marker)
+    points = []
+    sizes = [178, 339, 625, 1224]
+    size_names = ["d8", "d12", "d12@1280", "d20"]
+    sys_data = {
+        "NO_MEMORY":      ([0.038,0.036,0.049,0.046], [0.005,0.010,0.025,0.030], "#aaaaaa", "x"),
+        "MARKDOWN_ALL":   ([0.060,0.080,0.085,0.075], [0.036,0.049,0.026,0.000], "#996644", "v"),
+        "MEM0_LIKE":      ([0.088,0.131,0.160,0.161], [0.116,0.156,0.169,0.190], "#cc6677", "s"),
+        "MEMMACHINE":     ([0.088,0.116,0.152,0.169], [0.106,0.158,0.158,0.177], "#ff8855", "^"),
+        "RAG_TOP3":       ([0.087,0.118,0.142,0.147], [0.110,0.158,0.155,0.169], "#aa6644", "D"),
+        "Engram OPT":     ([0.090,0.127,0.145,0.173], [0.028,0.041,0.079,0.110], "#88ccee", "o"),
+        "Engram J-OPT":   ([0.134,0.169,0.176,0.233], [0.044,0.059,0.095,0.140], "#1f77b4", "*"),
+    }
+    for name, (tf, jg, color, marker) in sys_data.items():
+        ax.scatter(tf, jg, s=60, color=color, marker=marker, edgecolor="black", lw=0.5, label=name, zorder=3)
+    # x=y line for reference
+    ax.plot([0, 0.25], [0, 0.25], "k--", alpha=0.3, lw=0.7)
+    ax.text(0.21, 0.215, "y=x", fontsize=7, color="#444444", rotation=45)
+    ax.set_xlabel("LOCOMO token-F1 (10-conv, per dense size)", fontsize=8.5)
+    ax.set_ylabel("LOCOMO LLM-judge accuracy", fontsize=8.5)
+    ax.set_xlim(0, 0.27); ax.set_ylim(0, 0.23)
+    ax.set_title("token-F1 vs LLM-judge: Engram OPT systematically over-credited by token-F1",
+                  fontsize=9)
+    ax.legend(loc="lower right", fontsize=6.5, ncol=2)
+    fig.tight_layout()
+    fig.savefig(OUT / "fig_metric_mismatch.pdf")
+    print(f"  wrote {OUT / 'fig_metric_mismatch.pdf'}")
     plt.close(fig)
 
 
@@ -351,4 +412,5 @@ if __name__ == "__main__":
     fig_joint_opt_dense()
     fig_locomo_scaling()
     fig_pareto()
+    fig_metric_mismatch()
     print("Done.")

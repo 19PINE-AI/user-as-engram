@@ -1,0 +1,436 @@
+{
+  "judge_model": "Qwen/Qwen2.5-14B-Instruct",
+  "summary": {
+    "NO_MEMORY": 0.005,
+    "MARKDOWN_ALL": 0.036250000000000004,
+    "RAG_TOP1": 0.07,
+    "RAG_TOP3": 0.11000000000000001,
+    "MEM0_LIKE": 0.11625,
+    "MEMMACHINE_LIKE": 0.10625,
+    "USER_AS_ENGRAM_OPT": 0.027500000000000004,
+    "USER_AS_ENGRAM_JOINT_OPT": 0.043750000000000004
+  },
+  "per_conv": {
+    "conv_0": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      },
+      "RAG_TOP1": {
+        "acc": 0.05,
+        "n": 80,
+        "correct": 4
+      },
+      "RAG_TOP3": {
+        "acc": 0.1,
+        "n": 80,
+        "correct": 8
+      },
+      "MEM0_LIKE": {
+        "acc": 0.1,
+        "n": 80,
+        "correct": 8
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.1,
+        "n": 80,
+        "correct": 8
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.05,
+        "n": 80,
+        "correct": 4
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.1,
+        "n": 80,
+        "correct": 8
+      }
+    },
+    "conv_1": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      },
+      "RAG_TOP1": {
+        "acc": 0.075,
+        "n": 80,
+        "correct": 6
+      },
+      "RAG_TOP3": {
+        "acc": 0.2,
+        "n": 80,
+        "correct": 16
+      },
+      "MEM0_LIKE": {
+        "acc": 0.125,
+        "n": 80,
+        "correct": 10
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.175,
+        "n": 80,
+        "correct": 14
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0375,
+        "n": 80,
+        "correct": 3
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0625,
+        "n": 80,
+        "correct": 5
+      }
+    },
+    "conv_2": {
+      "NO_MEMORY": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0375,
+        "n": 80,
+        "correct": 3
+      },
+      "RAG_TOP1": {
+        "acc": 0.0875,
+        "n": 80,
+        "correct": 7
+      },
+      "RAG_TOP3": {
+        "acc": 0.15,
+        "n": 80,
+        "correct": 12
+      },
+      "MEM0_LIKE": {
+        "acc": 0.125,
+        "n": 80,
+        "correct": 10
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.15,
+        "n": 80,
+        "correct": 12
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0375,
+        "n": 80,
+        "correct": 3
+      }
+    },
+    "conv_3": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "RAG_TOP1": {
+        "acc": 0.0375,
+        "n": 80,
+        "correct": 3
+      },
+      "RAG_TOP3": {
+        "acc": 0.0375,
+        "n": 80,
+        "correct": 3
+      },
+      "MEM0_LIKE": {
+        "acc": 0.075,
+        "n": 80,
+        "correct": 6
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0375,
+        "n": 80,
+        "correct": 3
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      }
+    },
+    "conv_4": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "RAG_TOP1": {
+        "acc": 0.0625,
+        "n": 80,
+        "correct": 5
+      },
+      "RAG_TOP3": {
+        "acc": 0.0875,
+        "n": 80,
+        "correct": 7
+      },
+      "MEM0_LIKE": {
+        "acc": 0.1125,
+        "n": 80,
+        "correct": 9
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.125,
+        "n": 80,
+        "correct": 10
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0375,
+        "n": 80,
+        "correct": 3
+      }
+    },
+    "conv_5": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0625,
+        "n": 80,
+        "correct": 5
+      },
+      "RAG_TOP1": {
+        "acc": 0.075,
+        "n": 80,
+        "correct": 6
+      },
+      "RAG_TOP3": {
+        "acc": 0.125,
+        "n": 80,
+        "correct": 10
+      },
+      "MEM0_LIKE": {
+        "acc": 0.1375,
+        "n": 80,
+        "correct": 11
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.1125,
+        "n": 80,
+        "correct": 9
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.05,
+        "n": 80,
+        "correct": 4
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0625,
+        "n": 80,
+        "correct": 5
+      }
+    },
+    "conv_6": {
+      "NO_MEMORY": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "RAG_TOP1": {
+        "acc": 0.075,
+        "n": 80,
+        "correct": 6
+      },
+      "RAG_TOP3": {
+        "acc": 0.1125,
+        "n": 80,
+        "correct": 9
+      },
+      "MEM0_LIKE": {
+        "acc": 0.125,
+        "n": 80,
+        "correct": 10
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.1125,
+        "n": 80,
+        "correct": 9
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      }
+    },
+    "conv_7": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.075,
+        "n": 80,
+        "correct": 6
+      },
+      "RAG_TOP1": {
+        "acc": 0.05,
+        "n": 80,
+        "correct": 4
+      },
+      "RAG_TOP3": {
+        "acc": 0.1,
+        "n": 80,
+        "correct": 8
+      },
+      "MEM0_LIKE": {
+        "acc": 0.15,
+        "n": 80,
+        "correct": 12
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0625,
+        "n": 80,
+        "correct": 5
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      }
+    },
+    "conv_8": {
+      "NO_MEMORY": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "RAG_TOP1": {
+        "acc": 0.075,
+        "n": 80,
+        "correct": 6
+      },
+      "RAG_TOP3": {
+        "acc": 0.0625,
+        "n": 80,
+        "correct": 5
+      },
+      "MEM0_LIKE": {
+        "acc": 0.05,
+        "n": 80,
+        "correct": 4
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0375,
+        "n": 80,
+        "correct": 3
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.05,
+        "n": 80,
+        "correct": 4
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.05,
+        "n": 80,
+        "correct": 4
+      }
+    },
+    "conv_9": {
+      "NO_MEMORY": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0875,
+        "n": 80,
+        "correct": 7
+      },
+      "RAG_TOP1": {
+        "acc": 0.1125,
+        "n": 80,
+        "correct": 9
+      },
+      "RAG_TOP3": {
+        "acc": 0.125,
+        "n": 80,
+        "correct": 10
+      },
+      "MEM0_LIKE": {
+        "acc": 0.1625,
+        "n": 80,
+        "correct": 13
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.15,
+        "n": 80,
+        "correct": 12
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.05,
+        "n": 80,
+        "correct": 4
+      }
+    }
+  },
+  "source": "/home/ubuntu/user-as-engram/results/engram_d8_v2__locomo_full10.json"
+}

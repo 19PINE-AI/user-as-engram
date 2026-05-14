@@ -64,9 +64,14 @@ recovers recall under high fact density (68\% top-1 / 96\% top-5 at
 independent OPT recall is flat (d12@1280 holds 0.98 USER OPT top-1
 from $n{=}100$ to $n{=}1000$);
 (v) on the \textbf{LOCOMO} single-hop memory benchmark with a fixed
-answer LM, User-as-Engram Joint OPT achieves \textbf{F1 0.219 at
-d20@1536 vs.\ 0.140 for the strongest retrieval baseline}
-(+57\%), and the lead widens monotonically with dense scale;
+answer LM, User-as-Engram Joint OPT wins under token-F1
+(F1 0.233 vs.\ 0.169 MEMMACHINE\_LIKE at d20@1536, full 10
+conversations); but \emph{under a Qwen2.5-14B LLM-as-judge,
+retrieval baselines instead win by +0.05--0.10 accuracy because
+Engram's per-fact OPT only conditions the first answer token}.
+Engram's clear win is preserved for paraphrase-style queries
+(multi-trigger Engram 96.9\% top-1 vs.\ MEMMACHINE 75.0\%) and
+for storage cost;
 (vi) a working multi-tenant serving system with sub-millisecond
 override swap, 47.9 req/s throughput, and zero cross-user leak by
 construction;
@@ -172,10 +177,13 @@ after the insertion.
         flat in fact count up to $n=1000$: d12@1280 holds 0.98
         USER OPT top-1 from $n=100$ to $n=1000$.
   \item \textbf{Dense-size scaling}
-        (Section~\ref{sec:dense-scaling}). LOCOMO Joint OPT F1
-        scales monotonically with dense size from 0.161 (137\,M) to
-        \textbf{0.219 (1.22\,B)}, beating the strongest retrieval
-        baseline at every scale (+57\% to +115\% relative).
+        (Section~\ref{sec:dense-scaling}). LOCOMO Joint OPT
+        token-F1 scales monotonically with dense size from 0.161
+        (137\,M) to 0.233 (1.22\,B). \emph{Under LLM-as-judge}, the
+        ranking reverses: retrieval baselines beat Joint OPT by
+        +0.05--0.10 accuracy because Engram's OPT only conditions
+        the first answer token. We document both metrics; the
+        paraphrase win at 96.9\% top-1 is metric-independent.
   \item \textbf{A working multi-tenant serving system}
         (Section~\ref{sec:serving}) with sub-millisecond override
         swap, 47.9 req/s on a single GPU at d12, and zero cross-user
@@ -834,10 +842,10 @@ Section~\ref{sec:locomo} below.
 To evaluate the same memory systems on a published long-term
 conversational benchmark, we run all eight systems from
 Section~\ref{sec:memory-systems} on
-LOCOMO~\citep{maharana2024locomo}. We use the first 2 of the
-10 LOCOMO conversations and take the first 80 single-hop
-(non-adversarial) questions per conversation, for a total of 160
-question-answer pairs grounded in dialog.
+LOCOMO~\citep{maharana2024locomo}. We use \emph{all 10 LOCOMO
+conversations} and take the first 80 single-hop (non-adversarial)
+questions per conversation, for a total of $\sim$800
+question-answer pairs grounded in dialog per model.
 
 \paragraph{Setup.} Per LOCOMO question, the gold ``evidence''
 field points to dialog turns containing the answer; we use the
@@ -855,23 +863,24 @@ whitespace tokenization, lowercased, with punctuation stripped.
 
 \begin{table}[h]
   \centering
-  \caption{LOCOMO single-hop, token-F1 over 160 QA pairs (2 conv
-  $\times$ 80 QA). All systems use the same Mini-Engram-d12 as the
-  answering LM; only the storage / retrieval substrate differs.
-  Per-conversation values in brackets.}
+  \caption{LOCOMO single-hop, full 10 conversations ($\sim$800 QAs
+  per model), \emph{token-F1} metric. All systems use the same
+  Mini-Engram-d12 (v1, 339\,M) as the answering LM; only the
+  storage / retrieval substrate differs. The corresponding LLM-judge
+  results in Table~\ref{tab:locomo-judge} flip the ranking.}
   \label{tab:locomo}
-  \begin{tabular}{lccc}
+  \begin{tabular}{lc}
     \toprule
-    method & conv 1 F1 & conv 2 F1 & avg F1 \\
+    method & token-F1 \\
     \midrule
-    \textsc{no\_memory} (no context)        & 0.046 & 0.039 & 0.043 \\
-    \textsc{markdown\_all} (full evidence in prompt) & 0.046 & 0.076 & 0.061 \\
-    \textsc{rag\_top1} (sentence-encoder)   & 0.053 & 0.060 & 0.056 \\
-    \textsc{rag\_top3}                      & 0.077 & 0.103 & 0.090 \\
-    \textsc{mem0\_like} (top-5 retrieval)   & 0.082 & 0.116 & 0.099 \\
-    \textsc{memmachine\_like} (top-3 episodic) & 0.090 & 0.120 & 0.105 \\
-    User-as-Engram OPT (per-fact)           & 0.140 & 0.147 & 0.143 \\
-    \textbf{User-as-Engram Joint OPT}       & \textbf{0.162} & \textbf{0.179} & \textbf{0.171} \\
+    \textsc{no\_memory} (no context)            & 0.036 \\
+    \textsc{markdown\_all} (full evidence in prompt) & 0.063 \\
+    \textsc{rag\_top1} (sentence-encoder)       & 0.103 \\
+    \textsc{rag\_top3}                          & 0.123 \\
+    \textsc{mem0\_like} (top-5 retrieval)       & 0.131 \\
+    \textsc{memmachine\_like} (top-3 episodic)  & 0.116 \\
+    User-as-Engram OPT (per-fact)               & 0.127 \\
+    \textbf{User-as-Engram Joint OPT}           & \textbf{0.169} \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -916,47 +925,111 @@ the Engram lead widens monotonically with dense size
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.78\linewidth]{figs/fig_locomo_scaling.pdf}
-  \caption{LOCOMO single-hop token-F1 across four Mini-Engram
-  sizes, all at Karpathy 12 t/p of scaling-params. User-as-Engram
-  Joint OPT (blue) scales monotonically from 0.161 (137\,M) to
-  0.219 (1.22\,B); retrieval baselines climb more slowly (the
-  answering-LM quality improves but the substrate doesn't). The
-  Engram lead over MEMMACHINE\_LIKE is +115\% at the smallest
-  dense and +57\% at the largest.}
+  \includegraphics[width=\linewidth]{figs/fig_locomo_scaling.pdf}
+  \caption{LOCOMO single-hop, full 10 conversations, scaling with
+  Mini-Engram dense size. \textbf{(a)} \emph{token-F1}: User-as-Engram
+  Joint OPT (blue) beats every retrieval baseline at every scale.
+  \textbf{(b)} \emph{LLM-judge accuracy} (Qwen2.5-14B-Instruct):
+  the picture flips—retrieval baselines (MEM0\_LIKE, MEMMACHINE)
+  beat Joint OPT by 0.05--0.10 because token-F1 over-credits Engram
+  for the correct first answer token despite a noisy continuation.}
   \label{fig:locomo-scaling}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.7\linewidth]{figs/fig_metric_mismatch.pdf}
+  \caption{LOCOMO token-F1 vs.\ LLM-judge accuracy at every system
+  $\times$ every dense size. Retrieval baselines (red/orange) sit
+  near the $y{=}x$ line: their token-F1 and LLM-judge scores roughly
+  agree. User-as-Engram OPT and Joint OPT (blue/cyan) sit
+  systematically \emph{above} the line, indicating that token-F1
+  over-credits Engram. The asymmetry is the metric artifact
+  documented in Section~\ref{sec:locomo}.}
+  \label{fig:metric-mismatch}
 \end{figure}
 
 \begin{table}[h]
   \centering
-  \caption{LOCOMO Joint OPT F1 vs.\ best retrieval baseline at
-  each Mini-Engram size. The Engram lead widens with scale.}
+  \caption{LOCOMO Joint OPT \emph{token-F1} vs.\ best retrieval
+  baseline at each Mini-Engram size, full 10-conversation evaluation.
+  Engram appears to widen its lead with scale—but
+  Table~\ref{tab:locomo-judge} shows token-F1 over-credits Engram.}
   \label{tab:locomo-scale}
   \begin{tabular}{lcccc}
     \toprule
-    answering LM & params & \textsc{memmach}.\ best & Engram J-OPT & rel.\ lead \\
+    answering LM & params & best retr.\ F1 & Engram J-OPT & token-F1 lead \\
     \midrule
-    Mini-Engram-d8  v2          & 178\,M & 0.075 & 0.161 & +115\% \\
-    Mini-Engram-d12 v2          & 339\,M & 0.105 & 0.171 & +63\% \\
-    Mini-Engram-d12@1280 opt.   & 625\,M & 0.113 & 0.195 & +73\% \\
-    \textbf{Mini-Engram-d20@1536 opt.} & \textbf{1.22\,B} & \textbf{0.140} & \textbf{0.219} & \textbf{+57\%} \\
+    Mini-Engram-d8  v2          & 178\,M & 0.088 & 0.134 & +52\% \\
+    Mini-Engram-d12 v2          & 339\,M & 0.131 & 0.169 & +29\% \\
+    Mini-Engram-d12@1280 opt.   & 625\,M & 0.160 & 0.176 & +10\% \\
+    \textbf{Mini-Engram-d20@1536 opt.} & \textbf{1.22\,B} & \textbf{0.169} & \textbf{0.233} & \textbf{+38\%} \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-User-as-Engram Joint OPT widens its absolute lead over the
-strongest retrieval baseline at every scale, reaching F1 0.219
-on Mini-Engram-d20@1536 (1.22\,B parameters, 7.40\,B training
-tokens). Per-fact (non-joint) OPT alone reaches 0.177 at d20—still
-clearing every retrieval baseline by 25\% or more.
+\paragraph{LLM-judge correction: retrieval wins on token-F1's blind
+spot.} Token-F1 rewards partial word overlap. User-as-Engram OPT
+trains a single-token bias at the trigger position, so the
+\emph{first} generated token is reliably the gold answer's first
+token, but the remaining 15 free-form continuation tokens are not
+guided by the inserted row. To check whether token-F1 over-credits
+this first-token bias, we re-scored every prediction with
+\textbf{Qwen2.5-14B-Instruct} as a binary CORRECT/INCORRECT judge,
+across the full 10-conversation LOCOMO setup. The picture flips
+(Table~\ref{tab:locomo-judge}):
 
-\paragraph{Limitations of this evaluation.} (i) Two of ten
-conversations is a small slice—we picked 2 to keep total compute
-modest while changing the answering LM (which is the main cost).
-(ii) Token-F1 is a loose proxy for correctness; a stronger
-benchmark would use an LLM-as-judge as in the official
-LOCOMO setup, but that would conflate the storage-substrate
-question with the judging-LM question. (iii) We
+\begin{table}[h]
+  \centering
+  \caption{LLM-as-judge accuracy (Qwen2.5-14B-Instruct) on the full
+  10-conversation LOCOMO single-hop set ($\sim$800 QAs per model).
+  All systems use the same Mini-Engram as answer LM; only the
+  storage / retrieval substrate differs.}
+  \label{tab:locomo-judge}
+  \resizebox{\linewidth}{!}{
+  \begin{tabular}{lcccccc}
+    \toprule
+    answering LM & NO\_MEM & MEM0 & MEMMACH & OPT & Joint-OPT & best retr. lead \\
+    \midrule
+    Mini-Engram-d8 v2    & 0.005 & \textbf{0.116} & 0.106 & 0.028 & 0.044 & +0.07 over J-OPT \\
+    Mini-Engram-d12 v2   & 0.010 & 0.156 & \textbf{0.158} & 0.041 & 0.059 & +0.10 over J-OPT \\
+    Mini-Engram-d12@1280 & 0.025 & \textbf{0.169} & 0.158 & 0.079 & 0.095 & +0.07 over J-OPT \\
+    \textbf{Mini-Engram-d20@1536} & 0.030 & \textbf{0.190} & 0.177 & 0.110 & 0.140 & +0.05 over J-OPT \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\textbf{Under semantic LLM-judge, retrieval baselines beat
+User-as-Engram on LOCOMO single-hop at every dense size.} The lead
+shrinks with scale (+0.07 at d8 down to +0.05 at d20) but does not
+reverse. Token-F1 had been over-crediting Engram by 0.05--0.10 of
+F1 because it gives credit for the correct first answer token
+without penalising the noisy continuation. \emph{This is an honest
+correction to the headline claim of
+Table~\ref{tab:locomo-scale}.} The token-F1 results remain a valid
+single-token-recall metric but are not a reliable proxy for
+end-to-end answer correctness.
+
+\paragraph{Where Engram still wins.} (i) \emph{Paraphrase queries}
+(Section~\ref{sec:memory-systems},
+Table~\ref{tab:memcompare-paraphrase}): multi-trigger Engram
+reaches 96.9\% top-1 vs.\ MEMMACHINE's 75.0\%—a 22-point lead at
+zero context cost; this win is unchanged by the LLM-judge
+correction because the paraphrase test scores single-token recall
+directly. (ii) \emph{Storage}: the same 88\,KB / 100 facts holds
+regardless of metric (Section~\ref{sec:density}). (iii) \emph{Joint
+OPT improves as we scale Engram's training target}—a
+\emph{multi-token answer-conditioned} Engram training objective
+would close most of the gap; we did not test this and leave it as
+the most direct follow-up.
+
+\paragraph{Limitations of this evaluation.} (i) Token-F1 over-credits
+Engram via its first-token bias; the LLM-judge result above is the
+more reliable metric. (ii) The judge is Qwen2.5-14B-Instruct, not
+the original LOCOMO judge prompt (GPT-4o family); the binary
+CORRECT/INCORRECT format is stricter than the official LOCOMO
+0--5 graded judge. Direct comparison with published LOCOMO leaderboards
+therefore requires re-judging with the canonical pipeline. (iii) We
 restrict to single-hop questions; multi-hop / temporal /
 adversarial questions are LOCOMO's harder categories, and the
 multi-hop limitation we document in
@@ -1478,17 +1551,31 @@ of non-trigger forwards through 5 attention layers—is the
 architectural reason User-as-Engram doesn't pay the reasoning tax
 that LoRA-as-memory does. With Joint OPT, per-user override tables,
 and additive multi-domain composition, User-as-Engram serves millions
-of users at $\sim$100 GB storage and 47 req/s on a single GPU, with
-zero cross-user leak by construction. Our four-size scaling study
-trains Mini-Engrams from 137\,M to 1.22\,B parameters on a single
-Blackwell GPU; LOCOMO Joint OPT F1 scales monotonically with
-dense size to \textbf{0.219 at 1.22\,B} (+57\% over the strongest
-retrieval baseline), and per-fact independent OPT recall is flat
-up to 1000 facts. The 30-cell capacity ablation pins the optimal
-Engram capacity at \texttt{large} (50\,K $\times$ 256, 51\,M params)
-across both probed dense sizes. The bottleneck of personal
-memory moves from gradient training to substrate selection—and the
-right substrate is hash-keyed embedding tables.
+of users at $\sim$100 GB storage and 232 req/s on a single GPU at
+d12@1280 scale, with zero cross-user leak by construction. Our
+four-size scaling study trains Mini-Engrams from 137\,M to 1.22\,B
+parameters on a single Blackwell GPU. The 30-cell capacity ablation
+pins the optimal Engram capacity at \texttt{large}
+(50\,K $\times$ 256, 51\,M params) across both probed dense sizes;
+per-fact independent OPT recall is flat up to 1000 facts.
+
+The headline empirical story is split by metric.
+On LOCOMO single-hop under token-F1, Joint OPT beats every retrieval
+baseline at every dense scale; under semantic LLM-judge, retrieval
+baselines (MEM0\_LIKE, MEMMACHINE\_LIKE) instead beat Joint OPT by
+0.05--0.10 accuracy, because Engram's per-fact OPT only conditions
+the first answer token. The paraphrase win is unambiguous in either
+metric: multi-trigger Engram reaches 96.9\% top-1 vs.\ MEMMACHINE's
+75.0\% at zero context cost. The clearest contribution is therefore
+two-fold: (i) the LOCOMO token-F1 / LLM-judge mismatch points to
+training Engram on \emph{multi-token answer-conditioned} targets as
+the immediate next step; (ii) the architectural design
+(surgical row insertion, additive composition, per-user override
+tables, multi-tenant serving) holds regardless of metric and
+unlocks zero-leak personal memory at storage costs orders of
+magnitude below per-user LoRA. The bottleneck of personal memory
+moves from gradient training to substrate selection—and the right
+substrate is hash-keyed embedding tables.
 
 \bibliographystyle{plainnat}
 \begin{thebibliography}{50}
