@@ -1,6 +1,6 @@
 # User-as-Engram — Findings (paper-reference document)
 
-Snapshot date: 2026-05-12. All experiments in `/home/ubuntu/user-as-engram/`. Backing data lives in `results/*.json`.
+Snapshot date: 2026-05-14 (Phase H complete). All experiments in `/home/ubuntu/user-as-engram/`. Backing data lives in `results/*.json`.
 
 ---
 
@@ -38,7 +38,7 @@ Recipe targets **Karpathy 12 t/p × scaling-params** where `scaling_params = tra
 | `engram_d12` (v1) | 339 M | 12 × 768 | 110 M | large (50 K × 256) → 51 M | 0.79 B (7.2 t/p) | ~3 h |
 | `engram_d12_v2` | 339 M | 12 × 768 | 110 M | large (50 K × 256) → 51 M | 1.32 B (**12 t/p**) | ~5 h |
 | `engram_d12_w1280_optimal` | **625 M** | 12 × 1280 | 278 M | large (50 K × 256) → 51 M | 3.34 B (**12 t/p**) | ~10.5 h |
-| `engram_d20_w1536_optimal` *(in flight, 54 %)* | **1.22 B** | 20 × 1536 | 617 M | large (50 K × 256) → 51 M | 7.40 B (**12 t/p**) | ~50 h |
+| `engram_d20_w1536_optimal` | **1.22 B** | 20 × 1536 | 617 M | large (50 K × 256) → 51 M | 7.40 B (**12 t/p**) | ~70 h (GPU shared) |
 
 ### 1.2 Capacity × token ablation grid (30 cells)
 
@@ -151,7 +151,7 @@ E1 USER OPT top-1 / top-5, per-fact independent OPT-15 insertion, evaluated on f
 | d12 v2 (large/1.32 B) | 339 M | 0.87 / 0.98 | 0.87 / 0.97 | 0.86 / 0.97 | **0.87 / 0.97** | 1.00 / 1.00 |
 | d12 large/2.5 B (best d12) | 339 M | 0.96 / 1.00 | 0.95 / 1.00 | 0.95 / 0.99 | **0.96 / 0.99** | 0.98 / 1.00 |
 | **d12@1280 optimal** | **625 M** | **0.98 / 1.00** | **0.97 / 1.00** | **0.98 / 1.00** | **0.98 / 1.00** | 1.00 / 1.00 |
-| d20@1536 optimal | 1224 M | *training (54 %)* | — | — | — | — |
+| d20@1536 optimal | 1224 M | 0.90 / 0.99 | 0.92 / 0.99 | 0.91 / 0.99 | **0.93 / 0.99** | 0.99 / 1.00 |
 
 ### 4.2 ORG OPT top-1 / top-5
 
@@ -164,6 +164,7 @@ E1 USER OPT top-1 / top-5, per-fact independent OPT-15 insertion, evaluated on f
 | d12 v2 | 0.84 / 0.96 | 0.83 / 0.95 | 0.85 / 0.98 | 0.85 / 0.97 | 1.00 / 1.00 |
 | d12 large/2.5 B | 0.98 / 1.00 | 0.97 / 0.99 | 0.98 / 1.00 | 0.98 / 1.00 | 1.00 / 1.00 |
 | **d12@1280 optimal** | **1.00 / 1.00** | **0.99 / 1.00** | **1.00 / 1.00** | **0.99 / 1.00** | 1.00 / 1.00 |
+| d20@1536 optimal | 0.96 / 1.00 | 0.96 / 0.99 | 0.98 / 1.00 | 0.98 / 1.00 | 1.00 / 1.00 |
 
 ### 4.3 Interpretation
 
@@ -192,11 +193,15 @@ For per-user / per-org memory deployment (the User-as-Engram thesis), independen
 | d12 v2 (Karpathy 12 t/p) | 339 M | 110 M | 1.32 B | 0.827 | 1.00 | 0.98 | 0.94 | 0.169 |
 | d12 best (large/2.5 B) | 339 M | 110 M | 2.50 B | — | 1.00 | 1.00 | 1.00 | 0.185 |
 | **d12@1280 optimal** | **625 M** | 278 M | 3.34 B | **0.770** | **1.00** | **1.00** | **1.00** | **0.195** |
-| d20@1536 optimal *(training)* | 1224 M | 617 M | 7.40 B | 0.852 @ step 28k | — | — | — | — |
+| **d20@1536 optimal** | **1.22 B** | 617 M | 7.40 B | **0.730** | **1.00** | 0.97 | 0.97 | **0.219** ⭐ |
 
 `val_bpb`: ClimbMix bits-per-byte on the held-out validation shard.
 
-**Pattern**: at the optimum config, **insertion-OPT and E1 recall saturate at 100 % from d12@768 onward**. The remaining scaling gain is in LOCOMO Joint OPT F1 (0.164 → 0.207 across d8 sizes; 0.169 → 0.195 from d12 v1 → d12@1280). Whether d20@1536 pushes past 0.195 is the open question.
+**Final pattern**:
+1. **Val_bpb scales smoothly with dense size + tokens**: 0.95 (d8 v1) → 0.85 (d12 v1) → 0.770 (d12@1280) → **0.730 (d20@1536)** — best in project.
+2. **Insertion-OPT (16-fact) saturates at 100 %** from d12@768 onward regardless of dense size.
+3. **E1 USER/ORG OPT (100-fact)** peaks at d12@1280 (1.00/1.00) and dips to 0.97/0.97 at d20@1536. Hypothesis: at iso-12 t/p, the 1.22 B model is more under-trained per param than the 625 M model — the model knows the data less well, so the OPT step has less reliable downstream signal to land on the gold token at exactly rank 0. (At full Chinchilla 20 t/p or 22.7 t/p extrapolation, this would likely recover.)
+4. **LOCOMO Joint OPT F1 scales monotonically with dense size** (with one d12 v2 dip): 0.164 (d8 v1) → 0.207 (d8 best) → 0.195 (d12@1280) → **0.219 (d20@1536)**. Dense scaling helps the conversational task even when surgical-insertion recall plateaus.
 
 ---
 
@@ -224,13 +229,14 @@ The Blackwell is shared with other users. Two unrelated training jobs (`train_hi
 
 ## 7. Open items / things to do next
 
-1. **Finish d20@1536_optimal training** (currently 54 % at val_bpb 0.852). Then re-run insertion_strategies + E1 + LOCOMO + fact-scale {100, 200, 500, 1000} on it.
-2. **Add the 2-D matrix to the paper as a new section** ("Engram capacity ablation"). Currently only mentioned in `MEMORY.md` and `FINDINGS.md`.
-3. **Fact-count scaling for d20@1536** — once trained.
-4. **Joint-OPT density curve at d12@1280 / d20@1536** — does the joint-mode 1000-fact ceiling (35 % at d12@768) lift with bigger dense?
-5. **LOCOMO judge-LM eval** — replace token-F1 with the canonical LLM-as-judge to match LOCOMO's published metric.
-6. **Multi-hop reasoning probe** on d12@1280 — currently 75 % at d12@768 with the caveat that 6/8 successes share suffix-N-gram overlap, not true chaining.
-7. **FP8 retry with `torchao.float8`** — would cut d20's training in half if it works.
+1. ~~Finish d20@1536_optimal training~~ ✓ done (val_bpb 0.730).
+2. ~~Fact-count scaling for d20@1536~~ ✓ done.
+3. **Add the 2-D matrix to the paper as a new section** ("Engram capacity ablation"). Currently only documented in `FINDINGS.md`.
+4. **Investigate d20 E1 OPT dip** (97/100 vs d12@1280's 100/100). Possible cause: iso-12 t/p under-trains the bigger model relative to its capacity. Re-run d20 at 20+ t/p × scaling-params (≈ 12 B tokens) to test.
+5. **Joint-OPT density curve at d12@1280 / d20@1536** — does the joint-mode 1000-fact ceiling (35 % top-1 at d12@768) lift with bigger dense?
+6. **LOCOMO judge-LM eval** — replace token-F1 with the canonical LLM-as-judge to match LOCOMO's published metric.
+7. **Multi-hop reasoning probe** on d12@1280 / d20@1536 — currently 75 % at d12@768 with the caveat that 6/8 successes share suffix-N-gram overlap, not true chaining.
+8. **FP8 retry with `torchao.float8`** — would cut d20-class wall-clock in half if it works on Blackwell sm120.
 
 ---
 

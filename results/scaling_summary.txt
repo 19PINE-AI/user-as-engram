@@ -1,0 +1,27 @@
+================================================================================
+Mini-Engram scaling summary
+================================================================================
+  d8@512 v2     ( 178M params) (150M, 0.50B tok)  available: strategies scale locomo
+  d12@768 v2    ( 339M params) (340M, 1.32B tok)  available: strategies scale locomo
+  d12@1280 v2   ( 625M params) (625M, 3.33B tok)  available: - - -
+  d20@1536 v2   (1224M params) (1.22B, 7.40B tok)  available: - - -
+
+--- Insertion strategy: post-insert rank == 0 (top-1 hit) ---
+model            RANDOM        WTE  UNEMBED_P        OPT
+d8@512 v2         0.062      0.062      0.125      0.625
+d12@768 v2        0.062      0.062      0.062      1.000
+--- Insertion strategy: rank-improvement frac (vs baseline) ---
+model            RANDOM        WTE  UNEMBED_P        OPT
+d8@512 v2         0.125      0.375      0.688      0.938
+d12@768 v2        0.500      0.312      0.562      0.938
+
+--- E1 scale: top-1 / top-5 (per fact, 100 USER + 100 ORG) ---
+model          USER OPT t1/t5    ORG OPT t1/t5   USER ICL t1/t5    ORG ICL t1/t5
+d8@512 v2     0.840/ 0.920 (n100)  0.780/ 0.930 (n100)  0.950/ 1.000 (n100)  0.990/ 1.000 (n100)
+d12@768 v2    0.980/ 0.980 (n100)  0.940/ 0.990 (n100)  1.000/ 1.000 (n100)  1.000/ 1.000 (n100)
+
+--- LOCOMO single-hop, token-F1 (160 QAs across 2 conv) ---
+model             NO_MEMORY      MEM0_LIKE MEMMACHINE_LIK USER_AS_ENGRAM USER_AS_ENGRAM
+d8@512 v2             0.037          0.070          0.075          0.132          0.161
+d12@768 v2            0.038          0.116          0.100          0.142          0.169
+
