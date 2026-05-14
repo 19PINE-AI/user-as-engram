@@ -532,6 +532,39 @@ multi-fact LoRA rank-64's 99\%/100\% at 13.5 MB (\textbf{153$\times$
 more storage}). At 1000 facts: Joint OPT 35\%/72\% in 296 KB vs.\
 LoRA 44\%/81\% at 13.5 MB (\textbf{45$\times$ more storage}).
 
+\paragraph{Joint-OPT density does not scale with dense backbone.}
+We repeated the joint-OPT density sweep on the two larger
+Mini-Engrams (Section~\ref{sec:dense-scaling}), holding the
+Engram table size constant (large = 50\,K $\times$ 256). The
+density ceiling \emph{does not relax} with bigger dense.
+
+\begin{table}[h]
+  \centering
+  \caption{Joint-OPT density (top-1 / top-5) across three dense
+  scales at fixed Engram capacity (51\,M params).}
+  \label{tab:joint-opt-dense-scale}
+  \begin{tabular}{lccc}
+    \toprule
+    $n$ facts & d12@768 (339\,M) & d12@1280 (625\,M) & d20@1536 (1.22\,B) \\
+    \midrule
+    100  & 0.68 / 0.96 & 0.65 / 0.98 & 0.67 / 0.99 \\
+    300  & 0.51 / 0.92 & 0.46 / 0.87 & 0.48 / 0.90 \\
+    \textbf{1000} & \textbf{0.35} / 0.71 & 0.28 / 0.67 & 0.28 / 0.66 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Top-5 improves slightly with scale at $n=100$ (0.96 $\to$ 0.99),
+but at $n=1000$ top-1 actually \emph{degrades} from 0.35 (d12@768)
+to 0.28 (d12@1280 and d20@1536). Mechanistic reading: when the
+shared Engram table is saturated with 1000 facts, gradient
+interference is the binding constraint; bigger dense backbones
+bring richer broader knowledge that competes more strongly with
+the inserted rows for the gold logit. The density ceiling is
+set by the table, not the LM. This makes the recipe changes of
+Section~\ref{sec:future} (\emph{multi-fact insertion in the loss})
+the most promising path to break it.
+
 \subsection{Storage scaling at deployment}
 
 \begin{figure}[t]
@@ -684,6 +717,18 @@ multi-trigger insertion (insert at every anticipated paraphrase—5
 triggers per fact in our test, $\sim$5\,s per fact)
 \textbf{achieves 96.9\% top-1, vs.\ MEMMACHINE's 75.0\%}—a
 22-point lead at zero context cost.
+
+\paragraph{Scale invariance.} We repeated both the trigger-exact
+and paraphrase comparisons on the optimal d12@1280 (625\,M) and
+d20@1536 (1.22\,B) Mini-Engrams. The shape is identical:
+retrieval baselines hit 1.00 on trigger-exact at every scale;
+User-as-Engram multi-trigger holds 0.94–0.97 paraphrase top-1
+versus retrieval baselines at 0.78–0.83. The verdict—\emph{retrieval
+wins when the query is verbatim the stored prefix, multi-trigger
+Engram wins under paraphrase}—does not change with dense scale.
+Engram numbers are essentially fixed; only the retrieval-baseline
+numbers move slightly because their answering-LM quality
+improves.
 
 \paragraph{What our measurements show.}
 On the two query distributions we tested:

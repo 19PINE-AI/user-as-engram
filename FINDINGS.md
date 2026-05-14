@@ -227,16 +227,43 @@ The Blackwell is shared with other users. Two unrelated training jobs (`train_hi
 
 ---
 
-## 7. Open items / things to do next
+## 7. Finding 5 — Joint-OPT density does NOT scale with dense backbone
+
+We repeated the joint-OPT density sweep ($n \in \{100, 300, 1000\}$) on
+the larger Mini-Engrams while holding Engram-table capacity constant
+(large, 51 M params).
+
+| $n$ | d12@768 (339 M) | d12@1280 (625 M) | d20@1536 (1.22 B) |
+|---|---|---|---|
+| 100 | 0.68 / 0.96 | 0.65 / 0.98 | 0.67 / 0.99 |
+| 300 | 0.51 / 0.92 | 0.46 / 0.87 | 0.48 / 0.90 |
+| **1000** | **0.35** / 0.71 | 0.28 / 0.67 | 0.28 / 0.66 |
+
+format: top-1 / top-5
+
+**Top-5 improves slightly with scale at $n=100$** (0.96 → 0.99) but at
+$n=1000$ **top-1 *degrades*** from 0.35 (d12@768) to 0.28 (both larger
+models). At fixed Engram table size, the bigger dense backbones do
+*not* relax the density ceiling. Mechanistic reading: when the
+shared Engram table is saturated, gradient interference is the binding
+constraint; bigger dense brings richer broader knowledge that competes
+more strongly with the inserted rows for the gold logit.
+
+This is a clean *architectural* finding — it puts pressure on the
+"multi-fact insertion in the loss" recipe change (§8) as the actual
+path to push past 35 % top-1@1000.
+
+## 8. Open items / things to do next
 
 1. ~~Finish d20@1536_optimal training~~ ✓ done (val_bpb 0.730).
 2. ~~Fact-count scaling for d20@1536~~ ✓ done.
-3. **Add the 2-D matrix to the paper as a new section** ("Engram capacity ablation"). Currently only documented in `FINDINGS.md`.
-4. **Investigate d20 E1 OPT dip** (97/100 vs d12@1280's 100/100). Possible cause: iso-12 t/p under-trains the bigger model relative to its capacity. Re-run d20 at 20+ t/p × scaling-params (≈ 12 B tokens) to test.
-5. **Joint-OPT density curve at d12@1280 / d20@1536** — does the joint-mode 1000-fact ceiling (35 % top-1 at d12@768) lift with bigger dense?
-6. **LOCOMO judge-LM eval** — replace token-F1 with the canonical LLM-as-judge to match LOCOMO's published metric.
-7. **Multi-hop reasoning probe** on d12@1280 / d20@1536 — currently 75 % at d12@768 with the caveat that 6/8 successes share suffix-N-gram overlap, not true chaining.
-8. **FP8 retry with `torchao.float8`** — would cut d20-class wall-clock in half if it works on Blackwell sm120.
+3. ~~Add the 2-D matrix to the paper~~ ✓ done (§6.8 capacity ablation, §6.9 fact-count scaling, §6.10 dense scaling).
+4. ~~Joint-OPT density curve at d12@1280 / d20@1536~~ ✓ done — density ceiling does **not** lift; rather *degrades* at high $n$. See §7 above.
+5. ~~Multi-hop reasoning probe on d12@1280 / d20@1536~~ ✓ done — both give 75 % top-1 / 100 % per-fact, same architectural ceiling as d12@768.
+6. **Investigate d20 E1 OPT dip** (97 vs d12@1280's 100). Possible cause: iso-12 t/p under-trains the bigger model relative to its capacity. Re-run d20 at 20+ t/p × scaling-params (≈ 12 B tokens) to test. ~~50 h compute~~
+7. **LOCOMO judge-LM eval** — replace token-F1 with the canonical LLM-as-judge to match LOCOMO's published metric.
+8. **Multi-fact-in-the-loss pretraining** — Section 8 of the paper proposes injecting K facts per batch during pretraining. This is the most direct attack on the density ceiling and now the most-important remaining experiment.
+9. **FP8 retry with `torchao.float8`** — would cut d20-class wall-clock in half if it works on Blackwell sm120. (Custom nanochat.fp8 path was 60 % *slower*.)
 
 ---
 

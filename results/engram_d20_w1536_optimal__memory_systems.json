@@ -1,0 +1,61 @@
+{
+  "NO_MEMORY": {
+    "top1": 0.01,
+    "top5": 0.06,
+    "n": 100,
+    "wall_per_query_ms": 9.525301456451416,
+    "context_tokens_avg": 0
+  },
+  "MARKDOWN_ALL": {
+    "top1": 0.0,
+    "top5": 0.07,
+    "n": 100,
+    "wall_per_query_ms": 17.049739360809326,
+    "context_tokens_avg": 1124
+  },
+  "RAG_TOP1": {
+    "top1": 1.0,
+    "top5": 1.0,
+    "n": 100,
+    "wall_per_query_ms": 11.074037551879883,
+    "context_tokens_avg": 16
+  },
+  "RAG_TOP3": {
+    "top1": 1.0,
+    "top5": 1.0,
+    "n": 100,
+    "wall_per_query_ms": 10.92644214630127,
+    "context_tokens_avg": 40
+  },
+  "MEM0_LIKE": {
+    "top1": 1.0,
+    "top5": 1.0,
+    "n": 100,
+    "wall_per_query_ms": 11.39883279800415,
+    "context_tokens_avg": 63
+  },
+  "MEMMACHINE_LIKE": {
+    "top1": 1.0,
+    "top5": 1.0,
+    "n": 100,
+    "wall_per_query_ms": 10.942120552062988,
+    "context_tokens_avg": 46
+  },
+  "USER_AS_ENGRAM_OPT": {
+    "top1": 0.38,
+    "top5": 0.53,
+    "n": 100,
+    "wall_per_query_ms": 8.199501037597656,
+    "context_tokens_avg": 0,
+    "train_time_s": 18.055728912353516
+  },
+  "USER_AS_ENGRAM_JOINT_OPT": {
+    "top1": 0.68,
+    "top5": 0.96,
+    "n": 100,
+    "wall_per_query_ms": 8.199501037597656,
+    "context_tokens_avg": 0,
+    "train_time_s": 44.43088102340698,
+    "note": "from joint_opt_100.json"
+  }
+}
