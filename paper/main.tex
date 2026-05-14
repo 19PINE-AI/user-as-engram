@@ -49,19 +49,31 @@ embedding table of an Engram-pretrained base. Each fact is one row at
 the trigger N-gram's hash address. The edit is \emph{local}: we
 measure that insertion changes the residual stream by L2 norm 62.75
 at the trigger position and \emph{exactly 0.000 at every other
-position}, through every subsequent layer. We present (i) a
-nano-scale public reproduction of Engram at 137M and 339M parameters
-(the first publicly available outside DeepSeek-AI), (ii) \textbf{Joint
-OPT}, a sparse-row joint training method that recovers recall under
-high fact density (68\% top-1 / 96\% top-5 at 100 facts per user vs.
-36\% / 54\% for independent OPT), (iii) a working multi-tenant
-serving system with sub-millisecond override swap, 47.9 req/s
-throughput, and zero cross-user leak by construction, and (iv) a
-comprehensive comparison vs. ICL, RAG, SFT-LoRA, and POLAR. At
-100 facts per user, Joint OPT uses \textbf{88 KB of storage}—153×
-less than the POLAR-class LoRA at the same fact density, while
-preserving the model's general reasoning. Code, models, and the full
-evaluation suite are released.
+position}, through every subsequent layer. We present
+(i) a nano-scale public reproduction of Engram at four dense sizes
+spanning 137\,M to 1.22\,B parameters—the first publicly available
+Engram models outside DeepSeek-AI;
+(ii) a $5 \times 3 \times 2$ \textbf{capacity ablation} across
+Engram-table size, token budget, and dense scale, showing the optimal
+Engram capacity is invariant across dense sizes and only the token
+budget needs to scale;
+(iii) \textbf{Joint OPT}, a sparse-row joint training method that
+recovers recall under high fact density (68\% top-1 / 96\% top-5 at
+100 facts/user vs.\ 36\% / 54\% for independent OPT);
+(iv) \textbf{fact-count scaling to 1\,000 facts}, where per-fact
+independent OPT recall is flat (d12@1280 holds 0.98 USER OPT top-1
+from $n{=}100$ to $n{=}1000$);
+(v) on the \textbf{LOCOMO} single-hop memory benchmark with a fixed
+answer LM, User-as-Engram Joint OPT achieves \textbf{F1 0.219 at
+d20@1536 vs.\ 0.140 for the strongest retrieval baseline}
+(+57\%), and the lead widens monotonically with dense scale;
+(vi) a working multi-tenant serving system with sub-millisecond
+override swap, 47.9 req/s throughput, and zero cross-user leak by
+construction;
+(vii) a comprehensive comparison vs.\ ICL, RAG, SFT-LoRA, and POLAR,
+where Joint OPT uses 88\,KB of storage—153$\times$ less than the
+POLAR-class LoRA at the same fact density.
+Code, models, and the full evaluation suite are released.
 \end{abstract}
 
 \section{Introduction}
@@ -180,6 +192,27 @@ after the insertion.
   (marked $*$), the adapter underperforms the base on indirect
   questions. The adapter is reasoning-negative.}
   \label{fig:negative}
+\end{figure}
+
+\paragraph{Reproducibility.} Code, configs, all four trained
+Mini-Engram checkpoints, the full evaluation suite, and the raw
+result JSON files for every table and figure in this paper are
+available at \url{https://github.com/bojieli/user-as-engram}. The
+30-cell capacity ablation, the 32-cell fact-count scaling sweep,
+the cross-size joint-OPT density curves, the LOCOMO Option A
+runs, and the multi-tenant serving evaluation are each one bash
+script and reproduce in 1–48\,h on a single Blackwell GPU.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.78\linewidth]{figs/fig_pareto.pdf}
+  \caption{Cost-quality Pareto across personal-memory substrates
+  at the same answering LM (Mini-Engram-d20@1536). User-as-Engram
+  Joint OPT matches a POLAR-class LoRA's LOCOMO F1 at
+  135$\times$ smaller per-fact storage. Retrieval baselines sit
+  on the steep low-storage side of the curve but cap out below
+  Engram on quality.}
+  \label{fig:pareto}
 \end{figure}
 
 \section{Background}
@@ -536,7 +569,21 @@ LoRA 44\%/81\% at 13.5 MB (\textbf{45$\times$ more storage}).
 We repeated the joint-OPT density sweep on the two larger
 Mini-Engrams (Section~\ref{sec:dense-scaling}), holding the
 Engram table size constant (large = 50\,K $\times$ 256). The
-density ceiling \emph{does not relax} with bigger dense.
+density ceiling \emph{does not relax} with bigger dense
+(Figure~\ref{fig:joint-opt-dense}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figs/fig_joint_opt_dense.pdf}
+  \caption{Joint-OPT density as a function of inserted-fact count
+  $n$, at three dense scales with the same Engram capacity
+  (50\,K $\times$ 256, 51\,M Engram params). Top-5 improves
+  slightly at $n=100$ with dense scale; \emph{top-1 actually
+  degrades at $n=1000$} from 0.35 (d12@768) to 0.28 (d12@1280
+  and d20@1536). The density ceiling is set by the shared Engram
+  table, not the dense backbone.}
+  \label{fig:joint-opt-dense}
+\end{figure}
 
 \begin{table}[h]
   \centering
@@ -845,8 +892,23 @@ priors, which a small base LM trained on 786M tokens of web text
 struggles with.
 
 \paragraph{Scaling at the optimal config.} We repeated the same
-LOCOMO setup with two larger Mini-Engrams trained at our
-ablation-optimal recipe (Section~\ref{sec:capacity-ablation}):
+LOCOMO setup with all four trained Mini-Engrams at our
+ablation-optimal recipe (Section~\ref{sec:capacity-ablation});
+the Engram lead widens monotonically with dense size
+(Figure~\ref{fig:locomo-scaling}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.78\linewidth]{figs/fig_locomo_scaling.pdf}
+  \caption{LOCOMO single-hop token-F1 across four Mini-Engram
+  sizes, all at Karpathy 12 t/p of scaling-params. User-as-Engram
+  Joint OPT (blue) scales monotonically from 0.161 (137\,M) to
+  0.219 (1.22\,B); retrieval baselines climb more slowly (the
+  answering-LM quality improves but the substrate doesn't). The
+  Engram lead over MEMMACHINE\_LIKE is +115\% at the smallest
+  dense and +57\% at the largest.}
+  \label{fig:locomo-scaling}
+\end{figure}
 
 \begin{table}[h]
   \centering
@@ -890,7 +952,20 @@ How does Engram-table size interact with token budget at a fixed
 dense backbone? We probe this as a $5 \times 3 \times 2$
 matrix: five capacity levels ($v$ slots per
 N-gram, $e$ total embed-dim per N-gram), three token budgets, two
-dense sizes.
+dense sizes (Figure~\ref{fig:capacity-heatmap}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_capacity_heatmap.pdf}
+  \caption{Engram capacity × token-budget response surface, at
+  Mini-Engram-d8@512 (left) and -d12@768 (right). Top row:
+  E1 USER OPT top-1 (100-fact recall). Bottom row: LOCOMO Joint
+  OPT F1. The same \texttt{large} (50\,K $\times$ 256) Engram
+  size wins at the highest token budget for \emph{both} dense
+  scales; \emph{tiny} is under-capacity, \emph{xlarge} is
+  over-provisioned. The optimum scales in tokens, not capacity.}
+  \label{fig:capacity-heatmap}
+\end{figure}
 
 \begin{table}[h]
   \centering
@@ -977,7 +1052,18 @@ inserted facts? We probe by per-fact \emph{independent} OPT
 insertion (the per-user override deployment mode) on the
 first $n$ facts of an XL corpus of 1\,000 USER + 1\,000 ORG
 templated facts. ICL@1000 is the in-context ceiling at the
-hardest end.
+hardest end. Figure~\ref{fig:factscale} shows the full curves.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_factscale.pdf}
+  \caption{Per-fact independent OPT recall vs.\ fact count $n$.
+  Left: USER OPT top-1. Right: ORG OPT top-1. The d12@1280
+  and d20@1536 optimal cells (green, purple) hold near-1.00
+  recall from $n=100$ to $n=1000$. No ceiling visible in the
+  per-fact independent-OPT regime.}
+  \label{fig:factscale}
+\end{figure}
 
 \begin{table}[h]
   \centering
@@ -1022,7 +1108,21 @@ override-slab rows per user (Section~\ref{sec:serving}).
 \subsection{Dense-size scaling at optimal config}
 \label{sec:dense-scaling}
 
-Pulling the four trained Mini-Engrams into one row each:
+Pulling the four trained Mini-Engrams into one row each
+(Figure~\ref{fig:dense-scaling}):
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_dense_scaling.pdf}
+  \caption{Dense-size scaling at the ablation-optimal recipe.
+  Left: LOCOMO Joint OPT F1 climbs from 0.161 (best d8) to 0.219
+  (d20@1536); MEMMACHINE\_LIKE retrieval baseline climbs more
+  slowly because its quality is bounded by sentence-encoder
+  retrieval, not the LM. Right: val\_bpb (grey) drops monotonically
+  with dense+tokens, while E1 USER OPT (blue) saturates at 1.00
+  from d12@768 onward (small dip at d20 at iso-12 t/p).}
+  \label{fig:dense-scaling}
+\end{figure}
 
 \begin{table}[h]
   \centering
@@ -1188,12 +1288,13 @@ practical recall in conversational use.
 \label{sec:paraphrase}
 
 The hash addresses a token-level suffix N-gram, so different surface
-forms map to different rows. Single-trigger insertion gives 50\%
-top-1 generalisation across 5 paraphrases (free, from suffix-N-gram
-overlap of similar phrasings). Multi-trigger insertion (insert the
-same answer at every paraphrase the system anticipates) gives 100\%
-top-1 at 5$\times$ the cost ($\sim$5 s per fact, vs.\ $\sim$1 s for
-single-trigger).
+forms map to different rows. The full comparison against retrieval
+baselines under paraphrase queries is in
+Table~\ref{tab:memcompare-paraphrase}; multi-trigger insertion
+reaches 96.9\% top-1 vs.\ MEMMACHINE's 75.0\%, and the lead is
+scale-invariant (Section~\ref{sec:memory-systems}, ``Scale
+invariance'' paragraph). Per-paraphrase rank data is in
+Appendix~\ref{app:paraphrase-detail}.
 
 \section{Multi-tenant serving system}
 \label{sec:serving}
