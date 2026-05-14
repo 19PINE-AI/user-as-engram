@@ -107,8 +107,11 @@ def generate(model, tokenizer, prompt, device, max_new_tokens=16, max_seq_len=10
 
 
 def joint_opt_facts(model, tokenizer, eng, last_layer, Wv_pinv, total_heads, embed_dim,
-                     facts, device, scale=20.0, steps=2000, lr=0.5):
-    """Joint OPT on a list of (prompt, gold_first_token_text) pairs."""
+                     facts, device, scale=20.0, steps=2000, lr=0.5, multi_token=False):
+    """Joint OPT. If multi_token=False, each fact is (prompt, gold_first_token_text)
+    and loss is on the first generated token. If multi_token=True, each fact is
+    (prompt, full_gold_answer_text) and loss is the sum of -log p(gold_t |
+    prompt, gold_<t) across the full answer span."""
     import torch.nn.functional as F
     from scripts.insertion_strategies_v2 import make_marker_UNEMBED_P
     bos = tokenizer.get_bos_token_id()
@@ -116,13 +119,30 @@ def joint_opt_facts(model, tokenizer, eng, last_layer, Wv_pinv, total_heads, emb
     all_rows_set = set()
     for p, g in facts:
         ids = tokenizer.encode(p, prepend=bos)
-        gold_id = tokenizer.encode(g)[0]
-        idx_t = torch.tensor([ids], dtype=torch.long, device=device)
-        trig_pos = len(ids) - 1
-        gr = trigger_global_rows(eng, idx_t, last_layer, trig_pos)
-        init = make_marker_UNEMBED_P(model, eng, last_layer, gold_id, idx_t, trig_pos,
-                                       scale, total_heads, embed_dim, Wv_pinv=Wv_pinv)
-        fact_data.append({"prompt_ids": ids, "gold_id": gold_id, "global_rows": gr, "init": init})
+        if multi_token:
+            # g is the full answer text; encode all tokens
+            answer_ids = tokenizer.encode(g)
+            if not answer_ids: continue
+            gold_id = answer_ids[0]
+            # Build full sequence prompt + answer
+            full_ids = ids + answer_ids
+            idx_t = torch.tensor([ids], dtype=torch.long, device=device)
+            trig_pos = len(ids) - 1
+            gr = trigger_global_rows(eng, idx_t, last_layer, trig_pos)
+            init = make_marker_UNEMBED_P(model, eng, last_layer, gold_id, idx_t, trig_pos,
+                                           scale, total_heads, embed_dim, Wv_pinv=Wv_pinv)
+            fact_data.append({"prompt_ids": ids, "full_ids": full_ids,
+                                 "answer_ids": answer_ids, "gold_id": gold_id,
+                                 "trig_pos": trig_pos, "answer_start": len(ids),
+                                 "global_rows": gr, "init": init})
+        else:
+            gold_id = tokenizer.encode(g)[0]
+            idx_t = torch.tensor([ids], dtype=torch.long, device=device)
+            trig_pos = len(ids) - 1
+            gr = trigger_global_rows(eng, idx_t, last_layer, trig_pos)
+            init = make_marker_UNEMBED_P(model, eng, last_layer, gold_id, idx_t, trig_pos,
+                                           scale, total_heads, embed_dim, Wv_pinv=Wv_pinv)
+            fact_data.append({"prompt_ids": ids, "gold_id": gold_id, "global_rows": gr, "init": init})
         all_rows_set.update(gr.tolist())
 
     all_rows = sorted(all_rows_set)
@@ -170,10 +190,21 @@ def joint_opt_facts(model, tokenizer, eng, last_layer, Wv_pinv, total_heads, emb
         for step in range(steps):
             i = torch.randint(0, len(fact_data), (1,)).item()
             fd = fact_data[i]
-            x = torch.tensor([fd["prompt_ids"]], dtype=torch.long, device=device)
-            logits = model(x)[0, -1, :]
-            loss = F.cross_entropy(logits.unsqueeze(0).float(),
-                                     torch.tensor([fd["gold_id"]], device=device))
+            if multi_token:
+                # Single forward over (prompt + answer), CE at each answer position
+                full = torch.tensor([fd["full_ids"]], dtype=torch.long, device=device)
+                logits = model(full)[0]  # [seq, vocab]
+                # Predict answer[t] from logits at position answer_start-1+t
+                ans_start = fd["answer_start"]
+                tgt = torch.tensor(fd["answer_ids"], dtype=torch.long, device=device)
+                # logits at positions (ans_start-1, ans_start, ..., ans_start+len(ans)-2)
+                src = logits[ans_start-1:ans_start-1+len(fd["answer_ids"]), :].float()
+                loss = F.cross_entropy(src, tgt)
+            else:
+                x = torch.tensor([fd["prompt_ids"]], dtype=torch.long, device=device)
+                logits = model(x)[0, -1, :]
+                loss = F.cross_entropy(logits.unsqueeze(0).float(),
+                                         torch.tensor([fd["gold_id"]], device=device))
             grads = torch.autograd.grad(loss, [row_leaves])
             if row_leaves.grad is None:
                 row_leaves.grad = grads[0].clone()
@@ -199,6 +230,10 @@ def main():
     p.add_argument("--max-qa-per-conv", type=int, default=80)
     p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/locomo_eval.json")
     p.add_argument("--max-seq-len", type=int, default=1024)
+    p.add_argument("--categories", default="1",
+                    help="Comma-separated list of LOCOMO categories to include (1=single-hop, 2=multi-hop, 3=reasoning, 4=open-domain, 5=adversarial)")
+    p.add_argument("--multi-token", action="store_true",
+                    help="Use multi-token answer-conditioned Joint OPT loss (sums over all answer tokens, not just first)")
     args = p.parse_args()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -231,17 +266,20 @@ def main():
         qas_raw = conv["qa"]
         # Filter to QAs whose evidence is a turn reference (single-hop facts)
         qas = []
+        allowed_cats = set(int(c) for c in args.categories.split(","))
         for qa in qas_raw:
-            if "answer" not in qa:  # adversarial / no-info questions (category 5)
-                continue
+            cat = qa.get("category", -1)
+            if cat not in allowed_cats: continue
+            ans = qa.get("answer") or qa.get("adversarial_answer")
+            if ans is None: continue
             ev_sents = []
             for ev in qa.get("evidence", []):
                 s = evidence_sentence(sessions, ev)
                 if s: ev_sents.append(s)
             if not ev_sents: continue
-            qas.append({"question": qa["question"], "answer": str(qa["answer"]),
+            qas.append({"question": qa["question"], "answer": str(ans),
                           "evidence_sents": ev_sents,
-                          "category": qa.get("category", -1)})
+                          "category": cat})
             if len(qas) >= args.max_qa_per_conv: break
         print(f"\n=== Conversation {ci+1} ({len(qas)} QAs with evidence) ===")
 
@@ -327,23 +365,23 @@ def main():
                 restore_rows(eng, last_layer, gr, originals)
 
         # System 8: USER_AS_ENGRAM_JOINT_OPT
-        print("[8] USER_AS_ENGRAM_JOINT_OPT")
-        facts_for_joint = []
-        for qa in qas:
-            gold_ids = tokenizer.encode(qa["answer"])
-            if gold_ids:
-                facts_for_joint.append((qa["question"], qa["answer"][0] if qa["answer"][0] == ' ' else ' ' + qa["answer"][0]))
-        # Use the first character / token of the answer as the gold prefix
-        # Better: tokenize the answer and use the first token's text
-        facts_for_joint_v2 = []
-        for qa in qas:
-            ids_a = tokenizer.encode(qa["answer"])
-            if ids_a:
-                first_tok = tokenizer.decode([ids_a[0]])
-                facts_for_joint_v2.append((qa["question"], first_tok))
+        sys_name = "USER_AS_ENGRAM_JOINT_OPT_MT" if args.multi_token else "USER_AS_ENGRAM_JOINT_OPT"
+        print(f"[8] {sys_name}")
+        if args.multi_token:
+            # Build (question, FULL answer) pairs
+            facts_for_joint_v2 = [(qa["question"], qa["answer"]) for qa in qas
+                                    if tokenizer.encode(qa["answer"])]
+        else:
+            facts_for_joint_v2 = []
+            for qa in qas:
+                ids_a = tokenizer.encode(qa["answer"])
+                if ids_a:
+                    first_tok = tokenizer.decode([ids_a[0]])
+                    facts_for_joint_v2.append((qa["question"], first_tok))
         all_rows_t, saved_orig = joint_opt_facts(model, tokenizer, eng, last_layer, Wv_pinv,
                                                     total_heads, embed_dim, facts_for_joint_v2,
-                                                    device, scale=20.0, steps=2000, lr=0.5)
+                                                    device, scale=20.0, steps=2000, lr=0.5,
+                                                    multi_token=args.multi_token)
         try:
             f1s = []
             preds = []
@@ -352,9 +390,9 @@ def main():
                                  max_new_tokens=16, max_seq_len=args.max_seq_len)
                 f1s.append(token_f1(pred, qa["answer"]))
                 preds.append({"question": qa["question"], "gold": qa["answer"], "pred": pred})
-            conv_results["USER_AS_ENGRAM_JOINT_OPT"] = {"avg_f1": sum(f1s)/len(f1s), "n": len(f1s)}
-            conv_predictions["USER_AS_ENGRAM_JOINT_OPT"] = preds
-            print(f"  avg_f1 = {conv_results['USER_AS_ENGRAM_JOINT_OPT']['avg_f1']:.3f}")
+            conv_results[sys_name] = {"avg_f1": sum(f1s)/len(f1s), "n": len(f1s)}
+            conv_predictions[sys_name] = preds
+            print(f"  avg_f1 = {conv_results[sys_name]['avg_f1']:.3f}")
         finally:
             with torch.no_grad():
                 tbl.embedding.weight.data[all_rows_t] = saved_orig
