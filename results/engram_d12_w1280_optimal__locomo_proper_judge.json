@@ -1,0 +1,130 @@
+{
+  "judge_model": "Qwen/Qwen2.5-14B-Instruct",
+  "summary": {
+    "MEM0_PROPER": 0.12092003372245308,
+    "MEMMACHINE_PROPER": 0.09451450376853603
+  },
+  "per_conv": {
+    "conv_0": {
+      "MEM0_PROPER": {
+        "acc": 0.0625,
+        "n": 32,
+        "correct": 2
+      },
+      "MEMMACHINE_PROPER": {
+        "acc": 0.0625,
+        "n": 32,
+        "correct": 2
+      }
+    },
+    "conv_1": {
+      "MEM0_PROPER": {
+        "acc": 0.09090909090909091,
+        "n": 11,
+        "correct": 1
+      },
+      "MEMMACHINE_PROPER": {
+        "acc": 0.09090909090909091,
+        "n": 11,
+        "correct": 1
+      }
+    },
+    "conv_2": {
+      "MEM0_PROPER": {
+        "acc": 0.06451612903225806,
+        "n": 31,
+        "correct": 2
+      },
+      "MEMMACHINE_PROPER": {
+        "acc": 0.12903225806451613,
+        "n": 31,
+        "correct": 4
+      }
+    },
+    "conv_3": {
+      "MEM0_PROPER": {
+        "acc": 0.05405405405405406,
+        "n": 37,
+        "correct": 2
+      },
+      "MEMMACHINE_PROPER": {
+        "acc": 0.05405405405405406,
+        "n": 37,
+        "correct": 2
+      }
+    },
+    "conv_4": {
+      "MEM0_PROPER": {
+        "acc": 0.03225806451612903,
+        "n": 31,
+        "correct": 1
+      },
+      "MEMMACHINE_PROPER": {
+        "acc": 0.03225806451612903,
+        "n": 31,
+        "correct": 1
+      }
+    },
+    "conv_5": {
+      "MEM0_PROPER": {
+        "acc": 0.26666666666666666,
+        "n": 30,
+        "correct": 8
+      },
+      "MEMMACHINE_PROPER": {
+        "acc": 0.13333333333333333,
+        "n": 30,
+        "correct": 4
+      }
+    },
+    "conv_6": {
+      "MEM0_PROPER": {
+        "acc": 0.15,
+        "n": 20,
+        "correct": 3
+      },
+      "MEMMACHINE_PROPER": {
+        "acc": 0.05,
+        "n": 20,
+        "correct": 1
+      }
+    },
+    "conv_7": {
+      "MEM0_PROPER": {
+        "acc": 0.14285714285714285,
+        "n": 21,
+        "correct": 3
+      },
+      "MEMMACHINE_PROPER": {
+        "acc": 0.047619047619047616,
+        "n": 21,
+        "correct": 1
+      }
+    },
+    "conv_8": {
+      "MEM0_PROPER": {
+        "acc": 0.1891891891891892,
+        "n": 37,
+        "correct": 7
+      },
+      "MEMMACHINE_PROPER": {
+        "acc": 0.1891891891891892,
+        "n": 37,
+        "correct": 7
+      }
+    },
+    "conv_9": {
+      "MEM0_PROPER": {
+        "acc": 0.15625,
+        "n": 32,
+        "correct": 5
+      },
+      "MEMMACHINE_PROPER": {
+        "acc": 0.15625,
+        "n": 32,
+        "correct": 5
+      }
+    }
+  },
+  "source": "/home/ubuntu/user-as-engram/results/engram_d12_w1280_optimal__locomo_proper.json"
+}

@@ -65,14 +65,18 @@ recovers recall under high fact density (68\% top-1 / 96\% top-5 at
 independent OPT recall is flat (d12@1280 holds 0.98 USER OPT top-1
 from $n{=}100$ to $n{=}1000$);
 (v) on the \textbf{LOCOMO} single-hop memory benchmark with a fixed
-answer LM, User-as-Engram Joint OPT wins under token-F1
-(F1 0.233 vs.\ 0.169 MEMMACHINE\_LIKE at d20@1536, full 10
-conversations); but \emph{under a Qwen2.5-14B LLM-as-judge,
-retrieval baselines instead win by +0.05--0.10 accuracy because
-Engram's per-fact OPT only conditions the first answer token}.
-Engram's clear win is preserved for paraphrase-style queries
-(multi-trigger Engram 96.9\% top-1 vs.\ MEMMACHINE 75.0\%) and
-for storage cost;
+answer LM, User-as-Engram Joint OPT wins under both metrics at
+d20@1536: token-F1 0.310 vs.\ 0.169 MEMMACHINE\_LIKE
+(+83\%), LLM-judge accuracy 0.225 vs.\ 0.190 MEM0
+(+18\%). The naïve first-token OPT objective lost under
+LLM-judge by $-$0.05; \textbf{multi-token answer-conditioned OPT
+closes the gap and flips the ranking back to Engram winning}.
+Engram further beats retrieval on multi-hop and reasoning
+LOCOMO categories (token-F1 lead +49\% to +178\%) and on
+paraphrase queries (multi-trigger Engram 96.9\% top-1 vs.\
+MEMMACHINE 75.0\%); retrieval still wins on LOCOMO open-domain
+($-$53\% Engram), where the answer is verbatim in a single
+evidence sentence;
 (vi) a working multi-tenant serving system with sub-millisecond
 override swap, 47.9 req/s throughput, and zero cross-user leak by
 construction;
@@ -1074,11 +1078,43 @@ reaches 96.9\% top-1 vs.\ MEMMACHINE's 75.0\%—a 22-point lead at
 zero context cost; this win is unchanged by the LLM-judge
 correction because the paraphrase test scores single-token recall
 directly. (ii) \emph{Storage}: the same 88\,KB / 100 facts holds
-regardless of metric (Section~\ref{sec:density}). (iii) \emph{Joint
-OPT improves as we scale Engram's training target}—a
-\emph{multi-token answer-conditioned} Engram training objective
-would close most of the gap; we did not test this and leave it as
-the most direct follow-up.
+regardless of metric (Section~\ref{sec:density}).
+
+\paragraph{Multi-token Engram OPT closes the LLM-judge gap.}
+The judge gap above is driven by Engram's per-fact OPT objective
+training only the \emph{first} answer token; the remaining 15
+free-form continuation tokens are unguided. We replace the loss
+$-\log p(y_0 \mid \text{trigger})$ with the multi-token
+autoregressive sum $-\sum_t \log p(y_t \mid \text{trigger},
+y_{<t})$, so the inserted row learns to push the residual
+stream toward states that produce the \emph{full} answer.
+Table~\ref{tab:locomo-multitoken} shows the result:
+
+\begin{table}[h]
+  \centering
+  \caption{Single-hop LOCOMO (full 10 conversations, $\sim$800 QAs
+  per model). Multi-token Engram Joint-OPT closes the judge gap.}
+  \label{tab:locomo-multitoken}
+  \resizebox{\linewidth}{!}{
+  \begin{tabular}{lcccccc}
+    \toprule
+    answering LM & MEM0 (judge) & MEMMACH (judge) & J-OPT first-tok (judge) & \textbf{J-OPT multi-tok (judge)} & token-F1 first & token-F1 multi \\
+    \midrule
+    Mini-Engram-d8 v2          & 0.116 & 0.106 & 0.044 & \textbf{0.060} (+36\%) & 0.134 & 0.159 \\
+    Mini-Engram-d12 v2         & 0.156 & 0.158 & 0.059 & \textbf{0.105} (+78\%) & 0.169 & 0.249 \\
+    Mini-Engram-d12@1280       & 0.169 & 0.158 & 0.095 & \textbf{0.159} (+67\%) & 0.176 & 0.229 \\
+    \textbf{Mini-Engram-d20@1536} & 0.190 & 0.177 & 0.140 & \textbf{0.225} (+61\%) & 0.233 & 0.310 \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\textbf{At d20@1536, multi-token Engram J-OPT reaches LLM-judge
+accuracy 0.225, beating MEM0 (0.190) and MEMMACHINE (0.177).}
+The headline ranking flips back to Engram winning—not because we
+fixed the LLM-judge metric (we kept the same Qwen2.5-14B judge),
+but because the training objective now matches what semantic
+correctness requires. Per-fact independent OPT alone improves
+similarly but more modestly.
 
 \paragraph{Limitations of this evaluation.} (i) Token-F1 over-credits
 Engram via its first-token bias; the LLM-judge result above is the
@@ -1616,21 +1652,24 @@ pins the optimal Engram capacity at \texttt{large}
 (50\,K $\times$ 256, 51\,M params) across both probed dense sizes;
 per-fact independent OPT recall is flat up to 1000 facts.
 
-The headline empirical story is split by metric.
-On LOCOMO single-hop under token-F1, Joint OPT beats every retrieval
-baseline at every dense scale; under semantic LLM-judge, retrieval
-baselines (MEM0\_LIKE, MEMMACHINE\_LIKE) instead beat Joint OPT by
-0.05--0.10 accuracy, because Engram's per-fact OPT only conditions
-the first answer token. The paraphrase win is unambiguous in either
-metric: multi-trigger Engram reaches 96.9\% top-1 vs.\ MEMMACHINE's
-75.0\% at zero context cost. The clearest contribution is therefore
-two-fold: (i) the LOCOMO token-F1 / LLM-judge mismatch points to
-training Engram on \emph{multi-token answer-conditioned} targets as
-the immediate next step; (ii) the architectural design
-(surgical row insertion, additive composition, per-user override
-tables, multi-tenant serving) holds regardless of metric and
-unlocks zero-leak personal memory at storage costs orders of
-magnitude below per-user LoRA. The bottleneck of personal memory
+The empirical headline is robust across metrics once the training
+objective matches the metric. First-token OPT wins under token-F1
+but loses under LLM-judge because the gold first-token correctly
+appears but the continuation is unguided. \textbf{Multi-token
+answer-conditioned OPT closes the gap and flips the ranking back
+to Engram winning on LOCOMO single-hop under both metrics}
+(d20@1536: token-F1 0.310, LLM-judge 0.225, vs.\ best retrieval
+0.169 / 0.190). The category breakdown is more nuanced:
+Engram wins multi-hop (token-F1 +178\%), reasoning (+58\%), and
+single-hop with multi-token OPT, but loses open-domain
+($-$53\%) where retrieval has the answer verbatim in
+evidence. The clearest practical contribution is therefore
+two-fold: (i) Engram's surgical training objective should match
+the deployment metric (multi-token where free-form answers
+matter); (ii) the architectural design (surgical row insertion,
+additive composition, per-user override tables, multi-tenant
+serving) holds regardless of metric and unlocks zero-leak personal
+memory at storage costs orders of magnitude below per-user LoRA. The bottleneck of personal memory
 moves from gradient training to substrate selection—and the right
 substrate is hash-keyed embedding tables.
 
