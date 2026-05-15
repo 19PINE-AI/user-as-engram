@@ -47,35 +47,33 @@ forward pass even when the stored fact is irrelevant. We propose
 \textbf{User as Engram}: instead of training a global per-user
 adapter, surgically insert per-user fact rows into the hash-keyed
 embedding table of an Engram-pretrained base. Each fact is one row at
-the trigger N-gram's hash address. The edit is \emph{local}: on
-Mini-Engram-d12 we measure that insertion changes the residual
-stream by L2 norm 123.0 at the trigger position in the first
-post-Engram layer (decaying to 1.54 by the final layer) and
-\emph{exactly 0.000 at every other position}, through every
-subsequent attention/MLP layer. We present
+the trigger N-gram's hash address. The edit is \emph{local}:
+on Mini-Engram-d12 we measure exactly 0.000 residual-stream
+perturbation at every non-trigger position, through every
+subsequent attention+MLP layer (full numbers in
+Section~\ref{sec:locality}). We present
 (i) a nano-scale public reproduction of Engram at four dense sizes
-spanning 178\,M to 1.22\,B total parameters (137\,M to 1.17\,B
-dense; $\sim$53\,M Engram-table params)—the first publicly available
-Engram models outside DeepSeek-AI;
+spanning 178\,M to 1.22\,B total parameters (127\,M to 1.17\,B
+non-Engram; 51.2\,M Engram-table params)—the first publicly
+available Engram models outside DeepSeek-AI;
 (ii) a $5 \times 3 \times 2$ \textbf{capacity ablation} across
 Engram-table size, token budget, and dense scale, showing the optimal
 Engram capacity is invariant across dense sizes and only the token
 budget needs to scale;
 (iii) \textbf{Joint OPT}, a sparse-row joint training method that
 recovers recall under high fact density (68\% top-1 / 96\% top-5 at
-100 facts/user vs.\ 36\% / 54\% for independent OPT);
+100 facts/user on Mini-Engram-d12 v2 vs.\ 36\% / 54\% for
+independent OPT);
 (iv) \textbf{fact-count scaling to 1\,000 facts}, where per-fact
 independent OPT recall is flat (d12@1280 holds 0.98 USER OPT top-1
 from $n{=}100$ to $n{=}1000$);
 (v) on the \textbf{LOCOMO} single-hop memory benchmark with a fixed
 answer LM, multi-token Joint OPT wins under both metrics at
-d20@1536: token-F1 0.310 vs.\ 0.197 best retrieval
-(+58\%), LLM-judge accuracy 0.225 vs.\ 0.190 best retrieval
-(+18\%, both pipelines). The na\"ive first-token OPT objective
-wins on token-F1 but loses under LLM-judge by $-$0.05 (the first
-generated token is the gold token but the 15-token continuation
-is unguided); \textbf{multi-token answer-conditioned OPT closes
-the gap and flips the ranking back to Engram winning}. Engram further beats
+d20@1536 (token-F1 +57\%, LLM-judge accuracy +18\% over the best
+retrieval baseline; Table~\ref{tab:locomo-multitoken}). The first-token
+OPT objective wins on token-F1 but loses under LLM-judge by
+$-$0.05; \textbf{multi-token answer-conditioned OPT closes the gap
+and flips the ranking back to Engram winning}. Engram further beats
 retrieval on multi-hop and reasoning LOCOMO categories (token-F1
 lead +49\% to +178\%) and on paraphrase queries (multi-trigger
 Engram 96.9\% top-1 vs.\ MEMMACHINE 75.0\%); retrieval still wins
@@ -83,7 +81,10 @@ on LOCOMO open-domain ($-$53\% Engram), where the answer is
 verbatim in a single evidence sentence;
 (vi) a working multi-tenant serving system with sub-millisecond
 override swap, 232\,req/s throughput on a single GPU at d12@1280
-scale, and zero cross-user leak by construction;
+scale (measured at 30 users $\times$ 50 facts; the 100-user
+$\times$ 100-fact configuration is exercised for correctness but
+throughput is not benchmarked here), and zero cross-user leak by
+construction;
 (vii) a comprehensive comparison vs.\ ICL, RAG, SFT-LoRA, and POLAR,
 where Joint OPT uses 88\,KB of storage—161$\times$ less than the
 POLAR-class LoRA at the same 100-fact density (14.2\,MB
@@ -114,6 +115,11 @@ consume it with a frozen base. We focus throughout on the canonical
 recipe—a per-user rank-64 LoRA on $Q/K/V/O$ + MLP trained via NTP on
 an (observation, fact, QA) mixture—and call this baseline
 \textbf{POLAR-class} when its performance is the reference point.
+We use ``POLAR-class'' (rather than naming a single paper) because
+the recipe is the common denominator across PRAG, DyPRAG, OPPU,
+HYDRA, MemLoRA, and PER-PCS: a per-user rank-$\sim$64 LoRA trained
+NTP on an observation/fact/QA mixture, applied at inference with a
+frozen base.
 
 \paragraph{The negative finding that motivates this paper.}
 We replicate POLAR-style per-user LoRA training (rank 64 NTP on
@@ -145,61 +151,51 @@ transformer layers; the gate fires on suffix N-grams via deterministic
 multiplicative-XOR hashing. Per user, we write one fact-row per
 trigger N-gram into an \emph{override map} and apply it per request.
 Critically, the edit is \emph{local}: the gate fires only when the
-exact trigger N-gram's hash is consulted. We measure that this
-property holds empirically (Section~\ref{sec:method},
+exact trigger N-gram's hash is consulted. We measure this property
+empirically (Section~\ref{sec:locality},
 Figure~\ref{fig:locality}): on Mini-Engram-d12, a UNEMBED\_P
-insertion at the last Engram layer changes the residual stream by
-L2 norm 123.0 at the trigger position (decaying through subsequent
-layers to 1.54 at the final layer) and \emph{0.000 at every other
-position}, in every layer after the insertion.
+insertion at the last Engram layer perturbs the residual stream
+\emph{by exactly 0.000 at every non-trigger position}, in every
+layer after the insertion.
 
 \paragraph{Contributions.}
 \begin{enumerate}[leftmargin=*,topsep=2pt,itemsep=1pt]
-  \item \textbf{The reasoning-negative finding} (Section~\ref{sec:negative})
-        for per-user LoRA, with a mechanistic diagnosis (global vs.
-        local edits).
-  \item \textbf{Nano-scale public reproduction of Engram} (Section~\ref{sec:repro})
-        at four dense sizes spanning 178\,M to 1.22\,B total parameters
-        (137\,M to 1.17\,B dense),
-        trained from scratch on ClimbMix-400B on a single Blackwell GPU.
-        To our knowledge the first publicly available Engram models
+  \item \textbf{The reasoning-negative finding}
+        (Section~\ref{sec:negative}): per-user LoRA achieves perfect
+        direct recall (1.000) but degrades indirect recall to 0.150
+        \emph{below} the no-adapter base (0.170), in 5/10 users—with
+        a mechanistic diagnosis (global vs.\ local edits).
+  \item \textbf{Nano-scale public reproduction of Engram}
+        (Section~\ref{sec:repro}) at four dense sizes spanning
+        178\,M to 1.22\,B total parameters (127\,M to 1.17\,B
+        non-Engram; 51.2\,M Engram-table is shared), trained from
+        scratch on ClimbMix-400B on a single Blackwell GPU. To our
+        knowledge the first publicly available Engram models
         outside DeepSeek-AI.
-  \item \textbf{User-as-Engram method} (Section~\ref{sec:method}) with
-        three insertion strategies: closed-form UNEMBED\_P, per-fact
-        independent OPT, and \textbf{Joint OPT} (sparse-row joint
-        training). At 100 facts/user, Joint OPT roughly doubles
-        both top-1 (68\% vs.\ 36\%) and top-5 (96\% vs.\ 54\%)
-        vs.\ independent OPT, at the same storage.
-  \item \textbf{Comprehensive scaling experiments} (Section~\ref{sec:experiments})
-        on within-user fact density (10–1000 facts), additive
-        composition across multiple domains, paraphrase
-        generalisation, and a head-to-head comparison vs.\
-        SFT-LoRA, multi-fact LoRA (POLAR-class), ICL, and the no-insertion
-        baseline.
-  \item \textbf{Engram capacity ablation}
-        (Section~\ref{sec:capacity-ablation}) at $5 \times 3 \times 2$
-        cells across capacity, token budget, and dense size.
-        The optimal Engram capacity is invariant across dense sizes;
-        only the token budget scales. The recipe locks in
-        ``\texttt{large} (50\,K $\times$ 256) Engram at $\geq$ 12 t/p
-        of scaling-params'' as the production-recommended default.
-  \item \textbf{Fact-count scaling to 1000 facts}
-        (Section~\ref{sec:factscale}). With per-fact independent OPT
-        (the per-user-override deployment regime), top-1 recall is
-        flat in fact count up to $n=1000$: d12@1280 holds 0.98
-        USER OPT top-1 from $n=100$ to $n=1000$.
-  \item \textbf{Dense-size scaling}
-        (Section~\ref{sec:dense-scaling}). LOCOMO Joint OPT
-        first-token token-F1 scales monotonically with dense size
-        from 0.134 (178\,M) to 0.233 (1.22\,B). \emph{Under
-        LLM-as-judge with the first-token objective}, the ranking
-        reverses and retrieval baselines beat Joint OPT by
-        +0.05--0.10 accuracy because Engram's OPT only conditions
-        the first answer token. Multi-token OPT
-        (Table~\ref{tab:locomo-multitoken}) flips the ranking back:
-        at d20@1536 it reaches 0.310 token-F1 and 0.225 LLM-judge
-        accuracy, beating both MEM0 and MEMMACHINE. The paraphrase
-        win at 96.9\% top-1 is metric-independent.
+  \item \textbf{User-as-Engram method} (Section~\ref{sec:method})
+        with three insertion strategies—closed-form UNEMBED\_P,
+        per-fact independent OPT, and \textbf{Joint OPT}
+        (sparse-row joint training). At 100 facts/user, Joint OPT
+        roughly doubles both top-1 (68\% vs.\ 36\%) and top-5
+        (96\% vs.\ 54\%) vs.\ independent OPT, at the same storage.
+  \item \textbf{Scaling experiments} covering: (a) capacity
+        ablation at $5 \times 3 \times 2$ cells across capacity,
+        token budget, and dense size, pinning the optimum at
+        \texttt{large} (50\,K $\times$ 256) Engram with
+        $\geq$ 12 t/p of scaling-params
+        (Section~\ref{sec:capacity-ablation}); (b) fact-count
+        scaling to 1000 facts where per-fact independent OPT recall
+        stays flat (d12@1280 holds 0.98 USER OPT top-1 from
+        $n=100$ to $n=1000$, Section~\ref{sec:factscale});
+        (c) dense-size scaling, where multi-token LOCOMO Joint OPT
+        climbs from 0.159 token-F1 at 178\,M to 0.310 at 1.22\,B
+        (Section~\ref{sec:dense-scaling}); and (d) the
+        \emph{category breakdown}
+        (Table~\ref{tab:locomo-categories}): Engram beats the best
+        retrieval baseline by +49\% to +178\% token-F1 on
+        multi-hop and reasoning LOCOMO categories but loses by
+        $-$53\% on open-domain, where the answer is verbatim in a
+        single retrieved evidence sentence.
   \item \textbf{A working multi-tenant serving system}
         (Section~\ref{sec:serving}) with sub-millisecond override
         swap, 232\,req/s on a single GPU at d12@1280 (47.9\,req/s
@@ -476,13 +472,27 @@ backbone~\citep{radford2019gpt2} optimised with Muon
 +~AdamW~\citep{jordan2024muon}) and train four Mini-Engram models
 on a single Blackwell GPU at the ablation-optimal recipe
 (Section~\ref{sec:capacity-ablation}): the same \texttt{large}
-Engram table (50\,K $\times$ 256, 51\,M params) at Karpathy
+Engram table (50\,K $\times$ 256, 51.2\,M params) at Karpathy
 12 t/p of scaling-params for every dense size.
+
+\paragraph{Model-name notation.} Throughout the paper we use
+\texttt{d\{depth\}@\{width\}} for the ablation-optimal Mini-Engrams
+(\texttt{d12@768}, \texttt{d12@1280}, \texttt{d20@1536}) and
+\texttt{v1}/\texttt{v2} to denote earlier and final training runs
+at the same shape. Where the width is omitted (e.g.\ \texttt{d12}
+without a suffix), we mean the \texttt{v2} (ablation-optimal at
+width 768, 339\,M total) checkpoint. The four headline trained
+checkpoints and their token budgets are:
+\texttt{d8 v2} (178\,M total, 42\,M scaling, 0.50\,B tokens),
+\texttt{d12 v2} a.k.a.\ \texttt{d12@768} (339\,M / 110\,M / 1.32\,B),
+\texttt{d12@1280} (625\,M / 278\,M / 3.34\,B), and
+\texttt{d20@1536} (1.22\,B / 617\,M / 7.40\,B). All four use the
+same 51.2\,M Engram-table.
 
 \begin{table}[h]
   \centering
   \caption{Mini-Engram pretraining at the ablation-optimal recipe.
-  All use the \texttt{large} Engram (50\,K $\times$ 256 = 51.4\,M
+  All use the \texttt{large} Engram (50\,K $\times$ 256 = 51.2\,M
   Engram params). Trained on a single NVIDIA RTX PRO 6000 Blackwell
   (102\,GB) in bf16.}
   \label{tab:miniengram}
@@ -501,7 +511,7 @@ Engram table (50\,K $\times$ 256, 51\,M params) at Karpathy
   \end{tabular}
 \end{table}
 
-\paragraph{Cheng et al.\ \S6.3 sensitivity asymmetry reproduced.}
+\paragraph{Sensitivity asymmetry reproduced (\citealt{cheng2026engram}, their \S6.3).}
 Suppressing Engram (\texttt{engram\_suppress=True}) costs +0.035 bpb
 on validation. Factual top-5 retains 93.3\% of active performance;
 reading top-5 retains 100\%. The asymmetry $\Delta = +0.067$ matches
@@ -510,7 +520,7 @@ retained, C3: 93\%, $\Delta \approx +0.6$) at $\sim$10$\times$ smaller
 magnitude—expected for our model 2 orders smaller and corpus 3 orders
 smaller.
 
-\paragraph{Cheng et al.\ \S6.1 effective deepening reproduced.}
+\paragraph{Effective deepening reproduced (\citealt{cheng2026engram}, their \S6.1).}
 LogitLens layer-3 KL is 3.66 \emph{lower} for engram-d8 than base-d8,
 matching the shape of \citet{cheng2026engram} Figure 4(a) (Appendix
 Figure~\ref{fig:logitlens}).
@@ -518,8 +528,13 @@ Figure~\ref{fig:logitlens}).
 \section{Experiments}
 \label{sec:experiments}
 
-We test User-as-Engram on a 200-fact benchmark (100 USER + 100 ORG
-facts) and on a XXL corpus of 3132 distinct trigger templates.
+We test User-as-Engram on three corpora:
+the \textbf{base} 200-fact benchmark (100 USER + 100 ORG facts),
+the \textbf{XL} corpus of 1\,000 USER + 1\,000 ORG templated facts
+(used for fact-count scaling, Section~\ref{sec:factscale}), and
+the \textbf{XXL} corpus of 3\,132 distinct trigger templates
+(used for the high-density/distinct-template stress tests
+referenced below).
 
 \subsection{Single-fact recall}
 
@@ -603,7 +618,7 @@ density ceiling \emph{does not relax} with bigger dense
   \includegraphics[width=0.85\linewidth]{figs/fig_joint_opt_dense.pdf}
   \caption{Joint-OPT density as a function of inserted-fact count
   $n$, at three dense scales with the same Engram capacity
-  (50\,K $\times$ 256, 51\,M Engram params). Top-5 improves
+  (50\,K $\times$ 256, 51.2\,M Engram params). Top-5 improves
   slightly at $n=100$ with dense scale; \emph{top-1 actually
   degrades at $n=1000$} from 0.35 (d12@768) to 0.28 (d12@1280
   and d20@1536). The density ceiling is set by the shared Engram
@@ -614,7 +629,7 @@ density ceiling \emph{does not relax} with bigger dense
 \begin{table}[h]
   \centering
   \caption{Joint-OPT density (top-1 / top-5) across three dense
-  scales at fixed Engram capacity (51\,M params).}
+  scales at fixed Engram capacity (51.2\,M params).}
   \label{tab:joint-opt-dense-scale}
   \begin{tabular}{lccc}
     \toprule
@@ -645,8 +660,11 @@ the most promising path to break it.
   \includegraphics[width=0.7\linewidth]{figs/fig4_storage_scaling.pdf}
   \caption{Storage scales linearly with user count for both
   approaches; Engram override is 200--1700$\times$ smaller per fact.
-  At 1\,M users $\times$ 100 facts/user, Engram storage is 100\,GB vs.
-  POLAR LoRA's 40\,TB.}
+  The range spans fact counts from 100 down to 10 per user: at
+  100 facts the ratio is $\sim$161$\times$ (14.2\,MB vs.\ 88\,KB);
+  at 10 facts the fixed-rank LoRA's per-fact overhead is 10$\times$
+  larger, widening the ratio toward 1700$\times$. At 1\,M users $\times$
+  100 facts/user, Engram storage is 100\,GB vs.\ POLAR LoRA's 40\,TB.}
   \label{fig:scaling}
 \end{figure}
 
@@ -712,11 +730,12 @@ lossless when domains share no trigger templates.
 When domains \emph{do} share templates (4 user-style domains all
 sampling from the same schema pool), pair-overlap reaches 64\% and
 per-domain recall degrades to 29\% top-1 at $D{=}4$. We confirm this
-at larger scale: stacking a 100-fact ``corp'' override (sampled from
-mixed templates) and a 100-fact ``user'' override (XXL pool) gives
-corp top-1 25/100 (down from 58/100 alone) and user top-1 64/100
-(unchanged from alone). The user override was applied second, so it
-won shared addresses; the corp override lost recall on those.
+at larger scale: a 100-fact ``corp'' override (mixed templates,
+alone-recall 58/100 top-1) and a 100-fact ``user'' override
+(XXL pool, alone-recall 64/100 top-1) stacked together yield corp
+top-1 25/100 (down from 58/100) and user top-1 64/100 (unchanged).
+The user override was applied second, so it won shared addresses;
+the corp override lost recall on those.
 
 The architectural rule: \textbf{additive composition for
 disjoint-template domains; per-user override tables for same-template
@@ -777,7 +796,10 @@ recall gap.
 
 \begin{table}[h]
   \centering
-  \caption{Paraphrased queries (16 facts $\times$ 4 paraphrases each).
+  \caption{Paraphrased queries (16 facts $\times$ 4 paraphrases each;
+  this is a distinct protocol from the 4-fact $\times$ 5-paraphrase
+  Mini-Engram-d8 rank study in Appendix~\ref{app:paraphrase-detail},
+  which probes per-paraphrase rank rather than aggregate accuracy).
   Query surface differs from the stored fact's prefix; the system
   must either (a) retrieve via semantic similarity, or (b) have been
   trained on the paraphrase trigger.}
@@ -803,8 +825,9 @@ RAG / MEM0 / MEMMACHINE drop to 60--75\% top-1 because the
 sentence-encoder sometimes retrieves the wrong fact when surface
 forms diverge. Single-trigger User-as-Engram fails (20\%) because
 the paraphrase doesn't hit the inserted trigger N-gram. But
-multi-trigger insertion (insert at every anticipated paraphrase—5
-triggers per fact in our test, $\sim$5\,s per fact)
+multi-trigger insertion (insert at every anticipated paraphrase—the
+4 paraphrases plus the canonical trigger, 5 triggers per fact,
+$\sim$5\,s per fact)
 \textbf{achieves 96.9\% top-1, vs.\ MEMMACHINE's 75.0\%}—a
 22-point lead at zero context cost.
 
@@ -1109,27 +1132,44 @@ Table~\ref{tab:locomo-multitoken} shows the result:
 \begin{table}[h]
   \centering
   \caption{Single-hop LOCOMO (full 10 conversations, $\sim$800 QAs
-  per model). Multi-token Engram Joint-OPT closes the judge gap.}
+  per model). Multi-token Engram Joint-OPT closes the judge gap.
+  Retrieval baselines are re-evaluated under the multi-token answer
+  pipeline (`mt') so all token-F1 columns are apples-to-apples;
+  the judge column for retrieval reports the \emph{best} pipeline
+  for the retrieval baseline (first-token pipeline; the
+  multi-token pipeline scores slightly lower for retrieval, full
+  numbers in the result JSONs).}
   \label{tab:locomo-multitoken}
   \resizebox{\linewidth}{!}{
-  \begin{tabular}{lcccccc}
+  \begin{tabular}{lcccc|cccc}
     \toprule
-    answering LM & MEM0 (judge) & MEMMACH (judge) & J-OPT first-tok (judge) & \textbf{J-OPT multi-tok (judge)} & token-F1 first & token-F1 multi \\
+    & \multicolumn{4}{c|}{token-F1 (multi-token answer pipeline)} & \multicolumn{4}{c}{LLM-judge accuracy} \\
+    answering LM & MEM0 & MEMMACH & J-OPT first & \textbf{J-OPT multi} & MEM0$^\dagger$ & MEMMACH$^\dagger$ & J-OPT first & \textbf{J-OPT multi} \\
     \midrule
-    Mini-Engram-d8 v2          & 0.116 & 0.106 & 0.044 & \textbf{0.060} (+36\%) & 0.134 & 0.159 \\
-    Mini-Engram-d12 v2         & 0.156 & 0.158 & 0.059 & \textbf{0.105} (+78\%) & 0.169 & 0.249 \\
-    Mini-Engram-d12@1280       & 0.169 & 0.158 & 0.095 & \textbf{0.159} (+67\%) & 0.176 & 0.229 \\
-    \textbf{Mini-Engram-d20@1536} & 0.190 & 0.177 & 0.140 & \textbf{0.225} (+61\%) & 0.233 & 0.310 \\
+    Mini-Engram-d8 v2          & 0.116 & 0.103 & 0.134 & \textbf{0.159} & 0.116 & 0.106 & 0.044 & \textbf{0.060} (+36\%) \\
+    Mini-Engram-d12 v2         & 0.142 & 0.134 & 0.169 & \textbf{0.249} & 0.156 & 0.158 & 0.059 & \textbf{0.105} (+78\%) \\
+    Mini-Engram-d12@1280       & 0.181 & 0.168 & 0.176 & \textbf{0.229} & 0.169 & 0.158 & 0.095 & \textbf{0.159} (+67\%) \\
+    \textbf{Mini-Engram-d20@1536} & 0.197 & 0.196 & 0.233 & \textbf{0.310} & 0.190 & 0.177 & 0.140 & \textbf{0.225} (+61\%) \\
     \bottomrule
   \end{tabular}}
+
+  \vspace{2pt}\footnotesize $^\dagger$ Retrieval judge scores
+  reported under the first-token pipeline, which is the better of
+  the two for retrieval (the multi-token pipeline gives MEM0/MEMMACH
+  judge 0.082/0.076 at d8, 0.128/0.145 at d12 v2, 0.125/0.117 at
+  d12@1280, 0.174/0.168 at d20). Engram judge scores are under the
+  matching pipeline.
 \end{table}
 
-\textbf{At d20@1536, multi-token Engram J-OPT reaches LLM-judge
-accuracy 0.225, beating MEM0 (0.190) and MEMMACHINE (0.177).}
-The headline ranking flips back to Engram winning—not because we
-fixed the LLM-judge metric (we kept the same Qwen2.5-14B judge),
-but because the training objective now matches what semantic
-correctness requires. Per-fact independent OPT alone improves
+\textbf{At d20@1536, multi-token Engram J-OPT reaches token-F1
+0.310 vs.\ 0.197 best retrieval (+57\%) and LLM-judge accuracy
+0.225 vs.\ 0.190 best retrieval (+18\%; the lead is +29\% if we
+hold the retrieval judge to the same multi-token pipeline that
+Engram uses, where MEM0 judge drops to 0.174).} The headline
+ranking flips back to Engram winning under \emph{both} metrics
+once the training objective matches what semantic correctness
+requires—not because we fixed the LLM-judge metric (we kept the
+same Qwen2.5-14B judge). Per-fact independent OPT alone improves
 similarly but more modestly.
 
 \paragraph{Limitations of this evaluation.} (i) Token-F1 over-credits
@@ -1138,11 +1178,12 @@ more reliable metric. (ii) The judge is Qwen2.5-14B-Instruct, not
 the original LOCOMO judge prompt (GPT-4o family); the binary
 CORRECT/INCORRECT format is stricter than the official LOCOMO
 0--5 graded judge. Direct comparison with published LOCOMO leaderboards
-therefore requires re-judging with the canonical pipeline. (iii) We
-restrict to single-hop questions; multi-hop / temporal /
-adversarial questions are LOCOMO's harder categories, and the
-multi-hop limitation we document in
-Section~\ref{sec:multihop} applies here as well.
+therefore requires re-judging with the canonical pipeline. (iii) The
+LLM-judge evaluation in Tables~\ref{tab:locomo-judge} and
+\ref{tab:locomo-multitoken} covers single-hop only; temporal /
+adversarial questions are not scored under LLM-judge here, and the
+multi-hop limitation we document in Section~\ref{sec:multihop}
+applies to chained queries without suffix-N-gram overlap.
 
 \subsection{Engram capacity ablation}
 \label{sec:capacity-ablation}
@@ -1226,12 +1267,12 @@ dense sizes (Figure~\ref{fig:capacity-heatmap}).
 optimum.} Both endpoints under-perform: \emph{tiny} can't address
 enough distinct facts, \emph{xlarge} under-trains each slot.
 (ii) \emph{The optimum is the same Engram size at both
-dense scales}: \texttt{large} (50\,K $\times$ 256 $\approx$ 51\,M
+dense scales}: \texttt{large} (50\,K $\times$ 256 $=$ 51.2\,M
 params) wins at the highest token budget for both d8 and d12.
 \textbf{The optimum scales in tokens, not capacity.}
 (iii) \emph{Below the catch-up token budget, smaller Engrams win.}
 At d8 / 0.5\,B tokens, \emph{small} (10\,M) beats \emph{large}
-(51\,M) on ins-OPT 1.00 vs.\ 0.62—the larger table is
+(51.2\,M) on ins-OPT 1.00 vs.\ 0.62—the larger table is
 under-trained per slot. The cross-over happens around
 1\,B tokens for d8 and 1.32\,B tokens for d12.
 
@@ -1301,8 +1342,10 @@ ceiling reported in Section~\ref{sec:density}: top-1 falls from
 the relevant regime is independent OPT into the user's private
 slab—not joint co-training. \emph{In that regime, we observe no
 recall ceiling up to 1\,000 facts on a 625\,M-parameter base
-LM.} Storage scales linearly: 1\,000 facts $\approx$ 1\,MB of
-override-slab rows per user (Section~\ref{sec:serving}).
+LM.} Storage scales linearly with fact count: 1\,000 facts
+$\approx$ 300\,KB per user under joint-row-dedup serving
+(Table~\ref{tab:joint-opt-density}); strictly per-fact storage
+without dedup is $\sim$1\,MB (Section~\ref{sec:serving}).
 
 \subsection{Dense-size scaling at optimal config}
 \label{sec:dense-scaling}
@@ -1326,13 +1369,19 @@ Pulling the four trained Mini-Engrams into one row each
 
 \begin{table}[h]
   \centering
-  \caption{Mini-Engram scaling at the optimum recipe (large Engram,
-  Karpathy 12 t/p $\times$ scaling-params). All trained from scratch
-  on ClimbMix-400B, bf16, single Blackwell GPU. ``Total'' includes
-  the $\sim$53\,M Engram-table params; ``scaling'' is the dense
-  transformer body (the figure that drives the 12 t/p schedule).
-  LOCOMO J is Joint OPT first-token token-F1 on the full
-  10-conversation single-hop set, matching
+  \caption{Mini-Engram scaling. Four rows are at the
+  ablation-optimal recipe (large Engram, Karpathy 12 t/p $\times$
+  scaling-params): \texttt{d8 v2}, \texttt{d12 v2},
+  \textbf{d12@1280 opt.}, and \textbf{d20@1536 opt.} The two
+  \texttt{large/2B} and \texttt{large/2.5B} rows are overtrained
+  reference points (4$\times$ and $\sim$2$\times$ the 12 t/p budget
+  respectively), included to show per-fact recall saturates at
+  1.00 once tokens exceed Chinchilla-optimal. All trained from
+  scratch on ClimbMix-400B, bf16, single Blackwell GPU. ``Total''
+  includes the 51.2\,M Engram-table params; ``scaling'' is the
+  dense transformer body (the figure that drives the 12 t/p
+  schedule). LOCOMO J is Joint OPT first-token token-F1 on the
+  full 10-conversation single-hop set, matching
   Table~\ref{tab:locomo-scale}.}
   \label{tab:dense-scaling}
   \resizebox{\linewidth}{!}{
@@ -1455,12 +1504,15 @@ training budget (2000 steps, lr 5e-4, all $Q/K/V$ projections):
 Every rank $\geq$ 8 saturates at the recall ceiling with a 2000-step
 budget. The interesting variable becomes \emph{storage}, which scales
 linearly with rank. The point: at 100 facts/user, all rank-$\geq$8
-LoRAs hit the ceiling, so the LoRA-vs-Engram trade-off is purely
-\emph{storage}: \textbf{at the LoRA ceiling, our Engram override is
-20$\times$ smaller than the smallest LoRA that matches it}
-(88\,KB vs.\ 1.8\,MB at rank 8).
+LoRAs hit the recall ceiling, so the LoRA-vs-Engram trade-off
+collapses to recall-vs-storage: \textbf{Engram Joint OPT is
+20$\times$ smaller than the smallest LoRA at the ceiling
+(88\,KB vs.\ 1.8\,MB rank-8), in exchange for a $\sim$35-pt top-1
+gap (65\% vs.\ 100\%; top-5 gap is 2\,pt: 98\% vs.\ 100\%)}.
+That gap closes by $n{=}1\,000$ where LoRA rank-64 also slips to
+38\% top-1 (Section~\ref{sec:density}).
 
-\subsection{Long-form generation surfaces inserted facts}
+\subsection{Inserted-fact recall in free continuation}
 
 Single-token recall measures whether the gold token is the
 top-1 \emph{at the trigger position}. In conversational use the
@@ -1470,8 +1522,8 @@ surfaces in the first 8 generated tokens (greedy decoding) on
 
 \begin{table}[h]
   \centering
-  \caption{Long-form generation: does the inserted fact surface in
-  the first 8 generated tokens after Joint-OPT?}
+  \caption{Free-continuation recall: does the inserted fact surface
+  in the first 8 generated tokens after Joint-OPT?}
   \label{tab:longform}
   \begin{tabular}{lcc}
     \toprule
@@ -1543,8 +1595,7 @@ restore. There is no router, no fused LoRA kernel, no graph rewrite.
   \resizebox{\linewidth}{!}{
   \begin{tabular}{lcccc}
     \toprule
-    metric & d8 & d12 v1 & d12@1280 & d12@1280 \\
-    & (20\,u $\times$ 30\,f) & (30\,u $\times$ 50\,f) & (30\,u $\times$ 50\,f) & (\textbf{100\,u $\times$ 100\,f}) \\
+    metric & d8 (20\,u/30\,f) & d12 v1 (30\,u/50\,f) & d12@1280 (30\,u/50\,f) & \textbf{d12@1280 (100\,u/100\,f)} \\
     \midrule
     registration time / user & 15\,s & 20\,s & \textbf{7.0\,s} & --- \\
     storage / user           & 20\,KB & 59\,KB & 59\,KB & 88\,KB \\
@@ -1574,7 +1625,7 @@ The \emph{observed} ``leak'' rate in cross-user-probe mode (where we
 deliberately serve user U with user V's question) is 1.3--3.9\,\% at
 the 20--30 user scale and rises to 46\,\% at 100 users $\times$ 100
 facts. This is \emph{gold-value coincidence}, not information flow:
-many users have the same favourite spice drawn from a 20-item pool,
+many users have the same favorite spice drawn from a 20-item pool,
 many have the same most-common surname, etc., so the base-model
 prior or another user's prior is the right answer by chance—and the
 coincidence rate scales with pool reuse. With proper override
@@ -1608,8 +1659,8 @@ Our method assumes an Engram-pretrained base. We trained four
 ourselves at 178\,M, 339\,M, 625\,M, and 1.22\,B total parameters;
 production deployment depends on either DeepSeek releasing weights or
 pretraining your own ($\sim$10\,h on a single Blackwell GPU at our
-625\,M scale; the paper's 27\,B headline number requires the paper's
-compute budget).
+625\,M scale; production-scale Engrams require correspondingly larger
+compute budgets).
 
 \paragraph{Density ceiling.}
 Joint OPT at 1000 facts gets 35\% top-1. The slot space is highly
@@ -1661,54 +1712,63 @@ parameter scaling on a single GPU:
         multi-hop gap.
 \end{itemize}
 
-Two further open items revealed by the ablation:
-the d20@1536 E1 USER OPT dip (0.97 vs.\ d12@1280's 1.00) at
-iso-12 t/p suggests bigger models need higher t/p to fully
-saturate insertion recall; and Joint OPT density curves at d12@1280
-and d20@1536 may relax the d12@768 ceiling we documented.
+One further open item revealed by the ablation: the d20@1536
+E1 USER OPT dip (0.97 vs.\ d12@1280's 1.00) at iso-12 t/p
+suggests bigger models need higher t/p to fully saturate
+insertion recall. Note that the Joint-OPT density ceiling
+\emph{does not} relax with dense scale at fixed Engram capacity
+(Table~\ref{tab:joint-opt-dense-scale}: top-1 at 1\,000 facts
+actually degrades from 0.35 at d12@768 to 0.28 at d12@1280 and
+d20@1536), so breaking it likely requires the
+\emph{multi-fact-in-the-loss} recipe change above rather than
+further dense scaling.
 
 \section{Conclusion}
 \label{sec:conclusion}
 
 Per-user LoRA edits are \emph{global} and reasoning-negative.
-User-as-Engram edits are \emph{local} and reasoning-positive
-where it matters (multi-hop +178\% and reasoning +58\% token-F1
-on LOCOMO). The local-edit property—we measure exactly 0.000
-contamination of non-trigger forwards through 5 attention layers—is
-the architectural reason User-as-Engram doesn't pay the reasoning
-tax that LoRA-as-memory does. With Joint OPT, per-user override
+User-as-Engram edits are \emph{local}: they don't pay the reasoning
+tax LoRA-as-memory does (we measure exactly 0.000 contamination of
+non-trigger forwards through 5 subsequent attention+MLP layers), and they win on
+the LOCOMO multi-hop and reasoning categories (+178\% and +58\%
+token-F1 over the best retrieval baseline). We caution that the
+multi-hop win is partial: Section~\ref{sec:multihop} shows it
+accrues to queries whose surface form happens to share a suffix
+N-gram with the second-hop trigger; chained queries with no surface
+overlap remain the open problem we share with LoRA-as-memory. With Joint OPT, per-user override
 tables, and additive multi-domain composition, User-as-Engram
 serves millions of users at $\sim$100\,GB storage and 232\,req/s
 on a single GPU at d12@1280 scale, with zero cross-user leak by
 construction. Our four-size scaling study trains Mini-Engrams from
 178\,M to 1.22\,B total parameters on a single Blackwell GPU. The
 30-cell capacity ablation pins the optimal Engram capacity at
-\texttt{large} (50\,K $\times$ 256, $\sim$53\,M params) across both
+\texttt{large} (50\,K $\times$ 256, 51.2\,M params) across both
 probed dense sizes; per-fact independent OPT recall is flat up to
 1\,000 facts.
 
-The empirical headline is robust across metrics once the training
-objective matches the metric. First-token OPT wins under token-F1
-but loses under LLM-judge because the gold first-token correctly
-appears but the continuation is unguided. \textbf{Multi-token
-answer-conditioned OPT closes the gap and flips the ranking back
-to Engram winning on LOCOMO single-hop under both metrics}
-(d20@1536: token-F1 0.310 vs.\ best retrieval 0.197 (+58\%);
-LLM-judge 0.225 vs.\ 0.190 (+18\%, best retrieval across
-pipelines)). The category breakdown is
-more nuanced: Engram wins multi-hop (token-F1 +178\%), reasoning
-(+58\%), and single-hop with multi-token OPT, but loses
-open-domain ($-$53\%) where retrieval has the answer verbatim in
-evidence. The clearest practical contribution is therefore
-twofold: (i) Engram's surgical training objective should match
-the deployment metric (multi-token where free-form answers
-matter); (ii) the architectural design (surgical row insertion,
-additive composition, per-user override tables, multi-tenant
-serving) holds regardless of metric and unlocks zero-leak personal
+The empirical headline depends on training objective. The
+first-token OPT objective wins under token-F1 (the gold first
+token reliably appears) but loses under LLM-judge by 0.05--0.10
+because the remaining 15-token continuation is unguided.
+\textbf{Multi-token answer-conditioned OPT flips the ranking back
+to Engram winning on LOCOMO single-hop under both metrics
+simultaneously} (d20@1536: token-F1 0.310 vs.\ 0.197 best
+retrieval, +57\%; LLM-judge 0.225 vs.\ 0.190 best retrieval,
++18\%; Table~\ref{tab:locomo-multitoken}).
+The category breakdown is more nuanced: Engram wins multi-hop
+(token-F1 +178\%), reasoning (+58\%), and single-hop with
+multi-token OPT, but loses open-domain ($-$53\%) where the answer
+is verbatim in a single retrieved evidence sentence.
+
+The architectural result is independent of the metric debate.
+Surgical row insertion, additive composition, per-user override
+tables, and multi-tenant serving together unlock zero-leak personal
 memory at storage costs orders of magnitude below per-user LoRA.
-The bottleneck of personal memory moves from gradient training to
-substrate selection—and the right substrate is hash-keyed embedding
-tables.
+The recommendation is twofold: (i) match the surgical training
+objective to the deployment metric (multi-token where free-form
+answers matter); (ii) treat substrate selection—not gradient
+training—as the bottleneck of personal memory. The right substrate
+is hash-keyed embedding tables.
 
 \bibliographystyle{plainnat}
 \begin{thebibliography}{50}
@@ -1793,14 +1853,18 @@ A.~Maharana et~al.
   agents.
 \newblock ACL 2024.
 
-\bibitem[Anonymous(2025e)]{liu2025beam}
-{BEAM} authors.
-\newblock {BEAM}: Multi-turn evolving beliefs benchmark.
+\bibitem[Tavakoli et~al.(2025)]{liu2025beam}
+M.~Tavakoli, A.~Salemi, C.~Ye, M.~Abdalla, H.~Zamani, and J.~R. Mitchell.
+\newblock Beyond a million tokens: Benchmarking and enhancing long-term memory
+  in {LLM}s ({BEAM}).
 \newblock arXiv:2510.27246, 2025.
 
-\bibitem[Anonymous(2025f)]{personamem2025}
-{PersonaMem-v2} authors.
-\newblock {PersonaMem-v2}: Per-user personalisation benchmark.
+\bibitem[Jiang et~al.(2025)]{personamem2025}
+B.~Jiang, Y.~Yuan, M.~Shen, Z.~Hao, Z.~Xu, Z.~Chen, Z.~Liu, A.~R. Vijjini,
+  J.~He, H.~Yu, R.~Poovendran, G.~Wornell, L.~Ungar, D.~Roth, S.~Chen, and
+  C.~J. Taylor.
+\newblock {PersonaMem-v2}: Towards personalized intelligence via learning
+  implicit user personas and agentic memory.
 \newblock arXiv:2512.06688, 2025.
 
 \bibitem[Karpathy(2026)]{karpathy2026nanochat}
@@ -1818,20 +1882,21 @@ N.~Houlsby et~al.
 \newblock Parameter-efficient transfer learning for {NLP}.
 \newblock ICML 2019.
 
-\bibitem[Su et~al.(2024)]{su2024prag}
-W.~Su, et~al.
-\newblock Parametric retrieval-augmented generation.
-\newblock arXiv preprint, 2024.
+\bibitem[Su et~al.(2025)]{su2024prag}
+W.~Su et~al.
+\newblock Parametric retrieval-augmented generation ({PRAG}).
+\newblock arXiv:2501.15915, 2025.
 
 \bibitem[Tan et~al.(2025)]{tan2025dyprag}
 Z.~Tan et~al.
 \newblock {DyPRAG}: Dynamic parametric {RAG}.
 \newblock arXiv:2505.19386, 2025.
 
-\bibitem[Anonymous(2025a)]{distilledprag2025}
-Authors of {DistilledPRAG}.
-\newblock {DistilledPRAG}: Distilling parametric {RAG}.
-\newblock arXiv:2506.08862, 2025.
+\bibitem[Chen et~al.(2025)]{distilledprag2025}
+J.~Chen, H.~Zhang, L.~Pang, Y.~Tong, H.~Zhou, Y.~Zhan, W.~Lin, and Z.~Zheng.
+\newblock Privacy-preserving reasoning with knowledge-distilled parametric
+  retrieval-augmented generation ({DistilledPRAG}).
+\newblock arXiv:2509.01088, 2025.
 
 \bibitem[Tan et~al.(2024)]{tan2024oppu}
 Z.~Tan, Q.~Liu, and M.~Jiang.
@@ -1844,16 +1909,15 @@ Y.~Zhuang et~al.
 \newblock {HYDRA}: Per-user adapters for personalised {LLMs}.
 \newblock arXiv 2024.
 
-\bibitem[Anonymous(2025b)]{memlora2025}
-Authors of {MemLoRA}.
-\newblock {MemLoRA}: Role-specialised {LoRA} memories with teacher
-  distillation.
+\bibitem[Bini et~al.(2025)]{memlora2025}
+M.~Bini, O.~Bohdal, U.~Michieli, Z.~Akata, M.~Ozay, and T.~Ceritli.
+\newblock {MemLoRA}: Distilling expert adapters for on-device memory systems.
 \newblock arXiv:2512.04763, 2025.
 
-\bibitem[Anonymous(2024a)]{t2l2024}
-Authors of {T2L}.
-\newblock Text-to-{LoRA}: hypernetwork-emitted personalisation adapters.
-\newblock 2024.
+\bibitem[Charakorn et~al.(2025)]{t2l2024}
+R.~Charakorn, E.~Cetin, Y.~Tang, and R.~T. Lange.
+\newblock Text-to-{LoRA}: Instant transformer adaption.
+\newblock arXiv:2506.06105, 2025.
 
 \bibitem[Tan et~al.(2024b)]{tan2024perpcs}
 Z.~Tan et~al.
@@ -1885,10 +1949,10 @@ V.~Berges, B.~O\u{g}uz, D.~Haziza, W.~Yih, L.~Zettlemoyer, and G.~Ghosh.
 \newblock Memory layers at scale.
 \newblock ICML 2025.
 
-\bibitem[Anonymous(2025c)]{ultramem2025}
-Authors of {Ultra-Mem}.
-\newblock {Ultra-Mem}: Sparsely activated key--value memory.
-\newblock 2025.
+\bibitem[Huang et~al.(2024b)]{ultramem2025}
+Z.~Huang, Q.~Min, H.~Huang, D.~Zhu, Y.~Zeng, R.~Guo, and X.~Zhou.
+\newblock Ultra-sparse memory network ({Ultra-Mem}).
+\newblock arXiv:2411.12364, 2024 (ICLR 2025).
 
 \bibitem[Huang et~al.(2025)]{overencoding2025}
 J.~Huang et~al.
@@ -1941,9 +2005,10 @@ K.~Meng et~al.
 \newblock {CounterFact}: a counterfactual editing benchmark.
 \newblock 2022.
 
-\bibitem[Anonymous(2025d)]{srrag2024}
-{SR-RAG} authors.
-\newblock {SR-RAG}: self-routing retrieval-augmented generation.
+\bibitem[Wu et~al.(2025)]{srrag2024}
+D.~Wu, J.-C. Gu, K.-W. Chang, and N.~Peng.
+\newblock Self-routing {RAG}: Binding selective retrieval with knowledge
+  verbalization.
 \newblock arXiv:2504.01018, 2025.
 
 \bibitem[Hewitt et~al.(2026)]{hewitt2026introspection}
