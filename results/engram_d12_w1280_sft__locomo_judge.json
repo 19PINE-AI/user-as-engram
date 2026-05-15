@@ -1,0 +1,436 @@
+{
+  "judge_model": "Qwen/Qwen2.5-14B-Instruct",
+  "summary": {
+    "NO_MEMORY": 0.0,
+    "MARKDOWN_ALL": 0.0,
+    "RAG_TOP1": 0.0,
+    "RAG_TOP3": 0.0,
+    "MEM0_LIKE": 0.0,
+    "MEMMACHINE_LIKE": 0.0,
+    "USER_AS_ENGRAM_OPT": 0.0,
+    "USER_AS_ENGRAM_JOINT_OPT": 0.0
+  },
+  "per_conv": {
+    "conv_0": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "RAG_TOP1": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "RAG_TOP3": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "MEM0_LIKE": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      }
+    },
+    "conv_1": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 11,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0,
+        "n": 11,
+        "correct": 0
+      },
+      "RAG_TOP1": {
+        "acc": 0.0,
+        "n": 11,
+        "correct": 0
+      },
+      "RAG_TOP3": {
+        "acc": 0.0,
+        "n": 11,
+        "correct": 0
+      },
+      "MEM0_LIKE": {
+        "acc": 0.0,
+        "n": 11,
+        "correct": 0
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0,
+        "n": 11,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 11,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 11,
+        "correct": 0
+      }
+    },
+    "conv_2": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "RAG_TOP1": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "RAG_TOP3": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "MEM0_LIKE": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      }
+    },
+    "conv_3": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "RAG_TOP1": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "RAG_TOP3": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "MEM0_LIKE": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      }
+    },
+    "conv_4": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "RAG_TOP1": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "RAG_TOP3": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "MEM0_LIKE": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 31,
+        "correct": 0
+      }
+    },
+    "conv_5": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 30,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0,
+        "n": 30,
+        "correct": 0
+      },
+      "RAG_TOP1": {
+        "acc": 0.0,
+        "n": 30,
+        "correct": 0
+      },
+      "RAG_TOP3": {
+        "acc": 0.0,
+        "n": 30,
+        "correct": 0
+      },
+      "MEM0_LIKE": {
+        "acc": 0.0,
+        "n": 30,
+        "correct": 0
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0,
+        "n": 30,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 30,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 30,
+        "correct": 0
+      }
+    },
+    "conv_6": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 20,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0,
+        "n": 20,
+        "correct": 0
+      },
+      "RAG_TOP1": {
+        "acc": 0.0,
+        "n": 20,
+        "correct": 0
+      },
+      "RAG_TOP3": {
+        "acc": 0.0,
+        "n": 20,
+        "correct": 0
+      },
+      "MEM0_LIKE": {
+        "acc": 0.0,
+        "n": 20,
+        "correct": 0
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0,
+        "n": 20,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 20,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 20,
+        "correct": 0
+      }
+    },
+    "conv_7": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 21,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0,
+        "n": 21,
+        "correct": 0
+      },
+      "RAG_TOP1": {
+        "acc": 0.0,
+        "n": 21,
+        "correct": 0
+      },
+      "RAG_TOP3": {
+        "acc": 0.0,
+        "n": 21,
+        "correct": 0
+      },
+      "MEM0_LIKE": {
+        "acc": 0.0,
+        "n": 21,
+        "correct": 0
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0,
+        "n": 21,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 21,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 21,
+        "correct": 0
+      }
+    },
+    "conv_8": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "RAG_TOP1": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "RAG_TOP3": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "MEM0_LIKE": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 37,
+        "correct": 0
+      }
+    },
+    "conv_9": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "RAG_TOP1": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "RAG_TOP3": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "MEM0_LIKE": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 32,
+        "correct": 0
+      }
+    }
+  },
+  "source": "/home/ubuntu/user-as-engram/results/engram_d12_w1280_sft__locomo_full10.json"
+}

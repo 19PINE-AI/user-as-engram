@@ -1,0 +1,3001 @@
+{
+  "per_conv": {
+    "conv_0": {
+      "MEM0_PROPER": {
+        "avg_f1": 0.13221903064685572,
+        "n": 32
+      },
+      "MEMMACHINE_PROPER": {
+        "avg_f1": 0.163848433074923,
+        "n": 32
+      }
+    },
+    "conv_1": {
+      "MEM0_PROPER": {
+        "avg_f1": 0.17390148625846563,
+        "n": 11
+      },
+      "MEMMACHINE_PROPER": {
+        "avg_f1": 0.21154197159399588,
+        "n": 11
+      }
+    },
+    "conv_2": {
+      "MEM0_PROPER": {
+        "avg_f1": 0.16412282469907555,
+        "n": 31
+      },
+      "MEMMACHINE_PROPER": {
+        "avg_f1": 0.3106919878616673,
+        "n": 31
+      }
+    },
+    "conv_3": {
+      "MEM0_PROPER": {
+        "avg_f1": 0.07648170006963333,
+        "n": 37
+      },
+      "MEMMACHINE_PROPER": {
+        "avg_f1": 0.11081692150975789,
+        "n": 37
+      }
+    },
+    "conv_4": {
+      "MEM0_PROPER": {
+        "avg_f1": 0.13637972028161557,
+        "n": 31
+      },
+      "MEMMACHINE_PROPER": {
+        "avg_f1": 0.19624285618591025,
+        "n": 31
+      }
+    },
+    "conv_5": {
+      "MEM0_PROPER": {
+        "avg_f1": 0.1536198069789401,
+        "n": 30
+      },
+      "MEMMACHINE_PROPER": {
+        "avg_f1": 0.18850040701291543,
+        "n": 30
+      }
+    },
+    "conv_6": {
+      "MEM0_PROPER": {
+        "avg_f1": 0.19847846882249573,
+        "n": 20
+      },
+      "MEMMACHINE_PROPER": {
+        "avg_f1": 0.23751783304414884,
+        "n": 20
+      }
+    },
+    "conv_7": {
+      "MEM0_PROPER": {
+        "avg_f1": 0.13431668026092894,
+        "n": 21
+      },
+      "MEMMACHINE_PROPER": {
+        "avg_f1": 0.1558999681744043,
+        "n": 21
+      }
+    },
+    "conv_8": {
+      "MEM0_PROPER": {
+        "avg_f1": 0.18291096026062828,
+        "n": 37
+      },
+      "MEMMACHINE_PROPER": {
+        "avg_f1": 0.16972289083408135,
+        "n": 37
+      }
+    },
+    "conv_9": {
+      "MEM0_PROPER": {
+        "avg_f1": 0.1301200446860613,
+        "n": 32
+      },
+      "MEMMACHINE_PROPER": {
+        "avg_f1": 0.24639249213884937,
+        "n": 32
+      }
+    }
+  },
+  "summary": {
+    "MEM0_PROPER": 0.14825507229647,
+    "MEMMACHINE_PROPER": 0.19911757614306533
+  },
+  "predictions": {
+    "conv_0": {
+      "MEM0_PROPER": [
+        {
+          "question": "What did Caroline research?",
+          "gold": "Adoption agencies",
+          "pred": " Caroline researched adoption agencies.\n"
+        },
+        {
+          "question": "What is Caroline's identity?",
+          "gold": "Transgender woman",
+          "pred": " Caroline is a queer artist who identifies as transgender. She is a"
+        },
+        {
+          "question": "What is Caroline's relationship status?",
+          "gold": "Single",
+          "pred": " Caroline is a single parent.\n"
+        },
+        {
+          "question": "Where did Caroline move from 4 years ago?",
+          "gold": "Sweden",
+          "pred": " Caroline moved from her home country.\n"
+        },
+        {
+          "question": "What career path has Caroline decided to persue?",
+          "gold": "counseling or mental health for Transgender people",
+          "pred": " Caroline is interested in counseling or working in mental health.\n"
+        },
+        {
+          "question": "What activities does Melanie partake in?",
+          "gold": "pottery, camping, painting, swimming",
+          "pred": " Melanie partakes in a variety of activities, including reading, cooking,"
+        },
+        {
+          "question": "Where has Melanie camped?",
+          "gold": "beach, mountains, forest",
+          "pred": " Melanie camped at the beach.\n"
+        },
+        {
+          "question": "What do Melanie's kids like?",
+          "gold": "dinosaurs, nature",
+          "pred": " Melanie's kids like to play with her. They like to play with"
+        },
+        {
+          "question": "What books has Melanie read?",
+          "gold": "\"Nothing is Impossible\", \"Charlotte's Web\"",
+          "pred": " Melanie has read a book that was recommended by Caroline. She has"
+        },
+        {
+          "question": "What does Melanie do to destress?",
+          "gold": "Running, pottery",
+          "pred": " Melanie does a lot of things to destress. She reads a book"
+        },
+        {
+          "question": "What LGBTQ+ events has Caroline participated in?",
+          "gold": "Pride parade, school speech, support group",
+          "pred": " Caroline has participated in a LGBTQ+ pride parade, a LGBTQ+ pride"
+        },
+        {
+          "question": "What events has Caroline participated in to help children?",
+          "gold": "Mentoring program, school speech",
+          "pred": " Caroline has participated in a number of events to help children. She has been"
+        },
+        {
+          "question": "What did Melanie paint recently?",
+          "gold": "sunset",
+          "pred": " Melanie painted a horse painting recently.\n"
+        },
+        {
+          "question": "What activities has Melanie done with her family?",
+          "gold": "Pottery, painting, camping, museum, swimming, hiking",
+          "pred": " Melanie has been camping with her family for two weekends. She has been"
+        },
+        {
+          "question": "In what ways is Caroline participating in the LGBTQ community?",
+          "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+          "pred": " Caroline is participating in the LGBTQ community by joining a new LGBTQ activist group,"
+        },
+        {
+          "question": "How many times has Melanie gone to the beach in 2023?",
+          "gold": "2",
+          "pred": " 2 times\n\n"
+        },
+        {
+          "question": "What kind of art does Caroline make?",
+          "gold": "abstract art",
+          "pred": " Caroline makes a variety of art, including paintings, drawings, and collages"
+        },
+        {
+          "question": "Who supports Caroline when she has a negative experience?",
+          "gold": "Her mentors, family, and friends",
+          "pred": " Caroline's support group is made up of people who are supportive of her and"
+        },
+        {
+          "question": "What types of pottery have Melanie and her kids made?",
+          "gold": "bowls, cup",
+          "pred": " Melanie has made a variety of pottery, including a horse painting, a"
+        },
+        {
+          "question": "What has Melanie painted?",
+          "gold": "Horse, sunset, sunrise",
+          "pred": " She has painted a horse and a tree.\n"
+        },
+        {
+          "question": "What are Melanie's pets' names?",
+          "gold": "Oliver, Luna, Bailey",
+          "pred": " Melanie's pets' names are \"Molly\" and \"Molly"
+        },
+        {
+          "question": "What subject have Caroline and Melanie both painted?",
+          "gold": "Sunsets",
+          "pred": " Nature-inspired paintings\n\n"
+        },
+        {
+          "question": "What symbols are important to Caroline?",
+          "gold": "Rainbow flag, transgender symbol",
+          "pred": " The symbols are important to Caroline because they represent her identity and her values."
+        },
+        {
+          "question": "What instruments does Melanie play?",
+          "gold": "clarinet and violin",
+          "pred": " Melanie plays the clarinet, the saxophone, the fl"
+        },
+        {
+          "question": "What musical artists/bands has Melanie seen?",
+          "gold": "Summer Sounds, Matt Patterson",
+          "pred": " Melanie has seen a few musical artists/bands, but she has not"
+        },
+        {
+          "question": "What are some changes Caroline has faced during her transition journey?",
+          "gold": "Changes to her body, losing unsupportive friends",
+          "pred": " Caroline has faced changes in her life, such as moving to a new country"
+        },
+        {
+          "question": "What does Melanie do with her family on hikes?",
+          "gold": "Roast marshmallows, tell stories",
+          "pred": " She goes camping with her family.\n"
+        },
+        {
+          "question": "What transgender-specific events has Caroline attended?",
+          "gold": "Poetry reading, conference",
+          "pred": " Caroline attended a pride parade, a pride parade, and a pride"
+        },
+        {
+          "question": "What book did Melanie read from Caroline's suggestion?",
+          "gold": "\"Becoming Nicole\"",
+          "pred": " The book is called \"The Secret Life of Melanie\" by Caroline"
+        },
+        {
+          "question": "How many children does Melanie have?",
+          "gold": "3",
+          "pred": " Melanie has 2 children.\n\n"
+        },
+        {
+          "question": "When did Melanie go on a hike after the roadtrip?",
+          "gold": "19 October 2023",
+          "pred": " Melanie went on a hike after the roadtrip.\n"
+        },
+        {
+          "question": "What items has Melanie bought?",
+          "gold": "Figurines, shoes",
+          "pred": " Melanie bought a horse painting, a book, and a book about horses"
+        }
+      ],
+      "MEMMACHINE_PROPER": [
+        {
+          "question": "What did Caroline research?",
+          "gold": "Adoption agencies",
+          "pred": " Caroline researched the history of transgender people and their stories.\n"
+        },
+        {
+          "question": "What is Caroline's identity?",
+          "gold": "Transgender woman",
+          "pred": " Caroline is a transgender woman who identifies as a transgender person.\n"
+        },
+        {
+          "question": "What is Caroline's relationship status?",
+          "gold": "Single",
+          "pred": " She is in a relationship with her husband, Melanie. She is married"
+        },
+        {
+          "question": "Where did Caroline move from 4 years ago?",
+          "gold": "Sweden",
+          "pred": " She moved to New York City.\n"
+        },
+        {
+          "question": "What career path has Caroline decided to persue?",
+          "gold": "counseling or mental health for Transgender people",
+          "pred": " Art\n"
+        },
+        {
+          "question": "What activities does Melanie partake in?",
+          "gold": "pottery, camping, painting, swimming",
+          "pred": " She enjoys playing with her kids, cooking, and spending time with her husband and"
+        },
+        {
+          "question": "Where has Melanie camped?",
+          "gold": "beach, mountains, forest",
+          "pred": " The beach\n\n"
+        },
+        {
+          "question": "What do Melanie's kids like?",
+          "gold": "dinosaurs, nature",
+          "pred": " They like to make things with clay and they love to read books like \"Char"
+        },
+        {
+          "question": "What books has Melanie read?",
+          "gold": "\"Nothing is Impossible\", \"Charlotte's Web\"",
+          "pred": " \"Charlotte's Web\" by E.B. White\n"
+        },
+        {
+          "question": "What does Melanie do to destress?",
+          "gold": "Running, pottery",
+          "pred": " She runs farther to de-stress.\n"
+        },
+        {
+          "question": "What LGBTQ+ events has Caroline participated in?",
+          "gold": "Pride parade, school speech, support group",
+          "pred": " Caroline has participated in a LGBTQ+ pride parade, a transgender poetry"
+        },
+        {
+          "question": "What events has Caroline participated in to help children?",
+          "gold": "Mentoring program, school speech",
+          "pred": " She has participated in nature exploration, roasted marshmallows around the campfire, and"
+        },
+        {
+          "question": "What did Melanie paint recently?",
+          "gold": "sunset",
+          "pred": " A horse painting.\n\n"
+        },
+        {
+          "question": "What activities has Melanie done with her family?",
+          "gold": "Pottery, painting, camping, museum, swimming, hiking",
+          "pred": " Roasted marshmallows, explored nature, and went on a hike.\n\n"
+        },
+        {
+          "question": "In what ways is Caroline participating in the LGBTQ community?",
+          "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+          "pred": " Caroline is participating in the LGBTQ community by joining a new group, attending pride"
+        },
+        {
+          "question": "How many times has Melanie gone to the beach in 2023?",
+          "gold": "2",
+          "pred": " 3 times\n\n"
+        },
+        {
+          "question": "What kind of art does Caroline make?",
+          "gold": "abstract art",
+          "pred": " Caroline makes art that explores her transition and her changing body. She loves that"
+        },
+        {
+          "question": "Who supports Caroline when she has a negative experience?",
+          "gold": "Her mentors, family, and friends",
+          "pred": " Caroline's family, friends, and community.\n\n"
+        },
+        {
+          "question": "What types of pottery have Melanie and her kids made?",
+          "gold": "bowls, cup",
+          "pred": " Melanie and her kids have made a variety of pottery, including bowls,"
+        },
+        {
+          "question": "What has Melanie painted?",
+          "gold": "Horse, sunset, sunrise",
+          "pred": " A horse\n\n"
+        },
+        {
+          "question": "What are Melanie's pets' names?",
+          "gold": "Oliver, Luna, Bailey",
+          "pred": " Luna and Oliver!\n\n"
+        },
+        {
+          "question": "What subject have Caroline and Melanie both painted?",
+          "gold": "Sunsets",
+          "pred": " Art\n"
+        },
+        {
+          "question": "What symbols are important to Caroline?",
+          "gold": "Rainbow flag, transgender symbol",
+          "pred": " The rainbow flag mural, the eagle, and the rainbow flag.\n\n"
+        },
+        {
+          "question": "What instruments does Melanie play?",
+          "gold": "clarinet and violin",
+          "pred": " Clarinet, violin, viola, and cello.\n\n"
+        },
+        {
+          "question": "What musical artists/bands has Melanie seen?",
+          "gold": "Summer Sounds, Matt Patterson",
+          "pred": " Melanie has seen a few musical artists/bands, but she's not"
+        },
+        {
+          "question": "What are some changes Caroline has faced during her transition journey?",
+          "gold": "Changes to her body, losing unsupportive friends",
+          "pred": " Caroline has faced changes in her body, mind, and spirit. She has"
+        },
+        {
+          "question": "What does Melanie do with her family on hikes?",
+          "gold": "Roast marshmallows, tell stories",
+          "pred": " She goes on hikes with her family.<|bos|>The 2020-20"
+        },
+        {
+          "question": "What transgender-specific events has Caroline attended?",
+          "gold": "Poetry reading, conference",
+          "pred": " Caroline attended a transgender poetry reading and a transgender poetry reading where trans"
+        },
+        {
+          "question": "What book did Melanie read from Caroline's suggestion?",
+          "gold": "\"Becoming Nicole\"",
+          "pred": " \"Charlotte's Web\" by E.B. White\n\n"
+        },
+        {
+          "question": "How many children does Melanie have?",
+          "gold": "3",
+          "pred": " Melanie has two children.\n\n"
+        },
+        {
+          "question": "When did Melanie go on a hike after the roadtrip?",
+          "gold": "19 October 2023",
+          "pred": " The text does not specify a particular date, but it mentions that the 2"
+        },
+        {
+          "question": "What items has Melanie bought?",
+          "gold": "Figurines, shoes",
+          "pred": " Melanie has bought a few items, but the most important one is a"
+        }
+      ]
+    },
+    "conv_1": {
+      "MEM0_PROPER": [
+        {
+          "question": "What do Jon and Gina both have in common?",
+          "gold": "They lost their jobs and decided to start their own businesses.",
+          "pred": " They both love to dance and wear beautiful clothes.\n"
+        },
+        {
+          "question": "What Jon thinks the ideal dance studio should look like?",
+          "gold": "By the water, with natural light and Marley flooring",
+          "pred": " Jon thinks the ideal dance studio should look like a small, intimate space with a"
+        },
+        {
+          "question": "Which city have both Jean and John visited?",
+          "gold": "Rome",
+          "pred": " Paris\n"
+        },
+        {
+          "question": "Why did Gina decide to start her own clothing store?",
+          "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+          "pred": " Gina wanted to blend her love for dance and fashion. She wanted to create"
+        },
+        {
+          "question": "Do Jon and Gina start businesses out of what they love?",
+          "gold": "Yes",
+          "pred": " Yes, they love to dance and fashion. They have a passion for both and"
+        },
+        {
+          "question": "How did Gina promote her clothes store?",
+          "gold": "worked with an artist to make unique fashion pieces, made limited-edition sweatshirts, got some new offers and promotions for online store, developed a video presentation showing how to style her pieces",
+          "pred": " Gina launched an ad campaign for her clothing store. She had a new offer"
+        },
+        {
+          "question": "Which events has Jon participated in to promote his business venture?",
+          "gold": "fair, networking events, dance competition",
+          "pred": " Jon has participated in the following events:\n"
+        },
+        {
+          "question": "What does Jon's dance studio offer?",
+          "gold": "one-on-one metoring and training to dancers,  workshops and classes to local schools and centers",
+          "pred": " Jon's dance studio offers one-on-one mentoring and training for dancers. Jon"
+        },
+        {
+          "question": "Did Jon and Gina both participate in dance competitions?",
+          "gold": "Yes",
+          "pred": " Yes, both of them participated in dance competitions.\n"
+        },
+        {
+          "question": "Which cities has Jon visited?",
+          "gold": "Paris, Rome",
+          "pred": " Jon has visited 5 cities in the past 3 years.\n"
+        },
+        {
+          "question": "How long did it take for Jon to open his studio?",
+          "gold": "six months",
+          "pred": " Jon opened his studio in 2012.\n"
+        }
+      ],
+      "MEMMACHINE_PROPER": [
+        {
+          "question": "What do Jon and Gina both have in common?",
+          "gold": "They lost their jobs and decided to start their own businesses.",
+          "pred": " They both have a passion for networking and making things happen.\n\n"
+        },
+        {
+          "question": "What Jon thinks the ideal dance studio should look like?",
+          "gold": "By the water, with natural light and Marley flooring",
+          "pred": " Jon thinks the ideal dance studio should look like a place where people can express themselves"
+        },
+        {
+          "question": "Which city have both Jean and John visited?",
+          "gold": "Rome",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "Why did Gina decide to start her own clothing store?",
+          "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+          "pred": " Gina decided to start her own clothing store because she wanted to grow her business"
+        },
+        {
+          "question": "Do Jon and Gina start businesses out of what they love?",
+          "gold": "Yes",
+          "pred": " Gina: I love my job, but I also love my family. I"
+        },
+        {
+          "question": "How did Gina promote her clothes store?",
+          "gold": "worked with an artist to make unique fashion pieces, made limited-edition sweatshirts, got some new offers and promotions for online store, developed a video presentation showing how to style her pieces",
+          "pred": " She launched an ad campaign for her clothing store in hopes of growing the business.\n\n"
+        },
+        {
+          "question": "Which events has Jon participated in to promote his business venture?",
+          "gold": "fair, networking events, dance competition",
+          "pred": " Jon has participated in various events such as the \"Dance in the Park\""
+        },
+        {
+          "question": "What does Jon's dance studio offer?",
+          "gold": "one-on-one metoring and training to dancers,  workshops and classes to local schools and centers",
+          "pred": " Jon's dance studio offers dance classes, workshops, and social media presence. It"
+        },
+        {
+          "question": "Did Jon and Gina both participate in dance competitions?",
+          "gold": "Yes",
+          "pred": " Yes, both of them participated in dance competitions.\n\n"
+        },
+        {
+          "question": "Which cities has Jon visited?",
+          "gold": "Paris, Rome",
+          "pred": " Paris, Rome, and London.\n"
+        },
+        {
+          "question": "How long did it take for Jon to open his studio?",
+          "gold": "six months",
+          "pred": " It took Jon about 2 months to open his studio.\n\n"
+        }
+      ]
+    },
+    "conv_2": {
+      "MEM0_PROPER": [
+        {
+          "question": "What martial arts has John done?",
+          "gold": "Kickboxing, Taekwondo",
+          "pred": " John has done taekwondo, kickboxing, and yoga"
+        },
+        {
+          "question": "What type of volunteering have John and Maria both done?",
+          "gold": "Volunteering at a homeless shelter",
+          "pred": " Maria has volunteered at a local dog shelter once a month. John has volunte"
+        },
+        {
+          "question": "Where has Maria made friends?",
+          "gold": "homeless shelter, gym, church",
+          "pred": " Maria has made friends with one of her fellow volunteers.\n"
+        },
+        {
+          "question": "What items des John mention having as a child?",
+          "gold": "A doll, a film camera",
+          "pred": " John mentions having a lot of toys, a lot of books, and a lot"
+        },
+        {
+          "question": "Who gave Maria's family money when she was younger and her family was going through tough times?",
+          "gold": "Her aunt",
+          "pred": " Maria's family gave her money when she was younger and her family was going through"
+        },
+        {
+          "question": "What people has Maria met and helped while volunteering?",
+          "gold": "David, Jean, Cindy, Laura",
+          "pred": " Maria has met and helped many people while volunteering. She has helped many people with"
+        },
+        {
+          "question": "What test has John taken multiple times?",
+          "gold": "The military aptitude test",
+          "pred": " John has taken the aptitude test multiple times.\n"
+        },
+        {
+          "question": "What writing classes has Maria taken?",
+          "gold": "Poetry, creative writing",
+          "pred": " Maria took a creative writing class recently.\n"
+        },
+        {
+          "question": "Who did John go to yoga with?",
+          "gold": "Rob",
+          "pred": " John went to yoga with John's father, John's mother, and John's"
+        },
+        {
+          "question": "What damages have happened to John's car?",
+          "gold": "Broken windshield, Car broke down",
+          "pred": " John's car broke down last Friday. It was a 2012 Ford F"
+        },
+        {
+          "question": "What areas of the U.S. has John been to or is planning to go to?",
+          "gold": "Pacific northwest, east coast",
+          "pred": " John has been to the East Coast, West Coast, and the Pacific Northwest.\n"
+        },
+        {
+          "question": "What desserts has Maria made?",
+          "gold": "Banana split sundae, Peach cobbler",
+          "pred": " Maria has made a few desserts, but the most popular is a chocolate cake with"
+        },
+        {
+          "question": "What European countries has Maria been to?",
+          "gold": "Spain, England",
+          "pred": " Maria has been to Spain, England, Germany, France, Italy, and the"
+        },
+        {
+          "question": "What has Maria done to feel closer to her faith?",
+          "gold": "Join a local church, buy a cross necklace",
+          "pred": " She has bought a cross necklace to feel closer to her faith.\n"
+        },
+        {
+          "question": "What causes does John feel passionate about supporting?",
+          "gold": "Veterans, schools, infrastructure",
+          "pred": " John is passionate about supporting veterans' rights and education.\n\n"
+        },
+        {
+          "question": "What events is Maria planning for the homeless shelter funraiser?",
+          "gold": "Chili cook-off, ring-toss tournament",
+          "pred": " Maria is planning a ring-toss tournament for the homeless shelter's fundraiser later"
+        },
+        {
+          "question": "What shelters does Maria volunteer at?",
+          "gold": "The homeless shelter, the dog shelter",
+          "pred": " Maria volunteers at a local dog shelter once a month.\n"
+        },
+        {
+          "question": "What outdoor activities has John done with his colleagues?",
+          "gold": "Hiking, mountaineering",
+          "pred": " John has been on a mountaineering trip with some workmates. He has been"
+        },
+        {
+          "question": "What types of yoga has Maria practiced?",
+          "gold": "Aerial, kundalini",
+          "pred": " Maria has practiced yoga, kickboxing, and circuit training.\n"
+        },
+        {
+          "question": "What states has Maria vacationed at?",
+          "gold": "Oregon, Florida",
+          "pred": " Maria has been to 5 states in the US.\n"
+        },
+        {
+          "question": "What music events has John attended?",
+          "gold": "Live music event, violin concert",
+          "pred": " John has attended a live music event, a mountaineering event, and a m"
+        },
+        {
+          "question": "What events for veterans has John participated in?",
+          "gold": "Petition, march, party, visiting veterans hospital, 5K charity run",
+          "pred": " John has participated in a marching event for veterans' rights, a mountaineering"
+        },
+        {
+          "question": "What are the names of John's children?",
+          "gold": "Kyle, Sara",
+          "pred": " John's children are John, John's wife, and John's daughter.\n\n"
+        },
+        {
+          "question": "What area was hit by a flood?",
+          "gold": "West County",
+          "pred": " John's old area was hit by a flood. The area was in the middle"
+        },
+        {
+          "question": "What activities has Maria done with her church friends?",
+          "gold": "Hiking, picnic, volunteer work",
+          "pred": " Maria has been to church with her friends, and has been to a gym with"
+        },
+        {
+          "question": "What exercises has John done?",
+          "gold": "Weight training, Circuit training, Kickboxing, yoga",
+          "pred": " John has done taekwondo, kickboxing, and mountain"
+        },
+        {
+          "question": "What food item did Maria drop off at the homeless shelter?",
+          "gold": "Cakes",
+          "pred": " Baked goods\n"
+        },
+        {
+          "question": "Who have written notes of gratitude to Maria?",
+          "gold": "Cindy, Laura",
+          "pred": " Cindy, a resident at the shelter, wrote a heartfelt expression"
+        },
+        {
+          "question": "What causes has John done events for?",
+          "gold": "Toy drive, Community food drive, veterans, domestic violence",
+          "pred": " John has done events for the community, such as the \"Friends of the"
+        },
+        {
+          "question": "What are Maria's dogs' names?",
+          "gold": "Coco, Shadow",
+          "pred": " Maria's dogs' names are not mentioned in the text.\n"
+        },
+        {
+          "question": "How many dogs has Maria adopted from the dog shelter she volunteers at?",
+          "gold": "two",
+          "pred": " 2\n\n"
+        }
+      ],
+      "MEMMACHINE_PROPER": [
+        {
+          "question": "What martial arts has John done?",
+          "gold": "Kickboxing, Taekwondo",
+          "pred": " John has done taekwondo, kickboxing, and circuit"
+        },
+        {
+          "question": "What type of volunteering have John and Maria both done?",
+          "gold": "Volunteering at a homeless shelter",
+          "pred": " John has been a volunteer at a veteran's hospital, while Maria has been a"
+        },
+        {
+          "question": "Where has Maria made friends?",
+          "gold": "homeless shelter, gym, church",
+          "pred": " Maria has made friends with one of her fellow volunteers.\n\n"
+        },
+        {
+          "question": "What items des John mention having as a child?",
+          "gold": "A doll, a film camera",
+          "pred": " John mentions having a little doll like this as a child.<|bos|>The 20"
+        },
+        {
+          "question": "Who gave Maria's family money when she was younger and her family was going through tough times?",
+          "gold": "Her aunt",
+          "pred": " Her aunt\n\n"
+        },
+        {
+          "question": "What people has Maria met and helped while volunteering?",
+          "gold": "David, Jean, Cindy, Laura",
+          "pred": " Maria has met and helped a few people while volunteering, including a shelter resident who"
+        },
+        {
+          "question": "What test has John taken multiple times?",
+          "gold": "The military aptitude test",
+          "pred": " John has taken the aptitude test multiple times.<|bos|>The 2020-"
+        },
+        {
+          "question": "What writing classes has Maria taken?",
+          "gold": "Poetry, creative writing",
+          "pred": " Creative writing class and poetry class\n\n"
+        },
+        {
+          "question": "Who did John go to yoga with?",
+          "gold": "Rob",
+          "pred": " A colleague\n\n"
+        },
+        {
+          "question": "What damages have happened to John's car?",
+          "gold": "Broken windshield, Car broke down",
+          "pred": " John's car broke down on his way to work on Fri, and he"
+        },
+        {
+          "question": "What areas of the U.S. has John been to or is planning to go to?",
+          "gold": "Pacific northwest, east coast",
+          "pred": " John has been to the East Coast, including New York, New Jersey, and"
+        },
+        {
+          "question": "What desserts has Maria made?",
+          "gold": "Banana split sundae, Peach cobbler",
+          "pred": " Maria has made some amazing desserts like banana split sundae, peach cobbler"
+        },
+        {
+          "question": "What European countries has Maria been to?",
+          "gold": "Spain, England",
+          "pred": " Spain, England, and France\n\n"
+        },
+        {
+          "question": "What has Maria done to feel closer to her faith?",
+          "gold": "Join a local church, buy a cross necklace",
+          "pred": " She has given a few talks at the homeless shelter she volunteers at and bought a"
+        },
+        {
+          "question": "What causes does John feel passionate about supporting?",
+          "gold": "Veterans, schools, infrastructure",
+          "pred": " John feels passionate about supporting education and infrastructure in their community.<|bos|>The 20"
+        },
+        {
+          "question": "What events is Maria planning for the homeless shelter funraiser?",
+          "gold": "Chili cook-off, ring-toss tournament",
+          "pred": " Maria is planning to give a few talks at the homeless shelter funraiser and"
+        },
+        {
+          "question": "What shelters does Maria volunteer at?",
+          "gold": "The homeless shelter, the dog shelter",
+          "pred": " Maria volunteers at a shelter that provides support to homeless individuals.\n\n"
+        },
+        {
+          "question": "What outdoor activities has John done with his colleagues?",
+          "gold": "Hiking, mountaineering",
+          "pred": " John has done a walk or picnic in the park, and he has organized a"
+        },
+        {
+          "question": "What types of yoga has Maria practiced?",
+          "gold": "Aerial, kundalini",
+          "pred": " Maria has practiced a variety of yoga styles, including Hatha Yoga, V"
+        },
+        {
+          "question": "What states has Maria vacationed at?",
+          "gold": "Oregon, Florida",
+          "pred": " Oregon and Oregon\n\n"
+        },
+        {
+          "question": "What music events has John attended?",
+          "gold": "Live music event, violin concert",
+          "pred": " John has attended a live music event, a violin concert, and a toy"
+        },
+        {
+          "question": "What events for veterans has John participated in?",
+          "gold": "Petition, march, party, visiting veterans hospital, 5K charity run",
+          "pred": " John has participated in a marching event for veterans' rights.<|bos|>The "
+        },
+        {
+          "question": "What are the names of John's children?",
+          "gold": "Kyle, Sara",
+          "pred": " Kyle and John\n\n"
+        },
+        {
+          "question": "What area was hit by a flood?",
+          "gold": "West County",
+          "pred": " West County, Pennsylvania\n\n"
+        },
+        {
+          "question": "What activities has Maria done with her church friends?",
+          "gold": "Hiking, picnic, volunteer work",
+          "pred": " Maria has been a member of a nearby church and recently gave a few talks at"
+        },
+        {
+          "question": "What exercises has John done?",
+          "gold": "Weight training, Circuit training, Kickboxing, yoga",
+          "pred": " John has done yoga, kickboxing, and circuit training. It keeps things"
+        },
+        {
+          "question": "What food item did Maria drop off at the homeless shelter?",
+          "gold": "Cakes",
+          "pred": " A cross necklace<|bos|>The 2020-2021 school year is a time"
+        },
+        {
+          "question": "Who have written notes of gratitude to Maria?",
+          "gold": "Cindy, Laura",
+          "pred": " Cindy, Laura, and Maria\n\n"
+        },
+        {
+          "question": "What causes has John done events for?",
+          "gold": "Toy drive, Community food drive, veterans, domestic violence",
+          "pred": " John has done events for the cause of domestic abuse victims.<|bos|>The 20"
+        },
+        {
+          "question": "What are Maria's dogs' names?",
+          "gold": "Coco, Shadow",
+          "pred": " Coco and Shadow\n\n"
+        },
+        {
+          "question": "How many dogs has Maria adopted from the dog shelter she volunteers at?",
+          "gold": "two",
+          "pred": " One dog\n\n"
+        }
+      ]
+    },
+    "conv_3": {
+      "MEM0_PROPER": [
+        {
+          "question": "What kind of interests do Joanna and Nate share?",
+          "gold": "Watching movies, making desserts",
+          "pred": " Joanna and Nate have similar interests. Joanna owns at least three of"
+        },
+        {
+          "question": "What are Joanna's hobbies?",
+          "gold": "Writing, watchingmovies, exploringnature, hanging withfriends.",
+          "pred": " Joanna likes to write, read, and play games.\n"
+        },
+        {
+          "question": "What emotions is Joanna feeling about  the screenplay she submitted?",
+          "gold": "Relief, excitement,worry, hope,anxiety.",
+          "pred": " Joanna is feeling happy about the screenplay she submitted. She is feeling happy"
+        },
+        {
+          "question": "What is Joanna allergic to?",
+          "gold": "Most reptiles,animals with fur,cockroaches, dairy",
+          "pred": " Joanna is allergic to cockroaches.\n"
+        },
+        {
+          "question": "How many times has Joanna found new hiking trails?",
+          "gold": "twice",
+          "pred": " Joanna has found at least three new hiking trails in her town.\n\n"
+        },
+        {
+          "question": "Which of Joanna's screenplay were rejected from production companies?",
+          "gold": "first screenplay on drama and romance, third screenplay on loss identity and connection",
+          "pred": " Joanna's screenplay was rejected from production companies because it was too long and"
+        },
+        {
+          "question": "What places has Joanna submitted her work to?",
+          "gold": "film contest, film festival.",
+          "pred": " Film festivals, such as the New York Film Academy, the New York Film Academy"
+        },
+        {
+          "question": "What kind of writings does Joanna do?",
+          "gold": "Screenplays,books, online blog posts, journal",
+          "pred": " Joanna writes about her favorite memories, her favorite recipes, and her favorite books"
+        },
+        {
+          "question": "What book recommendations has Joanna given to Nate?",
+          "gold": "\"Little Women\",'A Court of Thorns andRoses'.",
+          "pred": " Joanna has given Nate a few books that he would recommend to his friends"
+        },
+        {
+          "question": "What movies have both Joanna and Nate seen?",
+          "gold": "\"Little Women\", \"Lord of the Rings\"",
+          "pred": " Joanna and Nate have seen the following movies together:\n\n"
+        },
+        {
+          "question": "What board games has Nate played?",
+          "gold": "Chess, Catan.",
+          "pred": " Nate has played a variety of board games, including:\n"
+        },
+        {
+          "question": "What places has Nate met new people?",
+          "gold": "A tournament and agaming convention.",
+          "pred": " Nate has met new people at a restaurant, a bar, a movie theater"
+        },
+        {
+          "question": "How many times has Joanna's scripts been rejected?",
+          "gold": "Twice",
+          "pred": " 3 times\n\n"
+        },
+        {
+          "question": "What is something Nate gave to Joanna that brings her a lot of joy?",
+          "gold": "stuffed toy pup",
+          "pred": " Joanna's favorite memory is when she was a little girl. She would always"
+        },
+        {
+          "question": "When did Nate get Tilly for Joanna?",
+          "gold": "25 May, 2022",
+          "pred": " Nate got Tilly for Joanna on the 4th of July.\n"
+        },
+        {
+          "question": "How many of Joanna's writing have made it to the big screen?",
+          "gold": "two",
+          "pred": " 2\n\n"
+        },
+        {
+          "question": "How many times has Nate taken his turtles on a walk?",
+          "gold": "Twice.",
+          "pred": " 3 times\n"
+        },
+        {
+          "question": "What is Joanna inspired by?",
+          "gold": "Personal experiences,her own journey ofself discovery, Nate,nature, validation,stories about findingcourage and takingrisks, people she knows, stuff she sees, imagination",
+          "pred": " Joanna's favorite memories.\n"
+        },
+        {
+          "question": "What animal do both Nate and Joanna like?",
+          "gold": "Turtles.",
+          "pred": " Joanna likes a snake.\n"
+        },
+        {
+          "question": "What things has Nate reccomended to Joanna?",
+          "gold": "A pet,\"The Lord of the Rings\" movies,a dragon book series,coconut flavoring,\"Project Hail Mary\" book,Xenoblade Chronicles, dairy-free margarine, coconut oil",
+          "pred": " Nate has reccomended to Joanna that she should be more active"
+        },
+        {
+          "question": "What does Joanna do to remember happy memories?",
+          "gold": "Hangs them on a corkboard, writes themin a notebook.",
+          "pred": " Joanna writes them down.\n"
+        },
+        {
+          "question": "What mediums does Nate use to play games?",
+          "gold": "Gamecube, PC,Playstation.",
+          "pred": " Nate uses a variety of mediums to play games. He uses a variety of"
+        },
+        {
+          "question": "How many letters has Joanna recieved?",
+          "gold": "Two",
+          "pred": " Joanna has received 3 letters.\n\n"
+        },
+        {
+          "question": "What video games does Nate play?",
+          "gold": "Valorant, Counter Strike:Global Offensive,Xenoblade Chronicles, StreetFighter, Cyberpunk 2077",
+          "pred": " Nate plays video games such as Street Fighter, Super Mario Bros"
+        },
+        {
+          "question": "What pets does Nate have?",
+          "gold": "A dog and threeturtles.",
+          "pred": " Nate has a new puppy, a dog named Nate, and a cat"
+        },
+        {
+          "question": "How many turtles does Nate have?",
+          "gold": "Three",
+          "pred": " Nate has 2 turtles.\n"
+        },
+        {
+          "question": "What activities does Nate do with his turtles?",
+          "gold": "takes them onwalks, holds them,feeds themstrawberries, givesthem baths.",
+          "pred": " Nate loves to play video games and watch movies with his turtles. He also"
+        },
+        {
+          "question": "What do both Joanna and Nate appreciate the beauty of?",
+          "gold": "Nature",
+          "pred": " The beauty of the world.\n"
+        },
+        {
+          "question": "What recommendations has Nate received from Joanna?",
+          "gold": "\"Eternal Sunshine of the Spotless Mind\" movie, \"A Court of Thorns and Roses\" book, pointers for making living room comfy, starting a cork board for memories, \"Little Women\" movie",
+          "pred": " Nate has received a lot of positive feedback from Joanna. He has been"
+        },
+        {
+          "question": "What are Nate's favorite desserts?",
+          "gold": "coconut milk icecream, dairy-free chocolate cake with berries, chocolate and mixed-berry icecream, dairy-free chocolate mousse",
+          "pred": " Nate's favorite desserts are dairy-free chocolate cakes with berries and coconut milk."
+        },
+        {
+          "question": "How has Nate tried to disburse his vegan ice-cream recipes?",
+          "gold": "teaching others, cooking show",
+          "pred": " Nate has tried to disburse his vegan ice-cream recipes by sharing"
+        },
+        {
+          "question": "How many video game tournaments has Nate participated in?",
+          "gold": "nine",
+          "pred": " Nate has participated in 4 video game tournaments.\n"
+        },
+        {
+          "question": "How many screenplays has Joanna written?",
+          "gold": "three",
+          "pred": " Joanna has written 2 screenplays.\n\n"
+        },
+        {
+          "question": "How many tournaments has Nate won?",
+          "gold": "seven",
+          "pred": " Nate has won 4 tournaments.\n"
+        },
+        {
+          "question": "What recipes has Joanna made?",
+          "gold": "dairy free vanilla cake with strawberry filling and coconut cream frosting, parfait, strawberry chocolate cake, chocolate coconut cupcakes, chocolate raspberry tart, chocolate cake with raspberries, blueberry cheesecake bars",
+          "pred": " Joanna has made a dairy-free chocolate cake, a dairy-free ice cream,"
+        },
+        {
+          "question": "What recipes has Nate made?",
+          "gold": "coconut milk icecream, chocolate and vanilla swirl",
+          "pred": " Nate has made a dairy-free chocolate cake with berries, a dairy-free chocolate"
+        },
+        {
+          "question": "What are the skills that Nate has helped others learn?",
+          "gold": "coconut milk ice cream recipe, reset high scores, tips to improve gaming skills",
+          "pred": " Nate has helped others learn how to cook, how to make ice cream,"
+        }
+      ],
+      "MEMMACHINE_PROPER": [
+        {
+          "question": "What kind of interests do Joanna and Nate share?",
+          "gold": "Watching movies, making desserts",
+          "pred": " Joanna: I like to read, watch movies, and explore nature. N"
+        },
+        {
+          "question": "What are Joanna's hobbies?",
+          "gold": "Writing, watchingmovies, exploringnature, hanging withfriends.",
+          "pred": " Joanna enjoys writing, reading, watching movies, and exploring nature.\n\n"
+        },
+        {
+          "question": "What emotions is Joanna feeling about  the screenplay she submitted?",
+          "gold": "Relief, excitement,worry, hope,anxiety.",
+          "pred": " Joanna is feeling relief, excitement, and worry about the screenplay she submitted"
+        },
+        {
+          "question": "What is Joanna allergic to?",
+          "gold": "Most reptiles,animals with fur,cockroaches, dairy",
+          "pred": " Most reptiles and animals with fur.\n\n"
+        },
+        {
+          "question": "How many times has Joanna found new hiking trails?",
+          "gold": "twice",
+          "pred": " Joanna has found new hiking trails in her town, but the number of times"
+        },
+        {
+          "question": "Which of Joanna's screenplay were rejected from production companies?",
+          "gold": "first screenplay on drama and romance, third screenplay on loss identity and connection",
+          "pred": " The screenplay she sent in to the film festival was rejected from production companies.\n\n"
+        },
+        {
+          "question": "What places has Joanna submitted her work to?",
+          "gold": "film contest, film festival.",
+          "pred": " Film festivals and producers/directors to check it out.\n\n"
+        },
+        {
+          "question": "What kind of writings does Joanna do?",
+          "gold": "Screenplays,books, online blog posts, journal",
+          "pred": " Joanna writes about her personal experiences, such as loss, identity, and connection"
+        },
+        {
+          "question": "What book recommendations has Joanna given to Nate?",
+          "gold": "\"Little Women\",'A Court of Thorns andRoses'.",
+          "pred": " \"The Lord of the Rings\" Trilogy\n"
+        },
+        {
+          "question": "What movies have both Joanna and Nate seen?",
+          "gold": "\"Little Women\", \"Lord of the Rings\"",
+          "pred": " Joanna has seen a few movies, but Nate has seen a few more"
+        },
+        {
+          "question": "What board games has Nate played?",
+          "gold": "Chess, Catan.",
+          "pred": " Nate has played a lot of board games, but he's not a big"
+        },
+        {
+          "question": "What places has Nate met new people?",
+          "gold": "A tournament and agaming convention.",
+          "pred": " A game convention and a new friend's house.\n\n"
+        },
+        {
+          "question": "How many times has Joanna's scripts been rejected?",
+          "gold": "Twice",
+          "pred": " 3 times\n\n"
+        },
+        {
+          "question": "What is something Nate gave to Joanna that brings her a lot of joy?",
+          "gold": "stuffed toy pup",
+          "pred": " Nate gave Joanna a tart that looks yummy.\n\n"
+        },
+        {
+          "question": "When did Nate get Tilly for Joanna?",
+          "gold": "25 May, 2022",
+          "pred": " Nate got Tilly for Joanna when she was in the final of a"
+        },
+        {
+          "question": "How many of Joanna's writing have made it to the big screen?",
+          "gold": "two",
+          "pred": " 2\n\n"
+        },
+        {
+          "question": "How many times has Nate taken his turtles on a walk?",
+          "gold": "Twice.",
+          "pred": " Nate has taken his turtles out for a walk 3 times.\n\n"
+        },
+        {
+          "question": "What is Joanna inspired by?",
+          "gold": "Personal experiences,her own journey ofself discovery, Nate,nature, validation,stories about findingcourage and takingrisks, people she knows, stuff she sees, imagination",
+          "pred": " Joanna is inspired by the idea of writing and hanging with friends.\n\n"
+        },
+        {
+          "question": "What animal do both Nate and Joanna like?",
+          "gold": "Turtles.",
+          "pred": " Dogs\n\n"
+        },
+        {
+          "question": "What things has Nate reccomended to Joanna?",
+          "gold": "A pet,\"The Lord of the Rings\" movies,a dragon book series,coconut flavoring,\"Project Hail Mary\" book,Xenoblade Chronicles, dairy-free margarine, coconut oil",
+          "pred": " Nate has reccomended to Joanna to submit the project to film"
+        },
+        {
+          "question": "What does Joanna do to remember happy memories?",
+          "gold": "Hangs them on a corkboard, writes themin a notebook.",
+          "pred": " She writes them down in a journal.\n"
+        },
+        {
+          "question": "What mediums does Nate use to play games?",
+          "gold": "Gamecube, PC,Playstation.",
+          "pred": " Nate uses a variety of mediums to play games, including video games, movies"
+        },
+        {
+          "question": "How many letters has Joanna recieved?",
+          "gold": "Two",
+          "pred": " Joanna has recieved 3 letters.\n\n"
+        },
+        {
+          "question": "What video games does Nate play?",
+          "gold": "Valorant, Counter Strike:Global Offensive,Xenoblade Chronicles, StreetFighter, Cyberpunk 2077",
+          "pred": " Nate plays a lot of video games, but he's not a big fan"
+        },
+        {
+          "question": "What pets does Nate have?",
+          "gold": "A dog and threeturtles.",
+          "pred": " Nate has a turtle, a tortoise, and a fish.\n\n"
+        },
+        {
+          "question": "How many turtles does Nate have?",
+          "gold": "Three",
+          "pred": " Nate has 2 turtles.\n\n"
+        },
+        {
+          "question": "What activities does Nate do with his turtles?",
+          "gold": "takes them onwalks, holds them,feeds themstrawberries, givesthem baths.",
+          "pred": " Nate takes his turtles out for a walk, plays with them, and even"
+        },
+        {
+          "question": "What do both Joanna and Nate appreciate the beauty of?",
+          "gold": "Nature",
+          "pred": " The present\n\n"
+        },
+        {
+          "question": "What recommendations has Nate received from Joanna?",
+          "gold": "\"Eternal Sunshine of the Spotless Mind\" movie, \"A Court of Thorns and Roses\" book, pointers for making living room comfy, starting a cork board for memories, \"Little Women\" movie",
+          "pred": " Nate has received recommendations from Joanna on how to improve their gaming skills and"
+        },
+        {
+          "question": "What are Nate's favorite desserts?",
+          "gold": "coconut milk icecream, dairy-free chocolate cake with berries, chocolate and mixed-berry icecream, dairy-free chocolate mousse",
+          "pred": " Nate's favorite desserts are coconut milk, chocolate, and mixed berry flavors.\n\n"
+        },
+        {
+          "question": "How has Nate tried to disburse his vegan ice-cream recipes?",
+          "gold": "teaching others, cooking show",
+          "pred": " Nate has been revising and perfecting the recipe he made for his family"
+        },
+        {
+          "question": "How many video game tournaments has Nate participated in?",
+          "gold": "nine",
+          "pred": " Nate has participated in 4 video game tournaments.\n\n"
+        },
+        {
+          "question": "How many screenplays has Joanna written?",
+          "gold": "three",
+          "pred": " 2\n\n"
+        },
+        {
+          "question": "How many tournaments has Nate won?",
+          "gold": "seven",
+          "pred": " Nate has won 2 tournaments.\n\n"
+        },
+        {
+          "question": "What recipes has Joanna made?",
+          "gold": "dairy free vanilla cake with strawberry filling and coconut cream frosting, parfait, strawberry chocolate cake, chocolate coconut cupcakes, chocolate raspberry tart, chocolate cake with raspberries, blueberry cheesecake bars",
+          "pred": " She has made a cake, a pie, a cake with a chocolate frosting,"
+        },
+        {
+          "question": "What recipes has Nate made?",
+          "gold": "coconut milk icecream, chocolate and vanilla swirl",
+          "pred": " Nate has made a vegan ice cream recipe, a vegan chocolate chip cookie recipe"
+        },
+        {
+          "question": "What are the skills that Nate has helped others learn?",
+          "gold": "coconut milk ice cream recipe, reset high scores, tips to improve gaming skills",
+          "pred": " Nate has helped others learn how to play video games and how to watch movies"
+        }
+      ]
+    },
+    "conv_4": {
+      "MEM0_PROPER": [
+        {
+          "question": "what are John's goals with regards to his basketball career?",
+          "gold": "improve shooting percentage, win a championship",
+          "pred": " John wants to improve his shooting percentage and mentoring younger players on his team.\n"
+        },
+        {
+          "question": "What are John's goals for his career that are not related to his basketball skills?",
+          "gold": "get endorsements, build his brand, do charity work",
+          "pred": " John wants to improve his shooting percentage, mentoring younger players on his team, and"
+        },
+        {
+          "question": "What items does John collect?",
+          "gold": "sneakers, fantasy movie DVDs, jerseys",
+          "pred": " John collects a variety of items, including sneakers, boots, and other outdoor gear"
+        },
+        {
+          "question": "What books has Tim read?",
+          "gold": "Harry Potter, Game of Thrones, the Name of the Wind, The Alchemist, The Hobbit, A Dance with Dragons, and the Wheel of Time.",
+          "pred": " Tim has read a lot of fantasy novels. He has read a lot of fantasy"
+        },
+        {
+          "question": "Which geographical locations has Tim been to?",
+          "gold": "California, London, the Smoky Mountains",
+          "pred": " Tim has been to the Smoky Mountains, the UK, and the US"
+        },
+        {
+          "question": "Which endorsement deals has John been offered?",
+          "gold": "basketball shoes and gear deal with Nike, potential sponsorship with Gatorade, Moxie a popular beverage company, outdoor gear company",
+          "pred": " John has been offered a deal with a popular beverage company, Gatorade,"
+        },
+        {
+          "question": "What sports does John like besides basketball?",
+          "gold": "surfing",
+          "pred": " John likes to play football, baseball, and soccer.\n"
+        },
+        {
+          "question": "What does Tim do to escape reality?",
+          "gold": "Read fantasy books.",
+          "pred": " Tim goes to the movies, plays video games, and reads fantasy novels.\n"
+        },
+        {
+          "question": "What kind of writing does Tim do?",
+          "gold": "comments on favorite books in a fantasy literature forum, articles on fantasy novels, studying characters, themes, and making book recommendations, writing a fantasy novel",
+          "pred": " Tim writes fantasy novels.\n"
+        },
+        {
+          "question": "How many games has John mentioned winning?",
+          "gold": "6",
+          "pred": " 3\n"
+        },
+        {
+          "question": "What authors has Tim read books from?",
+          "gold": "J.K. Rowling, R.R. Martin, Patrick Rothfuss, Paulo Coelho, and J. R. R. Tolkien.",
+          "pred": " Tim has read books from many authors, including:\n"
+        },
+        {
+          "question": "Which US cities does John mention visiting to Tim?",
+          "gold": "Seattle, Chicago, New York",
+          "pred": " John mentions visiting cities in the following US cities:\n"
+        },
+        {
+          "question": "What similar sports collectible do Tim and John own?",
+          "gold": "signed basketball",
+          "pred": " Tim owns a book collection and Tim has a book collection.\n\n"
+        },
+        {
+          "question": "Which TV series does Tim mention watching?",
+          "gold": "That, Wheel of Time",
+          "pred": " \"The Alchemist\" by Tim Burton\n"
+        },
+        {
+          "question": "What schools did John play basketball in and how many years was he with his team during high school?",
+          "gold": "Middle school, high school, and college and he was with his high school team for 4 years.",
+          "pred": " John played basketball in the following schools: St. Joseph's, St. Joseph"
+        },
+        {
+          "question": "Which cities has John been to?",
+          "gold": "Seattle, Chicago, New York, and Paris.",
+          "pred": " John has been to many cities, but he has been to the following cities:\n"
+        },
+        {
+          "question": "What outdoor activities does John enjoy?",
+          "gold": "Hiking, surfing",
+          "pred": " John enjoys hiking, camping, and fishing.\n"
+        },
+        {
+          "question": "Who is Tim and John's favorite basketball player?",
+          "gold": "LeBron James",
+          "pred": " Tim is a fan of Harry Potter and John is a fan of Harry Pot"
+        },
+        {
+          "question": "which country has Tim visited most frequently in his travels?",
+          "gold": "UK",
+          "pred": " The United States\n"
+        },
+        {
+          "question": "What kind of fiction stories does Tim write?",
+          "gold": "Fantasy stories with plot twists",
+          "pred": " Tim writes fantasy stories.\n"
+        },
+        {
+          "question": "What has John cooked?",
+          "gold": "Soup, a slow cooker meal, and honey garlic chicken with roasted veg.",
+          "pred": " John has cooked a variety of dishes, including chicken, fish, and vegetables."
+        },
+        {
+          "question": "What does John like about Lebron James?",
+          "gold": "His heart, determination, skills, and leadership.",
+          "pred": " John likes Lebron James because he is a great basketball player and he is"
+        },
+        {
+          "question": "When did John get an ankle injury in 2023?",
+          "gold": "around November 16, 2023",
+          "pred": " John hurt his ankle in 2023. He was surfing in the ocean and"
+        },
+        {
+          "question": "How many times has John injured his ankle?",
+          "gold": "two times",
+          "pred": " John has injured his ankle 3 times.\n"
+        },
+        {
+          "question": "Which book was John reading during his recovery from an ankle injury?",
+          "gold": "The Alchemist",
+          "pred": " The book that John read during his recovery from an ankle injury was \"The W"
+        },
+        {
+          "question": "What does John do to supplement his basketball training?",
+          "gold": "Yoga, strength training",
+          "pred": " John plays basketball with his teammates and coaches.\n"
+        },
+        {
+          "question": "What instruments does Tim play?",
+          "gold": "piano, violin",
+          "pred": " Tim plays the guitar, piano, and violin.\n"
+        },
+        {
+          "question": "Which career-high performances did John achieve in 2023?",
+          "gold": "highest point score, highest assist",
+          "pred": " John scored 40 points in 2023, his highest ever.\n"
+        },
+        {
+          "question": "What books has John read?",
+          "gold": "inpsiring book on dreaming big, The Alchemist, fantasy series, non-fiction books on personal development, Dune",
+          "pred": " John has read a lot of books. He has read a lot of books about"
+        },
+        {
+          "question": "What does John do to share his knowledge?",
+          "gold": "gives seminars, mentors younger players.",
+          "pred": " John shares his knowledge by teaching people how to cook and sell their own sneakers.\n"
+        },
+        {
+          "question": "What fantasy movies does Tim like?",
+          "gold": "Lord of the Rings, Harry Potter, and Star Wars.",
+          "pred": " \"The Alchemist\" and \"The Wizard of Oz\" are Tim"
+        }
+      ],
+      "MEMMACHINE_PROPER": [
+        {
+          "question": "what are John's goals with regards to his basketball career?",
+          "gold": "improve shooting percentage, win a championship",
+          "pred": " John's goals are to win a championship, make a difference away from the court"
+        },
+        {
+          "question": "What are John's goals for his career that are not related to his basketball skills?",
+          "gold": "get endorsements, build his brand, do charity work",
+          "pred": " John's goals include giving back to his community through charity and inspiring people.<|bos|>"
+        },
+        {
+          "question": "What items does John collect?",
+          "gold": "sneakers, fantasy movie DVDs, jerseys",
+          "pred": " Books and movies.\n\n"
+        },
+        {
+          "question": "What books has Tim read?",
+          "gold": "Harry Potter, Game of Thrones, the Name of the Wind, The Alchemist, The Hobbit, A Dance with Dragons, and the Wheel of Time.",
+          "pred": " The books that Tim has read are:\n"
+        },
+        {
+          "question": "Which geographical locations has Tim been to?",
+          "gold": "California, London, the Smoky Mountains",
+          "pred": " London, New York City, and other places.\n\n"
+        },
+        {
+          "question": "Which endorsement deals has John been offered?",
+          "gold": "basketball shoes and gear deal with Nike, potential sponsorship with Gatorade, Moxie a popular beverage company, outdoor gear company",
+          "pred": " Nike and Gatorade deals\n\n"
+        },
+        {
+          "question": "What sports does John like besides basketball?",
+          "gold": "surfing",
+          "pred": " John likes basketball, football, and baseball.<|bos|>The 2020-20"
+        },
+        {
+          "question": "What does Tim do to escape reality?",
+          "gold": "Read fantasy books.",
+          "pred": " Tim goes to the library and reads a book called \"The Wheel of Time\""
+        },
+        {
+          "question": "What kind of writing does Tim do?",
+          "gold": "comments on favorite books in a fantasy literature forum, articles on fantasy novels, studying characters, themes, and making book recommendations, writing a fantasy novel",
+          "pred": " Tim writes fantasy novels, short stories, and plays.\n"
+        },
+        {
+          "question": "How many games has John mentioned winning?",
+          "gold": "6",
+          "pred": " 3\n\n"
+        },
+        {
+          "question": "What authors has Tim read books from?",
+          "gold": "J.K. Rowling, R.R. Martin, Patrick Rothfuss, Paulo Coelho, and J. R. R. Tolkien.",
+          "pred": " Patrick Rothfuss, The Wizard of Oz, and The Wizard"
+        },
+        {
+          "question": "Which US cities does John mention visiting to Tim?",
+          "gold": "Seattle, Chicago, New York",
+          "pred": " New York City, New Jersey, and New York City.\n\n"
+        },
+        {
+          "question": "What similar sports collectible do Tim and John own?",
+          "gold": "signed basketball",
+          "pred": " They own a basketball shoe and gear deal.\n\n"
+        },
+        {
+          "question": "Which TV series does Tim mention watching?",
+          "gold": "That, Wheel of Time",
+          "pred": " Harry Potter and Game of Thrones\n"
+        },
+        {
+          "question": "What schools did John play basketball in and how many years was he with his team during high school?",
+          "gold": "Middle school, high school, and college and he was with his high school team for 4 years.",
+          "pred": " John played basketball in high school, and he was with his team for 10"
+        },
+        {
+          "question": "Which cities has John been to?",
+          "gold": "Seattle, Chicago, New York, and Paris.",
+          "pred": " John has been to many different cities, but he's been to the UK,"
+        },
+        {
+          "question": "What outdoor activities does John enjoy?",
+          "gold": "Hiking, surfing",
+          "pred": " Surfing, hiking, and camping.\n\n"
+        },
+        {
+          "question": "Who is Tim and John's favorite basketball player?",
+          "gold": "LeBron James",
+          "pred": " Tim is a shooting guard for the team and John is a shooting guard for the"
+        },
+        {
+          "question": "which country has Tim visited most frequently in his travels?",
+          "gold": "UK",
+          "pred": " The United States\n\n"
+        },
+        {
+          "question": "What kind of fiction stories does Tim write?",
+          "gold": "Fantasy stories with plot twists",
+          "pred": " Tim writes fantasy novels, short stories, and plays.\n"
+        },
+        {
+          "question": "What has John cooked?",
+          "gold": "Soup, a slow cooker meal, and honey garlic chicken with roasted veg.",
+          "pred": " John has cooked a delicious meal - a \"Alchemist's Dream\" -"
+        },
+        {
+          "question": "What does John like about Lebron James?",
+          "gold": "His heart, determination, skills, and leadership.",
+          "pred": " John likes Lebron James because he's a great player and has a lot"
+        },
+        {
+          "question": "When did John get an ankle injury in 2023?",
+          "gold": "around November 16, 2023",
+          "pred": " John got an ankle injury in 2023.<|bos|>The 2023-"
+        },
+        {
+          "question": "How many times has John injured his ankle?",
+          "gold": "two times",
+          "pred": " John has injured his ankle 3 times.<|bos|>The 2020-20"
+        },
+        {
+          "question": "Which book was John reading during his recovery from an ankle injury?",
+          "gold": "The Alchemist",
+          "pred": " \"The Alchemist\"<|bos|>The 2020-2021 school year"
+        },
+        {
+          "question": "What does John do to supplement his basketball training?",
+          "gold": "Yoga, strength training",
+          "pred": " John practices basketball with his dad and dreams of playing on big courts.\n\n"
+        },
+        {
+          "question": "What instruments does Tim play?",
+          "gold": "piano, violin",
+          "pred": " Violin, piano, and guitar\n\n"
+        },
+        {
+          "question": "Which career-high performances did John achieve in 2023?",
+          "gold": "highest point score, highest assist",
+          "pred": " John achieved career-high performances in 2023, including a 3-point lead"
+        },
+        {
+          "question": "What books has John read?",
+          "gold": "inpsiring book on dreaming big, The Alchemist, fantasy series, non-fiction books on personal development, Dune",
+          "pred": " John has read \"The Alchemist\" by John Lennon, \""
+        },
+        {
+          "question": "What does John do to share his knowledge?",
+          "gold": "gives seminars, mentors younger players.",
+          "pred": " John shares his knowledge by writing books, teaching, and speaking at conferences.\n\n"
+        },
+        {
+          "question": "What fantasy movies does Tim like?",
+          "gold": "Lord of the Rings, Harry Potter, and Star Wars.",
+          "pred": " The Hobbit, The Lord of the Rings, and The Hunger Games"
+        }
+      ]
+    },
+    "conv_5": {
+      "MEM0_PROPER": [
+        {
+          "question": "What kind of indoor activities has Andrew pursued with his girlfriend?",
+          "gold": "boardgames, volunteering at pet shelter, wine tasting, growing flowers",
+          "pred": " Andrew has pursued a variety of indoor activities with his girlfriend, including playing board games"
+        },
+        {
+          "question": "What kind of places have Andrew and his girlfriend checked out around the city?",
+          "gold": "cafes, new places to eat, open space for hikes, pet shelter, wine tasting event, park",
+          "pred": " Andrew and his girlfriend have checked out a number of places around the city, including"
+        },
+        {
+          "question": "What kind of classes or groups has Audrey joined to take better care of her dogs?",
+          "gold": "positive reinforcement training workshop to bond with pets, dog training course, agility training course, grooming course, dog-owners group",
+          "pred": " Audrey has joined a dog owners group to learn how to better take care of"
+        },
+        {
+          "question": "What outdoor activities has Andrew done other than hiking in nature?",
+          "gold": "rock climbing, fishing, camping",
+          "pred": " Andrew has been to the beach, the woods, and the lake.\n"
+        },
+        {
+          "question": "What is something that Andrew really misses while working in the city?",
+          "gold": "being in nature",
+          "pred": " The connection with nature and the peace it brings.\n\n"
+        },
+        {
+          "question": "What is a shared frustration regarding dog ownership for Audrey and Andrew?",
+          "gold": "Not being able to find pet friendly spots.",
+          "pred": " Audrey and Andrew are both new dog owners. They both have a lot of"
+        },
+        {
+          "question": "How many times did Audrey and Andew plan to hike together?",
+          "gold": "three times",
+          "pred": " Audrey and Andew planned to hike together 3 times.\n\n"
+        },
+        {
+          "question": "Where did Audrey get Pixie from?",
+          "gold": "breeder",
+          "pred": " Audrey got Pixie from a shelter.\n"
+        },
+        {
+          "question": "What are the classes that Audrey took for her dogs to?",
+          "gold": "Positive reinforcement training class for bonding, dog training course, agility class",
+          "pred": " Audrey took a class on grooming her dogs. She learned how to brush,"
+        },
+        {
+          "question": "What are some problems that Andrew faces before he adopted Toby?",
+          "gold": "Finding the right dog and pet-friendly apartments close to open spaces",
+          "pred": " Andrew has a lot of problems before he adopted Toby. He has a lot"
+        },
+        {
+          "question": "Did Audrey and Andrew grow up with a pet dog?",
+          "gold": "Yes",
+          "pred": " Yes, Audrey and Andrew grew up with a pet dog. Audrey was"
+        },
+        {
+          "question": "What is the biggest stressor in Andrew's life besides not being able to hike frequently?",
+          "gold": "work",
+          "pred": " Andrew's family is the biggest stressor in Andrew's life. They are always"
+        },
+        {
+          "question": "How does Andrew feel about his current work?",
+          "gold": "Stressful",
+          "pred": " Andrew is really missing the connection with nature and the peace it brings. He is"
+        },
+        {
+          "question": "What is something that Audrey often dresses up her dogs with?",
+          "gold": "Hats",
+          "pred": " A tattoo of her four dogs on her arm.\n\n"
+        },
+        {
+          "question": "What are the names of Audrey's dogs?",
+          "gold": "Pepper, Precious, Panda, and Pixie",
+          "pred": " Pepper, Precious, and Panda.\n"
+        },
+        {
+          "question": "What has Andrew done with his dogs?",
+          "gold": "Taking walks and hiking",
+          "pred": " Andrew has adopted another dog recently. Buddy is the name of Andrew's pet"
+        },
+        {
+          "question": "What kind of tattoo does Audrey have on her arm?",
+          "gold": "Tattoos of her four dogs.",
+          "pred": " Audrey has a tattoo of her four dogs on her arm.\n"
+        },
+        {
+          "question": "What are the names of Andrew's dogs?",
+          "gold": "Toby, Scout, Buddy",
+          "pred": " Andrew's dogs are named Buddy, Toby, and Andrew.\n"
+        },
+        {
+          "question": "What are some foods that Audrey likes eating?",
+          "gold": "chicken pot pie, chicken roast, blueberry muffins, sushi",
+          "pred": " Audrey likes eating chicken, chicken pot pie, chicken nuggets, and chicken"
+        },
+        {
+          "question": "What did Audrey get wtih having so many dogs?",
+          "gold": "Companionship",
+          "pred": " Audrey got a tattoo of her four dogs on her arm.\n"
+        },
+        {
+          "question": "What is a good place for dogs to run around freely and meet new friends?",
+          "gold": "The dog park",
+          "pred": " The dog park is a great place for dogs to run around freely and meet new"
+        },
+        {
+          "question": "What are the breeds of Audrey's dogs?",
+          "gold": "Mongrel mixed with Lab for Pepper and Panda. Mongrel mixed with Chihuahua for Precious and Pixie.",
+          "pred": " Audrey's dogs are a mix of the following breeds: Pepper, Precious"
+        },
+        {
+          "question": "What technique is Audrey using to discipline her dogs?",
+          "gold": "Positive reinforcement",
+          "pred": " Audrey is using a technique called \"positive reinforcement\" to discipline her dogs."
+        },
+        {
+          "question": "What does Andrew view his pets as?",
+          "gold": "Family",
+          "pred": " Andrew views his pets as family members.\n"
+        },
+        {
+          "question": "What does Audrey view her pets as?",
+          "gold": "Family",
+          "pred": " Audrey views her pets as family members.\n"
+        },
+        {
+          "question": "What is a skill that Audrey learned to take care of her dogs?",
+          "gold": "Grooming",
+          "pred": " Audrey learned to groom her dogs. She learned how to brush their coats,"
+        },
+        {
+          "question": "What items has Audrey bought or made for her dogs?",
+          "gold": "dog tags, toys, dog beds, collars",
+          "pred": " Audrey has bought or made a variety of items for her dogs. She has"
+        },
+        {
+          "question": "What activity do Audrey's dogs like to do in the dog park?",
+          "gold": "Play fetch with ball and frisbee, run around and meet other dogs",
+          "pred": " Audrey's dogs like to run and play in the dog park.\n"
+        },
+        {
+          "question": "Has Andrew moved into a new apartment for his dogs?",
+          "gold": "No",
+          "pred": " Yes, Andrew has moved into a new apartment for his dogs. He has a"
+        },
+        {
+          "question": "How many dogs does Andrew have?",
+          "gold": "3",
+          "pred": " Andrew has 2 dogs, Buddy and Toby.\n\n"
+        }
+      ],
+      "MEMMACHINE_PROPER": [
+        {
+          "question": "What kind of indoor activities has Andrew pursued with his girlfriend?",
+          "gold": "boardgames, volunteering at pet shelter, wine tasting, growing flowers",
+          "pred": " Andrew has pursued various indoor activities with his girlfriend, including playing games, watching movies"
+        },
+        {
+          "question": "What kind of places have Andrew and his girlfriend checked out around the city?",
+          "gold": "cafes, new places to eat, open space for hikes, pet shelter, wine tasting event, park",
+          "pred": " Andrew and his girlfriend have checked out places like the park, a local restaurant,"
+        },
+        {
+          "question": "What kind of classes or groups has Audrey joined to take better care of her dogs?",
+          "gold": "positive reinforcement training workshop to bond with pets, dog training course, agility training course, grooming course, dog-owners group",
+          "pred": " Audrey has joined a dog training course and is taking a group class with other"
+        },
+        {
+          "question": "What outdoor activities has Andrew done other than hiking in nature?",
+          "gold": "rock climbing, fishing, camping",
+          "pred": " Andrew has done a lot of outdoor activities, including camping, fishing, and hiking"
+        },
+        {
+          "question": "What is something that Andrew really misses while working in the city?",
+          "gold": "being in nature",
+          "pred": " The connection and companionship that he used to have with his girlfriend and wife.\n\n"
+        },
+        {
+          "question": "What is a shared frustration regarding dog ownership for Audrey and Andrew?",
+          "gold": "Not being able to find pet friendly spots.",
+          "pred": " Audrey's dog, Max, is a big barker. He's a"
+        },
+        {
+          "question": "How many times did Audrey and Andew plan to hike together?",
+          "gold": "three times",
+          "pred": " Audrey and Andew planned to hike together 3 times.\n\n"
+        },
+        {
+          "question": "Where did Audrey get Pixie from?",
+          "gold": "breeder",
+          "pred": " She got Pixie from a shelter.\n\n"
+        },
+        {
+          "question": "What are the classes that Audrey took for her dogs to?",
+          "gold": "Positive reinforcement training class for bonding, dog training course, agility class",
+          "pred": " Agility classes at a dog park.\n\n"
+        },
+        {
+          "question": "What are some problems that Andrew faces before he adopted Toby?",
+          "gold": "Finding the right dog and pet-friendly apartments close to open spaces",
+          "pred": " Andrew has a lot of work to do and he's stuck inside. He miss"
+        },
+        {
+          "question": "Did Audrey and Andrew grow up with a pet dog?",
+          "gold": "Yes",
+          "pred": " Yes, they grew up with a pet dog.\n\n"
+        },
+        {
+          "question": "What is the biggest stressor in Andrew's life besides not being able to hike frequently?",
+          "gold": "work",
+          "pred": " Work. I've been stuck inside for a while, and I'm not sure"
+        },
+        {
+          "question": "How does Andrew feel about his current work?",
+          "gold": "Stressful",
+          "pred": " He's feeling a lot of pressure to work and he's feeling like he's"
+        },
+        {
+          "question": "What is something that Audrey often dresses up her dogs with?",
+          "gold": "Hats",
+          "pred": " Fetch and Frisbee\n\n"
+        },
+        {
+          "question": "What are the names of Audrey's dogs?",
+          "gold": "Pepper, Precious, Panda, and Pixie",
+          "pred": " Audrey's dogs are not named in the text.\n\n"
+        },
+        {
+          "question": "What has Andrew done with his dogs?",
+          "gold": "Taking walks and hiking",
+          "pred": " He has taken them to the vet, groomed them, and even took them"
+        },
+        {
+          "question": "What kind of tattoo does Audrey have on her arm?",
+          "gold": "Tattoos of her four dogs.",
+          "pred": " Audrey has a tattoo of her four dogs on her arm.\n\n"
+        },
+        {
+          "question": "What are the names of Andrew's dogs?",
+          "gold": "Toby, Scout, Buddy",
+          "pred": " Buddy and Toby\n\n"
+        },
+        {
+          "question": "What are some foods that Audrey likes eating?",
+          "gold": "chicken pot pie, chicken roast, blueberry muffins, sushi",
+          "pred": " Audrey likes eating a variety of foods, including fruits, vegetables, and meats"
+        },
+        {
+          "question": "What did Audrey get wtih having so many dogs?",
+          "gold": "Companionship",
+          "pred": " Lots of exercise and lots of fun!\n\n"
+        },
+        {
+          "question": "What is a good place for dogs to run around freely and meet new friends?",
+          "gold": "The dog park",
+          "pred": " A park or woods.\n\n"
+        },
+        {
+          "question": "What are the breeds of Audrey's dogs?",
+          "gold": "Mongrel mixed with Lab for Pepper and Panda. Mongrel mixed with Chihuahua for Precious and Pixie.",
+          "pred": " Audrey's dogs are not specified in the given text.\n\n"
+        },
+        {
+          "question": "What technique is Audrey using to discipline her dogs?",
+          "gold": "Positive reinforcement",
+          "pred": " Audrey is using a technique called \"positive reinforcement\" to discipline her dogs."
+        },
+        {
+          "question": "What does Andrew view his pets as?",
+          "gold": "Family",
+          "pred": " Family members\n"
+        },
+        {
+          "question": "What does Audrey view her pets as?",
+          "gold": "Family",
+          "pred": " Family\n"
+        },
+        {
+          "question": "What is a skill that Audrey learned to take care of her dogs?",
+          "gold": "Grooming",
+          "pred": " Audrey learned to groom her dogs. She learned to brush their coats, trim"
+        },
+        {
+          "question": "What items has Audrey bought or made for her dogs?",
+          "gold": "dog tags, toys, dog beds, collars",
+          "pred": " Audrey has bought or made a variety of items for her dogs, including toys"
+        },
+        {
+          "question": "What activity do Audrey's dogs like to do in the dog park?",
+          "gold": "Play fetch with ball and frisbee, run around and meet other dogs",
+          "pred": " Audrey's dogs love to run around and meet other pups in the dog park"
+        },
+        {
+          "question": "Has Andrew moved into a new apartment for his dogs?",
+          "gold": "No",
+          "pred": " Yes, Andrew has moved into a new apartment for his dogs. He's been"
+        },
+        {
+          "question": "How many dogs does Andrew have?",
+          "gold": "3",
+          "pred": " Andrew has 2 dogs. He's a dog lover and he's a dog"
+        }
+      ]
+    },
+    "conv_6": {
+      "MEM0_PROPER": [
+        {
+          "question": "Which places or events have John and James planned to meet at?",
+          "gold": "VR Club, McGee's, baseball game",
+          "pred": " John and James have planned to meet at the following places or events:\n"
+        },
+        {
+          "question": "Do both James and John have pets?",
+          "gold": "No",
+          "pred": " Yes, James has dogs and John has dogs.\n\n"
+        },
+        {
+          "question": "What are John and James' favorite games?",
+          "gold": "John's favorite game is CS:GO, and James's is Apex Legends.",
+          "pred": " James likes to play Apex Legends and John likes to play Fortn"
+        },
+        {
+          "question": "How many pets does James have?",
+          "gold": "Three dogs.",
+          "pred": " James has 2 dogs.\n"
+        },
+        {
+          "question": "What are the names of James's dogs?",
+          "gold": "Ned, Daisy, Max",
+          "pred": " James has dogs named James, James, and James. James has dogs named James"
+        },
+        {
+          "question": "Which books has John recommended to James?",
+          "gold": "The Name of the Wind, Stormlight Archive, Kingkiller Chronicles, Expanse",
+          "pred": " John has recommended the following books to James:\n"
+        },
+        {
+          "question": "How many charity tournaments has John organized till date?",
+          "gold": "two",
+          "pred": " 2\n"
+        },
+        {
+          "question": "Who or which organizations have been the beneficiaries of John's charity tournaments?",
+          "gold": "animal shelter, homeless, children's hospital",
+          "pred": " John's charity tournaments have been organized by his friends, and they have raised funds"
+        },
+        {
+          "question": "What kind of games has James tried to develop?",
+          "gold": "football simulator, virtual world inspired by Witcher 3",
+          "pred": " James has tried to develop a game called Apex Legends.\n"
+        },
+        {
+          "question": "Which countries has James visited?",
+          "gold": "Italy, Mexico, Turkey, Canada, Greenland",
+          "pred": " Italy, Turkey, and Mexico.\n"
+        },
+        {
+          "question": "What kind of classes has James joined?",
+          "gold": "game design course, cooking classes",
+          "pred": " James has joined a class called \"The Game of Life\" which is a class"
+        },
+        {
+          "question": "Which countries did James visit in July 2022?",
+          "gold": "Canada, Greenland",
+          "pred": " James visited Italy, Turkey, and Mexico.\n"
+        },
+        {
+          "question": "What happened to John's job situation in 2022?",
+          "gold": "quit his IT Job, secured his dream job, aspires to become an eSports competition organizer",
+          "pred": " John left his IT job after 3 years. He organized something with his friends"
+        },
+        {
+          "question": "What kind of tricks do James's pets know?",
+          "gold": "swimming, catching frisbees, balancing on a skateboard, sit, stay, paw, and rollover",
+          "pred": " James's pets know tricks such as sit, stay, paw, and rollover"
+        },
+        {
+          "question": "What kind of beer does McGee's bar serve?",
+          "gold": "Stout, lager",
+          "pred": " A stout.\n"
+        },
+        {
+          "question": "What gaming equipments did John buy or refurbish?",
+          "gold": "Sennheiser headphones, Logitech mouse, gaming desk",
+          "pred": " John bought a new gaming PC and a new gaming console.\n"
+        },
+        {
+          "question": "Which new games did John start play during the course of the conversation with James?",
+          "gold": "AC Valhalla, Witcher 3, FIFA 23, Dungeons of the Dragons, futuristic dystopian game",
+          "pred": " AC Valhalla and AC Valhalla 2.\n"
+        },
+        {
+          "question": "What kind of programming-related events has John hosted?",
+          "gold": "online programming competition, programming seminar",
+          "pred": " John has hosted a programming seminar, a gaming tournament, and a competition.\n"
+        },
+        {
+          "question": "Which of James's family members have visited him in the last year?",
+          "gold": "mother, sister",
+          "pred": " James's mother, who came to see him with her army friend two days ago"
+        },
+        {
+          "question": "What games has John played with his friends at charity tournaments?",
+          "gold": "CS:GO, Fortnite, Overwatch and Apex Legends",
+          "pred": " CS:GO, CS:GO 2, CS:GO 2,"
+        }
+      ],
+      "MEMMACHINE_PROPER": [
+        {
+          "question": "Which places or events have John and James planned to meet at?",
+          "gold": "VR Club, McGee's, baseball game",
+          "pred": " James and John have planned to meet at McGee's bar, a baseball game"
+        },
+        {
+          "question": "Do both James and John have pets?",
+          "gold": "No",
+          "pred": " Yes, they have dogs and cats.\n\n"
+        },
+        {
+          "question": "What are John and James' favorite games?",
+          "gold": "John's favorite game is CS:GO, and James's is Apex Legends.",
+          "pred": " John likes to play Fortnite and a few other games, while James likes"
+        },
+        {
+          "question": "How many pets does James have?",
+          "gold": "Three dogs.",
+          "pred": " James has two pets - Max and Max's dog, Max.\n"
+        },
+        {
+          "question": "What are the names of James's dogs?",
+          "gold": "Ned, Daisy, Max",
+          "pred": " James's dogs are named \"Sue\" and \"Jimmy.\"\n"
+        },
+        {
+          "question": "Which books has John recommended to James?",
+          "gold": "The Name of the Wind, Stormlight Archive, Kingkiller Chronicles, Expanse",
+          "pred": " \"The Name of the Wind\" by John Steinbeck, \"The Stormlight"
+        },
+        {
+          "question": "How many charity tournaments has John organized till date?",
+          "gold": "two",
+          "pred": " John has organized 2 charity tournaments till date.\n\n"
+        },
+        {
+          "question": "Who or which organizations have been the beneficiaries of John's charity tournaments?",
+          "gold": "animal shelter, homeless, children's hospital",
+          "pred": " John's charity tournaments have been the beneficiaries of CS:GO tournaments. He"
+        },
+        {
+          "question": "What kind of games has James tried to develop?",
+          "gold": "football simulator, virtual world inspired by Witcher 3",
+          "pred": " James has tried to develop a game called \"Apex Legends\" and"
+        },
+        {
+          "question": "Which countries has James visited?",
+          "gold": "Italy, Mexico, Turkey, Canada, Greenland",
+          "pred": " Italy, Turkey, Mexico, and the city of Nuuk.\n\n"
+        },
+        {
+          "question": "What kind of classes has James joined?",
+          "gold": "game design course, cooking classes",
+          "pred": " James has joined a baseball game next Sunday.\n\n"
+        },
+        {
+          "question": "Which countries did James visit in July 2022?",
+          "gold": "Canada, Greenland",
+          "pred": " Italy, Turkey, and Mexico.\n\n"
+        },
+        {
+          "question": "What happened to John's job situation in 2022?",
+          "gold": "quit his IT Job, secured his dream job, aspires to become an eSports competition organizer",
+          "pred": " John's job situation changed dramatically in 2022. He was no longer working"
+        },
+        {
+          "question": "What kind of tricks do James's pets know?",
+          "gold": "swimming, catching frisbees, balancing on a skateboard, sit, stay, paw, and rollover",
+          "pred": " James's pets can do tricks like sit, stay, paw, and rollover"
+        },
+        {
+          "question": "What kind of beer does McGee's bar serve?",
+          "gold": "Stout, lager",
+          "pred": " A stout beer.\n"
+        },
+        {
+          "question": "What gaming equipments did John buy or refurbish?",
+          "gold": "Sennheiser headphones, Logitech mouse, gaming desk",
+          "pred": " New headphones, new gaming desk, and new gaming chair.\n\n"
+        },
+        {
+          "question": "Which new games did John start play during the course of the conversation with James?",
+          "gold": "AC Valhalla, Witcher 3, FIFA 23, Dungeons of the Dragons, futuristic dystopian game",
+          "pred": " John started playing a game called \"The Wizard of Oz\" and a game"
+        },
+        {
+          "question": "What kind of programming-related events has John hosted?",
+          "gold": "online programming competition, programming seminar",
+          "pred": " John has hosted programming-related events such as a programming seminar, a programming seminar,"
+        },
+        {
+          "question": "Which of James's family members have visited him in the last year?",
+          "gold": "mother, sister",
+          "pred": " James's sister and his dogs.\n\n"
+        },
+        {
+          "question": "What games has John played with his friends at charity tournaments?",
+          "gold": "CS:GO, Fortnite, Overwatch and Apex Legends",
+          "pred": " CS:GO, League of Legends, and Fortnite.\n\n"
+        }
+      ]
+    },
+    "conv_7": {
+      "MEM0_PROPER": [
+        {
+          "question": "Which of Deborah`s family and friends have passed away?",
+          "gold": "mother, father, her friend Karlie",
+          "pred": " Deborah's mother, her father, and her sister.\n"
+        },
+        {
+          "question": "What symbolic gifts do Deborah and Jolene have from their mothers?",
+          "gold": "pendants",
+          "pred": " Deborah has a pendant that reminds her of her mother, and Jol"
+        },
+        {
+          "question": "What helped Deborah find peace when grieving deaths of her loved ones?",
+          "gold": "yoga, old photos, the roses and dahlias in a flower garden, nature",
+          "pred": " Yoga helped Deborah find peace when grieving deaths of her loved ones."
+        },
+        {
+          "question": "What places give Deborah peace?",
+          "gold": "sitting in a spot by the window in her Mom's house, sitting by the beach, Bali, forest trail in a nearby park",
+          "pred": " The beach, the beach, the beach, the beach, the beach, the"
+        },
+        {
+          "question": "What were Deborah's mother's hobbies?",
+          "gold": "reading, traveling, art, cooking",
+          "pred": " Deborah's mother was a painter. She painted a lot of pictures of"
+        },
+        {
+          "question": "How many times has Jolene been to France?",
+          "gold": "two times",
+          "pred": " 3 times\n\n"
+        },
+        {
+          "question": "Which games have Jolene and her partner played together?",
+          "gold": "Detroit, Walking Dead, Battlefield 1, It Takes Two, Overcooked 2",
+          "pred": " Jolene and her partner have played together in the following games:\n"
+        },
+        {
+          "question": "What new yoga poses did Deborah try?",
+          "gold": "Warrior II, Dancer Pose (Natarajasana), Tree pose",
+          "pred": " Deborah tried the tree pose (Natarajasana) and"
+        },
+        {
+          "question": "What time management techniques do Deborah and Jolene use?",
+          "gold": "the Pomodoro Technique - 25 minutes work and 5-minute break, scheduler or to-do list, The Eisenhower Matrix, bullet journal",
+          "pred": " They use the following time management techniques:\n"
+        },
+        {
+          "question": "What ways do Deborah and Jolene use to enhance their yoga practice?",
+          "gold": "candles, music, essential oils",
+          "pred": " Deborah and Jolene use the following ways to enhance their yoga practice"
+        },
+        {
+          "question": "Did Jolene teach herself how to play the console?",
+          "gold": "yes",
+          "pred": " Yes, Jolene learned to play the console on her own as a child"
+        },
+        {
+          "question": "Where did Jolene and her partner find a cool diving spot?",
+          "gold": "Phuket",
+          "pred": " Jolene and her partner found a cool diving spot in Phuket.\n\n"
+        },
+        {
+          "question": "Has Deborah tried surfing?",
+          "gold": "yes",
+          "pred": " Yes, Deborah has tried surfing. She has been surfing for about "
+        },
+        {
+          "question": "Has Jolene tried surfing?",
+          "gold": "no",
+          "pred": " Yes, Jolene has tried surfing.\n"
+        },
+        {
+          "question": "Which locations does Deborah practice her yoga at?",
+          "gold": "at her mother's old home, park, yoga studio, beach",
+          "pred": " She practices at the following locations:\n"
+        },
+        {
+          "question": "What kind of professional activities does Jolene participate in to gain more experience in her field?",
+          "gold": "present work at virtual conference, attend workshops  and intern at firms",
+          "pred": " Jolene is a student at a well-known engineering firm. She is also"
+        },
+        {
+          "question": "What kind of engineering projects has Jolene worked on?",
+          "gold": "electrical engineering, robotics, sustainable water purifier, productive and affordable aerial surveillance system",
+          "pred": " Jolene has worked on a variety of engineering projects, including a project to"
+        },
+        {
+          "question": "Which community activities have Deborah and Anna participated in?",
+          "gold": "yoga, running",
+          "pred": " Deborah has participated in the following community activities:\n"
+        },
+        {
+          "question": "What gifts has Deborah received?",
+          "gold": "an appreciate letter from her community, a flower bouqet from her friend, a motivational quote from a friend",
+          "pred": " Deborah has a pendant that reminds her of her mother. She has a"
+        },
+        {
+          "question": "Which countries has Deborah traveled to?",
+          "gold": "Thailand, Brazil",
+          "pred": " Deborah has traveled to 5 countries.\n"
+        },
+        {
+          "question": "What activities does Deborah pursue besides practicing and teaching yoga?",
+          "gold": "biking, going to art shows, running, organizing workshops to practice mindfulness and self-care, surfing, gardening",
+          "pred": " She also enjoys reading, cooking, and spending time with her family.\n\n"
+        }
+      ],
+      "MEMMACHINE_PROPER": [
+        {
+          "question": "Which of Deborah`s family and friends have passed away?",
+          "gold": "mother, father, her friend Karlie",
+          "pred": " Deborah's parents, her grandparents, and her aunts and un"
+        },
+        {
+          "question": "What symbolic gifts do Deborah and Jolene have from their mothers?",
+          "gold": "pendants",
+          "pred": " They have a rose and a dahlia. They have a rose because they"
+        },
+        {
+          "question": "What helped Deborah find peace when grieving deaths of her loved ones?",
+          "gold": "yoga, old photos, the roses and dahlias in a flower garden, nature",
+          "pred": " Yoga and nature.\n\n"
+        },
+        {
+          "question": "What places give Deborah peace?",
+          "gold": "sitting in a spot by the window in her Mom's house, sitting by the beach, Bali, forest trail in a nearby park",
+          "pred": " The places where she goes to find peace are her old home, her mom's"
+        },
+        {
+          "question": "What were Deborah's mother's hobbies?",
+          "gold": "reading, traveling, art, cooking",
+          "pred": " Reading, of course. She would sit there every night with a book and a"
+        },
+        {
+          "question": "How many times has Jolene been to France?",
+          "gold": "two times",
+          "pred": " 3 times\n"
+        },
+        {
+          "question": "Which games have Jolene and her partner played together?",
+          "gold": "Detroit, Walking Dead, Battlefield 1, It Takes Two, Overcooked 2",
+          "pred": " \"Detroit\" and \"The Sims 4\"\n\n"
+        },
+        {
+          "question": "What new yoga poses did Deborah try?",
+          "gold": "Warrior II, Dancer Pose (Natarajasana), Tree pose",
+          "pred": " Warrior II, which builds strength and boosts focus.\n\n"
+        },
+        {
+          "question": "What time management techniques do Deborah and Jolene use?",
+          "gold": "the Pomodoro Technique - 25 minutes work and 5-minute break, scheduler or to-do list, The Eisenhower Matrix, bullet journal",
+          "pred": " They use a daily schedule or to-do list. They also create a bullet journal"
+        },
+        {
+          "question": "What ways do Deborah and Jolene use to enhance their yoga practice?",
+          "gold": "candles, music, essential oils",
+          "pred": " Deborah: I use yoga to find balance and reconnect with myself. J"
+        },
+        {
+          "question": "Did Jolene teach herself how to play the console?",
+          "gold": "yes",
+          "pred": " Yes, she did. She taught herself how to play the console.\n\n"
+        },
+        {
+          "question": "Where did Jolene and her partner find a cool diving spot?",
+          "gold": "Phuket",
+          "pred": " They found a cool diving spot in the ocean. They were looking for a place"
+        },
+        {
+          "question": "Has Deborah tried surfing?",
+          "gold": "yes",
+          "pred": " Yes, she has. She's been surfing for a while now and she's"
+        },
+        {
+          "question": "Has Jolene tried surfing?",
+          "gold": "no",
+          "pred": " Yes, she has. She's been surfing for 3 years now.\n\n"
+        },
+        {
+          "question": "Which locations does Deborah practice her yoga at?",
+          "gold": "at her mother's old home, park, yoga studio, beach",
+          "pred": " Yoga is practiced at yoga studios, yoga classes, and yoga retreats.\n\n"
+        },
+        {
+          "question": "What kind of professional activities does Jolene participate in to gain more experience in her field?",
+          "gold": "present work at virtual conference, attend workshops  and intern at firms",
+          "pred": " Jolene is a member of the engineering team at a well-known engineering firm"
+        },
+        {
+          "question": "What kind of engineering projects has Jolene worked on?",
+          "gold": "electrical engineering, robotics, sustainable water purifier, productive and affordable aerial surveillance system",
+          "pred": " Jolene has worked on a variety of engineering projects, including building a bridge"
+        },
+        {
+          "question": "Which community activities have Deborah and Anna participated in?",
+          "gold": "yoga, running",
+          "pred": " They have participated in a variety of community activities, including running, yoga, and"
+        },
+        {
+          "question": "What gifts has Deborah received?",
+          "gold": "an appreciate letter from her community, a flower bouqet from her friend, a motivational quote from a friend",
+          "pred": " She has received a lot of gifts, including a new camera, a new laptop"
+        },
+        {
+          "question": "Which countries has Deborah traveled to?",
+          "gold": "Thailand, Brazil",
+          "pred": " Deborah has traveled to 10 countries. She has traveled to the United"
+        },
+        {
+          "question": "What activities does Deborah pursue besides practicing and teaching yoga?",
+          "gold": "biking, going to art shows, running, organizing workshops to practice mindfulness and self-care, surfing, gardening",
+          "pred": " Deborah enjoys spending time with her family, traveling, and spending time with"
+        }
+      ]
+    },
+    "conv_8": {
+      "MEM0_PROPER": [
+        {
+          "question": "What kind of car does Evan drive?",
+          "gold": "Prius",
+          "pred": " Evan drives a Prius.\n"
+        },
+        {
+          "question": "What kinds of things did Evan have broken?",
+          "gold": "His old Prius and his new Prius.",
+          "pred": " Evan had a broken leg, a broken arm, a broken neck, a"
+        },
+        {
+          "question": "Where has Evan been on roadtrips with his family?",
+          "gold": "Rockies, Jasper",
+          "pred": " Jasper, Canada\n"
+        },
+        {
+          "question": "How many Prius has Evan owned?",
+          "gold": "two",
+          "pred": " Evan has owned 2 Prius's.\n"
+        },
+        {
+          "question": "How many roadtrips did Evan take in May 2023?",
+          "gold": "two",
+          "pred": " 2\n\n"
+        },
+        {
+          "question": "What new hobbies did Sam consider trying?",
+          "gold": "Painting, kayaking, hiking, cooking, running",
+          "pred": " Painting\n"
+        },
+        {
+          "question": "What hobby did Evan start practicing a few years ago that he enjoys?",
+          "gold": "Watercolor painting",
+          "pred": " Painting\n\n"
+        },
+        {
+          "question": "What health issue did Sam face that motivated him to change his lifestyle?",
+          "gold": "Weight problem",
+          "pred": " Sam was experiencing health issues that were affecting his overall well-being. He was feeling"
+        },
+        {
+          "question": "What is Evan's favorite food?",
+          "gold": "Ginger snaps",
+          "pred": " Evan's favorite food is pizza.\n"
+        },
+        {
+          "question": "What kind of unhealthy snacks does Sam enjoy eating?",
+          "gold": "soda, candy",
+          "pred": " Sam enjoys eating chips, candy, and other unhealthy snacks.\n"
+        },
+        {
+          "question": "What recurring issue frustrates Sam at the grocery store?",
+          "gold": "Malfunctioning self-checkout machines.",
+          "pred": " Sam is having trouble finding the right foods to eat.\n"
+        },
+        {
+          "question": "What kind of healthy food suggestions has Evan given to Sam?",
+          "gold": "flavored seltzer water, dark chocolate with high cocoa content, air-popped popcorn and fruit, veggies, healthy sandwich snacks, energy balls, grilled chicken salad with avocado",
+          "pred": " Evan has given Sam some healthy food suggestions. Evan has been trying to"
+        },
+        {
+          "question": "How does Evan describe the woman and his feelings for her that he met in Canada?",
+          "gold": "He says she's cool, incredible, like something out of a movie, and that he feels alive around her. Every moment with her is fun and energetic, also Evan feels really lucky to have someone who gets him.",
+          "pred": " Evan describes the woman as \"awesome\" and \"awesome\" and"
+        },
+        {
+          "question": "What motivates Evan to take care of his health?",
+          "gold": "family, fitness tracker, thirst for adventure on interesting hikes",
+          "pred": " Evan is motivated by a thirst for adventure on interesting hikes.\n\n"
+        },
+        {
+          "question": "What kind of writing does Sam do to relax and cope with his health issues?",
+          "gold": "journalling, creative writing",
+          "pred": " Sam is a writer who enjoys writing about his health issues. He enjoys writing about"
+        },
+        {
+          "question": "Who did Evan meet on his trip to Canada, and who did he come back from Canada with?",
+          "gold": "Evan met the woman he fell in love with and returned with her.",
+          "pred": " Evan met an awesome Canadian woman during his trip to Canada. He met her"
+        },
+        {
+          "question": "What recurring frustration does Evan experience?",
+          "gold": "Evan consistently misplaces his keys every week.",
+          "pred": " Evan is frustrated by the lack of progress in his studies.\n"
+        },
+        {
+          "question": "What is the recurring dream that Sam keeps having?",
+          "gold": "he's flying over a cityscape.",
+          "pred": " Sam keeps having a dream where they are flying over skyscrapers.\n"
+        },
+        {
+          "question": "What accidents has Evan's son faced lately?",
+          "gold": "injured at a soccer game, fell off his bike",
+          "pred": " Evan's son has been in a minor accident. He was in a minor"
+        },
+        {
+          "question": "What kind of foods or recipes has Sam recommended to Evan?",
+          "gold": "grilled vegetables, grilled chicken and veggie stir-fry, poutine",
+          "pred": " Sam has recommended a tasty and easy roasted veg recipe.\n"
+        },
+        {
+          "question": "What kind of healthy meals did Sam start eating after getting a health scare?",
+          "gold": "salad, grilled salmon and vegetables, grilled chicken and veggie stir-fry, Beef Merlot, fruit bowl, smoothie bowl",
+          "pred": " Sam started eating healthy meals after getting a health scare. He started eating healthy meals"
+        },
+        {
+          "question": "How did Evan get into painting?",
+          "gold": "His friend got him into it by gifting him a painting and giving him some advice. The painting inspired Evan.",
+          "pred": " Evan was born in 1997. He was born with a rare genetic"
+        },
+        {
+          "question": "What kind of subjects does Evan enjoy painting?",
+          "gold": "nature landscapes, portraits, abstract minimalism",
+          "pred": " Evan enjoys painting landscapes, people, and animals.\n"
+        },
+        {
+          "question": "What new diet and lifestyle change did Sam adopt over time?",
+          "gold": "Healthy eating, exercise routine, running, hiking",
+          "pred": " Sam started a new diet and exercise routine last Monday.\n"
+        },
+        {
+          "question": "Who was injured in Evan's family?",
+          "gold": "Evan's son and Evan himself",
+          "pred": " Evan's family was injured in a minor accident.\n\n"
+        },
+        {
+          "question": "What kind of hobbies does Evan pursue?",
+          "gold": "painting, hiking, reading books, biking, skiing, snowboarding, ice skating, swimming, camping, kayaking",
+          "pred": " Evan is a painter, a hiker, a camper, a camper,"
+        },
+        {
+          "question": "What personal health incidents does Evan face in 2023?",
+          "gold": "heart palpitations, twisted ankle, twisted ankle",
+          "pred": " Evan has a knee injury, a minor accident, and a sudden heart palp"
+        },
+        {
+          "question": "What recurring adventure does Evan have with strangers?",
+          "gold": "Helping lost tourists and experiencing unexpected adventures in the city.",
+          "pred": " Evan has a recurring adventure with strangers. He goes on a hike with his"
+        },
+        {
+          "question": "What is Sam's persistent problem with his phone?",
+          "gold": "His new phone malfunctioning, particularly with the navigation app.",
+          "pred": " Sam is having trouble with his phone. He has been experiencing health issues, things"
+        },
+        {
+          "question": "What health scares did Sam and Evan experience?",
+          "gold": "Sam faced a health scare with stomach pains that turned out to be gastritis, prompting him to rethink his health habits. Evan, on the other hand, experienced two separate incidents: a sudden heart palpitation incident and a different event involving a misunderstanding during a medical check-up. These experiences have significantly influenced their perspectives on health and well-being.",
+          "pred": " Sam and Evan had a check-up with their doctor a few days ago."
+        },
+        {
+          "question": "Which ailment does Sam have to face due to his weight?",
+          "gold": "gastritis",
+          "pred": " Sam has to face a lot of health issues due to his weight. He has"
+        },
+        {
+          "question": "Which two significant life events occur in Evan's life in December 2023 with his partner?",
+          "gold": "his partner gets pregnant and they get married",
+          "pred": " Evan's partner got married and Evan went on vacation to Canada with his"
+        },
+        {
+          "question": "Which activity did Sam resume in December 2023 after a long time?",
+          "gold": "hiking",
+          "pred": " Sam resumed hiking in December 2023 after a long time.\n"
+        },
+        {
+          "question": "How does Evan spend his time with his bride after the wedding?",
+          "gold": "family get-together, honeymoon in Canada to see snowy landscapes, ski, taste local cuisine and do some snowshoeing",
+          "pred": " Evan spends his time with his bride by going to Canada with his new significant"
+        },
+        {
+          "question": "Who did Evan tell about his marriage?",
+          "gold": "To Sam, to his friends from work, and to his and his wife's families.",
+          "pred": " Evan told his partner about his marriage.\n"
+        },
+        {
+          "question": "What is a stress reliever for Evan?",
+          "gold": "Drawing, traveling, places with a beautiful view, yoga, sunsets or something comfortable for Evan",
+          "pred": " Yoga is a stress reliever for Evan. It helps him stay flexible and"
+        },
+        {
+          "question": "What is a stress reliever for Sam?",
+          "gold": "Unhealthy snacks, sweets, yoga, places with beautiful views",
+          "pred": " Yoga is a stress reliever for Sam. Yoga is a great way to relax"
+        }
+      ],
+      "MEMMACHINE_PROPER": [
+        {
+          "question": "What kind of car does Evan drive?",
+          "gold": "Prius",
+          "pred": " A Prius\n\n"
+        },
+        {
+          "question": "What kinds of things did Evan have broken?",
+          "gold": "His old Prius and his new Prius.",
+          "pred": " Evan had a soccer accident, he fell off his bike, and it was"
+        },
+        {
+          "question": "Where has Evan been on roadtrips with his family?",
+          "gold": "Rockies, Jasper",
+          "pred": " Evan has been on roadtrips with his family in the mountains of Colorado"
+        },
+        {
+          "question": "How many Prius has Evan owned?",
+          "gold": "two",
+          "pred": " Evan has owned two Prius cars.\n\n"
+        },
+        {
+          "question": "How many roadtrips did Evan take in May 2023?",
+          "gold": "two",
+          "pred": " 2\n\n"
+        },
+        {
+          "question": "What new hobbies did Sam consider trying?",
+          "gold": "Painting, kayaking, hiking, cooking, running",
+          "pred": " Hiking, fishing, and gardening.\n\n"
+        },
+        {
+          "question": "What hobby did Evan start practicing a few years ago that he enjoys?",
+          "gold": "Watercolor painting",
+          "pred": " Skiing, snowboarding, and ice skating.\n\n"
+        },
+        {
+          "question": "What health issue did Sam face that motivated him to change his lifestyle?",
+          "gold": "Weight problem",
+          "pred": " Sam was struggling with weight loss and was feeling overwhelmed by the challenges of maintaining a"
+        },
+        {
+          "question": "What is Evan's favorite food?",
+          "gold": "Ginger snaps",
+          "pred": " Evan's favorite food is a healthy snack that he loves to eat. He"
+        },
+        {
+          "question": "What kind of unhealthy snacks does Sam enjoy eating?",
+          "gold": "soda, candy",
+          "pred": " Sam loves chips, cookies, and ice cream. He also loves candy and chocolate"
+        },
+        {
+          "question": "What recurring issue frustrates Sam at the grocery store?",
+          "gold": "Malfunctioning self-checkout machines.",
+          "pred": " The self-checkout machines were all broken, my mood is terrible now!\n\n"
+        },
+        {
+          "question": "What kind of healthy food suggestions has Evan given to Sam?",
+          "gold": "flavored seltzer water, dark chocolate with high cocoa content, air-popped popcorn and fruit, veggies, healthy sandwich snacks, energy balls, grilled chicken salad with avocado",
+          "pred": " Evan has given Sam some healthy food suggestions, like eating more fruits and vegetables"
+        },
+        {
+          "question": "How does Evan describe the woman and his feelings for her that he met in Canada?",
+          "gold": "He says she's cool, incredible, like something out of a movie, and that he feels alive around her. Every moment with her is fun and energetic, also Evan feels really lucky to have someone who gets him.",
+          "pred": " Evan describes the woman as incredible and being with her makes him feel alive.\n\n"
+        },
+        {
+          "question": "What motivates Evan to take care of his health?",
+          "gold": "family, fitness tracker, thirst for adventure on interesting hikes",
+          "pred": " His family motivates him to stay healthy.\n\n"
+        },
+        {
+          "question": "What kind of writing does Sam do to relax and cope with his health issues?",
+          "gold": "journalling, creative writing",
+          "pred": " Sam writes about his health issues, including his heart palpitation incident, in a"
+        },
+        {
+          "question": "Who did Evan meet on his trip to Canada, and who did he come back from Canada with?",
+          "gold": "Evan met the woman he fell in love with and returned with her.",
+          "pred": " Evan met a Canadian woman named Katie. She was amazing and being with"
+        },
+        {
+          "question": "What recurring frustration does Evan experience?",
+          "gold": "Evan consistently misplaces his keys every week.",
+          "pred": " Evan is frustrated by the lack of motivation and energy in his life, as"
+        },
+        {
+          "question": "What is the recurring dream that Sam keeps having?",
+          "gold": "he's flying over a cityscape.",
+          "pred": " Flying over skyscrapers\n\n"
+        },
+        {
+          "question": "What accidents has Evan's son faced lately?",
+          "gold": "injured at a soccer game, fell off his bike",
+          "pred": " Evan's son had an accident last Tuesday, he fell off his bike and"
+        },
+        {
+          "question": "What kind of foods or recipes has Sam recommended to Evan?",
+          "gold": "grilled vegetables, grilled chicken and veggie stir-fry, poutine",
+          "pred": " Sam has recommended some healthy recipes and foods that Evan can try. He has"
+        },
+        {
+          "question": "What kind of healthy meals did Sam start eating after getting a health scare?",
+          "gold": "salad, grilled salmon and vegetables, grilled chicken and veggie stir-fry, Beef Merlot, fruit bowl, smoothie bowl",
+          "pred": " Sam started eating more fruits and vegetables, less processed foods, and less meat."
+        },
+        {
+          "question": "How did Evan get into painting?",
+          "gold": "His friend got him into it by gifting him a painting and giving him some advice. The painting inspired Evan.",
+          "pred": " He started with a simple sketch and then went on to paint a watercolor painting."
+        },
+        {
+          "question": "What kind of subjects does Evan enjoy painting?",
+          "gold": "nature landscapes, portraits, abstract minimalism",
+          "pred": " Evan enjoys painting landscapes, nature, and abstract art. He finds inspiration in"
+        },
+        {
+          "question": "What new diet and lifestyle change did Sam adopt over time?",
+          "gold": "Healthy eating, exercise routine, running, hiking",
+          "pred": " Sam started eating healthier and exercising more. He also started yoga and meditation.\n\n"
+        },
+        {
+          "question": "Who was injured in Evan's family?",
+          "gold": "Evan's son and Evan himself",
+          "pred": " Sam's son\n\n"
+        },
+        {
+          "question": "What kind of hobbies does Evan pursue?",
+          "gold": "painting, hiking, reading books, biking, skiing, snowboarding, ice skating, swimming, camping, kayaking",
+          "pred": " Evan enjoys skiing, snowboarding, and ice skating.\n\n"
+        },
+        {
+          "question": "What personal health incidents does Evan face in 2023?",
+          "gold": "heart palpitations, twisted ankle, twisted ankle",
+          "pred": " Evan faces a health scare last week, which shook him up, and"
+        },
+        {
+          "question": "What recurring adventure does Evan have with strangers?",
+          "gold": "Helping lost tourists and experiencing unexpected adventures in the city.",
+          "pred": " Evan has a recurring adventure with strangers where he goes on a hike and meets"
+        },
+        {
+          "question": "What is Sam's persistent problem with his phone?",
+          "gold": "His new phone malfunctioning, particularly with the navigation app.",
+          "pred": " Sam's phone is not working properly, and he's having trouble connecting to the"
+        },
+        {
+          "question": "What health scares did Sam and Evan experience?",
+          "gold": "Sam faced a health scare with stomach pains that turned out to be gastritis, prompting him to rethink his health habits. Evan, on the other hand, experienced two separate incidents: a sudden heart palpitation incident and a different event involving a misunderstanding during a medical check-up. These experiences have significantly influenced their perspectives on health and well-being.",
+          "pred": " Sam had a health scare last week, and Evan had a health scare last"
+        },
+        {
+          "question": "Which ailment does Sam have to face due to his weight?",
+          "gold": "gastritis",
+          "pred": " Sam has to face a condition called \"ankle sprain\" due to his"
+        },
+        {
+          "question": "Which two significant life events occur in Evan's life in December 2023 with his partner?",
+          "gold": "his partner gets pregnant and they get married",
+          "pred": " The first significant life event is the health scare that occurred last week. The second"
+        },
+        {
+          "question": "Which activity did Sam resume in December 2023 after a long time?",
+          "gold": "hiking",
+          "pred": " Skiing\n\n"
+        },
+        {
+          "question": "How does Evan spend his time with his bride after the wedding?",
+          "gold": "family get-together, honeymoon in Canada to see snowy landscapes, ski, taste local cuisine and do some snowshoeing",
+          "pred": " Evan spends his time with his bride by attending her wedding, going to her"
+        },
+        {
+          "question": "Who did Evan tell about his marriage?",
+          "gold": "To Sam, to his friends from work, and to his and his wife's families.",
+          "pred": " His extended family\n\n"
+        },
+        {
+          "question": "What is a stress reliever for Evan?",
+          "gold": "Drawing, traveling, places with a beautiful view, yoga, sunsets or something comfortable for Evan",
+          "pred": " Painting.\n\n"
+        },
+        {
+          "question": "What is a stress reliever for Sam?",
+          "gold": "Unhealthy snacks, sweets, yoga, places with beautiful views",
+          "pred": " Taking things one step at a time.\n\n"
+        }
+      ]
+    },
+    "conv_9": {
+      "MEM0_PROPER": [
+        {
+          "question": "What items did Calvin buy in March 2023?",
+          "gold": "mansion in Japan, luxury car Ferrari 488 GTB",
+          "pred": " Calvin bought a new Ferrari in March 2023.\n"
+        },
+        {
+          "question": "Which bands has Dave enjoyed listening to?",
+          "gold": "Aerosmith, The Fireworks",
+          "pred": " Dave has been listening to the following bands:\n"
+        },
+        {
+          "question": "What are Dave's dreams?",
+          "gold": "open a car maintenance shop, work on classic cars, build a custom car from scratch",
+          "pred": " Dave's dreams are to be a professional photographer.\n"
+        },
+        {
+          "question": "Which types of cars does Dave like the most?",
+          "gold": "classic vintage cars",
+          "pred": " Dave likes the most vintage cars.\n"
+        },
+        {
+          "question": "What mishaps has Calvin run into?",
+          "gold": "flooding of his mansion, car accident",
+          "pred": " Calvin has run into a lot of mishaps. He has run into a lot"
+        },
+        {
+          "question": "Why does Dave regularly visit parks?",
+          "gold": "because it relaxes and calms him",
+          "pred": " Dave is a very good traveler. He has been to many places, and he"
+        },
+        {
+          "question": "How many times has Calvin had to deal with insurance paperwork?",
+          "gold": "two times",
+          "pred": " 3 times\n"
+        },
+        {
+          "question": "Which places or events has Calvin visited in Tokyo?",
+          "gold": "music festival, car museum, Shibuya crossing, Shinjuku",
+          "pred": " Calvin has visited the Tokyo Metropolitan Museum, the Tokyo Science Center, the Tokyo"
+        },
+        {
+          "question": "Who inspired Dave's passion for car engineering?",
+          "gold": "His Dad",
+          "pred": " Dave's father, Dave, was a mechanic and a car enthusiast. He was"
+        },
+        {
+          "question": "Does Calvin want to expand his brand?",
+          "gold": "yes",
+          "pred": " Yes, Calvin wants to expand his brand. He wants to be able to offer"
+        },
+        {
+          "question": "What is Dave's main passion?",
+          "gold": "auto engineering",
+          "pred": " Photography\n\n"
+        },
+        {
+          "question": "Can Dave work with engines?",
+          "gold": "yes",
+          "pred": " Yes, Dave can work with engines. He has worked on engines before, and"
+        },
+        {
+          "question": "What does Calvin do to relax?",
+          "gold": "take long drives in his car, embrace nature, fixing cars",
+          "pred": " Calvin just had a big life change. He just moved to a new school and"
+        },
+        {
+          "question": "What are Dave's hobbies other than fixing cars?",
+          "gold": "take a walk, go hiking, listen to favorite albums, live concerts, photography",
+          "pred": " Dave enjoys reading, playing video games, and spending time with his family.\n\n"
+        },
+        {
+          "question": "What kind of music does Dave listen to?",
+          "gold": "classic rock, Japanese music",
+          "pred": " Dave listens to a lot of different kinds of music. He listens to"
+        },
+        {
+          "question": "Where did Dave return from with new knowledge of different techniques of car restoration?",
+          "gold": "San Francisco",
+          "pred": " Dave returned from San Francisco with new knowledge of different techniques of car restoration.\n"
+        },
+        {
+          "question": "What was Dave doing in San Francisco?",
+          "gold": "attending a car modification workshop",
+          "pred": " Dave was at the car show.\n"
+        },
+        {
+          "question": "What was the artists Calvin used to listen to when he was a kid?",
+          "gold": "Tupac and Dr. Dre",
+          "pred": " Calvin used to listen to a lot of different artists when he was a kid."
+        },
+        {
+          "question": "Which of their family member do Calvin and Dave have nostalgic memories about?",
+          "gold": "Dad",
+          "pred": " Calvin and Dave have nostalgic memories about their family members. Calvin's family"
+        },
+        {
+          "question": "What shared activities do Dave and Calvin have?",
+          "gold": "Working on cars",
+          "pred": " They both play the piano.\n"
+        },
+        {
+          "question": "What is Dave's favorite activity?",
+          "gold": "Restoring cars",
+          "pred": " Dave's favorite activity is playing with his friends.\n"
+        },
+        {
+          "question": "How many car shows has Dave attended?",
+          "gold": "two",
+          "pred": " Dave has attended 3 car shows.\n"
+        },
+        {
+          "question": "When Dave was a child, what did he and his father do in the garage?",
+          "gold": "tinkering with car engines, restoration and refurbishing cars",
+          "pred": " Dave and his father worked on cars with his dad. Dave worked on cars with"
+        },
+        {
+          "question": "Who supports Calvin in tough times?",
+          "gold": "friends and team",
+          "pred": " Calvin's family, friends, and church.\n"
+        },
+        {
+          "question": "What does help Calvin stay connected to the creative process?",
+          "gold": "Calvin stays connected to the creative process by always staying up-to-date on world events and watching documentaries about artists.",
+          "pred": " Calvin's drawing helps him stay connected to the creative process. He can draw anything"
+        },
+        {
+          "question": "Which cities did Dave travel to in 2023?",
+          "gold": "San Francsico, Detroit",
+          "pred": " Dave traveled to San Francisco, San Jose, and San Diego.\n"
+        },
+        {
+          "question": "Which events in Dave's life inspired him to take up auto engineering?",
+          "gold": "attending a car show with Dad, working on an old car in a neighbor's garage when he was young, spent a summer restoring an old car with Dad",
+          "pred": " Dave's father was a mechanic and he was always interested in cars. He was"
+        },
+        {
+          "question": "How many Ferraris does Calvin own?",
+          "gold": "two",
+          "pred": " Calvin owns 2 Ferraris.\n"
+        },
+        {
+          "question": "What gifts has Calvin received from his artist friends?",
+          "gold": "gold chain, custom-made guitar with an octopus on it",
+          "pred": " Calvin received an item from another artist as a gift.\n"
+        },
+        {
+          "question": "What style of guitars does Calvin own?",
+          "gold": "custom-made yellow guitar with an octopus on it, shiny purple guitar",
+          "pred": " Calvin owns a lot of different guitars. He owns a lot of different"
+        },
+        {
+          "question": "What activities has Dave participated in with his friends?",
+          "gold": "weekly visits to local parks, countryside roadtrip, celebration of the opening of his car maintenance shop, card-playing nights",
+          "pred": " Dave has been spending lots of time at a beautiful park lately. Dave just got"
+        },
+        {
+          "question": "Do all of Dave's car restoration projects go smoothly?",
+          "gold": "No",
+          "pred": " Yes. Dave's car restoration projects are always a success. Dave's car restoration"
+        }
+      ],
+      "MEMMACHINE_PROPER": [
+        {
+          "question": "What items did Calvin buy in March 2023?",
+          "gold": "mansion in Japan, luxury car Ferrari 488 GTB",
+          "pred": " Calvin bought a new Ferrari in March 2023.\n\n"
+        },
+        {
+          "question": "Which bands has Dave enjoyed listening to?",
+          "gold": "Aerosmith, The Fireworks",
+          "pred": " Aerosmith, The Fireworks, and The Moody Blues.\n"
+        },
+        {
+          "question": "What are Dave's dreams?",
+          "gold": "open a car maintenance shop, work on classic cars, build a custom car from scratch",
+          "pred": " Dave's dreams are to be a rock star.\n"
+        },
+        {
+          "question": "Which types of cars does Dave like the most?",
+          "gold": "classic vintage cars",
+          "pred": " Dave likes classic cars the most.\n\n"
+        },
+        {
+          "question": "What mishaps has Calvin run into?",
+          "gold": "flooding of his mansion, car accident",
+          "pred": " Calvin has run into a few mishaps, but the most significant one was when"
+        },
+        {
+          "question": "Why does Dave regularly visit parks?",
+          "gold": "because it relaxes and calms him",
+          "pred": " Dave loves parks and is always looking for new places to visit. He's been"
+        },
+        {
+          "question": "How many times has Calvin had to deal with insurance paperwork?",
+          "gold": "two times",
+          "pred": " 3 times\n\n"
+        },
+        {
+          "question": "Which places or events has Calvin visited in Tokyo?",
+          "gold": "music festival, car museum, Shibuya crossing, Shinjuku",
+          "pred": " Calvin has visited the music festival in Tokyo, the Tokyo Motor Show, and the"
+        },
+        {
+          "question": "Who inspired Dave's passion for car engineering?",
+          "gold": "His Dad",
+          "pred": " People who are passionate and dedicated to restoring classic cars.\n\n"
+        },
+        {
+          "question": "Does Calvin want to expand his brand?",
+          "gold": "yes",
+          "pred": " Yes<|bos|>The 2020-2021 school year is a time of change"
+        },
+        {
+          "question": "What is Dave's main passion?",
+          "gold": "auto engineering",
+          "pred": " Classic rock music.\n\n"
+        },
+        {
+          "question": "Can Dave work with engines?",
+          "gold": "yes",
+          "pred": " Yes, Dave can work with engines. He has worked on engines before and has"
+        },
+        {
+          "question": "What does Calvin do to relax?",
+          "gold": "take long drives in his car, embrace nature, fixing cars",
+          "pred": " Calvin likes to drive a car that has a lot of open space. It's"
+        },
+        {
+          "question": "What are Dave's hobbies other than fixing cars?",
+          "gold": "take a walk, go hiking, listen to favorite albums, live concerts, photography",
+          "pred": " Dave's hobbies include spending time with his friends and family, and spending time in"
+        },
+        {
+          "question": "What kind of music does Dave listen to?",
+          "gold": "classic rock, Japanese music",
+          "pred": " Dave listens to classic rock, jazz, and classical music.\n\n"
+        },
+        {
+          "question": "Where did Dave return from with new knowledge of different techniques of car restoration?",
+          "gold": "San Francisco",
+          "pred": " San Francisco\n\n"
+        },
+        {
+          "question": "What was Dave doing in San Francisco?",
+          "gold": "attending a car modification workshop",
+          "pred": " Going to a car workshop.\n\n"
+        },
+        {
+          "question": "What was the artists Calvin used to listen to when he was a kid?",
+          "gold": "Tupac and Dr. Dre",
+          "pred": " Tupac and Dr. Dre\n\n"
+        },
+        {
+          "question": "Which of their family member do Calvin and Dave have nostalgic memories about?",
+          "gold": "Dad",
+          "pred": " Calvin's family member, Dave.\n"
+        },
+        {
+          "question": "What shared activities do Dave and Calvin have?",
+          "gold": "Working on cars",
+          "pred": " They have a card-night with their friends. They laughed and had"
+        },
+        {
+          "question": "What is Dave's favorite activity?",
+          "gold": "Restoring cars",
+          "pred": " Dave's favorite activity is going to the park with friends.\n\n"
+        },
+        {
+          "question": "How many car shows has Dave attended?",
+          "gold": "two",
+          "pred": " Dave has attended at least one car show.<|bos|>The 2020-20"
+        },
+        {
+          "question": "When Dave was a child, what did he and his father do in the garage?",
+          "gold": "tinkering with car engines, restoration and refurbishing cars",
+          "pred": " They worked on cars and trucks. They would take them to the car show and"
+        },
+        {
+          "question": "Who supports Calvin in tough times?",
+          "gold": "friends and team",
+          "pred": " Calvin's friends and team.\n\n"
+        },
+        {
+          "question": "What does help Calvin stay connected to the creative process?",
+          "gold": "Calvin stays connected to the creative process by always staying up-to-date on world events and watching documentaries about artists.",
+          "pred": " Staying connected and up-to-date on world events is important to Calvin.<|bos|>"
+        },
+        {
+          "question": "Which cities did Dave travel to in 2023?",
+          "gold": "San Francsico, Detroit",
+          "pred": " Dave traveled to San Francisco, California, and San Jose, California, in "
+        },
+        {
+          "question": "Which events in Dave's life inspired him to take up auto engineering?",
+          "gold": "attending a car show with Dad, working on an old car in a neighbor's garage when he was young, spent a summer restoring an old car with Dad",
+          "pred": " Going to a car show and seeing beautiful countryside.\n\n"
+        },
+        {
+          "question": "How many Ferraris does Calvin own?",
+          "gold": "two",
+          "pred": " Calvin owns a Ferrari.<|bos|>The 2020-2021 school year is"
+        },
+        {
+          "question": "What gifts has Calvin received from his artist friends?",
+          "gold": "gold chain, custom-made guitar with an octopus on it",
+          "pred": " Calvin has received gifts from his artist friends, including a photo of how he performed"
+        },
+        {
+          "question": "What style of guitars does Calvin own?",
+          "gold": "custom-made yellow guitar with an octopus on it, shiny purple guitar",
+          "pred": " Calvin owns a variety of guitars, including a guitar with a unique design"
+        },
+        {
+          "question": "What activities has Dave participated in with his friends?",
+          "gold": "weekly visits to local parks, countryside roadtrip, celebration of the opening of his car maintenance shop, card-playing nights",
+          "pred": " Dave has participated in a road trip with his friends, which was a break from"
+        },
+        {
+          "question": "Do all of Dave's car restoration projects go smoothly?",
+          "gold": "No",
+          "pred": " No, Dave's car restoration projects are not always smooth. Some of them can"
+        }
+      ]
+    }
+  },
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "out": "/home/ubuntu/user-as-engram/results/engram_d20_w1536_optimal__locomo_proper.json",
+    "n_conv": 10,
+    "max_qa_per_conv": 80,
+    "max_seq_len": 1024,
+    "categories": "1",
+    "extractor_model": "Qwen/Qwen2.5-14B-Instruct",
+    "mem0_topk": 5,
+    "memmach_walk_k": 3
+  }
+}

@@ -1,0 +1,436 @@
+{
+  "judge_model": "Qwen/Qwen2.5-14B-Instruct",
+  "summary": {
+    "NO_MEMORY": 0.0037500000000000007,
+    "MARKDOWN_ALL": 0.0850169941635916,
+    "RAG_TOP1": 0.1744897805464531,
+    "RAG_TOP3": 0.3199685941544095,
+    "MEM0_LIKE": 0.34721025273886513,
+    "MEMMACHINE_LIKE": 0.31774730130673573,
+    "USER_AS_ENGRAM_OPT": 0.02895103184486746,
+    "USER_AS_ENGRAM_JOINT_OPT": 0.038769727289943816
+  },
+  "per_conv": {
+    "conv_0": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 70,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.04285714285714286,
+        "n": 70,
+        "correct": 3
+      },
+      "RAG_TOP1": {
+        "acc": 0.12857142857142856,
+        "n": 70,
+        "correct": 9
+      },
+      "RAG_TOP3": {
+        "acc": 0.2571428571428571,
+        "n": 70,
+        "correct": 18
+      },
+      "MEM0_LIKE": {
+        "acc": 0.2857142857142857,
+        "n": 70,
+        "correct": 20
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.2857142857142857,
+        "n": 70,
+        "correct": 20
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.04285714285714286,
+        "n": 70,
+        "correct": 3
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.08571428571428572,
+        "n": 70,
+        "correct": 6
+      }
+    },
+    "conv_1": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 44,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.20454545454545456,
+        "n": 44,
+        "correct": 9
+      },
+      "RAG_TOP1": {
+        "acc": 0.11363636363636363,
+        "n": 44,
+        "correct": 5
+      },
+      "RAG_TOP3": {
+        "acc": 0.25,
+        "n": 44,
+        "correct": 11
+      },
+      "MEM0_LIKE": {
+        "acc": 0.36363636363636365,
+        "n": 44,
+        "correct": 16
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.25,
+        "n": 44,
+        "correct": 11
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.045454545454545456,
+        "n": 44,
+        "correct": 2
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0,
+        "n": 44,
+        "correct": 0
+      }
+    },
+    "conv_2": {
+      "NO_MEMORY": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0625,
+        "n": 80,
+        "correct": 5
+      },
+      "RAG_TOP1": {
+        "acc": 0.2875,
+        "n": 80,
+        "correct": 23
+      },
+      "RAG_TOP3": {
+        "acc": 0.4625,
+        "n": 80,
+        "correct": 37
+      },
+      "MEM0_LIKE": {
+        "acc": 0.4625,
+        "n": 80,
+        "correct": 37
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.45,
+        "n": 80,
+        "correct": 36
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0625,
+        "n": 80,
+        "correct": 5
+      }
+    },
+    "conv_3": {
+      "NO_MEMORY": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0625,
+        "n": 80,
+        "correct": 5
+      },
+      "RAG_TOP1": {
+        "acc": 0.15,
+        "n": 80,
+        "correct": 12
+      },
+      "RAG_TOP3": {
+        "acc": 0.25,
+        "n": 80,
+        "correct": 20
+      },
+      "MEM0_LIKE": {
+        "acc": 0.275,
+        "n": 80,
+        "correct": 22
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.225,
+        "n": 80,
+        "correct": 18
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      }
+    },
+    "conv_4": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.075,
+        "n": 80,
+        "correct": 6
+      },
+      "RAG_TOP1": {
+        "acc": 0.2375,
+        "n": 80,
+        "correct": 19
+      },
+      "RAG_TOP3": {
+        "acc": 0.375,
+        "n": 80,
+        "correct": 30
+      },
+      "MEM0_LIKE": {
+        "acc": 0.4375,
+        "n": 80,
+        "correct": 35
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.3875,
+        "n": 80,
+        "correct": 31
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      }
+    },
+    "conv_5": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 62,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0967741935483871,
+        "n": 62,
+        "correct": 6
+      },
+      "RAG_TOP1": {
+        "acc": 0.22580645161290322,
+        "n": 62,
+        "correct": 14
+      },
+      "RAG_TOP3": {
+        "acc": 0.3709677419354839,
+        "n": 62,
+        "correct": 23
+      },
+      "MEM0_LIKE": {
+        "acc": 0.3225806451612903,
+        "n": 62,
+        "correct": 20
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.3225806451612903,
+        "n": 62,
+        "correct": 20
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0,
+        "n": 62,
+        "correct": 0
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.04838709677419355,
+        "n": 62,
+        "correct": 3
+      }
+    },
+    "conv_6": {
+      "NO_MEMORY": {
+        "acc": 0.0125,
+        "n": 80,
+        "correct": 1
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.1,
+        "n": 80,
+        "correct": 8
+      },
+      "RAG_TOP1": {
+        "acc": 0.1875,
+        "n": 80,
+        "correct": 15
+      },
+      "RAG_TOP3": {
+        "acc": 0.4125,
+        "n": 80,
+        "correct": 33
+      },
+      "MEM0_LIKE": {
+        "acc": 0.4,
+        "n": 80,
+        "correct": 32
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.45,
+        "n": 80,
+        "correct": 36
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.05,
+        "n": 80,
+        "correct": 4
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.05,
+        "n": 80,
+        "correct": 4
+      }
+    },
+    "conv_7": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.1,
+        "n": 80,
+        "correct": 8
+      },
+      "RAG_TOP1": {
+        "acc": 0.1,
+        "n": 80,
+        "correct": 8
+      },
+      "RAG_TOP3": {
+        "acc": 0.2,
+        "n": 80,
+        "correct": 16
+      },
+      "MEM0_LIKE": {
+        "acc": 0.275,
+        "n": 80,
+        "correct": 22
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.2,
+        "n": 80,
+        "correct": 16
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0375,
+        "n": 80,
+        "correct": 3
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      }
+    },
+    "conv_8": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 73,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0684931506849315,
+        "n": 73,
+        "correct": 5
+      },
+      "RAG_TOP1": {
+        "acc": 0.1643835616438356,
+        "n": 73,
+        "correct": 12
+      },
+      "RAG_TOP3": {
+        "acc": 0.2465753424657534,
+        "n": 73,
+        "correct": 18
+      },
+      "MEM0_LIKE": {
+        "acc": 0.2876712328767123,
+        "n": 73,
+        "correct": 21
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.2191780821917808,
+        "n": 73,
+        "correct": 16
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.0136986301369863,
+        "n": 73,
+        "correct": 1
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.0410958904109589,
+        "n": 73,
+        "correct": 3
+      }
+    },
+    "conv_9": {
+      "NO_MEMORY": {
+        "acc": 0.0,
+        "n": 80,
+        "correct": 0
+      },
+      "MARKDOWN_ALL": {
+        "acc": 0.0375,
+        "n": 80,
+        "correct": 3
+      },
+      "RAG_TOP1": {
+        "acc": 0.15,
+        "n": 80,
+        "correct": 12
+      },
+      "RAG_TOP3": {
+        "acc": 0.375,
+        "n": 80,
+        "correct": 30
+      },
+      "MEM0_LIKE": {
+        "acc": 0.3625,
+        "n": 80,
+        "correct": 29
+      },
+      "MEMMACHINE_LIKE": {
+        "acc": 0.3875,
+        "n": 80,
+        "correct": 31
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      },
+      "USER_AS_ENGRAM_JOINT_OPT": {
+        "acc": 0.025,
+        "n": 80,
+        "correct": 2
+      }
+    }
+  },
+  "source": "/home/ubuntu/user-as-engram/results/engram_d12_v2__locomo_cat4_opendomain.json"
+}
