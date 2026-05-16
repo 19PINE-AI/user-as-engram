@@ -25,7 +25,7 @@
   urlcolor=blue!50!black,
 }
 
-\title{User as Engram: Internalizing Per-User Memory \\ as Local Parametric Edits}
+\title{User as Engram: Internalizing Per-User Memory as Local Parametric Edits}
 
 \author{%
   boj@19pine.ai \\
@@ -37,59 +37,29 @@
 \maketitle
 
 \begin{abstract}
-Per-user memory in large language models is an open architectural
-problem. The dominant approach—per-user LoRA adapters—achieves
-near-perfect direct recall but, we measure, is \emph{reasoning-negative}:
-indirect-question accuracy with a per-user POLAR LoRA drops to 0.150,
-\emph{below} the no-adapter base of 0.170, in 5/10 users. The cause is
-that LoRA edits the model's weights globally, contaminating every
-forward pass even when the stored fact is irrelevant. We propose
-\textbf{User as Engram}: instead of training a global per-user
-adapter, surgically insert per-user fact rows into the hash-keyed
-embedding table of an Engram-pretrained base. Each fact is one row at
-the trigger N-gram's hash address. The edit is \emph{local}:
-on Mini-Engram-d12 we measure exactly 0.000 residual-stream
-perturbation at every non-trigger position, through every
-subsequent attention+MLP layer (full numbers in
-Section~\ref{sec:locality}). We present
-(i) a nano-scale public reproduction of Engram at four dense sizes
-spanning 178\,M to 1.22\,B total parameters (127\,M to 1.17\,B
-non-Engram; 51.2\,M Engram-table params)—the first publicly
-available Engram models outside DeepSeek-AI;
-(ii) a $5 \times 3 \times 2$ \textbf{capacity ablation} across
-Engram-table size, token budget, and dense scale, showing the optimal
-Engram capacity is invariant across dense sizes and only the token
-budget needs to scale;
-(iii) \textbf{Joint OPT}, a sparse-row joint training method that
-recovers recall under high fact density (68\% top-1 / 96\% top-5 at
-100 facts/user on Mini-Engram-d12 v2 vs.\ 36\% / 54\% for
-independent OPT);
-(iv) \textbf{fact-count scaling to 1\,000 facts}, where per-fact
-independent OPT recall is flat (d12@1280 holds 0.98 USER OPT top-1
-from $n{=}100$ to $n{=}1000$);
-(v) on the \textbf{LOCOMO} single-hop memory benchmark with a fixed
-answer LM, multi-token Joint OPT wins under both metrics at
-d20@1536 (token-F1 +57\%, LLM-judge accuracy +18\% over the best
-retrieval baseline; Table~\ref{tab:locomo-multitoken}). The first-token
-OPT objective wins on token-F1 but loses under LLM-judge by
-$-$0.05; \textbf{multi-token answer-conditioned OPT closes the gap
-and flips the ranking back to Engram winning}. Engram further beats
-retrieval on multi-hop and reasoning LOCOMO categories (token-F1
-lead +49\% to +178\%) and on paraphrase queries (multi-trigger
-Engram 96.9\% top-1 vs.\ MEMMACHINE 75.0\%); retrieval still wins
-on LOCOMO open-domain ($-$53\% Engram), where the answer is
-verbatim in a single evidence sentence;
-(vi) a working multi-tenant serving system with sub-millisecond
-override swap, 232\,req/s throughput on a single GPU at d12@1280
-scale (measured at 30 users $\times$ 50 facts; the 100-user
-$\times$ 100-fact configuration is exercised for correctness but
-throughput is not benchmarked here), and zero cross-user leak by
-construction;
-(vii) a comprehensive comparison vs.\ ICL, RAG, SFT-LoRA, and POLAR,
-where Joint OPT uses 88\,KB of storage—161$\times$ less than the
-POLAR-class LoRA at the same 100-fact density (14.2\,MB
-rank-64 fp32).
-Code, models, and the full evaluation suite are released.
+Per-user memory in LLMs is an open architectural problem. Per-user
+LoRA adapters—the dominant fix—achieve perfect direct recall but
+are \emph{reasoning-negative}: indirect recall drops to 0.150, below
+the no-adapter base of 0.170, in 5/10 users, because LoRA edits
+weights globally and contaminates every forward pass.
+
+We propose \textbf{User as Engram}: surgically insert per-user fact
+rows into the hash-keyed embedding table of an Engram-pretrained
+base. The edit is local—we measure exactly 0.000 perturbation at
+non-trigger positions through every subsequent attention+MLP layer.
+We release four Mini-Engram models (178\,M to 1.22\,B total params),
+the first publicly available Engrams outside DeepSeek-AI.
+
+With \textbf{Joint OPT} (sparse-row joint training), 100 facts/user
+reach 68\% top-1 / 96\% top-5 in 88\,KB—161$\times$ less storage
+than a POLAR-class LoRA. On LOCOMO single-hop, multi-token
+answer-conditioned Joint OPT wins both token-F1 (+57\%) and
+LLM-judge (+18\%) at 1.22\,B vs.\ the best retrieval baseline;
+Engram leads multi-hop (+178\%) and reasoning (+58\%) categories
+but loses open-domain ($-$53\%), where the answer is verbatim in
+retrieved evidence. A multi-tenant serving system reaches
+232\,req/s on a single GPU with zero cross-user leak by
+construction. Code, models, and evaluations released.
 \end{abstract}
 
 \section{Introduction}
@@ -279,11 +249,19 @@ combiner network. Engram override maps with disjoint addresses are
 Section~\ref{sec:experiments}.
 
 \paragraph{Personal memory benchmarks.} Long-term personal memory is
-evaluated by LongMemEval~\citep{wu2024longmemeval},
+evaluated by LOCOMO~\citep{maharana2024locomo},
+LongMemEval~\citep{wu2024longmemeval},
 BEAM~\citep{liu2025beam} (multi-turn evolving beliefs), and
 PersonaMem-v2~\citep{personamem2025}. We use synthetic per-user
-fact corpora here for tighter control over the multi-fact density
-parameter; benchmarking against the standard suites is future work.
+fact corpora for the within-user fact-density sweeps (tighter
+control over the parameter we vary) and LOCOMO
+(Section~\ref{sec:locomo}) for end-to-end evaluation against
+retrieval baselines. We chose LOCOMO over LongMemEval and BEAM
+because its per-question evidence pointers let us train a
+per-fact Engram row and a retrieval entry against the same gold
+sentence—a fair apples-to-apples ``same gold, different
+substrate'' comparison; LongMemEval and BEAM remain open for
+future work.
 
 \paragraph{Knowledge editing and recitation.}
 Knowledge editing methods (ROME~\citep{meng2022rome},
@@ -705,6 +683,10 @@ one server vs.\ requiring distributed storage.
   \end{tabular}
 \end{table}
 
+Figure~\ref{fig:pareto} plots these methods on a
+cost-quality Pareto frontier; the storage axis spans four orders
+of magnitude across the substrates compared here.
+
 \textbf{Trade-off summary.} In the single-fact regime the
 in-context-equivalent OPT step (50\,s at 88\,KB) matches the
 ICL ceiling. In the production multi-fact regime, LoRA hits
@@ -957,7 +939,7 @@ which then conditions the remaining 15 tokens. Retrieval can
 miss the relevant turn (the failure mode visible in
 \textsc{rag\_top1}'s 0.101); when it hits, the in-context evidence
 still has to compete with the base model's distributional
-priors, which a small base LM trained on 786M tokens of web text
+priors, which a 339\,M base LM trained on 1.32\,B tokens of web text
 struggles with.
 
 \paragraph{Scaling at the optimal config.} We repeated the same
@@ -1319,7 +1301,7 @@ hardest end. Figure~\ref{fig:factscale} shows the full curves.
     Mini-Engram-d8 v1                          &  137\,M & 0.81 / 0.91 & 0.82 / 0.92 & 0.81 / 0.93 & 0.84 / 0.95 & 0.98 / 1.00 \\
     Mini-Engram-d8 large/2\,B (best d8)        &  178\,M & 1.00 / 1.00 & 0.99 / 1.00 & 0.99 / 1.00 & 0.99 / 1.00 & 0.99 / 1.00 \\
     Mini-Engram-d12 v1                         &  339\,M & 0.86 / 0.96 & 0.88 / 0.96 & 0.87 / 0.97 & 0.88 / 0.97 & 0.96 / 1.00 \\
-    Mini-Engram-d12 v2 (12 t/p)                &  339\,M & 0.87 / 0.98 & 0.87 / 0.97 & 0.86 / 0.97 & 0.87 / 0.97 & 1.00 / 1.00 \\
+    Mini-Engram-d12 v2 (12 t/p)                &  339\,M & 0.86 / 0.98 & 0.87 / 0.97 & 0.86 / 0.97 & 0.87 / 0.97 & 1.00 / 1.00 \\
     Mini-Engram-d12 large/2.5\,B (best d12)    &  339\,M & 0.96 / 1.00 & 0.95 / 1.00 & 0.95 / 0.99 & 0.96 / 0.99 & 0.98 / 1.00 \\
     Mini-Engram-d12@1280 opt.                  &  625\,M & 0.98 / 1.00 & 0.97 / 1.00 & 0.98 / 1.00 & 0.98 / 1.00 & 1.00 / 1.00 \\
     \textbf{Mini-Engram-d20@1536 opt.}         & \textbf{1.22\,B} & 0.90 / 0.99 & 0.92 / 0.99 & 0.91 / 0.99 & \textbf{0.93 / 0.99} & 0.99 / 1.00 \\
@@ -1449,12 +1431,17 @@ Query:   My doctor works at         -> ?  (expected: Globex)
 \end{table}
 
 \textbf{The multi-hop number is flat across dense scale (75\% at
-all three sizes).} Per-fact direct recall does improve (93.8\%
-$\rightarrow$ 100\%), but the gap between direct and multi-hop is
-architectural, not capacity-bound. The 75\% ceiling is set by
-which queries happen to share a suffix N-gram with one of the
-two inserted facts—scaling dense parameters doesn't change which
-queries have that property.
+all three sizes; $n{=}8$, Wilson 95\% CI [40.9\%, 93.0\%]).} Per-fact
+direct recall does improve (93.8\% $\rightarrow$ 100\%), but the gap
+between direct and multi-hop appears architectural rather than
+capacity-bound. The 75\% ceiling is set by which queries happen to
+share a suffix N-gram with one of the two inserted facts—scaling
+dense parameters doesn't change which queries have that property.
+We caution that the $n{=}8$ sample size makes this a
+\emph{qualitative} finding rather than a precise estimate; the wide
+CI overlaps everything from a clear gap to near-saturation, and a
+larger chained-fact set is needed before the ``flat across scale''
+claim is statistically established.
 
 \textbf{The 75\% number requires careful interpretation.}
 Of the 6 successes, all share a property: the query's suffix N-gram
@@ -1669,15 +1656,25 @@ interference, not hash collisions. Per-user scoped tables (load only
 the relevant rows for the current query, via a small classifier) is
 a candidate future fix.
 
-\paragraph{When to use what.}
+\paragraph{When to use what.} The right substrate depends on whether
+the deployment can absorb a $\sim$30\,pt top-1 recall gap to LoRA
+in exchange for 20--160$\times$ less per-user storage.
 \begin{itemize}[leftmargin=*,topsep=2pt,itemsep=1pt]
-  \item \emph{$<$10 facts/user, conversational AI}: ICL or RAG with a
-        strong retriever.
-  \item \emph{10--500 facts/user, millions of users}: User-as-Engram
-        + Joint OPT is the storage-efficient sweet spot.
-  \item \emph{High-recall enterprise personalisation, $<$10K users}:
-        per-user LoRA with S-LoRA serving.
-  \item \emph{Long-form documents, citations, provenance}: RAG.
+  \item \emph{$<$10 facts/user, conversational AI}: ICL or RAG with
+        a strong retriever (lowest storage, highest recall, but
+        cannot internalise reasoning steps).
+  \item \emph{10--500 facts/user, millions of users, storage is the
+        binding constraint, 65--98\% multi-fact top-1/top-5 is
+        acceptable}: User-as-Engram + Joint OPT. Storage scales
+        linearly at $\sim$1\,KB/fact, and the multi-hop /
+        paraphrase wins of Sections~\ref{sec:multihop} and
+        \ref{sec:paraphrase} accrue here.
+  \item \emph{High-recall enterprise personalisation requiring
+        100\% top-1, $<$10K users, can afford 14\,MB/user}: per-user
+        LoRA with S-LoRA serving.
+  \item \emph{Long-form documents, citations, provenance, open-domain
+        free-form answers}: RAG (retrieval wins LOCOMO open-domain
+        by 53\%, Table~\ref{tab:locomo-categories}).
 \end{itemize}
 
 \subsection{Future work: training-recipe changes}
@@ -1726,49 +1723,28 @@ further dense scaling.
 \section{Conclusion}
 \label{sec:conclusion}
 
-Per-user LoRA edits are \emph{global} and reasoning-negative.
-User-as-Engram edits are \emph{local}: they don't pay the reasoning
-tax LoRA-as-memory does (we measure exactly 0.000 contamination of
-non-trigger forwards through 5 subsequent attention+MLP layers), and they win on
-the LOCOMO multi-hop and reasoning categories (+178\% and +58\%
-token-F1 over the best retrieval baseline). We caution that the
-multi-hop win is partial: Section~\ref{sec:multihop} shows it
-accrues to queries whose surface form happens to share a suffix
-N-gram with the second-hop trigger; chained queries with no surface
-overlap remain the open problem we share with LoRA-as-memory. With Joint OPT, per-user override
-tables, and additive multi-domain composition, User-as-Engram
-serves millions of users at $\sim$100\,GB storage and 232\,req/s
-on a single GPU at d12@1280 scale, with zero cross-user leak by
-construction. Our four-size scaling study trains Mini-Engrams from
-178\,M to 1.22\,B total parameters on a single Blackwell GPU. The
-30-cell capacity ablation pins the optimal Engram capacity at
-\texttt{large} (50\,K $\times$ 256, 51.2\,M params) across both
-probed dense sizes; per-fact independent OPT recall is flat up to
-1\,000 facts.
+Per-user LoRA is \emph{global} and reasoning-negative; User-as-Engram
+is \emph{local} (exactly 0.000 contamination of non-trigger forwards
+through 5 subsequent layers) and wins LOCOMO multi-hop, reasoning,
+and—with the multi-token objective—single-hop under both token-F1
+and LLM-judge at 1.22\,B. The category breakdown is the honest
+picture: Engram wins multi-hop (+178\% F1), reasoning (+58\%), and
+single-hop with multi-token OPT, but loses open-domain ($-$53\%),
+where the answer is verbatim in a single retrieved evidence
+sentence. The multi-hop win has a known caveat
+(Section~\ref{sec:multihop}): it accrues to queries that share a
+suffix N-gram with the second-hop trigger; chained queries without
+surface overlap remain the open problem we share with LoRA-as-memory.
 
-The empirical headline depends on training objective. The
-first-token OPT objective wins under token-F1 (the gold first
-token reliably appears) but loses under LLM-judge by 0.05--0.10
-because the remaining 15-token continuation is unguided.
-\textbf{Multi-token answer-conditioned OPT flips the ranking back
-to Engram winning on LOCOMO single-hop under both metrics
-simultaneously} (d20@1536: token-F1 0.310 vs.\ 0.197 best
-retrieval, +57\%; LLM-judge 0.225 vs.\ 0.190 best retrieval,
-+18\%; Table~\ref{tab:locomo-multitoken}).
-The category breakdown is more nuanced: Engram wins multi-hop
-(token-F1 +178\%), reasoning (+58\%), and single-hop with
-multi-token OPT, but loses open-domain ($-$53\%) where the answer
-is verbatim in a single retrieved evidence sentence.
-
-The architectural result is independent of the metric debate.
-Surgical row insertion, additive composition, per-user override
-tables, and multi-tenant serving together unlock zero-leak personal
-memory at storage costs orders of magnitude below per-user LoRA.
-The recommendation is twofold: (i) match the surgical training
-objective to the deployment metric (multi-token where free-form
-answers matter); (ii) treat substrate selection—not gradient
-training—as the bottleneck of personal memory. The right substrate
-is hash-keyed embedding tables.
+Two recommendations follow. (i) Match the surgical training
+objective to the deployment metric: multi-token answer-conditioned
+OPT where free-form answers matter, first-token OPT where only the
+inserted span matters. (ii) Treat substrate selection—not gradient
+training—as the bottleneck of personal memory. Surgical row
+insertion, additive composition, per-user override tables, and
+multi-tenant serving together unlock zero-leak personal memory at
+$\sim$100\,GB total storage for 1\,M users and 232\,req/s on a
+single GPU.
 
 \bibliographystyle{plainnat}
 \begin{thebibliography}{50}
