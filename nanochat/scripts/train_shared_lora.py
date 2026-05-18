@@ -202,6 +202,9 @@ def main():
     p.add_argument("--max-indirect-per-user", type=int, default=20)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--out-dir", required=True)
+    p.add_argument("--opd-corpus", default=None,
+                   help="Path to a JSONL of OPD samples ({prompt, completion, ...}). "
+                        "If given, --user-dir and --train-uids are ignored; train on this corpus instead.")
     args = p.parse_args()
 
     random.seed(args.seed)
@@ -213,15 +216,25 @@ def main():
     model, config = load_model(args.ckpt_dir, tokenizer, device)
     model.eval()
 
-    print(f"Loading {len(args.train_uids)} training users from {args.user_dir}")
-    user_jsons = []
-    for uid in args.train_uids:
-        with open(Path(args.user_dir) / f"{uid}.json") as f:
-            user_jsons.append(json.load(f))
-    print(f"Building training corpus")
-    samples = build_corpus(user_jsons,
-                           max_indirect_per_user=args.max_indirect_per_user)
-    print(f"  total samples: {len(samples)}")
+    if args.opd_corpus:
+        print(f"Loading OPD corpus from {args.opd_corpus}")
+        samples = []
+        with open(args.opd_corpus) as f:
+            for line in f:
+                row = json.loads(line)
+                # Concatenate prompt+completion into one NTP sample
+                samples.append(row["prompt"] + row["completion"])
+        print(f"  total OPD samples: {len(samples)}")
+    else:
+        print(f"Loading {len(args.train_uids)} training users from {args.user_dir}")
+        user_jsons = []
+        for uid in args.train_uids:
+            with open(Path(args.user_dir) / f"{uid}.json") as f:
+                user_jsons.append(json.load(f))
+        print(f"Building training corpus")
+        samples = build_corpus(user_jsons,
+                               max_indirect_per_user=args.max_indirect_per_user)
+        print(f"  total samples: {len(samples)}")
 
     print(f"\nTraining shared LoRA (rank={args.rank}, steps={args.steps})")
     handles, grad_snap, train_time, n_params = train_shared_lora(
