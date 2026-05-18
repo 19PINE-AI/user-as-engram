@@ -111,25 +111,36 @@ when it serves as the reference point.
 \paragraph{The motivating finding.}
 We replicate POLAR-class training (rank-64 NTP on
 observation/fact/QA mixtures, 12 epochs $\times$ 200 samples,
-Qwen2.5-3B base, 10 synthetic users $\times$ 50 facts) and find that
-\emph{the adapter actively makes reasoning worse}:
+20--30 synthetic users $\times$ 50 facts) across four
+instruction-tuned bases and one base LM, and measure both the
+\emph{architectural} contamination (val\_bpb $\Delta$ on text
+unrelated to the user's facts) and the \emph{user-visible} effect
+(indirect-reasoning recall on the user's own probes). The two
+properties decouple:
 
 \begin{itemize}[leftmargin=*,topsep=2pt,itemsep=1pt]
-  \item Direct recall with adapter: \textbf{1.000} (perfect
-        memorisation).
-  \item Indirect recall with adapter: \textbf{0.150}—\emph{below}
-        the no-adapter base of \textbf{0.170}.
-  \item In \textbf{5 of 10 users}, the adapter is strictly worse
-        than the base on indirect questions.
+  \item Direct recall with adapter: \textbf{1.000} on every base.
+  \item Architectural contamination is large and replicable:
+        val\_bpb $\Delta {=} {+}1.56$ on Mini-Engram-d20 (a 2.1$\times$
+        increase from 0.74 to 2.30 on held-out ClimbMix text—15{,}000$\times$
+        more contamination than Engram-row insertion's $+0.0001$).
+  \item User-visible effect depends on the base: per-user LoRA hurts
+        indirect reasoning in 85\% of users on Mini-Engram-d20 (a base LM),
+        but helps on every instruction-tuned base we tested
+        (Qwen-3B $\Delta {=} {+}0.088$ at $n{=}30$, Llama-8B ${+}0.188$,
+        Mistral-7B ${+}0.217$, Qwen-7B ${+}0.132$, each at $n{=}20$).
+        Our earlier $n{=}10$ pilot on Qwen-3B-Instruct (5/10 users worse
+        than base) was a high-variance small-sample artifact;
+        at $n{=}30$ the worse-fraction drops to 20\% with Wilson 95\%
+        CI $[0.10, 0.37]$, and on the other three instruction-tuned
+        bases it is 0--5\%.
 \end{itemize}
 
-The adapter is not amnesiac—CoT-prompted recall reaches the
-ICL-with-CoT ceiling at 0.30, so the facts are encoded—but
-\emph{using} the adapter at inference contaminates the model's
-general reasoning whenever the question's surface form drifts from
-the trained QA pattern. The mechanism is structural: a LoRA delta
-is a \emph{global} edit on $Q/K/V/O$ in every layer, so every
-forward pass—relevant or not—sees the perturbation.
+The architectural contamination is the load-bearing claim:
+\emph{any} per-user edit that is unconditionally active will affect
+all forwards, including those that have nothing to do with the user's
+facts. The mechanism is structural: a LoRA delta on $Q/K/V/O$
+in every layer enters every forward pass.
 
 \paragraph{The architectural requirement.}
 \textbf{Per-user edits must be local: they should fire only on
@@ -150,11 +161,15 @@ position, through every subsequent attention+MLP layer
 
 \paragraph{Contributions.}
 \begin{enumerate}[leftmargin=*,topsep=2pt,itemsep=1pt]
-  \item \textbf{A reasoning-negative finding with a mechanistic
-        diagnosis} (Section~\ref{sec:negative}): per-user LoRA is
-        strictly worse than the base in 5/10 users on indirect
-        recall, despite saturating direct recall—because the edit
-        is global.
+  \item \textbf{A measurable contamination gap with a base-dependent
+        user-level effect} (Section~\ref{sec:negative}): per-user LoRA
+        produces 15{,}000$\times$ more val\_bpb contamination than
+        per-user Engram-row insertion on the same Mini-Engram-d20 base
+        ($\Delta {+}1.56$ vs ${+}0.0001$, $n{=}20$). The user-visible
+        effect on indirect reasoning is high-variance and base-dependent:
+        85\% worse on a base LM (Mini-Engram-d20), 0--20\% worse across
+        four instruction-tuned bases (Qwen-3B at $n{=}30$;
+        Llama-8B, Mistral-7B, Qwen-7B each at $n{=}20$).
   \item \textbf{Public Mini-Engram weights} (Section~\ref{sec:repro})
         at four dense sizes spanning 178\,M to 1.22\,B total
         parameters (51.2\,M Engram-table shared across sizes),
@@ -188,26 +203,47 @@ position, through every subsequent attention+MLP layer
         swap, \textbf{232\,req/s} on a single GPU at d12@1280
         (47.9\,req/s at d12 v1), and zero cross-user leak by
         construction.
+  \item \textbf{A layered architecture that Pareto-dominates every
+        per-user single-substrate baseline} (Section~\ref{sec:layered}).
+        Decomposing personal memory into \emph{content} (per-user
+        Engram-row override) and \emph{meta-skill} (one shared LoRA
+        amortised across users) reaches 100\% direct top-1 (matches
+        per-user LoRA), 6.8$\times$ better indirect reasoning than
+        per-user LoRA (44\% vs 7\% indirect-any), 4.0$\times$ less
+        contamination ($\Delta$bpb +0.39 vs +1.56), and never hurts
+        indirect reasoning relative to the no-adapter base (0/20 vs
+        17/20 for per-user LoRA) — at $n{=}20$ on Mini-Engram-d20.
+        The naive composition (per-user LoRA + per-user Engram) is the
+        worst of both: contamination remains high and indirect reasoning
+        still collapses. A rank ablation pins $r{=}16$ as the sweet spot.
 \end{enumerate}
 
-\paragraph{Take-away.} \emph{The architecture of memory determines
-whether memory helps or hurts reasoning.} Global edits like LoRA
-purchase recall at the cost of cross-question interference; local
-edits like Engram-row insertion buy zero interference and—with the
-right training objective—also win on the categories where memory
-should help (chain-of-fact recall). They lose where memory can't
-help (free-form synthesis from never-seen evidence). That is the
-substrate-selection question we make precise.
+\paragraph{Take-away.} \emph{Personal memory is two problems, not one:
+content (per-user, low-cost, local) and meta-skill (cross-user,
+amortised). Matching each to its right substrate Pareto-dominates
+every per-user single-substrate baseline we tested.} Per-user LoRA's
+\emph{architectural} contamination is base-independent and large; its
+\emph{user-visible} reasoning damage is base-dependent and variable;
+its replacement by the layered design recovers reasoning while keeping
+storage at 88\,KB per user.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figs/fig1_lora_negative.pdf}
-  \caption{The motivating negative finding (Section~\ref{sec:negative}).
+  \caption{The original $n{=}10$ pilot
+  (Section~\ref{sec:negative}, Qwen2.5-3B-Instruct).
   \textbf{(a)} Per-user POLAR LoRA achieves perfect direct recall
-  (1.000) but indirect recall (0.150) is \emph{below} the no-adapter
-  base (0.170). \textbf{(b)} Per-user breakdown: in 5 of 10 users
-  (marked $*$), the adapter underperforms the base on indirect
-  questions. The adapter is reasoning-negative.}
+  (1.000); on this pilot, indirect recall (0.150) is below the no-adapter
+  base (0.170). \textbf{(b)} Per-user breakdown: 5 of 10 users had
+  worse indirect recall with the adapter than without it.
+  \textbf{This pilot does not replicate at scale}: at $n{=}30$ the mean
+  delta is $+0.088$ and the worse-fraction is 6/30 ($\sim$20\%), and on
+  three further instruction-tuned bases (Llama-8B, Mistral-7B, Qwen-7B
+  at $n{=}20$ each) the worse-fraction is 0--5\%. The
+  \emph{architectural} contamination, however, is robust
+  (Section~\ref{sec:negative}, Table~\ref{tab:lora-contamination}):
+  per-user LoRA's val\_bpb $\Delta$ on Mini-Engram-d20 is $+1.56$ vs
+  Engram-row insertion's $+0.0001$ on the same base.}
   \label{fig:negative}
 \end{figure}
 
