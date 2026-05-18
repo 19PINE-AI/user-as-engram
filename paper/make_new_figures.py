@@ -272,6 +272,49 @@ def fig_joint_opt_dense():
 # ============================================================
 # Figure: Cost-quality Pareto plot
 # ============================================================
+def fig_pareto_layered():
+    """Cost-quality Pareto for the LAYERED architecture experiment
+    (Section 8). 6 conditions on Mini-Engram-d20, n=20 users."""
+    fig, ax = plt.subplots(figsize=(5.6, 3.8))
+    # (storage_KB_per_user, indirect_any%, label, color, marker, Δbpb)
+    # Numbers from results/layered_d20_r16_full.json agg block.
+    pts = [
+        (0.0,    0.192, "no edit",                    "#aaaaaa", "x",  0.000),
+        (14200,  0.072, "per-user LoRA (B)",          "#aa4499", "*",  1.559),
+        (88,     0.233, "per-user Engram (C)",        "#1f77b4", "o",  0.000),
+        (14288,  0.080, "B + C (combo A)",            "#cc6677", "v",  1.419),
+        (0.0,    0.440, "shared LoRA only (E)",       "#88ccee", "D",  0.386),
+        (88,     0.443, "LAYERED: shared LoRA + Engram (F)", "#117733", "P", 0.386),
+    ]
+    for x, y, label, color, marker, _bpb in pts:
+        x_eff = max(x, 0.5)   # avoid log(0)
+        ax.scatter([x_eff], [y], color=color, marker=marker, s=140,
+                     edgecolor="black", lw=0.7, zorder=3)
+        # Right-of-point label by default; F-layered uses below to avoid overlap with C
+        offs = (10, 0) if label != "LAYERED: shared LoRA + Engram (F)" else (10, -8)
+        ax.annotate(label, (x_eff, y), textcoords="offset points",
+                     xytext=offs, fontsize=8, va="center")
+    ax.set_xscale("log")
+    ax.set_xlim(0.3, 30000)
+    ax.set_ylim(0.0, 0.55)
+    ax.set_xlabel("storage per user (KB, log scale)")
+    ax.set_ylabel("indirect reasoning (any-match, $n{=}20$)")
+    ax.set_title("Layered architecture Pareto: same Mini-Engram-d20, varying substrate",
+                  fontsize=8.5)
+    # Pareto frontier line for the new winning region
+    ax.plot([88, 0], [0.443, 0.440], "k--", alpha=0.3, lw=0.8)
+    ax.text(0.6, 0.50, "shared LoRA carries the meta-skill;\nadding Engram preserves it",
+             fontsize=7, color="#333333")
+    # Annotate contamination
+    ax.text(14200, 0.05, "Δbpb=+1.56", fontsize=7, color="#aa4499", ha="center")
+    ax.text(88, 0.39, "Δbpb=+0.39", fontsize=7, color="#117733", ha="center")
+    ax.grid(True, which="both", alpha=0.25, lw=0.4)
+    fig.tight_layout()
+    fig.savefig(OUT / "fig_pareto_layered.pdf")
+    print(f"  wrote {OUT / 'fig_pareto_layered.pdf'}")
+    plt.close(fig)
+
+
 def fig_pareto():
     fig, ax = plt.subplots(figsize=(5.4, 3.6))
 
@@ -412,5 +455,6 @@ if __name__ == "__main__":
     fig_joint_opt_dense()
     fig_locomo_scaling()
     fig_pareto()
+    fig_pareto_layered()
     fig_metric_mismatch()
     print("Done.")

@@ -1902,13 +1902,28 @@ under-fits, too large over-parameterises—so r=16 is the operating
 point we recommend; future work could revisit this once the shared
 training corpus is scaled beyond 510 samples.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figs/fig_pareto_layered.pdf}
+  \caption{Cost-quality Pareto for the layered architecture
+  (Section~\ref{sec:layered}). Same Mini-Engram-d20 base, $n{=}20$
+  test users, six substrate combinations. \textbf{F (LAYERED) is on
+  the Pareto frontier}: matches the highest indirect-reasoning
+  accuracy (44\% indirect-any) at low storage (88\,KB/user) and low
+  contamination ($\Delta$bpb $+0.39$). Per-user LoRA (B) is
+  Pareto-dominated by F on every axis. Naive combination (B+C, the
+  ``add Engram on top of LoRA'' baseline) is also dominated.}
+  \label{fig:pareto-layered}
+\end{figure}
+
 \subsection{Storage and amortisation}
 
 Per user, the layered design costs the Engram's 88\,KB; the shared
 LoRA is one global 11.8\,MB artifact (rank-16) amortised across the entire
 population. For 1\,M users this is 100\,GB + 12\,MB $\approx$ 100\,GB total,
 indistinguishable from Engram alone, vs 14.2\,TB for per-user LoRA at
-the same recall ceiling.
+the same recall ceiling. Figure~\ref{fig:pareto-layered} plots all
+six substrate combinations on a (storage, indirect-reasoning) axis.
 
 \subsection{Limitations of the layered measurement}
 

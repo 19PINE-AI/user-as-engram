@@ -1,0 +1,125 @@
+{
+  "config": {
+    "model": "Qwen/Qwen2.5-3B-Instruct",
+    "users": [
+      "u000",
+      "u001",
+      "u002",
+      "u003",
+      "u004",
+      "u005",
+      "u006",
+      "u007",
+      "u008",
+      "u009"
+    ],
+    "user_dir": "/home/ubuntu/user-as-lora/data/users",
+    "rank": 64,
+    "alpha": 128,
+    "lr": 0.0001,
+    "epochs": 15,
+    "samples_per_epoch": 200,
+    "batch_size": 4,
+    "max_len": 192,
+    "eval_max_chunks": 64,
+    "eval_max_len": 1024,
+    "out": "/home/ubuntu/user-as-engram/results/qwen3b_lora_bpb.json"
+  },
+  "baseline_bpb": 0.6789933322189058,
+  "baseline_nats_per_token": 2.2010299436509384,
+  "n_eval_tokens": 22635,
+  "n_eval_bytes": 105856,
+  "per_user": [
+    {
+      "uid": "u000",
+      "lora_bpb": 0.7581693586190816,
+      "lora_bpb_delta": 0.07917602640017585,
+      "iso_bpb": 0.6789933322189058,
+      "iso_bpb_delta": 0.0,
+      "train_s": 70.22367334365845
+    },
+    {
+      "uid": "u001",
+      "lora_bpb": 0.7810695052856231,
+      "lora_bpb_delta": 0.10207617306671735,
+      "iso_bpb": 0.6789933322189058,
+      "iso_bpb_delta": 0.0,
+      "train_s": 70.10038423538208
+    },
+    {
+      "uid": "u002",
+      "lora_bpb": 0.7660812352303202,
+      "lora_bpb_delta": 0.08708790301141445,
+      "iso_bpb": 0.6789933322189058,
+      "iso_bpb_delta": 0.0,
+      "train_s": 68.06238198280334
+    },
+    {
+      "uid": "u003",
+      "lora_bpb": 0.7612935119182289,
+      "lora_bpb_delta": 0.08230017969932313,
+      "iso_bpb": 0.6789933322189058,
+      "iso_bpb_delta": 0.0,
+      "train_s": 63.445221185684204
+    },
+    {
+      "uid": "u004",
+      "lora_bpb": 0.7702475682208917,
+      "lora_bpb_delta": 0.0912542360019859,
+      "iso_bpb": 0.6789933322189058,
+      "iso_bpb_delta": 0.0,
+      "train_s": 69.3248188495636
+    },
+    {
+      "uid": "u005",
+      "lora_bpb": 0.774798040180992,
+      "lora_bpb_delta": 0.09580470796208618,
+      "iso_bpb": 0.6789933322189058,
+      "iso_bpb_delta": 0.0,
+      "train_s": 69.2803168296814
+    },
+    {
+      "uid": "u006",
+      "lora_bpb": 0.7745261878289771,
+      "lora_bpb_delta": 0.0955328556100713,
+      "iso_bpb": 0.6789933322189058,
+      "iso_bpb_delta": 0.0,
+      "train_s": 69.2779004573822
+    },
+    {
+      "uid": "u007",
+      "lora_bpb": 0.783825893021276,
+      "lora_bpb_delta": 0.10483256080237024,
+      "iso_bpb": 0.6789933322189058,
+      "iso_bpb_delta": 0.0,
+      "train_s": 66.35625505447388
+    },
+    {
+      "uid": "u008",
+      "lora_bpb": 0.7646297572505081,
+      "lora_bpb_delta": 0.08563642503160229,
+      "iso_bpb": 0.6789933322189058,
+      "iso_bpb_delta": 0.0,
+      "train_s": 63.01060962677002
+    },
+    {
+      "uid": "u009",
+      "lora_bpb": 0.7799183641511508,
+      "lora_bpb_delta": 0.100925031932245,
+      "iso_bpb": 0.6789933322189058,
+      "iso_bpb_delta": 0.0,
+      "train_s": 68.0540657043457
+    }
+  ],
+  "agg": {
+    "n_users": 10,
+    "baseline_bpb": 0.6789933322189058,
+    "lora_bpb_mean": 0.7714559421707049,
+    "lora_bpb_delta_mean": 0.09246260995179917,
+    "lora_bpb_delta_range": [
+      0.07917602640017585,
+      0.10483256080237024
+    ],
+    "fraction_delta_gt0": 1.0
+  }
+}
