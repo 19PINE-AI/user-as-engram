@@ -234,6 +234,8 @@ def main():
                     help="Comma-separated list of LOCOMO categories to include (1=single-hop, 2=multi-hop, 3=reasoning, 4=open-domain, 5=adversarial)")
     p.add_argument("--multi-token", action="store_true",
                     help="Use multi-token answer-conditioned Joint OPT loss (sums over all answer tokens, not just first)")
+    p.add_argument("--shared-lora-dir", default=None,
+                    help="If given, add a 9th system 'USER_AS_ENGRAM_LAYERED' that attaches a shared LoRA (the post-trained meta-skill foundational model) before running Joint OPT.")
     args = p.parse_args()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -242,7 +244,10 @@ def main():
     model, config = load_model(args.ckpt_dir, tokenizer, device)
     eng = model.engram
     last_layer = max(config.engram_layer_ids)
-    Wv_pinv = torch.linalg.pinv(eng.layers_module[str(last_layer)].value_proj.weight.data.float())
+    # CPU fallback: cusolver is flaky under GPU memory pressure; matrix is tiny.
+    Wv_pinv = torch.linalg.pinv(
+        eng.layers_module[str(last_layer)].value_proj.weight.data.float().cpu()
+    ).to(eng.layers_module[str(last_layer)].value_proj.weight.device)
     embed_dim = eng.embed_per_head
     total_heads = config.engram_n_head_per_ngram * (config.engram_max_ngram_size - 1)
     tbl = eng.tables[str(last_layer)]
@@ -399,6 +404,55 @@ def main():
         finally:
             with torch.no_grad():
                 tbl.embedding.weight.data[all_rows_t] = saved_orig
+
+        # System 9 (optional): USER_AS_ENGRAM_LAYERED — shared LoRA attached
+        # before Joint OPT. This is the layered architecture being tested
+        # on the published LOCOMO benchmark.
+        if args.shared_lora_dir:
+            from scripts.layered_architecture import attach_shared_lora, lora_freeze
+            from scripts.sft_baseline import detach_lora
+            sys_name_l = "USER_AS_ENGRAM_LAYERED_MT" if args.multi_token else "USER_AS_ENGRAM_LAYERED"
+            print(f"[9] {sys_name_l}")
+            with open(Path(args.shared_lora_dir) / "meta.json") as f:
+                sh_meta = json.load(f)
+            sh_rank = sh_meta["rank"]
+            sh_alpha = sh_meta.get("alpha", 2*sh_rank)
+            sh_state = Path(args.shared_lora_dir) / "lora_state.pt"
+            sl = attach_shared_lora(model, sh_state, sh_rank, sh_alpha)
+            lora_freeze(sl)
+            try:
+                if args.multi_token:
+                    facts_for_layered = [(qa["question"], qa["answer"]) for qa in qas
+                                          if tokenizer.encode(qa["answer"])]
+                else:
+                    facts_for_layered = []
+                    for qa in qas:
+                        ids_a = tokenizer.encode(qa["answer"])
+                        if ids_a:
+                            first_tok = tokenizer.decode([ids_a[0]])
+                            facts_for_layered.append((qa["question"], first_tok))
+                all_rows_t2, saved_orig2 = joint_opt_facts(
+                    model, tokenizer, eng, last_layer, Wv_pinv,
+                    total_heads, embed_dim, facts_for_layered,
+                    device, scale=20.0, steps=2000, lr=0.5,
+                    multi_token=args.multi_token,
+                )
+                try:
+                    f1s = []
+                    preds = []
+                    for qa in qas:
+                        pred = generate(model, tokenizer, qa["question"], device,
+                                         max_new_tokens=16, max_seq_len=args.max_seq_len)
+                        f1s.append(token_f1(pred, qa["answer"]))
+                        preds.append({"question": qa["question"], "gold": qa["answer"], "pred": pred})
+                    conv_results[sys_name_l] = {"avg_f1": sum(f1s)/len(f1s), "n": len(f1s)}
+                    conv_predictions[sys_name_l] = preds
+                    print(f"  avg_f1 = {conv_results[sys_name_l]['avg_f1']:.3f}")
+                finally:
+                    with torch.no_grad():
+                        tbl.embedding.weight.data[all_rows_t2] = saved_orig2
+            finally:
+                detach_lora(sl)
 
         if not qas:
             print(f"  (skip conv {ci+1}: no QAs in selected categories)")

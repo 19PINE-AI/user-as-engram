@@ -697,13 +697,25 @@ scales linearly with fact count, with per-fact overhead approaching
 
 \paragraph{Cross-metric: LLM-judge.}
 Substring-match has a known failure mode (it rewards answer fluency
-even when the model rambles around the gold answer). We re-score all
-2{,}000 generated answers across the five evaluation conditions under
-\textbf{Qwen2.5-7B-Instruct} as a binary CORRECT/INCORRECT judge.
-The substring metric was \emph{under-crediting} F (45\% $\to$ 29\%);
-per-user LoRA's score is essentially unchanged (6\% $\to$ 9\%). Under
-semantic judge, F still beats B by \textbf{3.3$\times$} (29\% vs
-9\%); the ranking is robust.
+even when the model rambles around the gold answer) and an additional
+mode we identify here: \emph{substring overlap on short answers}
+("\texttt{No}" $\subset$ "\texttt{Noon}", "\texttt{1}" $\subset$
+"\texttt{10}"). When 70--75\% of gold answers are $\leq$3 characters
+(common in personal-fact and medical-patient indirect probes),
+substring-match's false-positive rate is non-trivial: 16\% of F's
+predictions on the personal schema are over-credited
+(predict-contains-gold but semantically wrong), and 7.6\% on the
+medical schema.
+
+We re-score all 2{,}000 generated answers across the five evaluation
+conditions under \textbf{Qwen2.5-7B-Instruct} as a binary
+CORRECT/INCORRECT judge. The substring metric was
+\emph{over-crediting} every condition by 6--16 percentage points; the
+ordering is preserved within schema. On the personal schema F
+goes from 45\% (substring) to 29\% (judge); B goes from 6\% to 9\%
+(judge actually \emph{rewards} B slightly more, eliminating the
+substring-FP gap). \textbf{F's win over B is robust under semantic
+judge: 3.3$\times$ (29\% vs 9\%).}
 
 \paragraph{Cross-schema ($n{=}20$).}
 Does the meta-skill in the post-trained foundational model generalise
