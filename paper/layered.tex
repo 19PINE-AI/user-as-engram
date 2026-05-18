@@ -664,7 +664,7 @@ per-user LoRA's score is essentially unchanged (6\% $\to$ 9\%). Under
 semantic judge, F still beats B by \textbf{3.3$\times$} (29\% vs
 9\%); the ranking is robust.
 
-\paragraph{Cross-schema (preliminary, $n{=}16/20$).}
+\paragraph{Cross-schema ($n{=}20$).}
 Does the meta-skill in the post-trained foundational model generalise
 to a content schema it has never seen? We built a parallel
 \textbf{medical-patient} schema (MRN, primary condition, drug
@@ -673,34 +673,35 @@ but parallel indirect-Q types (age arithmetic; contraindication
 ALLERGY; multi-fact composition). The foundational model is the same
 Mini-Engram-d20-Reasoning (meta-skill trained only on personal-fact
 held-out users). Per-user content is Engram-row overrides for
-medical patients $m_{000}\!-\!m_{015}$.
+medical patients $m_{000}\!-\!m_{019}$.
 
 \begin{table}[t]
   \centering
-  \caption{Cross-schema evaluation (preliminary, $n{=}16$). Meta-skill
-  trained on \emph{personal-fact} held-out users; evaluated on a
+  \caption{Cross-schema evaluation, $n{=}20$. Meta-skill trained on
+  \emph{personal-fact} held-out users; evaluated on a
   \emph{medical-patient} schema the foundational model has never seen.
-  The meta-skill transfers: F's indirect-top-1 jumps from 18\% (no
-  edit) to 73\% (4.1$\times$). Per-user LoRA still contaminates and
-  still hurts the user in 14/16 cases. The Stage-A cross-schema
-  collapse documented in the per-user LoRA literature does \emph{not}
-  apply: separating content from meta-skill is exactly what protects
-  the meta-skill from per-schema overfit.}
+  The meta-skill transfers \emph{partially}: F's indirect-top-1 jumps
+  from 19\% (no edit) to 72\% (3.8$\times$); F's indirect-any
+  improves only modestly (29\% $\to$ 31\%) because the medical schema's
+  baseline is already high. Per-user LoRA still contaminates
+  ($\Delta$bpb $+1.28$, 20/20 users worse). F worse-than-base is
+  9/20—non-trivial—reflecting that the meta-skill is real but
+  imperfect when transferred to an unseen schema.}
   \label{tab:cross-schema}
-  \begin{tabular}{lcccc}
+  \begin{tabular}{lccccc}
     \toprule
-    Condition & direct & indirect top-1 & indirect any & $\Delta$bpb \\
+    Condition & direct & indirect top-1 & indirect any & $\Delta$bpb & worse \\
     \midrule
-    A: no edit                                  & 21\% & 18\% & 28\% & $+0.0000$ \\
-    B: per-user LoRA                            & 100\% & 50\% & \textbf{5\% $\downarrow$} & $+1.24$ \\
-    C: User-as-Engram on \emph{vanilla} base    & 100\% & 18\% & 28\% & $+0.0000$ \\
-    E: meta-skill base only                     & 44\% & \textbf{73\% $\uparrow$} & 33\% & $+0.39$ \\
-    \textbf{F: User as Engram (meta-skill base)} & \textbf{100\%} & \textbf{73\%} & \textbf{33\%} & \textbf{$+0.39$} \\
+    A: no edit                                  & 21\% & 19\% & 29\% & $+0.0000$ & 0/20 \\
+    B: per-user LoRA                            & 100\% & 50\% & \textbf{4\% $\downarrow$} & $+1.28$ & \textbf{20/20} \\
+    C: User-as-Engram on \emph{vanilla} base    & 100\% & 19\% & 29\% & $+0.0000$ & 0/20 \\
+    E: meta-skill base only                     & 43\% & \textbf{72\%} & 31\% & $+0.39$ & 9/20 \\
+    \textbf{F: User as Engram (meta-skill base)} & \textbf{100\%} & \textbf{72\%} & \textbf{31\%} & \textbf{$+0.39$} & 9/20 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\paragraph{The cross-schema result is the principled test.}
+\paragraph{What the cross-schema result teaches.}
 The original cross-schema concern in the per-user LoRA
 literature~\citep{tan2024oppu,zhuang2024hydra} is that a per-user
 adapter learns content-and-skill together, so when the schema changes
@@ -708,8 +709,24 @@ the skill is lost with the content. The layered architecture avoids
 this by construction: the schema-invariant skill lives in the
 foundational model; only the schema-specific content lives in the
 per-user component. The meta-skill foundational model lifts indirect
-reasoning on the medical schema from 18\% to 73\% even though it has
-never seen a single medical fact.
+top-1 on the medical schema from 19\% to 72\% even though it has
+never seen a single medical fact. \textbf{The meta-skill genuinely
+transfers}—the four-fold ratio is not noise.
+
+However, the indirect-\emph{any} margin is much smaller (29\% $\to$
+31\%) than on the personal schema (19\% $\to$ 45\%), and F is worse
+than base on 9 of 20 medical patients. We interpret this honestly:
+the meta-skill is partially schema-specific. Reasoning patterns
+shared between personal and medical schemas (age arithmetic, set
+membership, comparison) transfer cleanly; patterns that differ in
+surface form (BMI-style multi-fact composition vs spouse-age-delta
+multi-fact composition) transfer only weakly. The result is a
+\emph{floor} on what one-shot cross-schema meta-skill transfer
+buys; a fuller story will require training the foundational model
+on multi-schema reasoning corpora (which we have not done here).
+\textbf{Even with this caveat, F Pareto-dominates B cross-schema}—
+7.7$\times$ better indirect-any, 3.3$\times$ less contamination,
+and the LoRA still hurts every single user.
 
 % =============================================================================
 % 8. THE ARCHITECTURAL PROPERTY IS UNIVERSAL
