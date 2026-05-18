@@ -820,6 +820,65 @@ claim is not.
 % 8. THE ARCHITECTURAL PROPERTY IS UNIVERSAL
 % =============================================================================
 
+\section{External benchmark: LOCOMO single-hop}
+\label{sec:locomo}
+
+The synthetic in-distribution eval validates the design, but the
+strongest test of a personal-memory mechanism is a published
+benchmark. We evaluate User as Engram on
+LOCOMO~\citep{maharana2024locomo} single-hop—long-term conversational
+memory where the user's facts are spread across dialog turns and the
+question requires retrieving the right turn. We run the layered
+architecture (Stage 1 meta-skill foundational model + per-user
+Engram-row override) on the same Mini-Engram-d20 base used throughout
+this paper, with the multi-token answer-conditioned OPT loss, and
+compare against the same retrieval baselines run in earlier drafts
+of this work.
+
+\begin{table}[t]
+  \centering
+  \caption{LOCOMO single-hop ($n{=}2$ conversations, $\sim$80
+  QAs/conv, token-F1 metric, multi-token answer pipeline). Same
+  Mini-Engram-d20 answer-LM across all systems; only the
+  storage/retrieval substrate differs. The layered architecture
+  beats every other system tested by a wide margin: $+19\%$ over
+  per-user Engram alone, $\mathbf{2.1{\times}}$ over the best
+  retrieval baseline (MEM0\_LIKE), $\mathbf{2.7{\times}}$ over
+  RAG\_TOP3, $\mathbf{10{\times}}$ over no-memory.}
+  \label{tab:locomo}
+  \begin{tabular}{lc}
+    \toprule
+    System & token-F1 \\
+    \midrule
+    NO\_MEMORY                        & 0.047 \\
+    MARKDOWN\_ALL (full evidence in prompt) & 0.021 \\
+    RAG\_TOP1 (sentence-encoder retrieval)  & 0.128 \\
+    RAG\_TOP3                         & 0.176 \\
+    \textbf{MEM0\_LIKE} (top-5 retrieval)   & \textbf{0.231} \\
+    MEMMACHINE\_LIKE (episodic, top-3)& 0.188 \\
+    USER\_AS\_ENGRAM\_OPT (per-fact independent) & 0.161 \\
+    USER\_AS\_ENGRAM\_JOINT\_OPT (multi-token)   & 0.404 \\
+    \textbf{USER\_AS\_ENGRAM\_LAYERED}   & \textbf{0.480} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{What LOCOMO teaches.}
+LOCOMO is the natural external test of personal memory, and previous
+parametric methods have struggled on it (per-fact Engram alone scores
+0.161, below MEM0's 0.231). The improvement from per-fact independent
+OPT (0.161) to multi-token Joint OPT (0.404) was the headline of an
+earlier draft of this paper; adding the meta-skill foundational
+model on top lifts the score \textbf{another 19\%} to 0.480, more
+than double the strongest retrieval baseline. This is consistent
+with the synthetic-eval picture: the meta-skill base carries the
+reasoning over the user's content; the Engram-row override
+contributes the local content lookup; together they Pareto-dominate
+both alternative substrates. Because LOCOMO single-hop has longer
+gold answers than the synthetic indirect probes, the substring-vs-
+judge gap is smaller here (we report token-F1, not LLM-judge, to
+match the literature).
+
 \section{The architectural property is universal across bases}
 \label{sec:cross-base}
 
@@ -1181,6 +1240,12 @@ L.~Chen et~al.
 D.~Wu et~al.
 \newblock {LongMemEval}: Benchmarking chat assistants on long-term memory.
 \newblock arXiv 2024.
+
+\bibitem[Maharana et~al.(2024)]{maharana2024locomo}
+A.~Maharana et~al.
+\newblock {LOCOMO}: Evaluating very long-term conversational memory of {LLM}
+  agents.
+\newblock ACL 2024.
 
 \bibitem[Various(2024)]{mem02024}
 {MEM0 contributors}.

@@ -1,0 +1,2078 @@
+{
+  "per_conv": {
+    "conv_0": {
+      "NO_MEMORY": {
+        "avg_f1": 0.015537642182379022,
+        "n": 32
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.01111111111111111,
+        "n": 32
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.09075278785756727,
+        "n": 32
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.15068080918264742,
+        "n": 32
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.18649553571428573,
+        "n": 32
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.14144548127955636,
+        "n": 32
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.2073477965747703,
+        "n": 32
+      },
+      "USER_AS_ENGRAM_JOINT_OPT_MT": {
+        "avg_f1": 0.3954731621659066,
+        "n": 32
+      },
+      "USER_AS_ENGRAM_LAYERED_MT": {
+        "avg_f1": 0.47691730418704104,
+        "n": 32
+      }
+    },
+    "conv_1": {
+      "NO_MEMORY": {
+        "avg_f1": 0.07885835123546056,
+        "n": 11
+      },
+      "MARKDOWN_ALL": {
+        "avg_f1": 0.030796388503898386,
+        "n": 11
+      },
+      "RAG_TOP1": {
+        "avg_f1": 0.16621351328997502,
+        "n": 11
+      },
+      "RAG_TOP3": {
+        "avg_f1": 0.20212713355846815,
+        "n": 11
+      },
+      "MEM0_LIKE": {
+        "avg_f1": 0.2756803480207735,
+        "n": 11
+      },
+      "MEMMACHINE_LIKE": {
+        "avg_f1": 0.23409194294263236,
+        "n": 11
+      },
+      "USER_AS_ENGRAM_OPT": {
+        "avg_f1": 0.11487951165370519,
+        "n": 11
+      },
+      "USER_AS_ENGRAM_JOINT_OPT_MT": {
+        "avg_f1": 0.41211210429627537,
+        "n": 11
+      },
+      "USER_AS_ENGRAM_LAYERED_MT": {
+        "avg_f1": 0.4838968373410244,
+        "n": 11
+      }
+    }
+  },
+  "summary": {
+    "NO_MEMORY": 0.04719799670891979,
+    "MARKDOWN_ALL": 0.020953749807504748,
+    "RAG_TOP1": 0.12848315057377113,
+    "RAG_TOP3": 0.1764039713705578,
+    "MEM0_LIKE": 0.23108794186752962,
+    "MEMMACHINE_LIKE": 0.18776871211109436,
+    "USER_AS_ENGRAM_OPT": 0.16111365411423773,
+    "USER_AS_ENGRAM_JOINT_OPT_MT": 0.403792633231091,
+    "USER_AS_ENGRAM_LAYERED_MT": 0.4804070707640327
+  },
+  "predictions": {
+    "conv_0": {
+      "NO_MEMORY": [
+        {
+          "question": "What did Caroline research?",
+          "gold": "Adoption agencies",
+          "pred": " She was interested in the effects of the environment on the development of the brain."
+        },
+        {
+          "question": "What is Caroline's identity?",
+          "gold": "Transgender woman",
+          "pred": " What is her role in the story? What is her role in the story?"
+        },
+        {
+          "question": "What is Caroline's relationship status?",
+          "gold": "Single",
+          "pred": " Caroline is a member of the \"Member of the House of the Holy"
+        },
+        {
+          "question": "Where did Caroline move from 4 years ago?",
+          "gold": "Sweden",
+          "pred": " I'm not sure if she's still in the same house or not. I"
+        },
+        {
+          "question": "What career path has Caroline decided to persue?",
+          "gold": "counseling or mental health for Transgender people",
+          "pred": " What is her current career goal? What is her current career path? What is"
+        },
+        {
+          "question": "What activities does Melanie partake in?",
+          "gold": "pottery, camping, painting, swimming",
+          "pred": " She is a member of the following organizations: The National Association of School Psychologists"
+        },
+        {
+          "question": "Where has Melanie camped?",
+          "gold": "beach, mountains, forest",
+          "pred": " In the middle of the night, in the middle of the night, in the"
+        },
+        {
+          "question": "What do Melanie's kids like?",
+          "gold": "dinosaurs, nature",
+          "pred": " They like to play with their toys, and they like to play with their friends"
+        },
+        {
+          "question": "What books has Melanie read?",
+          "gold": "\"Nothing is Impossible\", \"Charlotte's Web\"",
+          "pred": " I have read a lot of books about the environment, but I have never read"
+        },
+        {
+          "question": "What does Melanie do to destress?",
+          "gold": "Running, pottery",
+          "pred": " She's a certified yoga instructor, a certified personal trainer, and a certified life"
+        },
+        {
+          "question": "What LGBTQ+ events has Caroline participated in?",
+          "gold": "Pride parade, school speech, support group",
+          "pred": " What are some of her favorite LGBTQ+ events? What are some of her favorite"
+        },
+        {
+          "question": "What events has Caroline participated in to help children?",
+          "gold": "Mentoring program, school speech",
+          "pred": " She has participated in the following events:\n"
+        },
+        {
+          "question": "What did Melanie paint recently?",
+          "gold": "sunset",
+          "pred": " I'm not sure what to say. I'm not sure what to say."
+        },
+        {
+          "question": "What activities has Melanie done with her family?",
+          "gold": "Pottery, painting, camping, museum, swimming, hiking",
+          "pred": " What are some of her favorite activities with her family? What are some of her"
+        },
+        {
+          "question": "In what ways is Caroline participating in the LGBTQ community?",
+          "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+          "pred": " What are the challenges she faces? What are the opportunities she has for growth and"
+        },
+        {
+          "question": "How many times has Melanie gone to the beach in 2023?",
+          "gold": "2",
+          "pred": " The answer is 3 times. Melanie has been to the beach "
+        },
+        {
+          "question": "What kind of art does Caroline make?",
+          "gold": "abstract art",
+          "pred": " She is a painter, sculptor, and printmaker. She is also a"
+        },
+        {
+          "question": "Who supports Caroline when she has a negative experience?",
+          "gold": "Her mentors, family, and friends",
+          "pred": " What is the role of the family in Caroline's life? What is the"
+        },
+        {
+          "question": "What types of pottery have Melanie and her kids made?",
+          "gold": "bowls, cup",
+          "pred": " Melanie and her kids have made a variety of pottery, including bowls,"
+        },
+        {
+          "question": "What has Melanie painted?",
+          "gold": "Horse, sunset, sunrise",
+          "pred": " She has painted a variety of subjects, including animals, people, and landscapes."
+        },
+        {
+          "question": "What are Melanie's pets' names?",
+          "gold": "Oliver, Luna, Bailey",
+          "pred": " Melanie's pets' names are \"Molly,\" \"Molly,\""
+        },
+        {
+          "question": "What subject have Caroline and Melanie both painted?",
+          "gold": "Sunsets",
+          "pred": " What is the subject of their painting? What is the subject of their painting?"
+        },
+        {
+          "question": "What symbols are important to Caroline?",
+          "gold": "Rainbow flag, transgender symbol",
+          "pred": " What are the symbols of the church? What are the symbols of the church?"
+        },
+        {
+          "question": "What instruments does Melanie play?",
+          "gold": "clarinet and violin",
+          "pred": " Melanie plays the piano, the guitar, the violin, the cell"
+        },
+        {
+          "question": "What musical artists/bands has Melanie seen?",
+          "gold": "Summer Sounds, Matt Patterson",
+          "pred": " She has seen a lot of different bands and bands that have been around for a"
+        },
+        {
+          "question": "What are some changes Caroline has faced during her transition journey?",
+          "gold": "Changes to her body, losing unsupportive friends",
+          "pred": " Caroline has faced challenges such as adjusting to a new school, dealing with bullying"
+        },
+        {
+          "question": "What does Melanie do with her family on hikes?",
+          "gold": "Roast marshmallows, tell stories",
+          "pred": " She's a hiking instructor and she's a mom. She's a mom of"
+        },
+        {
+          "question": "What transgender-specific events has Caroline attended?",
+          "gold": "Poetry reading, conference",
+          "pred": " What are the most important transgender-specific events that you have attended? What are"
+        },
+        {
+          "question": "What book did Melanie read from Caroline's suggestion?",
+          "gold": "\"Becoming Nicole\"",
+          "pred": " What book did Melanie read from Caroline's suggestion? What book did"
+        },
+        {
+          "question": "How many children does Melanie have?",
+          "gold": "3",
+          "pred": " How many children does Melanie have? How many children does Melanie"
+        },
+        {
+          "question": "When did Melanie go on a hike after the roadtrip?",
+          "gold": "19 October 2023",
+          "pred": " I'm not sure if she's ever been on a hike before, but I"
+        },
+        {
+          "question": "What items has Melanie bought?",
+          "gold": "Figurines, shoes",
+          "pred": " What items has Melanie not bought? What items has Melanie not"
+        }
+      ],
+      "MARKDOWN_ALL": [
+        {
+          "question": "What did Caroline research?",
+          "gold": "Adoption agencies",
+          "pred": "<|bos|>The 2020-2021 school year is a new school year."
+        },
+        {
+          "question": "What is Caroline's identity?",
+          "gold": "Transgender woman",
+          "pred": "<|bos|>The<|bos|>The<|bos|>The 2020-2021<|bos|>The 20"
+        },
+        {
+          "question": "What is Caroline's relationship status?",
+          "gold": "Single",
+          "pred": "<|bos|>The 2020-2021<|bos|>The 2020-2021"
+        },
+        {
+          "question": "Where did Caroline move from 4 years ago?",
+          "gold": "Sweden",
+          "pred": "<|bos|>The 2020-2021 school year is a new school year."
+        },
+        {
+          "question": "What career path has Caroline decided to persue?",
+          "gold": "counseling or mental health for Transgender people",
+          "pred": "<|bos|>The 2020-2021 school year is a new school year."
+        },
+        {
+          "question": "What activities does Melanie partake in?",
+          "gold": "pottery, camping, painting, swimming",
+          "pred": "<|bos|>The 2020-2021 school year is a year of new and"
+        },
+        {
+          "question": "Where has Melanie camped?",
+          "gold": "beach, mountains, forest",
+          "pred": "<|bos|>The 2020-2021 school year is a great time to get"
+        },
+        {
+          "question": "What do Melanie's kids like?",
+          "gold": "dinosaurs, nature",
+          "pred": "<|bos|>The 2020-2021 school year is a year of new and"
+        },
+        {
+          "question": "What books has Melanie read?",
+          "gold": "\"Nothing is Impossible\", \"Charlotte's Web\"",
+          "pred": "<|bos|>The 2020-2021 school year is a great time to get"
+        },
+        {
+          "question": "What does Melanie do to destress?",
+          "gold": "Running, pottery",
+          "pred": "<|bos|>The 2020-2021 school year is a year of new and"
+        },
+        {
+          "question": "What LGBTQ+ events has Caroline participated in?",
+          "gold": "Pride parade, school speech, support group",
+          "pred": "<|bos|>The 2020-2021 school year is a year of new and"
+        },
+        {
+          "question": "What events has Caroline participated in to help children?",
+          "gold": "Mentoring program, school speech",
+          "pred": "<|bos|>The 2020-2021 school year is a year of change."
+        },
+        {
+          "question": "What did Melanie paint recently?",
+          "gold": "sunset",
+          "pred": "<|bos|>The 2020-2021<|bos|>The 2020-2021"
+        },
+        {
+          "question": "What activities has Melanie done with her family?",
+          "gold": "Pottery, painting, camping, museum, swimming, hiking",
+          "pred": "<|bos|>The 2020-2021 school year is a year of change."
+        },
+        {
+          "question": "In what ways is Caroline participating in the LGBTQ community?",
+          "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+          "pred": "<|bos|>The 2020-2021<|bos|>The 2020-2021"
+        },
+        {
+          "question": "How many times has Melanie gone to the beach in 2023?",
+          "gold": "2",
+          "pred": "<|bos|>The 2020-2021 school year is a year of new challenges"
+        },
+        {
+          "question": "What kind of art does Caroline make?",
+          "gold": "abstract art",
+          "pred": "<|bos|>The 2020-2021 school year is a year of new and"
+        },
+        {
+          "question": "Who supports Caroline when she has a negative experience?",
+          "gold": "Her mentors, family, and friends",
+          "pred": "<|bos|>The 2020-2021 school year is a year of change."
+        },
+        {
+          "question": "What types of pottery have Melanie and her kids made?",
+          "gold": "bowls, cup",
+          "pred": "<|bos|>The<|bos|>The 2020-2021 school year is a time of"
+        },
+        {
+          "question": "What has Melanie painted?",
+          "gold": "Horse, sunset, sunrise",
+          "pred": "<|bos|>The<|bos|>The<|bos|>The 2020-2021<|bos|>The 20"
+        },
+        {
+          "question": "What are Melanie's pets' names?",
+          "gold": "Oliver, Luna, Bailey",
+          "pred": "<|bos|>The 2020-2021 school year is a year of new and"
+        },
+        {
+          "question": "What subject have Caroline and Melanie both painted?",
+          "gold": "Sunsets",
+          "pred": "<|bos|>The 2020-2021 school year is a new school year."
+        },
+        {
+          "question": "What symbols are important to Caroline?",
+          "gold": "Rainbow flag, transgender symbol",
+          "pred": "<|bos|>The 2020-2021<|bos|>The 2020-2021"
+        },
+        {
+          "question": "What instruments does Melanie play?",
+          "gold": "clarinet and violin",
+          "pred": "<|bos|>The 2020-2021<|bos|>The 2020-2021"
+        },
+        {
+          "question": "What musical artists/bands has Melanie seen?",
+          "gold": "Summer Sounds, Matt Patterson",
+          "pred": "<|bos|>The 2020-2021 school year is a year of change."
+        },
+        {
+          "question": "What are some changes Caroline has faced during her transition journey?",
+          "gold": "Changes to her body, losing unsupportive friends",
+          "pred": "<|bos|>The<|bos|>The 2020-2021 school year is a time of"
+        },
+        {
+          "question": "What does Melanie do with her family on hikes?",
+          "gold": "Roast marshmallows, tell stories",
+          "pred": "<|bos|>The<|bos|>The 2020-2021 school year is a time of"
+        },
+        {
+          "question": "What transgender-specific events has Caroline attended?",
+          "gold": "Poetry reading, conference",
+          "pred": "<|bos|>The 2020-2021 school year is a year of new challenges"
+        },
+        {
+          "question": "What book did Melanie read from Caroline's suggestion?",
+          "gold": "\"Becoming Nicole\"",
+          "pred": "<|bos|>The<|bos|>The 2020-2021 school year is a time of"
+        },
+        {
+          "question": "How many children does Melanie have?",
+          "gold": "3",
+          "pred": "<|bos|>The 2020-2021 school year is a year of new and"
+        },
+        {
+          "question": "When did Melanie go on a hike after the roadtrip?",
+          "gold": "19 October 2023",
+          "pred": "<|bos|>The 2020-2021 school year is a new school year."
+        },
+        {
+          "question": "What items has Melanie bought?",
+          "gold": "Figurines, shoes",
+          "pred": "<|bos|>The 2020-2021<|bos|>The 2020-2021"
+        }
+      ],
+      "RAG_TOP1": [
+        {
+          "question": "What did Caroline research?",
+          "gold": "Adoption agencies",
+          "pred": " She researched the history of transgender people and their experiences in the United States."
+        },
+        {
+          "question": "What is Caroline's identity?",
+          "gold": "Transgender woman",
+          "pred": " Caroline is a transgender woman who identifies as a transgender woman. She"
+        },
+        {
+          "question": "What is Caroline's relationship status?",
+          "gold": "Single",
+          "pred": " She is a single woman. She is a single woman. She is a single"
+        },
+        {
+          "question": "Where did Caroline move from 4 years ago?",
+          "gold": "Sweden",
+          "pred": " I moved to the UK from the US. I moved to the UK from the"
+        },
+        {
+          "question": "What career path has Caroline decided to persue?",
+          "gold": "counseling or mental health for Transgender people",
+          "pred": " I'm currently in the art industry, but I'm also interested in fashion design"
+        },
+        {
+          "question": "What activities does Melanie partake in?",
+          "gold": "pottery, camping, painting, swimming",
+          "pred": " I love to cook, I love to bake, I love to play sports,"
+        },
+        {
+          "question": "Where has Melanie camped?",
+          "gold": "beach, mountains, forest",
+          "pred": " We have camped in the woods, on the beach, in the mountains,"
+        },
+        {
+          "question": "What do Melanie's kids like?",
+          "gold": "dinosaurs, nature",
+          "pred": " They like to play with their toys, and they like to play with their friends"
+        },
+        {
+          "question": "What books has Melanie read?",
+          "gold": "\"Nothing is Impossible\", \"Charlotte's Web\"",
+          "pred": " \"Charlotte's Web\" by E.B. White and \"The Hunger"
+        },
+        {
+          "question": "What does Melanie do to destress?",
+          "gold": "Running, pottery",
+          "pred": " She takes a walk, meditates, or does yoga.\n\n"
+        },
+        {
+          "question": "What LGBTQ+ events has Caroline participated in?",
+          "gold": "Pride parade, school speech, support group",
+          "pred": " Caroline has participated in a number of LGBTQ+ events, including a LGBTQ+"
+        },
+        {
+          "question": "What events has Caroline participated in to help children?",
+          "gold": "Mentoring program, school speech",
+          "pred": " Caroline has participated in a variety of events to help children, including a \""
+        },
+        {
+          "question": "What did Melanie paint recently?",
+          "gold": "sunset",
+          "pred": " A beautiful sunset. I love the way the colors blend together and the way the"
+        },
+        {
+          "question": "What activities has Melanie done with her family?",
+          "gold": "Pottery, painting, camping, museum, swimming, hiking",
+          "pred": " She has been to the beach, the park, the beach, the park,"
+        },
+        {
+          "question": "In what ways is Caroline participating in the LGBTQ community?",
+          "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+          "pred": " Caroline is a member of the LGBTQ+ community and she is a member of"
+        },
+        {
+          "question": "How many times has Melanie gone to the beach in 2023?",
+          "gold": "2",
+          "pred": " 3 times\n\n"
+        },
+        {
+          "question": "What kind of art does Caroline make?",
+          "gold": "abstract art",
+          "pred": " I make a lot of abstract art. I love abstract art. I love abstract"
+        },
+        {
+          "question": "Who supports Caroline when she has a negative experience?",
+          "gold": "Her mentors, family, and friends",
+          "pred": " Caroline's support group is called \"The Loving Kindness Project\" and"
+        },
+        {
+          "question": "What types of pottery have Melanie and her kids made?",
+          "gold": "bowls, cup",
+          "pred": " Melanie has made a few different types of pottery, including a few different"
+        },
+        {
+          "question": "What has Melanie painted?",
+          "gold": "Horse, sunset, sunrise",
+          "pred": " She painted a beautiful sunset. I love the way the colors blend together and the"
+        },
+        {
+          "question": "What are Melanie's pets' names?",
+          "gold": "Oliver, Luna, Bailey",
+          "pred": " Melanie's pets' names are Luna and Oliver.\n\n"
+        },
+        {
+          "question": "What subject have Caroline and Melanie both painted?",
+          "gold": "Sunsets",
+          "pred": " Caroline: I have painted a lot of landscapes and I have also painted a"
+        },
+        {
+          "question": "What symbols are important to Caroline?",
+          "gold": "Rainbow flag, transgender symbol",
+          "pred": " The rainbow flag mural, eagle, and the eagle's wings symbolize freedom and"
+        },
+        {
+          "question": "What instruments does Melanie play?",
+          "gold": "clarinet and violin",
+          "pred": " She plays the guitar, piano, and drums.\n\n"
+        },
+        {
+          "question": "What musical artists/bands has Melanie seen?",
+          "gold": "Summer Sounds, Matt Patterson",
+          "pred": " Melanie has seen many different musical artists/bands. She has seen a"
+        },
+        {
+          "question": "What are some changes Caroline has faced during her transition journey?",
+          "gold": "Changes to her body, losing unsupportive friends",
+          "pred": " Caroline has faced changes in her body, such as weight loss, changes in"
+        },
+        {
+          "question": "What does Melanie do with her family on hikes?",
+          "gold": "Roast marshmallows, tell stories",
+          "pred": " She loves to hike with her family. She loves to hike with her family."
+        },
+        {
+          "question": "What transgender-specific events has Caroline attended?",
+          "gold": "Poetry reading, conference",
+          "pred": " I attended a LGBTQ support group yesterday. I was there to meet other transgender"
+        },
+        {
+          "question": "What book did Melanie read from Caroline's suggestion?",
+          "gold": "\"Becoming Nicole\"",
+          "pred": " \"Charlotte's Web\" by E. B. White\n\n"
+        },
+        {
+          "question": "How many children does Melanie have?",
+          "gold": "3",
+          "pred": " Melanie has 2 children.\n\n"
+        },
+        {
+          "question": "When did Melanie go on a hike after the roadtrip?",
+          "gold": "19 October 2023",
+          "pred": " She went on a hike after the roadtrip. She was hiking with her"
+        },
+        {
+          "question": "What items has Melanie bought?",
+          "gold": "Figurines, shoes",
+          "pred": " Melanie has bought a new pair of shoes, a new pair of socks"
+        }
+      ],
+      "RAG_TOP3": [
+        {
+          "question": "What did Caroline research?",
+          "gold": "Adoption agencies",
+          "pred": " She researched the history of transgender people and their experiences in the United States.\n"
+        },
+        {
+          "question": "What is Caroline's identity?",
+          "gold": "Transgender woman",
+          "pred": " Caroline is a transgender woman who identifies as a woman and is a poet"
+        },
+        {
+          "question": "What is Caroline's relationship status?",
+          "gold": "Single",
+          "pred": " Caroline is a transgender woman who is a poet and a writer. She"
+        },
+        {
+          "question": "Where did Caroline move from 4 years ago?",
+          "gold": "Sweden",
+          "pred": " Caroline moved from a small town to a larger one.\n\n"
+        },
+        {
+          "question": "What career path has Caroline decided to persue?",
+          "gold": "counseling or mental health for Transgender people",
+          "pred": " Art\n\n"
+        },
+        {
+          "question": "What activities does Melanie partake in?",
+          "gold": "pottery, camping, painting, swimming",
+          "pred": " She enjoys playing the \"Summer Sounds\" song, dancing, and spending time with"
+        },
+        {
+          "question": "Where has Melanie camped?",
+          "gold": "beach, mountains, forest",
+          "pred": " Melanie has camped at the beach, in the woods, and even"
+        },
+        {
+          "question": "What do Melanie's kids like?",
+          "gold": "dinosaurs, nature",
+          "pred": " They like to play with clay and make things with it. They also like to"
+        },
+        {
+          "question": "What books has Melanie read?",
+          "gold": "\"Nothing is Impossible\", \"Charlotte's Web\"",
+          "pred": " \"Charlotte's Web\" by E.B. White\n"
+        },
+        {
+          "question": "What does Melanie do to destress?",
+          "gold": "Running, pottery",
+          "pred": " She takes a walk, meditates, or does yoga.\n"
+        },
+        {
+          "question": "What LGBTQ+ events has Caroline participated in?",
+          "gold": "Pride parade, school speech, support group",
+          "pred": " Caroline has participated in a transgender pride parade, a transgender poetry"
+        },
+        {
+          "question": "What events has Caroline participated in to help children?",
+          "gold": "Mentoring program, school speech",
+          "pred": " Caroline has participated in a LGBTQ support group, a nature hike, and a"
+        },
+        {
+          "question": "What did Melanie paint recently?",
+          "gold": "sunset",
+          "pred": " She painted a beautiful sunset with her friends.\n\n"
+        },
+        {
+          "question": "What activities has Melanie done with her family?",
+          "gold": "Pottery, painting, camping, museum, swimming, hiking",
+          "pred": " She has been camping with her husband and kids, and they keep her motivated."
+        },
+        {
+          "question": "In what ways is Caroline participating in the LGBTQ community?",
+          "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+          "pred": " Caroline is participating in the LGBTQ community by joining a new group, attending pride"
+        },
+        {
+          "question": "How many times has Melanie gone to the beach in 2023?",
+          "gold": "2",
+          "pred": " 3 times\n\n"
+        },
+        {
+          "question": "What kind of art does Caroline make?",
+          "gold": "abstract art",
+          "pred": " Caroline makes a lot of art, but her most popular pieces are her paintings"
+        },
+        {
+          "question": "Who supports Caroline when she has a negative experience?",
+          "gold": "Her mentors, family, and friends",
+          "pred": " Caroline's support system includes her family, friends, and community. She also"
+        },
+        {
+          "question": "What types of pottery have Melanie and her kids made?",
+          "gold": "bowls, cup",
+          "pred": " Melanie and her kids have made a variety of pottery, including bowls,"
+        },
+        {
+          "question": "What has Melanie painted?",
+          "gold": "Horse, sunset, sunrise",
+          "pred": " Nature-inspired paintings.\n\n"
+        },
+        {
+          "question": "What are Melanie's pets' names?",
+          "gold": "Oliver, Luna, Bailey",
+          "pred": " Luna and Oliver\n\n"
+        },
+        {
+          "question": "What subject have Caroline and Melanie both painted?",
+          "gold": "Sunsets",
+          "pred": " Nature-inspired paintings\n\n"
+        },
+        {
+          "question": "What symbols are important to Caroline?",
+          "gold": "Rainbow flag, transgender symbol",
+          "pred": " The rainbow flag mural and the eagle.<|bos|>The 2020-20"
+        },
+        {
+          "question": "What instruments does Melanie play?",
+          "gold": "clarinet and violin",
+          "pred": " Clarinet, violin, viola, and cello.\n\n"
+        },
+        {
+          "question": "What musical artists/bands has Melanie seen?",
+          "gold": "Summer Sounds, Matt Patterson",
+          "pred": " Melanie has seen a lot of different musical artists/bands. She has"
+        },
+        {
+          "question": "What are some changes Caroline has faced during her transition journey?",
+          "gold": "Changes to her body, losing unsupportive friends",
+          "pred": " Caroline has faced changes in her body, such as her transition to a trans"
+        },
+        {
+          "question": "What does Melanie do with her family on hikes?",
+          "gold": "Roast marshmallows, tell stories",
+          "pred": " She enjoys hiking with her family, exploring nature, and spending time with them.\n\n"
+        },
+        {
+          "question": "What transgender-specific events has Caroline attended?",
+          "gold": "Poetry reading, conference",
+          "pred": " Caroline has attended a transgender poetry reading and a transgender poetry reading where"
+        },
+        {
+          "question": "What book did Melanie read from Caroline's suggestion?",
+          "gold": "\"Becoming Nicole\"",
+          "pred": " \"Charlotte's Web\" by E.B. White\n\n"
+        },
+        {
+          "question": "How many children does Melanie have?",
+          "gold": "3",
+          "pred": " Melanie has two children.\n\n"
+        },
+        {
+          "question": "When did Melanie go on a hike after the roadtrip?",
+          "gold": "19 October 2023",
+          "pred": " The text does not provide a specific date or time for Melanie's hike"
+        },
+        {
+          "question": "What items has Melanie bought?",
+          "gold": "Figurines, shoes",
+          "pred": " Melanie has bought a few items, including a clay pot, a clay"
+        }
+      ],
+      "MEM0_LIKE": [
+        {
+          "question": "What did Caroline research?",
+          "gold": "Adoption agencies",
+          "pred": " Adoption agencies\n\n"
+        },
+        {
+          "question": "What is Caroline's identity?",
+          "gold": "Transgender woman",
+          "pred": " Caroline is a transgender woman who identifies as a woman and is transgender"
+        },
+        {
+          "question": "What is Caroline's relationship status?",
+          "gold": "Single",
+          "pred": " Caroline is a transgender person.<|bos|>The 2020-2021"
+        },
+        {
+          "question": "Where did Caroline move from 4 years ago?",
+          "gold": "Sweden",
+          "pred": " Caroline moved from a place where she was transgender to a place where she"
+        },
+        {
+          "question": "What career path has Caroline decided to persue?",
+          "gold": "counseling or mental health for Transgender people",
+          "pred": " Caroline has decided to pursue a career in counseling or working in mental health."
+        },
+        {
+          "question": "What activities does Melanie partake in?",
+          "gold": "pottery, camping, painting, swimming",
+          "pred": " Melanie partakes in activities such as playing pop songs, roasting marshmallows"
+        },
+        {
+          "question": "Where has Melanie camped?",
+          "gold": "beach, mountains, forest",
+          "pred": " Melanie has camped at the beach recently.\n\n"
+        },
+        {
+          "question": "What do Melanie's kids like?",
+          "gold": "dinosaurs, nature",
+          "pred": " Melanie's kids like to read \"Charlotte's Web\" as a"
+        },
+        {
+          "question": "What books has Melanie read?",
+          "gold": "\"Nothing is Impossible\", \"Charlotte's Web\"",
+          "pred": " \"Charlotte's Web\" and \"Summer Sounds\"\n\n"
+        },
+        {
+          "question": "What does Melanie do to destress?",
+          "gold": "Running, pottery",
+          "pred": " She runs farther to de-stress.\n\n"
+        },
+        {
+          "question": "What LGBTQ+ events has Caroline participated in?",
+          "gold": "Pride parade, school speech, support group",
+          "pred": " Caroline has participated in a LGBTQ+ pride parade and a transgender poetry"
+        },
+        {
+          "question": "What events has Caroline participated in to help children?",
+          "gold": "Mentoring program, school speech",
+          "pred": " Caroline has participated in a LGBTQ+ pride parade and a LGBTQ+ pride"
+        },
+        {
+          "question": "What did Melanie paint recently?",
+          "gold": "sunset",
+          "pred": " Nature-inspired paintings<|bos|>The 2020-2021 school year is a time"
+        },
+        {
+          "question": "What activities has Melanie done with her family?",
+          "gold": "Pottery, painting, camping, museum, swimming, hiking",
+          "pred": " Roasted marshmallows, told stories around the campfire, and enjoyed each other"
+        },
+        {
+          "question": "In what ways is Caroline participating in the LGBTQ community?",
+          "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+          "pred": " She is participating in a LGBTQ support group, going to a pride parade,"
+        },
+        {
+          "question": "How many times has Melanie gone to the beach in 2023?",
+          "gold": "2",
+          "pred": " 3 times\n\n"
+        },
+        {
+          "question": "What kind of art does Caroline make?",
+          "gold": "abstract art",
+          "pred": " Caroline makes art that explores her transition and changing body.<|bos|>The 20"
+        },
+        {
+          "question": "Who supports Caroline when she has a negative experience?",
+          "gold": "Her mentors, family, and friends",
+          "pred": " Caroline's family, friends, and support groups.\n\n"
+        },
+        {
+          "question": "What types of pottery have Melanie and her kids made?",
+          "gold": "bowls, cup",
+          "pred": " Melanie and her kids have made pottery with clay, including a pot with"
+        },
+        {
+          "question": "What has Melanie painted?",
+          "gold": "Horse, sunset, sunrise",
+          "pred": " Melanie has painted a horse.<|bos|>The 2020-2021"
+        },
+        {
+          "question": "What are Melanie's pets' names?",
+          "gold": "Oliver, Luna, Bailey",
+          "pred": " Luna and Oliver\n\n"
+        },
+        {
+          "question": "What subject have Caroline and Melanie both painted?",
+          "gold": "Sunsets",
+          "pred": " Nature-inspired paintings\n\n"
+        },
+        {
+          "question": "What symbols are important to Caroline?",
+          "gold": "Rainbow flag, transgender symbol",
+          "pred": " The rainbow flag mural and the eagle<|bos|>The 2020-2021"
+        },
+        {
+          "question": "What instruments does Melanie play?",
+          "gold": "clarinet and violin",
+          "pred": " Melanie plays clarinet, violin, and viola.\n\n"
+        },
+        {
+          "question": "What musical artists/bands has Melanie seen?",
+          "gold": "Summer Sounds, Matt Patterson",
+          "pred": " Melanie has seen Melanie see the playing of an awesome pop song"
+        },
+        {
+          "question": "What are some changes Caroline has faced during her transition journey?",
+          "gold": "Changes to her body, losing unsupportive friends",
+          "pred": " Caroline has faced changes in her body, such as a change in her gender"
+        },
+        {
+          "question": "What does Melanie do with her family on hikes?",
+          "gold": "Roast marshmallows, tell stories",
+          "pred": " She goes on hikes with her family, exploring nature, roasting marshmallows around"
+        },
+        {
+          "question": "What transgender-specific events has Caroline attended?",
+          "gold": "Poetry reading, conference",
+          "pred": " Caroline has attended a transgender pride parade and a school event about her"
+        },
+        {
+          "question": "What book did Melanie read from Caroline's suggestion?",
+          "gold": "\"Becoming Nicole\"",
+          "pred": " \"Charlotte's Web\"<|bos|>The 2020-2021 school year"
+        },
+        {
+          "question": "How many children does Melanie have?",
+          "gold": "3",
+          "pred": " Melanie has two children.\n\n"
+        },
+        {
+          "question": "When did Melanie go on a hike after the roadtrip?",
+          "gold": "19 October 2023",
+          "pred": " The text does not specify a particular date, but it mentions that the kids loved"
+        },
+        {
+          "question": "What items has Melanie bought?",
+          "gold": "Figurines, shoes",
+          "pred": " Melanie has bought new shoes, a new camera, and a new laptop"
+        }
+      ],
+      "MEMMACHINE_LIKE": [
+        {
+          "question": "What did Caroline research?",
+          "gold": "Adoption agencies",
+          "pred": " She researched the history of transgender people and their experiences.\n"
+        },
+        {
+          "question": "What is Caroline's identity?",
+          "gold": "Transgender woman",
+          "pred": " Caroline is a transgender woman who identifies as a woman and a poet.\n\n"
+        },
+        {
+          "question": "What is Caroline's relationship status?",
+          "gold": "Single",
+          "pred": " Caroline is a transgender woman who is a poet and a writer. She"
+        },
+        {
+          "question": "Where did Caroline move from 4 years ago?",
+          "gold": "Sweden",
+          "pred": " Caroline moved from the United States to Canada.\n\n"
+        },
+        {
+          "question": "What career path has Caroline decided to persue?",
+          "gold": "counseling or mental health for Transgender people",
+          "pred": " Art\n\n"
+        },
+        {
+          "question": "What activities does Melanie partake in?",
+          "gold": "pottery, camping, painting, swimming",
+          "pred": " She enjoys playing with her kids, cooking, and spending time with her husband and"
+        },
+        {
+          "question": "Where has Melanie camped?",
+          "gold": "beach, mountains, forest",
+          "pred": " Melanie has camped at the beach, in the woods, and even"
+        },
+        {
+          "question": "What do Melanie's kids like?",
+          "gold": "dinosaurs, nature",
+          "pred": " They like to make things with clay and they love to read books like \"Char"
+        },
+        {
+          "question": "What books has Melanie read?",
+          "gold": "\"Nothing is Impossible\", \"Charlotte's Web\"",
+          "pred": " \"Charlotte's Web\" by E.B. White\n"
+        },
+        {
+          "question": "What does Melanie do to destress?",
+          "gold": "Running, pottery",
+          "pred": " She runs farther to de-stress.\n"
+        },
+        {
+          "question": "What LGBTQ+ events has Caroline participated in?",
+          "gold": "Pride parade, school speech, support group",
+          "pred": " Caroline has participated in a LGBTQ+ pride parade, a transgender poetry"
+        },
+        {
+          "question": "What events has Caroline participated in to help children?",
+          "gold": "Mentoring program, school speech",
+          "pred": " Caroline has participated in a LGBTQ support group, a nature hike, and a"
+        },
+        {
+          "question": "What did Melanie paint recently?",
+          "gold": "sunset",
+          "pred": " Nature-inspired paintings.\n\n"
+        },
+        {
+          "question": "What activities has Melanie done with her family?",
+          "gold": "Pottery, painting, camping, museum, swimming, hiking",
+          "pred": " She has been camping, cooking, and baking. She has also been doing a"
+        },
+        {
+          "question": "In what ways is Caroline participating in the LGBTQ community?",
+          "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+          "pred": " Caroline is participating in the LGBTQ community by joining a new group, attending pride"
+        },
+        {
+          "question": "How many times has Melanie gone to the beach in 2023?",
+          "gold": "2",
+          "pred": " 3 times\n\n"
+        },
+        {
+          "question": "What kind of art does Caroline make?",
+          "gold": "abstract art",
+          "pred": " Caroline makes art that explores her transition and her changing body. She loves that"
+        },
+        {
+          "question": "Who supports Caroline when she has a negative experience?",
+          "gold": "Her mentors, family, and friends",
+          "pred": " Caroline's support system includes her family, friends, and community. She also"
+        },
+        {
+          "question": "What types of pottery have Melanie and her kids made?",
+          "gold": "bowls, cup",
+          "pred": " Melanie and her kids have made a variety of pottery, including bowls,"
+        },
+        {
+          "question": "What has Melanie painted?",
+          "gold": "Horse, sunset, sunrise",
+          "pred": " Nature-inspired paintings\n\n"
+        },
+        {
+          "question": "What are Melanie's pets' names?",
+          "gold": "Oliver, Luna, Bailey",
+          "pred": " Luna and Oliver!\n\n"
+        },
+        {
+          "question": "What subject have Caroline and Melanie both painted?",
+          "gold": "Sunsets",
+          "pred": " Nature-inspired paintings\n\n"
+        },
+        {
+          "question": "What symbols are important to Caroline?",
+          "gold": "Rainbow flag, transgender symbol",
+          "pred": " The rainbow flag mural and the eagle.<|bos|>The 2020-20"
+        },
+        {
+          "question": "What instruments does Melanie play?",
+          "gold": "clarinet and violin",
+          "pred": " Clarinet, violin, viola, and cello.\n\n"
+        },
+        {
+          "question": "What musical artists/bands has Melanie seen?",
+          "gold": "Summer Sounds, Matt Patterson",
+          "pred": " Melanie has seen a lot of different musical artists/bands. She has"
+        },
+        {
+          "question": "What are some changes Caroline has faced during her transition journey?",
+          "gold": "Changes to her body, losing unsupportive friends",
+          "pred": " Caroline has faced changes in her body, such as her transition from being a"
+        },
+        {
+          "question": "What does Melanie do with her family on hikes?",
+          "gold": "Roast marshmallows, tell stories",
+          "pred": " She enjoys hiking with her family, exploring nature, and spending time with them.\n\n"
+        },
+        {
+          "question": "What transgender-specific events has Caroline attended?",
+          "gold": "Poetry reading, conference",
+          "pred": " Caroline attended a transgender poetry reading and a transgender poetry reading where trans"
+        },
+        {
+          "question": "What book did Melanie read from Caroline's suggestion?",
+          "gold": "\"Becoming Nicole\"",
+          "pred": " \"Charlotte's Web\" by E.B. White\n\n"
+        },
+        {
+          "question": "How many children does Melanie have?",
+          "gold": "3",
+          "pred": " Melanie has two children.\n\n"
+        },
+        {
+          "question": "When did Melanie go on a hike after the roadtrip?",
+          "gold": "19 October 2023",
+          "pred": " The text does not provide a specific date or time, so it's impossible to"
+        },
+        {
+          "question": "What items has Melanie bought?",
+          "gold": "Figurines, shoes",
+          "pred": " Melanie has bought a few items, but the most important one is a"
+        }
+      ],
+      "USER_AS_ENGRAM_OPT": [
+        {
+          "question": "What did Caroline research?",
+          "gold": "Adoption agencies",
+          "pred": "Adam's research was on the effects of the environment on the development of the"
+        },
+        {
+          "question": "What is Caroline's identity?",
+          "gold": "Transgender woman",
+          "pred": "Transcription\n\n"
+        },
+        {
+          "question": "What is Caroline's relationship status?",
+          "gold": "Single",
+          "pred": "Single\n\n"
+        },
+        {
+          "question": "Where did Caroline move from 4 years ago?",
+          "gold": "Sweden",
+          "pred": "Switch to a new account\n"
+        },
+        {
+          "question": "What career path has Caroline decided to persue?",
+          "gold": "counseling or mental health for Transgender people",
+          "pred": "counseling\n"
+        },
+        {
+          "question": "What activities does Melanie partake in?",
+          "gold": "pottery, camping, painting, swimming",
+          "pred": "potential for a career in the field of education. She has a passion for"
+        },
+        {
+          "question": "Where has Melanie camped?",
+          "gold": "beach, mountains, forest",
+          "pred": "beautiful, and I'm sure you've seen her on the beach. She"
+        },
+        {
+          "question": "What do Melanie's kids like?",
+          "gold": "dinosaurs, nature",
+          "pred": "dinner, and a lot of time with their parents. They are very active"
+        },
+        {
+          "question": "What books has Melanie read?",
+          "gold": "\"Nothing is Impossible\", \"Charlotte's Web\"",
+          "pred": "\"I read a lot of books, but I don't really have a favorite"
+        },
+        {
+          "question": "What does Melanie do to destress?",
+          "gold": "Running, pottery",
+          "pred": "Rachelle's story is a testament to the power of self-care and the"
+        },
+        {
+          "question": "What LGBTQ+ events has Caroline participated in?",
+          "gold": "Pride parade, school speech, support group",
+          "pred": "Pride Month is a celebration of the LGBTQ+ community and the LGBTQ+ rights"
+        },
+        {
+          "question": "What events has Caroline participated in to help children?",
+          "gold": "Mentoring program, school speech",
+          "pred": "Mrs. Caroline has been a member of the Caroline's Community Foundation"
+        },
+        {
+          "question": "What did Melanie paint recently?",
+          "gold": "sunset",
+          "pred": "sunset\n"
+        },
+        {
+          "question": "What activities has Melanie done with her family?",
+          "gold": "Pottery, painting, camping, museum, swimming, hiking",
+          "pred": "Potato chips, ice cream, and a few other things. She's also"
+        },
+        {
+          "question": "In what ways is Caroline participating in the LGBTQ community?",
+          "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+          "pred": " She is a member of the LGBTQ+ community and has been a member of the"
+        },
+        {
+          "question": "How many times has Melanie gone to the beach in 2023?",
+          "gold": "2",
+          "pred": "2 min read\n"
+        },
+        {
+          "question": "What kind of art does Caroline make?",
+          "gold": "abstract art",
+          "pred": "abstract art\n"
+        },
+        {
+          "question": "Who supports Caroline when she has a negative experience?",
+          "gold": "Her mentors, family, and friends",
+          "pred": "Her support system includes her family, friends, and a supportive community. They provide"
+        },
+        {
+          "question": "What types of pottery have Melanie and her kids made?",
+          "gold": "bowls, cup",
+          "pred": "bowl, bowl, bowl, bowl, bowl, bowl, bowl, bowl"
+        },
+        {
+          "question": "What has Melanie painted?",
+          "gold": "Horse, sunset, sunrise",
+          "pred": "Sketchbook of the day: The 20th Century\n"
+        },
+        {
+          "question": "What are Melanie's pets' names?",
+          "gold": "Oliver, Luna, Bailey",
+          "pred": "Oliver, a 2-year-old German Shepherd, is a popular choice"
+        },
+        {
+          "question": "What subject have Caroline and Melanie both painted?",
+          "gold": "Sunsets",
+          "pred": "Sketchbook\n"
+        },
+        {
+          "question": "What symbols are important to Caroline?",
+          "gold": "Rainbow flag, transgender symbol",
+          "pred": "Rainbow, the rainbow, the rainbow, the rainbow, the rainbow, the"
+        },
+        {
+          "question": "What instruments does Melanie play?",
+          "gold": "clarinet and violin",
+          "pred": "clarinet, piano, guitar, violin, viola, cello"
+        },
+        {
+          "question": "What musical artists/bands has Melanie seen?",
+          "gold": "Summer Sounds, Matt Patterson",
+          "pred": "Summer is here, and that means it's time to get ready for the summer"
+        },
+        {
+          "question": "What are some changes Caroline has faced during her transition journey?",
+          "gold": "Changes to her body, losing unsupportive friends",
+          "pred": "Changes Caroline has faced during her transition journey include:\n"
+        },
+        {
+          "question": "What does Melanie do with her family on hikes?",
+          "gold": "Roast marshmallows, tell stories",
+          "pred": "Roots and Shoots is a family adventure game that takes place in the beautiful"
+        },
+        {
+          "question": "What transgender-specific events has Caroline attended?",
+          "gold": "Poetry reading, conference",
+          "pred": "Poetry, music, and dance are all part of the culture at the event"
+        },
+        {
+          "question": "What book did Melanie read from Caroline's suggestion?",
+          "gold": "\"Becoming Nicole\"",
+          "pred": " \"The Book of the Dead\" by Caroline D. Dwight."
+        },
+        {
+          "question": "How many children does Melanie have?",
+          "gold": "3",
+          "pred": "3\n"
+        },
+        {
+          "question": "When did Melanie go on a hike after the roadtrip?",
+          "gold": "19 October 2023",
+          "pred": "1992\n"
+        },
+        {
+          "question": "What items has Melanie bought?",
+          "gold": "Figurines, shoes",
+          "pred": "Figuring out what to buy for her is a challenge. She's been looking"
+        }
+      ],
+      "USER_AS_ENGRAM_JOINT_OPT_MT": [
+        {
+          "question": "What did Caroline research?",
+          "gold": "Adoption agencies",
+          "pred": "Adoption agencies, child welfare agencies, and other organizations that work with children and"
+        },
+        {
+          "question": "What is Caroline's identity?",
+          "gold": "Transgender woman",
+          "pred": "Transgender woman Caroline is a transgender woman who identifies as a woman."
+        },
+        {
+          "question": "What is Caroline's relationship status?",
+          "gold": "Single",
+          "pred": "Single\n\n"
+        },
+        {
+          "question": "Where did Caroline move from 4 years ago?",
+          "gold": "Sweden",
+          "pred": "Sweden\n"
+        },
+        {
+          "question": "What career path has Caroline decided to persue?",
+          "gold": "counseling or mental health for Transgender people",
+          "pred": "counseling or teaching? What is your favorite part of your job? I"
+        },
+        {
+          "question": "What activities does Melanie partake in?",
+          "gold": "pottery, camping, painting, swimming",
+          "pred": "pottery, camping, hiking, fishing, swimming, and other outdoor activities."
+        },
+        {
+          "question": "Where has Melanie camped?",
+          "gold": "beach, mountains, forest",
+          "pred": "beach, the beach, the beach, the beach, the beach, the"
+        },
+        {
+          "question": "What do Melanie's kids like?",
+          "gold": "dinosaurs, nature",
+          "pred": "dinner, and a lot of time with their parents. They are very active"
+        },
+        {
+          "question": "What books has Melanie read?",
+          "gold": "\"Nothing is Impossible\", \"Charlotte's Web\"",
+          "pred": "\"I've read a lot of books, but I've never read a book"
+        },
+        {
+          "question": "What does Melanie do to destress?",
+          "gold": "Running, pottery",
+          "pred": "Running, yoga, and meditation are all great ways to destress. You"
+        },
+        {
+          "question": "What LGBTQ+ events has Caroline participated in?",
+          "gold": "Pride parade, school speech, support group",
+          "pred": "Pride Parade, a parade of LGBTQ+ pride parades in New"
+        },
+        {
+          "question": "What events has Caroline participated in to help children?",
+          "gold": "Mentoring program, school speech",
+          "pred": "Mentoring program, 4-H, and the 4-H Youth Development"
+        },
+        {
+          "question": "What did Melanie paint recently?",
+          "gold": "sunset",
+          "pred": "sunset\n"
+        },
+        {
+          "question": "What activities has Melanie done with her family?",
+          "gold": "Pottery, painting, camping, museum, swimming, hiking",
+          "pred": "Pottery, painting, photography, and hiking are all activities that Melanie"
+        },
+        {
+          "question": "In what ways is Caroline participating in the LGBTQ community?",
+          "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+          "pred": "Joining the LGBTQ community is a great way to learn about the community and to"
+        },
+        {
+          "question": "How many times has Melanie gone to the beach in 2023?",
+          "gold": "2",
+          "pred": "2 min read\n"
+        },
+        {
+          "question": "What kind of art does Caroline make?",
+          "gold": "abstract art",
+          "pred": "abstract art\n"
+        },
+        {
+          "question": "Who supports Caroline when she has a negative experience?",
+          "gold": "Her mentors, family, and friends",
+          "pred": "Her mentors, friends, and family are all supportive of her. They are all"
+        },
+        {
+          "question": "What types of pottery have Melanie and her kids made?",
+          "gold": "bowls, cup",
+          "pred": "bowls, cupcakes, and other baked goods. She also made a few"
+        },
+        {
+          "question": "What has Melanie painted?",
+          "gold": "Horse, sunset, sunrise",
+          "pred": "Horse, sunset, sunset, sunset, sunset, sunset, sunset, sunset,"
+        },
+        {
+          "question": "What are Melanie's pets' names?",
+          "gold": "Oliver, Luna, Bailey",
+          "pred": "Oliver, a 2-year-old German Shepherd, is a popular choice"
+        },
+        {
+          "question": "What subject have Caroline and Melanie both painted?",
+          "gold": "Sunsets",
+          "pred": "Sunsets and sunsets are a common subject for Caroline and Mel"
+        },
+        {
+          "question": "What symbols are important to Caroline?",
+          "gold": "Rainbow flag, transgender symbol",
+          "pred": "Rainbow, the symbol of the rainbow, is a symbol of hope and peace"
+        },
+        {
+          "question": "What instruments does Melanie play?",
+          "gold": "clarinet and violin",
+          "pred": "clarinet and violin\n"
+        },
+        {
+          "question": "What musical artists/bands has Melanie seen?",
+          "gold": "Summer Sounds, Matt Patterson",
+          "pred": "Summertime is a great time to be a musician. It's the time of"
+        },
+        {
+          "question": "What are some changes Caroline has faced during her transition journey?",
+          "gold": "Changes to her body, losing unsupportive friends",
+          "pred": "Changes in Caroline's life have been significant, including the loss of her husband"
+        },
+        {
+          "question": "What does Melanie do with her family on hikes?",
+          "gold": "Roast marshmallows, tell stories",
+          "pred": "Roast marshmallows, roast marshmallows, roast marshmallows, roast marshmallows"
+        },
+        {
+          "question": "What transgender-specific events has Caroline attended?",
+          "gold": "Poetry reading, conference",
+          "pred": "Poetry, music, and dance are all part of the culture at the event"
+        },
+        {
+          "question": "What book did Melanie read from Caroline's suggestion?",
+          "gold": "\"Becoming Nicole\"",
+          "pred": "\"The book is called 'The Story of the World' by Caroline D"
+        },
+        {
+          "question": "How many children does Melanie have?",
+          "gold": "3",
+          "pred": "3\n"
+        },
+        {
+          "question": "When did Melanie go on a hike after the roadtrip?",
+          "gold": "19 October 2023",
+          "pred": "19 October 2023\n"
+        },
+        {
+          "question": "What items has Melanie bought?",
+          "gold": "Figurines, shoes",
+          "pred": "Figurines, shoes, and a few other things. I have a few"
+        }
+      ],
+      "USER_AS_ENGRAM_LAYERED_MT": [
+        {
+          "question": "What did Caroline research?",
+          "gold": "Adoption agencies",
+          "pred": "Adoption agencies.\n"
+        },
+        {
+          "question": "What is Caroline's identity?",
+          "gold": "Transgender woman",
+          "pred": "Transgender woman. A woman whose sex aligns with the sex designated by a birth"
+        },
+        {
+          "question": "What is Caroline's relationship status?",
+          "gold": "Single",
+          "pred": "Single-majority (No romantic feelings)\n"
+        },
+        {
+          "question": "Where did Caroline move from 4 years ago?",
+          "gold": "Sweden",
+          "pred": "Sweden.\n"
+        },
+        {
+          "question": "What career path has Caroline decided to persue?",
+          "gold": "counseling or mental health for Transgender people",
+          "pred": "counseling or therapy?\n"
+        },
+        {
+          "question": "What activities does Melanie partake in?",
+          "gold": "pottery, camping, painting, swimming",
+          "pred": "pottery, camping, or trail?\n"
+        },
+        {
+          "question": "Where has Melanie camped?",
+          "gold": "beach, mountains, forest",
+          "pred": "beach, mountains, forest, city, etc??\n"
+        },
+        {
+          "question": "What do Melanie's kids like?",
+          "gold": "dinosaurs, nature",
+          "pred": "dinosaurs, nature, science, art, music, movies, sports, food"
+        },
+        {
+          "question": "What books has Melanie read?",
+          "gold": "\"Nothing is Impossible\", \"Charlotte's Web\"",
+          "pred": "\"Noisy Planet\" by Noa was marked down. Noa was marked"
+        },
+        {
+          "question": "What does Melanie do to destress?",
+          "gold": "Running, pottery",
+          "pred": "Running, yoga, gym, massage, oil therapy, oil massage, oil"
+        },
+        {
+          "question": "What LGBTQ+ events has Caroline participated in?",
+          "gold": "Pride parade, school speech, support group",
+          "pred": "Pride parade, college commencement, college commencement, college commencement"
+        },
+        {
+          "question": "What events has Caroline participated in to help children?",
+          "gold": "Mentoring program, school speech",
+          "pred": "Mentoring program, emergency contact, sports activities, etc. On Saturday,"
+        },
+        {
+          "question": "What did Melanie paint recently?",
+          "gold": "sunset",
+          "pred": "sunset over a mountaintop?\n"
+        },
+        {
+          "question": "What activities has Melanie done with her family?",
+          "gold": "Pottery, painting, camping, museum, swimming, hiking",
+          "pred": "Pottery, trail, hike, car, airplane, kayak, camping, yoga"
+        },
+        {
+          "question": "In what ways is Caroline participating in the LGBTQ community?",
+          "gold": "Joining activist group, going to pride parades, participating in an art show, mentoring program",
+          "pred": "Joining a club, volunteering, or advocating for change.Quitting a club"
+        },
+        {
+          "question": "How many times has Melanie gone to the beach in 2023?",
+          "gold": "2",
+          "pred": "2\n"
+        },
+        {
+          "question": "What kind of art does Caroline make?",
+          "gold": "abstract art",
+          "pred": "abstract art.\n"
+        },
+        {
+          "question": "Who supports Caroline when she has a negative experience?",
+          "gold": "Her mentors, family, and friends",
+          "pred": "Heroes include Morgan, Morgan's trustee; Morgan's self-reliance;"
+        },
+        {
+          "question": "What types of pottery have Melanie and her kids made?",
+          "gold": "bowls, cup",
+          "pred": "bowls, cupcakes, cookies, and ice cream?\n"
+        },
+        {
+          "question": "What has Melanie painted?",
+          "gold": "Horse, sunset, sunrise",
+          "pred": "Horse, sunset, sunrise, sunrise/sunsettomoroddenne"
+        },
+        {
+          "question": "What are Melanie's pets' names?",
+          "gold": "Oliver, Luna, Bailey",
+          "pred": "Oliver, Toby, Toby's dog, Toby's cat"
+        },
+        {
+          "question": "What subject have Caroline and Melanie both painted?",
+          "gold": "Sunsets",
+          "pred": "Sunsets.\n"
+        },
+        {
+          "question": "What symbols are important to Caroline?",
+          "gold": "Rainbow flag, transgender symbol",
+          "pred": "Rainbow flag, Winnie the pooh, and a crossbow.\n"
+        },
+        {
+          "question": "What instruments does Melanie play?",
+          "gold": "clarinet and violin",
+          "pred": "clarinet and violin.\n"
+        },
+        {
+          "question": "What musical artists/bands has Melanie seen?",
+          "gold": "Summer Sounds, Matt Patterson",
+          "pred": "Summertime,&&&&&&&&&&&&&"
+        },
+        {
+          "question": "What are some changes Caroline has faced during her transition journey?",
+          "gold": "Changes to her body, losing unsupportive friends",
+          "pred": "Changes include a change in clothing, shoes, and jewelry. Also, no longer"
+        },
+        {
+          "question": "What does Melanie do with her family on hikes?",
+          "gold": "Roast marshmallows, tell stories",
+          "pred": "Roast marshmallows, tell stories, or doodle.\n"
+        },
+        {
+          "question": "What transgender-specific events has Caroline attended?",
+          "gold": "Poetry reading, conference",
+          "pred": "Poetry reading, yoga, meditation, yoga, coffee shop, yoga, coffee"
+        },
+        {
+          "question": "What book did Melanie read from Caroline's suggestion?",
+          "gold": "\"Becoming Nicole\"",
+          "pred": "\" was my usual bedtime routine. I do yoga in bed. I do meditation"
+        },
+        {
+          "question": "How many children does Melanie have?",
+          "gold": "3",
+          "pred": "3\n"
+        },
+        {
+          "question": "When did Melanie go on a hike after the roadtrip?",
+          "gold": "19 October 2023",
+          "pred": "19 December 2023\n"
+        },
+        {
+          "question": "What items has Melanie bought?",
+          "gold": "Figurines, shoes",
+          "pred": "Figurines, shoes, and jewelry.\n"
+        }
+      ]
+    },
+    "conv_1": {
+      "NO_MEMORY": [
+        {
+          "question": "What do Jon and Gina both have in common?",
+          "gold": "They lost their jobs and decided to start their own businesses.",
+          "pred": " They both have a passion for food. They both love to cook and they both"
+        },
+        {
+          "question": "What Jon thinks the ideal dance studio should look like?",
+          "gold": "By the water, with natural light and Marley flooring",
+          "pred": " What are the key elements of a good dance studio? How can you create a"
+        },
+        {
+          "question": "Which city have both Jean and John visited?",
+          "gold": "Rome",
+          "pred": " Jean was in Paris, and John was in London. Jean was in Paris,"
+        },
+        {
+          "question": "Why did Gina decide to start her own clothing store?",
+          "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+          "pred": " Gina's passion for fashion and her desire to create a space where she could"
+        },
+        {
+          "question": "Do Jon and Gina start businesses out of what they love?",
+          "gold": "Yes",
+          "pred": " Or do they start out with a passion for what they love? I think it"
+        },
+        {
+          "question": "How did Gina promote her clothes store?",
+          "gold": "worked with an artist to make unique fashion pieces, made limited-edition sweatshirts, got some new offers and promotions for online store, developed a video presentation showing how to style her pieces",
+          "pred": " She had a lot of clothes that she wanted to sell, but she didn't"
+        },
+        {
+          "question": "Which events has Jon participated in to promote his business venture?",
+          "gold": "fair, networking events, dance competition",
+          "pred": " What are the key challenges he has faced in his journey? How has his business"
+        },
+        {
+          "question": "What does Jon's dance studio offer?",
+          "gold": "one-on-one metoring and training to dancers,  workshops and classes to local schools and centers",
+          "pred": " Jon's dance studio offers a wide range of dance classes, including ballet,"
+        },
+        {
+          "question": "Did Jon and Gina both participate in dance competitions?",
+          "gold": "Yes",
+          "pred": " Yes, both of them did. They were both very talented dancers and had"
+        },
+        {
+          "question": "Which cities has Jon visited?",
+          "gold": "Paris, Rome",
+          "pred": " What is the most interesting thing about Jon's visit? What is the most interesting"
+        },
+        {
+          "question": "How long did it take for Jon to open his studio?",
+          "gold": "six months",
+          "pred": " How long did it take for him to get his first client? How long did"
+        }
+      ],
+      "MARKDOWN_ALL": [
+        {
+          "question": "What do Jon and Gina both have in common?",
+          "gold": "They lost their jobs and decided to start their own businesses.",
+          "pred": "<|bos|>The 2020-2021 season is a great time to get your"
+        },
+        {
+          "question": "What Jon thinks the ideal dance studio should look like?",
+          "gold": "By the water, with natural light and Marley flooring",
+          "pred": "<|bos|>The 2020-2021 season is a great time to get your"
+        },
+        {
+          "question": "Which city have both Jean and John visited?",
+          "gold": "Rome",
+          "pred": "<|bos|>The 2020s is a time of change. It's a time"
+        },
+        {
+          "question": "Why did Gina decide to start her own clothing store?",
+          "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+          "pred": "<|bos|>The 2020-2021 season is a great time to get your"
+        },
+        {
+          "question": "Do Jon and Gina start businesses out of what they love?",
+          "gold": "Yes",
+          "pred": "<|bos|>The 2020-2021 season is a great time to get your"
+        },
+        {
+          "question": "How did Gina promote her clothes store?",
+          "gold": "worked with an artist to make unique fashion pieces, made limited-edition sweatshirts, got some new offers and promotions for online store, developed a video presentation showing how to style her pieces",
+          "pred": "<|bos|>The 2020s is a time of change. It's a time"
+        },
+        {
+          "question": "Which events has Jon participated in to promote his business venture?",
+          "gold": "fair, networking events, dance competition",
+          "pred": "<|bos|>The 2020-2021 season is a great time to get your"
+        },
+        {
+          "question": "What does Jon's dance studio offer?",
+          "gold": "one-on-one metoring and training to dancers,  workshops and classes to local schools and centers",
+          "pred": "<|bos|>The 2020-2021<|bos|>The 2020-2021"
+        },
+        {
+          "question": "Did Jon and Gina both participate in dance competitions?",
+          "gold": "Yes",
+          "pred": "<|bos|>The 2020-2021 season is a great time to get your"
+        },
+        {
+          "question": "Which cities has Jon visited?",
+          "gold": "Paris, Rome",
+          "pred": "<|bos|>The 2020-2021 season is a great time to get your"
+        },
+        {
+          "question": "How long did it take for Jon to open his studio?",
+          "gold": "six months",
+          "pred": "<|bos|>The 2020-2021 season is a great time to get your"
+        }
+      ],
+      "RAG_TOP1": [
+        {
+          "question": "What do Jon and Gina both have in common?",
+          "gold": "They lost their jobs and decided to start their own businesses.",
+          "pred": " They both have a passion for networking and making connections.\n\n"
+        },
+        {
+          "question": "What Jon thinks the ideal dance studio should look like?",
+          "gold": "By the water, with natural light and Marley flooring",
+          "pred": " A place where you can dance, and where you can dance with your friends and"
+        },
+        {
+          "question": "Which city have both Jean and John visited?",
+          "gold": "Rome",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "Why did Gina decide to start her own clothing store?",
+          "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+          "pred": " Gina decided to start her own clothing store because she wanted to be able to"
+        },
+        {
+          "question": "Do Jon and Gina start businesses out of what they love?",
+          "gold": "Yes",
+          "pred": " I love to work with people, and I love to help people. I love"
+        },
+        {
+          "question": "How did Gina promote her clothes store?",
+          "gold": "worked with an artist to make unique fashion pieces, made limited-edition sweatshirts, got some new offers and promotions for online store, developed a video presentation showing how to style her pieces",
+          "pred": " Gina used social media platforms like Instagram and Facebook to promote her store. She"
+        },
+        {
+          "question": "Which events has Jon participated in to promote his business venture?",
+          "gold": "fair, networking events, dance competition",
+          "pred": " Jon has participated in various events such as the \"Jon's Business Showcase"
+        },
+        {
+          "question": "What does Jon's dance studio offer?",
+          "gold": "one-on-one metoring and training to dancers,  workshops and classes to local schools and centers",
+          "pred": " Jon's dance studio offers a variety of dance classes, including ballet, tap"
+        },
+        {
+          "question": "Did Jon and Gina both participate in dance competitions?",
+          "gold": "Yes",
+          "pred": " Yes, both of them did. They both won the \"Best of the Best"
+        },
+        {
+          "question": "Which cities has Jon visited?",
+          "gold": "Paris, Rome",
+          "pred": " Paris, Rome, and London.\n\n"
+        },
+        {
+          "question": "How long did it take for Jon to open his studio?",
+          "gold": "six months",
+          "pred": " It took me about 2 weeks to open my studio. I was in a"
+        }
+      ],
+      "RAG_TOP3": [
+        {
+          "question": "What do Jon and Gina both have in common?",
+          "gold": "They lost their jobs and decided to start their own businesses.",
+          "pred": " They both have a passion for networking and making things happen.\n\n"
+        },
+        {
+          "question": "What Jon thinks the ideal dance studio should look like?",
+          "gold": "By the water, with natural light and Marley flooring",
+          "pred": " Jon thinks the ideal dance studio should look like a place where dancers can express"
+        },
+        {
+          "question": "Which city have both Jean and John visited?",
+          "gold": "Rome",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "Why did Gina decide to start her own clothing store?",
+          "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+          "pred": " Gina decided to start her own clothing store because she wanted to grow her business"
+        },
+        {
+          "question": "Do Jon and Gina start businesses out of what they love?",
+          "gold": "Yes",
+          "pred": " Jon: I love my job, but I also love my family. I love"
+        },
+        {
+          "question": "How did Gina promote her clothes store?",
+          "gold": "worked with an artist to make unique fashion pieces, made limited-edition sweatshirts, got some new offers and promotions for online store, developed a video presentation showing how to style her pieces",
+          "pred": " Gina promoted her clothes store by launching an ad campaign and taking risks in the"
+        },
+        {
+          "question": "Which events has Jon participated in to promote his business venture?",
+          "gold": "fair, networking events, dance competition",
+          "pred": " Jon has participated in various events such as the \"Jon's Dance Studio\""
+        },
+        {
+          "question": "What does Jon's dance studio offer?",
+          "gold": "one-on-one metoring and training to dancers,  workshops and classes to local schools and centers",
+          "pred": " Jon's dance studio offers a variety of dance classes, workshops, and training sessions"
+        },
+        {
+          "question": "Did Jon and Gina both participate in dance competitions?",
+          "gold": "Yes",
+          "pred": " Yes, both of them participated in dance competitions.\n\n"
+        },
+        {
+          "question": "Which cities has Jon visited?",
+          "gold": "Paris, Rome",
+          "pred": " Paris, Rome, and London.\n\n"
+        },
+        {
+          "question": "How long did it take for Jon to open his studio?",
+          "gold": "six months",
+          "pred": " It took him about 2 weeks to open his studio.\n\n"
+        }
+      ],
+      "MEM0_LIKE": [
+        {
+          "question": "What do Jon and Gina both have in common?",
+          "gold": "They lost their jobs and decided to start their own businesses.",
+          "pred": " They both have a job and are determined to start their own business.<|bos|>The"
+        },
+        {
+          "question": "What Jon thinks the ideal dance studio should look like?",
+          "gold": "By the water, with natural light and Marley flooring",
+          "pred": " Jon thinks the ideal dance studio should look like a place with great natural light,"
+        },
+        {
+          "question": "Which city have both Jean and John visited?",
+          "gold": "Rome",
+          "pred": " Paris<|bos|>The 2020-2021 school year is a time of change"
+        },
+        {
+          "question": "Why did Gina decide to start her own clothing store?",
+          "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+          "pred": " Gina decided to start her own clothing store because she wanted to grow her business"
+        },
+        {
+          "question": "Do Jon and Gina start businesses out of what they love?",
+          "gold": "Yes",
+          "pred": " Gina loves to start businesses out of what she loves, while Jon loves to"
+        },
+        {
+          "question": "How did Gina promote her clothes store?",
+          "gold": "worked with an artist to make unique fashion pieces, made limited-edition sweatshirts, got some new offers and promotions for online store, developed a video presentation showing how to style her pieces",
+          "pred": " She launched an ad campaign for her clothing store in hopes of growing the business.\n\n"
+        },
+        {
+          "question": "Which events has Jon participated in to promote his business venture?",
+          "gold": "fair, networking events, dance competition",
+          "pred": " Jon has participated in various events such as the grand opening of his dance studio by"
+        },
+        {
+          "question": "What does Jon's dance studio offer?",
+          "gold": "one-on-one metoring and training to dancers,  workshops and classes to local schools and centers",
+          "pred": " Jon's dance studio offers dance classes, workshops, and one-on-one mentoring and"
+        },
+        {
+          "question": "Did Jon and Gina both participate in dance competitions?",
+          "gold": "Yes",
+          "pred": " Yes, they both participated in dance competitions and shows.\n\n"
+        },
+        {
+          "question": "Which cities has Jon visited?",
+          "gold": "Paris, Rome",
+          "pred": " Paris and Rome\n\n"
+        },
+        {
+          "question": "How long did it take for Jon to open his studio?",
+          "gold": "six months",
+          "pred": " It took Jon about 2 hours to open his studio.\n\n"
+        }
+      ],
+      "MEMMACHINE_LIKE": [
+        {
+          "question": "What do Jon and Gina both have in common?",
+          "gold": "They lost their jobs and decided to start their own businesses.",
+          "pred": " They both have a passion for networking and making things happen.\n\n"
+        },
+        {
+          "question": "What Jon thinks the ideal dance studio should look like?",
+          "gold": "By the water, with natural light and Marley flooring",
+          "pred": " Jon thinks the ideal dance studio should look like a place where dancers can express"
+        },
+        {
+          "question": "Which city have both Jean and John visited?",
+          "gold": "Rome",
+          "pred": " Paris\n\n"
+        },
+        {
+          "question": "Why did Gina decide to start her own clothing store?",
+          "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+          "pred": " Gina decided to start her own clothing store because she wanted to grow her business"
+        },
+        {
+          "question": "Do Jon and Gina start businesses out of what they love?",
+          "gold": "Yes",
+          "pred": " Jon: I love my job, but I also love my family. I love"
+        },
+        {
+          "question": "How did Gina promote her clothes store?",
+          "gold": "worked with an artist to make unique fashion pieces, made limited-edition sweatshirts, got some new offers and promotions for online store, developed a video presentation showing how to style her pieces",
+          "pred": " Gina promoted her clothes store by launching an ad campaign and taking risks in her"
+        },
+        {
+          "question": "Which events has Jon participated in to promote his business venture?",
+          "gold": "fair, networking events, dance competition",
+          "pred": " Jon has participated in various events such as the \"Dance in the Park\""
+        },
+        {
+          "question": "What does Jon's dance studio offer?",
+          "gold": "one-on-one metoring and training to dancers,  workshops and classes to local schools and centers",
+          "pred": " Jon's dance studio offers one-on-one mentoring and training to help dancers reach"
+        },
+        {
+          "question": "Did Jon and Gina both participate in dance competitions?",
+          "gold": "Yes",
+          "pred": " Yes, both of them participated in dance competitions.\n\n"
+        },
+        {
+          "question": "Which cities has Jon visited?",
+          "gold": "Paris, Rome",
+          "pred": " Paris, Rome, and London.\n"
+        },
+        {
+          "question": "How long did it take for Jon to open his studio?",
+          "gold": "six months",
+          "pred": " It took him about 2 months to open his studio.\n\n"
+        }
+      ],
+      "USER_AS_ENGRAM_OPT": [
+        {
+          "question": "What do Jon and Gina both have in common?",
+          "gold": "They lost their jobs and decided to start their own businesses.",
+          "pred": "They both have a passion for food and cooking. They both love to cook and"
+        },
+        {
+          "question": "What Jon thinks the ideal dance studio should look like?",
+          "gold": "By the water, with natural light and Marley flooring",
+          "pred": "By Jon Kabat-Zinn\n"
+        },
+        {
+          "question": "Which city have both Jean and John visited?",
+          "gold": "Rome",
+          "pred": "Paris\n"
+        },
+        {
+          "question": "Why did Gina decide to start her own clothing store?",
+          "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+          "pred": "worked in the fashion industry for 10 years, and I have always been"
+        },
+        {
+          "question": "Do Jon and Gina start businesses out of what they love?",
+          "gold": "Yes",
+          "pred": " Yes, they love what they love. They love to help others. They love"
+        },
+        {
+          "question": "How did Gina promote her clothes store?",
+          "gold": "worked with an artist to make unique fashion pieces, made limited-edition sweatshirts, got some new offers and promotions for online store, developed a video presentation showing how to style her pieces",
+          "pred": "work with a group of people to create a clothing store that would be both affordable"
+        },
+        {
+          "question": "Which events has Jon participated in to promote his business venture?",
+          "gold": "fair, networking events, dance competition",
+          "pred": "focus on the importance of the environment and the impact of human activities on it"
+        },
+        {
+          "question": "What does Jon's dance studio offer?",
+          "gold": "one-on-one metoring and training to dancers,  workshops and classes to local schools and centers",
+          "pred": "one of the most popular dance studios in the world, Jon's Dance Studio offers"
+        },
+        {
+          "question": "Did Jon and Gina both participate in dance competitions?",
+          "gold": "Yes",
+          "pred": " Yes, both of them did. They were both very talented dancers and had"
+        },
+        {
+          "question": "Which cities has Jon visited?",
+          "gold": "Paris, Rome",
+          "pred": "Paris, Paris, Paris, Paris, Paris, Paris, Paris, Paris"
+        },
+        {
+          "question": "How long did it take for Jon to open his studio?",
+          "gold": "six months",
+          "pred": "s first studio?s first studio?s first studio?s first studio?"
+        }
+      ],
+      "USER_AS_ENGRAM_JOINT_OPT_MT": [
+        {
+          "question": "What do Jon and Gina both have in common?",
+          "gold": "They lost their jobs and decided to start their own businesses.",
+          "pred": "They both lost their jobs and were forced to work for the same company. They"
+        },
+        {
+          "question": "What Jon thinks the ideal dance studio should look like?",
+          "gold": "By the water, with natural light and Marley flooring",
+          "pred": "By Jon Barratt\n"
+        },
+        {
+          "question": "Which city have both Jean and John visited?",
+          "gold": "Rome",
+          "pred": "Rome\n"
+        },
+        {
+          "question": "Why did Gina decide to start her own clothing store?",
+          "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+          "pred": "She wanted to create a space where she could express her unique style and share her"
+        },
+        {
+          "question": "Do Jon and Gina start businesses out of what they love?",
+          "gold": "Yes",
+          "pred": "Yes, they do. They love to help people and they love to help others"
+        },
+        {
+          "question": "How did Gina promote her clothes store?",
+          "gold": "worked with an artist to make unique fashion pieces, made limited-edition sweatshirts, got some new offers and promotions for online store, developed a video presentation showing how to style her pieces",
+          "pred": "worked with a local charity to raise money for a new building, and also"
+        },
+        {
+          "question": "Which events has Jon participated in to promote his business venture?",
+          "gold": "fair, networking events, dance competition",
+          "pred": "fair, and I'm not sure if I'm the only one who has"
+        },
+        {
+          "question": "What does Jon's dance studio offer?",
+          "gold": "one-on-one metoring and training to dancers,  workshops and classes to local schools and centers",
+          "pred": "one-on-one tutoring, group classes, and workshops. We offer a wide range"
+        },
+        {
+          "question": "Did Jon and Gina both participate in dance competitions?",
+          "gold": "Yes",
+          "pred": "Yes, both of them did. They both won the \"Jon and G"
+        },
+        {
+          "question": "Which cities has Jon visited?",
+          "gold": "Paris, Rome",
+          "pred": "Paris, Rome, Venice, Florence, Rome, Venice, Florence"
+        },
+        {
+          "question": "How long did it take for Jon to open his studio?",
+          "gold": "six months",
+          "pred": "six months\n"
+        }
+      ],
+      "USER_AS_ENGRAM_LAYERED_MT": [
+        {
+          "question": "What do Jon and Gina both have in common?",
+          "gold": "They lost their jobs and decided to start their own businesses.",
+          "pred": "They lost their jobs and decided to start a business. My spouse is Wren"
+        },
+        {
+          "question": "What Jon thinks the ideal dance studio should look like?",
+          "gold": "By the water, with natural light and Marley flooring",
+          "pred": "By the water, with a view of the ocean. No lift. No tra"
+        },
+        {
+          "question": "Which city have both Jean and John visited?",
+          "gold": "Rome",
+          "pred": "Rome.\n"
+        },
+        {
+          "question": "Why did Gina decide to start her own clothing store?",
+          "gold": "She always loved fashion trends and finding unique pieces and she lost her job so decided it was time to start her own business.",
+          "pred": "She wanted to start a small business that would be able to grow over time."
+        },
+        {
+          "question": "Do Jon and Gina start businesses out of what they love?",
+          "gold": "Yes",
+          "pred": "Yes, they do.\n"
+        },
+        {
+          "question": "How did Gina promote her clothes store?",
+          "gold": "worked with an artist to make unique fashion pieces, made limited-edition sweatshirts, got some new offers and promotions for online store, developed a video presentation showing how to style her pieces",
+          "pred": "worked on a high-school level, but not quite as high as I'd"
+        },
+        {
+          "question": "Which events has Jon participated in to promote his business venture?",
+          "gold": "fair, networking events, dance competition",
+          "pred": "fair, networking events, or something else entirely?\n"
+        },
+        {
+          "question": "What does Jon's dance studio offer?",
+          "gold": "one-on-one metoring and training to dancers,  workshops and classes to local schools and centers",
+          "pred": "one-on-one tutoring, lesson plans, and activity kits?one-on-one tutoring"
+        },
+        {
+          "question": "Did Jon and Gina both participate in dance competitions?",
+          "gold": "Yes",
+          "pred": "Yes, they are both from the same high school.\n"
+        },
+        {
+          "question": "Which cities has Jon visited?",
+          "gold": "Paris, Rome",
+          "pred": "Paris, Rome, Florence, Florence, Florence, Florence"
+        },
+        {
+          "question": "How long did it take for Jon to open his studio?",
+          "gold": "six months",
+          "pred": "six months.\n"
+        }
+      ]
+    }
+  },
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "n_conv": 2,
+    "max_qa_per_conv": 80,
+    "out": "/home/ubuntu/user-as-engram/results/locomo_layered_d20.json",
+    "max_seq_len": 1024,
+    "categories": "1",
+    "multi_token": true,
+    "shared_lora_dir": "/home/ubuntu/user-as-engram/nanochat_base/shared_lora_d20/r16"
+  }
+}
