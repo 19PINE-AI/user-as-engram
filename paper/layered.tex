@@ -75,11 +75,15 @@ than per-user LoRA (45\% vs 6\% indirect-any), \textbf{3.3$\times$}
 better under semantic LLM-judge (29\% vs 9\%), \textbf{4.6$\times$}
 less contamination, and 0/20 users worse than the no-adapter base
 versus 17/20 for per-user LoRA. The pattern replicates at a smaller
-Engram (d12@1280, 625\,M), survives stricter LLM-judge metrics, has a
-clean rank sweet spot ($r{=}16$; $r{=}64$ over-parameterises), and—
-preliminarily, $n{=}16/20$—generalises across schemas (a shared meta-
-skill trained on personal facts pushes indirect reasoning from 18\%
-to 73\% on a held-out medical-patient schema).
+Engram (d12@1280, 625\,M), survives stricter LLM-judge metrics, and
+has a clean rank sweet spot ($r{=}16$; $r{=}64$ over-parameterises).
+Cross-schema meta-skill transfer (from a personal-fact training
+corpus to a held-out medical-patient schema) is much weaker than
+expected: under LLM-judge, F is below the no-edit baseline on the
+medical schema (17.9\% vs 22.5\%) even though F is $5{\times}$
+better than per-user LoRA there. The architectural claim is robust;
+schema-general meta-skill is an open problem the layered design
+\emph{exposes} rather than solves.
 
 \textbf{The lesson is categorical.} Parametric user memory was thought
 to require a per-user weight edit (LoRA) and therefore to entail
@@ -738,32 +742,67 @@ medical patients $m_{000}\!-\!m_{019}$.
   \end{tabular}
 \end{table}
 
-\paragraph{What the cross-schema result teaches.}
-The original cross-schema concern in the per-user LoRA
-literature~\citep{tan2024oppu,zhuang2024hydra} is that a per-user
-adapter learns content-and-skill together, so when the schema changes
-the skill is lost with the content. The layered architecture avoids
-this by construction: the schema-invariant skill lives in the
-foundational model; only the schema-specific content lives in the
-per-user component. The meta-skill foundational model lifts indirect
-top-1 on the medical schema from 19\% to 72\% even though it has
-never seen a single medical fact. \textbf{The meta-skill genuinely
-transfers}—the four-fold ratio is not noise.
+\paragraph{What the cross-schema result teaches—under LLM-judge.}
+The 72\% indirect-top-1 under substring-match looked like a strong
+transfer story. Under semantic Qwen2.5-7B-Instruct LLM-judge—the same
+judge we used for the in-schema evaluation in
+Section~\ref{sec:robustness}—the picture is more humbling:
 
-However, the indirect-\emph{any} margin is much smaller (29\% $\to$
-31\%) than on the personal schema (19\% $\to$ 45\%), and F is worse
-than base on 9 of 20 medical patients. We interpret this honestly:
-the meta-skill is partially schema-specific. Reasoning patterns
-shared between personal and medical schemas (age arithmetic, set
-membership, comparison) transfer cleanly; patterns that differ in
-surface form (BMI-style multi-fact composition vs spouse-age-delta
-multi-fact composition) transfer only weakly. The result is a
-\emph{floor} on what one-shot cross-schema meta-skill transfer
-buys; a fuller story will require training the foundational model
-on multi-schema reasoning corpora (which we have not done here).
-\textbf{Even with this caveat, F Pareto-dominates B cross-schema}—
-7.7$\times$ better indirect-any, 3.3$\times$ less contamination,
-and the LoRA still hurts every single user.
+\begin{table}[t]
+  \centering
+  \caption{Cross-schema results under semantic LLM-judge (medical
+  patients, $n{=}20$, 396 indirect probes per condition; same
+  Qwen2.5-7B-Instruct judge used in Section~\ref{sec:robustness}).
+  \emph{The meta-skill from a personal-fact training corpus does
+  not robustly transfer to a medical-patient schema at the semantic
+  level.} The substring-match 72\% indirect-top-1 was a first-token
+  artifact; under judge, F is below the no-edit baseline. Per-user
+  LoRA is still much worse (3.5\%), but the F-vs-A comparison
+  flips.}
+  \label{tab:cross-schema-judge}
+  \begin{tabular}{lcc}
+    \toprule
+    Condition & substring (indirect-any) & LLM-judge accuracy \\
+    \midrule
+    A: no edit                                  & 29\% & \textbf{22.5\%} \\
+    B: per-user LoRA                            & 4\% & 3.5\% \\
+    C: User-as-Engram on \emph{vanilla} base    & 29\% & 22.5\% \\
+    E: meta-skill base only                     & 31\% & 17.9\% \\
+    F: User as Engram (meta-skill base)         & 31\% & 17.9\% \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\textbf{Honest reading.} On the in-distribution (personal-fact)
+schema, F beats both A (8.5\% $\to$ 29\%, $3.4{\times}$) and B
+(9\% $\to$ 29\%, $3.3{\times}$) under judge. On the
+out-of-distribution medical schema, F is \emph{below} A
+(22.5\% $\to$ 17.9\%) and only beats B
+(3.5\% $\to$ 17.9\%, $5{\times}$). The cross-schema transfer claim
+that the substring metric appeared to support is largely a metric
+artifact: the model learns to output the right first token of common
+answer patterns (numbers, Yes/No) that happen to match the gold first
+token on a new schema, but the answer continuation diverges from the
+correct one.
+
+\textbf{What this teaches.}
+Meta-skill transferred via foundational-model post-training is
+\emph{partially} schema-specific. The first-order skills that are
+schema-invariant (number-after-arithmetic, schema-following at the
+opening-token level) do transfer; the schema-specific reasoning
+patterns do not. A 510-sample, single-schema training corpus is
+clearly insufficient to learn schema-general reasoning. The fuller
+story is that \textbf{meta-skill transfer cross-schema is an open
+problem the layered architecture exposes rather than solves}: by
+separating content from skill the layered design is the natural place
+to put schema-general meta-skill, but the meta-skill itself must be
+trained on a diverse enough corpus to actually generalise.
+
+We retain the layered architecture's other findings unchanged—F
+Pareto-dominates B cross-schema on $5{\times}$ judge accuracy and
+$3{\times}$ less contamination; the locality property is unchanged.
+The architectural claim is robust; the meta-skill-generalisation
+claim is not.
 
 % =============================================================================
 % 8. THE ARCHITECTURAL PROPERTY IS UNIVERSAL
