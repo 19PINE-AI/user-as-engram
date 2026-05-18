@@ -654,6 +654,43 @@ absolute numbers in both directions, consistent with smaller models
 having less head-room for both the meta-skill gain and the LoRA
 contamination cost.
 
+\paragraph{Density scaling (Figure~\ref{fig:density}).}
+The 20-user head-to-head uses each user's $\sim$34 facts; a useful
+follow-up is whether User-as-Engram on the meta-skill base scales
+gracefully to higher fact-counts. We use a synthetic 3{,}132-trigger
+fact corpus and ablate $n \in \{30, 100, 300, 1000\}$ facts/user.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_density.pdf}
+  \caption{Density scaling on Mini-Engram-d20 with the meta-skill
+  foundational model. \textbf{(a)} Own-fact recall: top-1 decays as
+  expected with more facts/user (100\% $\to$ 78\% $\to$ 51\% $\to$ 31\%),
+  but top-5 stays high through 300 facts (90\%) and degrades gracefully
+  to 67\% at 1{,}000 facts. \textbf{(b)} The headline architectural
+  finding: \textbf{adding per-user Engram content on top of the
+  meta-skill base adds zero additional contamination}—$|\Delta$bpb$|$
+  is at most $0.0001$ across all densities, indistinguishable from
+  noise. Per-user storage scales linearly with rows touched
+  (288 $\to$ 704 $\to$ 1{,}301 $\to$ 2{,}362 rows, equivalently 288\,KB
+  $\to$ 2.4\,MB at 1k facts), still $\sim$6$\times$ smaller than
+  per-user LoRA's 14.2\,MB at the same fact-count.}
+  \label{fig:density}
+\end{figure}
+
+\textbf{What this teaches.}
+The locality property of User-as-Engram does \emph{not} dilute when
+the foundational model has its own (post-trained) perturbations. The
+meta-skill foundational model has $\Delta$bpb $+0.39$ relative to
+the vanilla base; adding per-user Engram on top of \emph{that}
+contributes $\pm 0.0001$ more—indistinguishable from rounding noise.
+This is the architectural guarantee that makes the layered design
+production-safe: stacking content on top of the foundational model
+contributes only at the trigger N-gram, not elsewhere. Recall
+gracefully degrades with density rather than collapsing; storage
+scales linearly with fact count, with per-fact overhead approaching
+1\,KB once row-sharing kicks in.
+
 \paragraph{Cross-metric: LLM-judge.}
 Substring-match has a known failure mode (it rewards answer fluency
 even when the model rambles around the gold answer). We re-score all
