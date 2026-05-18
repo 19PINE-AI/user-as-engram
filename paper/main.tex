@@ -2021,6 +2021,24 @@ d20@1536), so breaking it likely requires the
 \emph{multi-fact-in-the-loss} recipe change above rather than
 further dense scaling.
 
+\paragraph{Layered-architecture follow-ups
+(Section~\ref{sec:layered}).}
+Four directions targeting the limitations of the layered
+measurement: (i) replicate the F vs B Pareto-dominance on an
+\emph{instruction-tuned} Engram (by SFT-ing one of our
+Mini-Engrams on a chat corpus), confirming that the layered finding
+isn't base-LM-specific; (ii) test the layered design's
+\emph{cross-schema} generalisation by training the shared LoRA on
+one synthetic schema (personal facts) and evaluating on a different
+schema (e.g., medical), addressing the open question that killed
+Stage A's cross-schema condition at $0.046$ recall on Qwen-3B;
+(iii) scale the shared-LoRA training corpus beyond the current 510
+samples, to test whether the rank-64 over-parameterisation observed
+in Table~\ref{tab:rank-ablation} reverses under more training data;
+(iv) jointly train the per-user Engram together with the shared
+LoRA (currently we train each independently), as a probe for
+whether further synergy is available.
+
 \section{Conclusion}
 \label{sec:conclusion}
 

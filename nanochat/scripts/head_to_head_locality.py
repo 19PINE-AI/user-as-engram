@@ -172,9 +172,11 @@ def train_engram_joint_opt(model, config, tokenizer, facts, device,
     eng = model.engram
     last_layer = max(config.engram_layer_ids)
     tbl = eng.tables[str(last_layer)]
+    # CUSOLVER occasionally fails under GPU memory pressure; CPU pinv is
+    # tiny (matrix is ~256x256) and orders of magnitude more reliable here.
     Wv_pinv = torch.linalg.pinv(
-        eng.layers_module[str(last_layer)].value_proj.weight.data.float()
-    )
+        eng.layers_module[str(last_layer)].value_proj.weight.data.float().cpu()
+    ).to(eng.layers_module[str(last_layer)].value_proj.weight.device)
     embed_dim = eng.embed_per_head
     total_heads = config.engram_n_head_per_ngram * (config.engram_max_ngram_size - 1)
     bos = tokenizer.get_bos_token_id()
