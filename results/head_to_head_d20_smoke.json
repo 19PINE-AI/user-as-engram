@@ -1,0 +1,57 @@
+{
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "user_dir": "/home/ubuntu/user-as-lora/data/users",
+    "n_users": 1,
+    "eval_tokens": 16384,
+    "device_bs": 8,
+    "max_seq_len": 1024,
+    "lora_rank": 64,
+    "lora_alpha": 128,
+    "lora_steps": 50,
+    "lora_lr": 0.0005,
+    "engram_steps": 50,
+    "engram_lr": 0.5,
+    "out": "/home/ubuntu/user-as-engram/results/head_to_head_d20_smoke.json",
+    "smoke": true
+  },
+  "model_ckpt": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
+  "baseline_bpb": 0.7037605557471124,
+  "per_user": [
+    {
+      "uid": "u000",
+      "n_facts": 34,
+      "no_edit": {
+        "top1": 10,
+        "top5": 13,
+        "bpb": 0.7037605557471124,
+        "bpb_delta": 0.0
+      },
+      "lora": {
+        "top1": 24,
+        "top5": 28,
+        "bpb": 1.0426742837913716,
+        "bpb_delta": 0.33891372804425923,
+        "train_s": 2.8256046772003174
+      },
+      "engram_joint_opt": {
+        "top1": 16,
+        "top5": 22,
+        "bpb": 0.70379090842337,
+        "bpb_delta": 3.035267625761673e-05,
+        "train_s": 1.756495714187622,
+        "n_rows": 496
+      }
+    }
+  ],
+  "agg": {
+    "n_users": 1,
+    "no_edit_top1_mean": 0.29411764705882354,
+    "lora_top1_mean": 0.7058823529411765,
+    "engram_top1_mean": 0.47058823529411764,
+    "lora_bpb_delta_mean": 0.33891372804425923,
+    "engram_bpb_delta_mean": 3.035267625761673e-05,
+    "lora_bpb_delta_pos_frac": 1.0,
+    "engram_bpb_delta_pos_frac": 1.0
+  }
+}
