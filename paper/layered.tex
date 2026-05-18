@@ -81,10 +81,10 @@ Cross-schema meta-skill transfer is initially weaker than expected
 when the foundational model is post-trained on one schema and
 evaluated on a held-out (medical) schema. Multi-schema training
 (personal + medical corpus) lifts F clearly above the no-edit
-baseline on medical ($42\%$ vs $29\%$ indirect-any, partial
-$n{=}11$), eliminating the cross-schema gap at a modest
-in-distribution capacity cost ($-$10pp). Meta-skill scope is a
-function of training-corpus breadth, not of the architecture.
+baseline on medical ($41\%$ vs $29\%$ indirect-any, $n{=}20$),
+eliminating the cross-schema gap at a modest in-distribution
+capacity cost ($-$10pp). Meta-skill scope is a function of
+training-corpus breadth, not of the architecture.
 
 \textbf{The lesson is categorical.} Parametric user memory was thought
 to require a per-user weight edit (LoRA) and therefore to entail
@@ -808,20 +808,29 @@ clearly insufficient to learn schema-general reasoning. The fuller
 story is that meta-skill scope is a function of training-corpus
 breadth, not of the architecture.
 
-\paragraph{Multi-schema training fixes the cross-schema gap (preliminary).}
+\paragraph{Multi-schema training fixes the cross-schema gap.}
 We re-trained the shared LoRA on a combined personal+medical corpus
 (10 held-out personal users $+$ 10 held-out medical patients, 1{,}010
 samples total, same rank-16, same 2K steps) and re-evaluated on the
-same test users. \emph{Personal} test (full $n{=}20$): F indirect-any
+same test users.
+
+\emph{Personal} test ($n{=}20$, in-distribution): F indirect-any
 $45\% \to 35\%$, indirect-top-1 $61\% \to 53\%$—an honest
 $\sim$10pp drop reflecting that the shared LoRA at rank 16 has finite
-capacity. \emph{Medical} test (partial $n{=}11$): F indirect-any
-$31\% \to 42\%$ ($+11$pp), F indirect-top-1 $72\% \to 82\%$
-($+10$pp), and \textbf{users worse-than-base $9/20 \to 0/11$}. F now
-clearly beats A on medical ($42\%$ vs $29\%$, $+13$pp), eliminating
-the cross-schema gap visible in Table~\ref{tab:cross-schema}. The
-substring-vs-judge gap remains a measurement caveat; LLM-judge
-re-evaluation of the multi-schema medical predictions is pending.
+capacity. F still never makes things worse than the no-edit base
+(0/20 users), and per-user LoRA is still 16/20 worse.
+
+\emph{Medical} test ($n{=}20$, out-of-distribution to single-schema
+training, in-distribution to multi-schema training):
+F indirect-any $31\% \to 41\%$ ($+10$pp), F indirect-top-1
+$72\% \to 83\%$ ($+11$pp), and \textbf{users worse-than-base
+$9/20 \to 1/20$}. F now clearly beats A on medical ($41\%$ vs $29\%$,
+$+12$pp), eliminating the cross-schema gap visible in
+Table~\ref{tab:cross-schema}. Per-user LoRA stays catastrophic on
+medical—$3\%$ indirect-any, all 20 users worse than the no-edit
+base, $\Delta$bpb $+1.46$. The substring-vs-judge gap remains a
+measurement caveat; LLM-judge re-evaluation of the multi-schema
+medical predictions is queued.
 
 \textbf{This narrows the open problem.} The architectural claim—
 that the layered design exposes the right surface for population-
