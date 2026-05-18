@@ -50,7 +50,7 @@ LoRA), but the only existing parametric mechanism—rank-64 adapters on
 $Q/K/V$ projections—is a \emph{global} edit that contaminates the model
 on every forward pass, including queries that have nothing to do with
 the user's facts. We measure this directly on Mini-Engram-d20: a single
-user's POLAR-class LoRA raises validation bpb on held-out web text by
+user's LoRA raises validation bpb on held-out web text by
 \textbf{$+1.78$} ($+241\%$); a per-user Engram-row insertion on the
 same base raises it by \textbf{$+0.0001$}, a $\sim$15{,}000$\times$
 ratio. The contamination is base-independent: the same LoRA contaminates
@@ -164,7 +164,7 @@ projections, which is a \emph{global} edit: the delta enters every
 forward pass, including those that have nothing to do with the user's
 facts.} We measure this directly on Mini-Engram-d20, a 1.22\,B
 parameter Engram-pretrained base~\citep{cheng2026engram}: across 20
-test users, a per-user POLAR-class rank-64 LoRA increases val\_bpb on
+test users, a per-user per-user rank-64 LoRA increases val\_bpb on
 a held-out ClimbMix shard by $\Delta = +1.78$ ($+241\%$, range
 $[+0.86, +2.73]$). The contamination replicates cross-base: on
 Qwen-3B-Instruct evaluated on FineWeb-edu, $\Delta = +0.09$ across
@@ -388,7 +388,7 @@ Per-position diagnostics (Figure~\ref{fig:locality}) confirm: at every
 non-trigger position, the residual stream is changed by exactly
 $0.000$ through every subsequent attention+MLP layer.
 
-By contrast, the same protocol with a per-user POLAR rank-64 LoRA on
+By contrast, the same protocol with a per-user per-user rank-64 LoRA on
 the same base gives $\Delta$bpb $+1.78$ (range $[+0.86, +2.73]$). The
 ratio is \textbf{$\sim$15{,}000$\times$}.
 
@@ -510,7 +510,7 @@ users, $\sim$34 facts per user, $\sim$20 completion-format indirect
 probes per user. Three are baselines, three involve the system:
 \begin{description}[leftmargin=2em,itemsep=1pt]
   \item[A.] No edit (the foundational model alone).
-  \item[B.] Per-user LoRA (the parametric-global baseline; POLAR-class
+  \item[B.] Per-user LoRA (the parametric-global baseline; 
         rank-64, 1500 steps per user).
   \item[C.] Per-user Engram-row Joint OPT on the \emph{vanilla}
         foundational model (1500 steps).
@@ -758,7 +758,7 @@ and the LoRA still hurts every single user.
 
 The contamination is not specific to Mini-Engram. We measure the
 identical setup on Qwen2.5-3B-Instruct (an instruction-tuned base):
-training a per-user POLAR rank-64 LoRA and measuring val\_bpb on
+training a per-user per-user rank-64 LoRA and measuring val\_bpb on
 FineWeb-edu held-out chunks.
 
 \paragraph{Result: architectural contamination is universal.}
