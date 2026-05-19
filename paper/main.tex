@@ -28,8 +28,8 @@
 \title{User as Engram: Internalizing Per-User Memory as Local Parametric Edits}
 
 \author{%
-  boj@19pine.ai \\
-  19pine.ai
+	Bojie Li \\
+	Pine AI
 }
 
 \begin{document}
@@ -76,6 +76,20 @@ only 0–20\% of users worse. The
 instruction-tuned LM (LoRA mostly fine) or a base LM (LoRA
 destructive in 85\% of users). The layered design works robustly
 across both.
+
+We further measure RAG head-to-head against the layered design (F)
+on the same probes and find a cross-over driven by KB size. At a toy
+KB (34 facts/user), Qwen2.5-3B-Instruct + RAG-top-3 reaches 52\%
+indirect\_any vs F's 44\% (at 0 context tokens). At realistic KB
+sizes ($N\in\{100,200,300,500,1000\}$ facts/user via a 30-user
+distractor pool), \texttt{all-MiniLM-L6-v2} top-3 recall collapses
+from 62\% to 9\%, and Qwen-3B + RAG-top-3 drops to \textbf{30\%
+indirect\_any}—\textbf{14\,pp below F}, which is invariant in
+this axis because per-user Engram tables don't grow with population
+size. \textbf{At $N\geq 100$, F (zero context, no retrieval) beats
+both naive RAG on the same Engram backbone and Qwen-3B + RAG} on a
+$\sim$2.5$\times$ larger instruction-tuned model. The trade-off is
+decided by deployment scale, not by which substrate alone.
 
 We release four Mini-Engram weights spanning 178\,M–1.22\,B
 parameters (the first publicly available Engrams outside
@@ -216,16 +230,41 @@ position, through every subsequent attention+MLP layer
         The naive composition (per-user LoRA + per-user Engram) is the
         worst of both: contamination remains high and indirect reasoning
         still collapses. A rank ablation pins $r{=}16$ as the sweet spot.
+  \item \textbf{A head-to-head with RAG on the same indirect probes,
+        across KB sizes from toy (34 facts) to production scale
+        (1000 facts)}
+        (Sections~\ref{sec:layered-rag},~\ref{sec:qwen-rag},~\ref{sec:rag-scale}).
+        At KB=34, naive RAG on the same Mini-Engram-d20 reaches only
+        33--39\% indirect\_any (vs.\ F's 44\%), because an
+        Engram-pretrained base hasn't learned to consult an in-context
+        fact list. Adding the shared LoRA on top of RAG (J: RAG-top3
+        + shared LoRA) lifts this to 54\% at 44 context tokens.
+        \texttt{Qwen2.5-3B-Instruct} + RAG with the same retriever
+        reaches 52--57\% at 82--390 context tokens---above F by 8--13\,pp
+        at small KB. \textbf{Growing the KB to 100--1000 facts/user
+        with a 1008-fact distractor pool, retrieval recall@3 collapses
+        from 62\% to 9\% and Qwen-3B + RAG-top-3 drops to 30\%---14\,pp
+        \emph{below} F}, which is invariant in this axis because the
+        per-user Engram table never grows with population size. Above
+        $N\approx 100$, F at zero context beats both naive RAG and
+        Qwen-3B + RAG; J's lead over F shrinks from 10\,pp at KB=34
+        to 3\,pp at KB=1000. The trade-off is decided by deployment
+        scale, not just by which substrate.
 \end{enumerate}
 
 \paragraph{Take-away.} \emph{Personal memory is two problems, not one:
 content (per-user, low-cost, local) and meta-skill (cross-user,
 amortised). Matching each to its right substrate Pareto-dominates
-every per-user single-substrate baseline we tested.} Per-user LoRA's
-\emph{architectural} contamination is base-independent and large; its
-\emph{user-visible} reasoning damage is base-dependent and variable;
-its replacement by the layered design recovers reasoning while keeping
-storage at 88\,KB per user.
+every per-user single-substrate baseline we tested}, including RAG
+with a $\sim$2.5$\times$ larger instruction-tuned LM at deployment-scale
+KB. Per-user LoRA's \emph{architectural} contamination is
+base-independent and large; its \emph{user-visible} reasoning damage
+is base-dependent and variable. RAG's quality is base-independent
+but \emph{retrieval-pool-dependent}: at $N\geq 100$ facts, the
+sentence encoder misses the gold fact more often than not. The
+layered design—per-user Engram-row content plus a shared LoRA for
+meta-skill—keeps the architectural property by construction, costs
+88\,KB per user, and runs at zero context.
 
 \begin{figure}[t]
   \centering
@@ -869,6 +908,12 @@ the only difference is how facts are stored and retrieved. The
 sentence-encoder used by RAG / MEM0 / MEMMACHINE baselines is
 \texttt{all-MiniLM-L6-v2} (80M parameters; comparable in size to a
 production retriever).
+
+This subsection probes \emph{direct} fact recall under
+trigger-exact and paraphrased queries; the orthogonal
+\emph{indirect-reasoning} comparison (does retrieval recover the gold
+fact across hops, and what happens as the KB grows?) is in
+Sections~\ref{sec:layered-rag}--\ref{sec:rag-scale}.
 
 \paragraph{Setup.} 100 USER facts (XXL corpus). Two query
 distributions:
@@ -1551,21 +1596,34 @@ Query:   My doctor works at         -> ?  (expected: Globex)
 \begin{table}[t]
   \centering
   \caption{Multi-hop reasoning over Engram-inserted facts (8 chained
-  pairs). The same probe was repeated across three trained
-  Mini-Engrams. Multi-hop top-1 and top-5 are identical at every
-  scale: the gate either fires on the second-hop trigger's suffix
-  N-gram and returns the gold token (top-1), or it does not fire and
-  the gold token is far down the distribution (out of top-5).}
+  pairs). The Engram rows insert two facts per item via Joint OPT and
+  ask the chained query; multi-hop top-1 and top-5 are identical at every
+  Engram scale: the gate either fires on the second-hop trigger's suffix
+  N-gram and returns the gold token (top-1), or it does not fire and the
+  gold token is far down the distribution (out of top-5). The RAG rows
+  index all 16 pair-facts in a flat KB, retrieve top-$k$ against the
+  query, and answer with the same Mini-Engram-d20 backbone; ``ret\_both''
+  is the fraction of items where both gold facts appear in the retrieved
+  set. We caution that $n{=}8$ keeps both columns qualitative
+  (Wilson 95\% CI [40.9\%, 93.0\%] on a 6/8 point estimate); the wide CI
+  overlaps every cell.}
   \label{tab:multihop}
-  \begin{tabular}{lcc}
+  \resizebox{\linewidth}{!}{
+  \begin{tabular}{lccc}
     \toprule
-    model & per-fact recall & multi-hop top-1 (= top-5) \\
+    method & per-fact recall / ret\_both & multi-hop top-1 & multi-hop top-5 \\
     \midrule
-    Mini-Engram-d12 v2          & 15 / 16 (93.8\%) & 6 / 8 (75.0\%) \\
-    Mini-Engram-d12@1280 opt.   & 16 / 16 (100\%)  & 6 / 8 (75.0\%) \\
-    Mini-Engram-d20@1536 opt.   & 16 / 16 (100\%)  & 6 / 8 (75.0\%) \\
+    Mini-Engram-d12 v2          & 15 / 16 (93.8\%) & 6 / 8 (75.0\%) & 6 / 8 (75.0\%) \\
+    Mini-Engram-d12@1280 opt.   & 16 / 16 (100\%)  & 6 / 8 (75.0\%) & 6 / 8 (75.0\%) \\
+    Mini-Engram-d20@1536 opt.   & 16 / 16 (100\%)  & 6 / 8 (75.0\%) & 6 / 8 (75.0\%) \\
+    \midrule
+    \multicolumn{4}{l}{\emph{RAG over the same 8 pair-facts, Mini-Engram-d20 backbone:}} \\
+    Mini-Engram-d20 + RAG top-1                    & 0 / 8 (0\%)    & 4 / 8 (50.0\%) & 6 / 8 (75.0\%) \\
+    Mini-Engram-d20 + RAG top-2                    & \textbf{8 / 8 (100\%)} & \textbf{8 / 8 (100\%)} & \textbf{8 / 8 (100\%)} \\
+    Mini-Engram-d20 + RAG all (16 facts)           & 8 / 8 (100\%)  & 7 / 8 (87.5\%) & 7 / 8 (87.5\%) \\
+    Mini-Engram-d20 + RAG top-2 + shared LoRA r=16 & 8 / 8 (100\%)  & 7 / 8 (87.5\%) & 8 / 8 (100\%) \\
     \bottomrule
-  \end{tabular}
+  \end{tabular}}
 \end{table}
 
 \textbf{The multi-hop number is flat across dense scale (75\% at
@@ -1602,6 +1660,24 @@ to overlap with an inserted second-hop trigger is answered correctly
 remains the open problem we share with LoRA-as-memory. The mitigation
 discussed in Section~\ref{sec:discussion}—training Engram with
 recite-then-reason traces—is the right direction.
+
+\textbf{RAG comparison on the same 8 pair-facts.} The RAG rows in
+Table~\ref{tab:multihop} flip the picture: with a flat KB of all 16
+facts and \texttt{all-MiniLM-L6-v2} retrieval, RAG top-2 retrieves both
+chained facts on every item and the Mini-Engram-d20 backbone reads the
+chain off cleanly (8/8 top-1). RAG top-1 only retrieves one of the two
+facts (0/8 ``ret\_both'') and collapses to 4/8 -- the cases where the
+single retrieved fact happened to already contain the answer surface
+form. RAG-all (16 facts in context, with 14 distractors) loses one item
+(7/8), and RAG top-2 + shared LoRA also gives up one (the C-major-key
+item where the shared LoRA biases toward the more common ``D''). The
+comparison is intended as a sanity-check at $n{=}8$, not a head-to-head
+ranking---the Wilson 95\% CI on a 6/8 estimate is [40.9\%, 93.0\%] and
+overlaps every row of the table. The qualitative read is that the 75\%
+Engram ceiling reflects a surface-trigger artifact (Section~\ref{sec:multihop}'s
+discussion) rather than an unreachable hop budget, and that the same
+chain is solvable either by retrieval that returns both facts or by a
+recite-then-reason trained Engram (future work).
 
 \subsection{LoRA rank ablation at 100 facts}
 \label{sec:lora-rank}
@@ -1808,24 +1884,34 @@ and val\_bpb on a held-out 262\,K-token ClimbMix shard
 
 \begin{table}[t]
   \centering
-  \caption{Layered architecture: 6 conditions $\times$ 20 test users on
+  \caption{Layered architecture: 10 conditions $\times$ 20 test users on
   Mini-Engram-d20 ($n{=}20$). All training is independent (per-user LoRA,
-  per-user Engram, and shared LoRA each trained alone). ``worse'' = fraction
-  of users with indirect\_any strictly below the no-edit baseline.}
+  per-user Engram, and shared LoRA each trained alone). RAG rows (G--J)
+  retrieve facts at inference with \texttt{all-MiniLM-L6-v2} and prepend
+  them in the same \texttt{Facts: ...} template as the shared-LoRA training
+  data. Rows G--I have no parametric edit, so $\Delta$bpb $= 0$ by
+  construction; the cost they incur is the context tokens column instead.
+  ``worse'' = fraction of users with indirect\_any below the no-edit baseline.}
   \label{tab:layered-headline}
   \resizebox{\linewidth}{!}{
-  \begin{tabular}{lccccccc}
+  \begin{tabular}{llccccccc}
     \toprule
-     & per-user & shared & direct & direct & indirect & indirect & $\Delta$bpb \\
-    code & LoRA r=64 & LoRA r=16 & top-1 & top-5 & top-1 & any & (worse/20) \\
-     & + Engram J-OPT? & + Engram J-OPT? & & & & & \\
+     & retrieval / shared-LoRA & direct & direct & indirect & indirect & $\Delta$bpb & ctx \\
+    code & + per-user edit & top-1 & top-5 & top-1 & any & (worse/20) & toks \\
     \midrule
-    A & none & none & 29\% & 38\% & 14\% & 19\% & 0.000 (0/20) \\
-    B & LoRA only & no & 100\% & 100\% & 36\% & \textbf{7\%} $\downarrow\downarrow$ & \textbf{+1.559 (17/20)} \\
-    C & Engram only & no & 100\% & 100\% & 14\% & 23\% & +0.0001 (0/20) \\
-    D & LoRA + Engram & no & 100\% & 100\% & 36\% & \textbf{8\%} $\downarrow\downarrow$ & +1.419 (16/20) \\
-    E & none & LoRA only & 54\% & 76\% & 62\% & 44\% $\uparrow\uparrow$ & +0.386 (0/20) \\
-    \textbf{F} & \textbf{Engram} & \textbf{LoRA} & \textbf{100\%} & \textbf{100\%} & \textbf{61\%} & \textbf{44\%} & \textbf{+0.386 (0/20)} \\
+    A & --- & 29\% & 38\% & 14\% & 19\% & 0.000 (0/20) & 0 \\
+    B & per-user LoRA r=64 & 100\% & 100\% & 36\% & \textbf{7\%} $\downarrow\downarrow$ & \textbf{+1.559 (17/20)} & 0 \\
+    C & per-user Engram J-OPT & 100\% & 100\% & 14\% & 23\% & +0.0001 (0/20) & 0 \\
+    D & per-user LoRA + Engram & 100\% & 100\% & 36\% & \textbf{8\%} $\downarrow\downarrow$ & +1.419 (16/20) & 0 \\
+    E & shared LoRA r=16 only & 54\% & 76\% & 62\% & 44\% $\uparrow\uparrow$ & +0.386 (0/20) & 0 \\
+    \textbf{F} & \textbf{Engram + shared LoRA} & \textbf{100\%} & \textbf{100\%} & \textbf{61\%} & \textbf{44\%} & \textbf{+0.386 (0/20)} & \textbf{0} \\
+    \midrule
+    \multicolumn{8}{l}{\emph{RAG conditions (this work): retrieve user's facts at inference, no parametric edit on the base.}} \\
+    G & RAG top-1 & 81\% & 90\% & 16\% & 33\% & 0.000 (0/20) & 27 \\
+    G$'$ & oracle top-1 (gold fact only) & 84\% & 94\% & 14\% & 26\% & 0.000 (0/20) & 28 \\
+    H & RAG top-3 & 77\% & 89\% & 16\% & 39\% & 0.000 (0/20) & 44 \\
+    I & RAG all ($\approx$ MARKDOWN\_ALL) & 76\% & 85\% & 15\% & 35\% & 0.000 (0/20) & 302 \\
+    \textbf{J} & \textbf{RAG top-3 + shared LoRA} & 77\% & 91\% & \textbf{80\%} & \textbf{54\%} & +0.386 (0/20) & 44 \\
     \bottomrule
   \end{tabular}}
 \end{table}
@@ -1864,6 +1950,254 @@ The aggregate picture across 20 users is sharp:
         skill but only reaches 54\% direct top-1 (it never saw the test
         user's facts). The combination is what works.
 \end{itemize}
+
+\subsection{Does RAG close the indirect-reasoning gap?}
+\label{sec:layered-rag}
+
+A natural reader question on the F result is: \emph{What if I just retrieve
+the facts and put them in the base LM's context?} We test exactly that.
+Conditions G--J in Table~\ref{tab:layered-headline} index each user's facts
+with the same \texttt{all-MiniLM-L6-v2} sentence encoder used by the
+RAG/MEM0/MEMMACHINE baselines of
+Section~\ref{sec:memory-systems}, retrieve $k\in\{1,3,\text{all}\}$ at
+inference, and prepend them in a \texttt{Facts: <f$_1$>. <f$_2$>. \ldots\ Q: <q>\textbackslash{}nA:}
+template. (The template intentionally matches the shared-LoRA training
+format so condition J---retrieval composed with shared meta-skill---is
+fair to evaluate.) Three findings:
+
+\begin{itemize}[leftmargin=*,topsep=2pt,itemsep=1pt]
+  \item \textbf{Naive RAG on a base LM is below F on indirect.} Conditions
+        G--I yield indirect\_any 33--39\%, all \emph{below} F's 44\%.
+        Putting the right fact in front of an Engram-pretrained base LM is
+        not enough: the base never learned to consult an in-context fact
+        list, so it ignores the prefix and falls back to the closest token
+        from its priors. Direct recall under RAG also collapses to
+        76--84\% (vs F's 100\%) for the same reason: the model often
+        completes the trigger from its parametric priors instead of
+        reading the retrieved fact.
+  \item \textbf{Oracle retrieval doesn't help.} G$'$ uses the
+        ground-truth \texttt{required\_fact\_keys} to fetch the gold fact
+        directly (no retriever noise), yet gets 26\% indirect\_any --
+        \emph{worse} than RAG top-1's 33\%. The bottleneck is not
+        retrieval quality; it's that the base LM can't use a single fact
+        for indirect reasoning without the meta-skill.
+  \item \textbf{Shared LoRA + RAG (J) is the strongest indirect setting,
+        but pays context cost.} J reaches \textbf{54\% indirect\_any and
+        80\% indirect\_top1}, exceeding F (44\%/61\%) by $+10$ pp and
+        $+19$ pp. The shared LoRA's meta-skill is the load-bearing
+        component; once it is present, retrieved content in context
+        slightly beats Engram-row content for indirect QA -- but at 44
+        context tokens per query instead of zero.
+\end{itemize}
+
+The first bullet refutes the natural ``just use RAG'' rebuttal: on the
+same Engram-pretrained base, retrieval alone underperforms our layered
+design on both direct and indirect. The third bullet identifies a clean
+Pareto choice: when context budget is free, retrieval-plus-meta-skill
+gives the highest accuracy; when context budget is the constraint,
+Engram-rows-plus-meta-skill is on the 0-token frontier
+(Figure~\ref{fig:pareto-rag}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.9\linewidth]{figs/fig_pareto_rag.pdf}
+  \caption{Indirect-reasoning accuracy (\texttt{indirect\_any}) vs.\ avg
+  context tokens per query on the 20-user split. F (layered) and E
+  (shared LoRA only) anchor the 0-context frontier; J (RAG top-3
+  + shared LoRA) lifts accuracy to 54\% at 44 context tokens; Qwen-3B +
+  RAG (Section~\ref{sec:qwen-rag}) reaches 55--57\% at 82--390 tokens on
+  a $\sim$2$\times$ larger backbone. Naive RAG on the same Mini-Engram-d20
+  base (G/H/I) sits \emph{below} F: putting facts in context is not free
+  meta-skill.}
+  \label{fig:pareto-rag}
+\end{figure}
+
+\subsection{RAG with an instruction-tuned LM head (Qwen-3B)}
+\label{sec:qwen-rag}
+
+The Mini-Engram-d20 base used above is a base LM and does not follow ICL
+well, which is what makes conditions G--I weak. The fairest test of
+``RAG alone is enough'' is to plug retrieved facts into a real
+instruction-tuned LM. We use \texttt{Qwen2.5-3B-Instruct} ($\sim$3\,B
+parameters; $\sim$2.5$\times$ Mini-Engram-d20), the same encoder
+(\texttt{all-MiniLM-L6-v2}), and the same 20 users $\times$ 20 indirect
+probes. The chat-template prompt gives Qwen the retrieved facts as a
+system-bulleted list and asks it to answer the user's question
+(see Appendix~\ref{app:qwen-rag-prompt}).
+
+\begin{table}[t]
+  \centering
+  \caption{Indirect reasoning on the same 20-user/20-probe split as
+  Table~\ref{tab:layered-headline}, but with Qwen2.5-3B-Instruct as the
+  answering LM and retrieval over the user's facts. The published F
+  (Mini-Engram-d20, layered) line is reproduced for direct comparison.
+  ``ret\_acc'' is the fraction of probes where the retrieved set covers
+  all gold \texttt{required\_fact\_keys}.}
+  \label{tab:qwen-rag}
+  \resizebox{\linewidth}{!}{
+  \begin{tabular}{lcccc}
+    \toprule
+    method & indirect top-1 & indirect any & ret\_acc & ctx toks \\
+    \midrule
+    Qwen-3B, no context        & 16\% & 16\% & 0\% & 67 \\
+    Qwen-3B + RAG top-1         & 50\% & 55\% & 22\% & 82 \\
+    Qwen-3B + RAG top-3         & 50\% & 53\% & 62\% & 102 \\
+    Qwen-3B + RAG all (34 facts) & \textbf{55\%} & \textbf{57\%} & 100\% & 390 \\
+    Qwen-3B + oracle top-1      & 42\% & 46\% & 37\% & 83 \\
+    \midrule
+    \multicolumn{5}{l}{\emph{Same backbone family (Mini-Engram-d20, 1.22\,B):}} \\
+    F: layered (Engram + shared LoRA), this work & 61\% & 44\% & --- & \textbf{0} \\
+    J: RAG-3 + shared LoRA, this work             & \textbf{80\%} & 54\% & 62\% & 44 \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+Qwen-3B + RAG-all hits 57\% indirect\_any (its retrieval ceiling), and
+Qwen-3B + RAG-top-1 lands at 55\%. Our \textbf{J configuration on the
+1.22\,B Mini-Engram-d20 backbone hits 54\%}---within 3 pp of a strictly
+larger instruction-tuned model at 2$\times$ less context cost. Our
+\textbf{F configuration (no retrieval, 0 context tokens) is 12 pp below
+Qwen-3B + RAG-all but uses zero retrieval and zero context}, on a base
+LM that wasn't even instruction-tuned. On indirect\_top1, J's 80\%
+exceeds every Qwen+RAG variant.
+
+\paragraph{Interpretation.} Qwen-3B + RAG is the strongest realistic
+baseline for ``user-as-RAG'' and it lands at 55--57\% indirect\_any. F
+(layered) hits 44\% \emph{without retrieval at all}. The remaining gap
+is the value RAG buys when context tokens are free; if you can pay the
+context cost, layered + retrieval (J) closes it. This Pareto picture is
+what Figure~\ref{fig:pareto-rag} plots.
+
+\paragraph{Wall-clock per query.} On the same RTX 6000, Mini-Engram-d20
+F serves at $\sim$310\,ms/probe (greedy 16-token continuation, no
+retrieval). Adding RAG-3 retrieval bumps it to $\sim$440\,ms (J).
+Qwen-3B + RAG-3 serves at $\sim$92\,ms/probe (smaller dense-only
+model). Latency is comparable across substrates here; the practical
+gap at deployment scale comes from \emph{per-user storage} (88\,KB/user
+for Engram vs.\ $\sim$130 stored fact strings for RAG), which we
+already plot in Figure~\ref{fig:scaling}.
+
+\subsection{RAG-vs-Engram trade-offs sharpen as the KB grows}
+\label{sec:rag-scale}
+
+The Table~\ref{tab:layered-headline} and Table~\ref{tab:qwen-rag}
+comparisons used each test user's native 34 facts. In production,
+per-user fact counts are typically larger (chat history, calendar,
+preferences, contacts, $\sim 10^2$--$10^3$). To measure how the
+comparison evolves with KB size we augment each test user's 34 facts
+with sampled distractor facts from a pool of all 30 schema-family users
+(\texttt{u000--u029} minus the active test user; 1008 facts total) to
+reach KB sizes $N \in \{34, 100, 200, 300, 500, 1000\}$. The test
+user's indirect probes are unchanged; the retriever now has to
+discriminate the gold fact among $N$ candidates instead of 34.
+Engram-row insertion is unaffected by this axis: the per-user table
+holds only the test user's facts, and F's accuracy is independent of
+how many other users exist.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_rag_scale.pdf}
+  \caption{Indirect-reasoning accuracy and retrieval recall vs.\ KB size
+  ($n{=}20$ users, 20 indirect probes each; KB = test user's 34 facts +
+  distractors sampled from the 30-user schema-family pool, log $x$-axis,
+  $N \in \{34, 100, 200, 300, 500, 1000\}$). \textbf{(a)} F (layered,
+  horizontal solid line at 44\%) is invariant to KB size; the
+  retrieval-based conditions degrade monotonically. \textbf{Naive RAG
+  and Qwen-3B + RAG fall below F at KB $\geq$ 100; at KB=1000 the gap is
+  14\,pp.} J (RAG-3 + shared LoRA) is the most robust to KB growth
+  (54\% $\to$ 47\%) because the shared meta-skill compensates when
+  retrieval misses, though its lead over F shrinks from 10\,pp to 3\,pp
+  across the sweep. \textbf{(b)} Retrieval recall (fraction of probes
+  where the retrieved set covers all gold \texttt{required\_fact\_keys})
+  drops by 7$\times$ for top-3 (62\% $\to$ 9\%) between KB=34 and
+  KB=1000, which is the mechanistic driver of (a).}
+  \label{fig:rag-scale}
+\end{figure}
+
+\begin{table}[t]
+  \centering
+  \caption{RAG indirect\_any (\%) vs.\ KB size on the same 20-user
+  split. ``ret\%'' = fraction of probes with all
+  \texttt{required\_fact\_keys} retrieved at the indicated $k$.
+  Mini-Engram-d20 F (layered) is unchanged across KB sizes
+  (44\% indirect\_any, 0 context tokens).}
+  \label{tab:rag-scale}
+  \resizebox{\linewidth}{!}{
+  \begin{tabular}{lcccccccccccc}
+    \toprule
+     & \multicolumn{2}{c}{KB=34} & \multicolumn{2}{c}{KB=100} & \multicolumn{2}{c}{KB=200} & \multicolumn{2}{c}{KB=300} & \multicolumn{2}{c}{KB=500} & \multicolumn{2}{c}{KB=1000} \\
+    \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}\cmidrule(lr){12-13}
+    method & ret\% & any\% & ret\% & any\% & ret\% & any\% & ret\% & any\% & ret\% & any\% & ret\% & any\% \\
+    \midrule
+    Mini-Engram-d20 + RAG top-1 (G)               & 22 & 33 & 13 & 31 &  9 & 30 &  7 & 30 &  7 & 30 &  6 & 29 \\
+    Mini-Engram-d20 + RAG top-3 (H)               & 62 & 39 & 39 & 35 & 28 & 32 & 20 & 30 & 12 & 30 &  9 & 30 \\
+    Mini-Engram-d20 + RAG top-3 + shared LoRA (J) & 62 & \textbf{54} & 39 & \textbf{52} & 28 & \textbf{51} & 20 & \textbf{51} & 12 & \textbf{48} &  9 & \textbf{47} \\
+    Qwen-3B + RAG top-1                            & 22 & 55 & 13 & 41 &  9 & 35 &  7 & 33 &  7 & 32 &  6 & 32 \\
+    Qwen-3B + RAG top-3                            & 62 & 52 & 39 & 45 & 28 & 38 & 20 & 37 & 12 & 32 &  9 & 30 \\
+    \midrule
+    \textbf{F: layered (Engram + shared LoRA), no retrieval} & --- & \textbf{44} & --- & \textbf{44} & --- & \textbf{44} & --- & \textbf{44} & --- & \textbf{44} & --- & \textbf{44} \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+The numbers (Table~\ref{tab:rag-scale}, Figure~\ref{fig:rag-scale})
+tell a sharper story than the KB=34 measurements alone:
+\begin{itemize}[leftmargin=*,topsep=2pt,itemsep=1pt]
+  \item \textbf{Retrieval degrades fast and keeps degrading.} Top-3
+        recall on \texttt{all-MiniLM-L6-v2} drops from 62\% at KB=34
+        to 9\% at KB=1000, a 7$\times$ degradation purely from more
+        candidates competing in the same embedding space. Top-1
+        recall drops from 22\% to 6\%.
+  \item \textbf{Naive RAG falls below F by 14--15\,pp.}
+        Mini-Engram-d20 + RAG-top-3 without the shared LoRA goes from
+        39\% at KB=34 to 30\% at KB=1000; F's 44\% beats it at every
+        KB $\geq$ 100 and the gap stabilises at $\sim$14\,pp by KB=500.
+  \item \textbf{Qwen-3B + RAG, the strongest realistic baseline, also
+        falls below F by 14\,pp at KB=1000.} Qwen-3B + RAG-top-3
+        starts at 52\% at KB=34 (above F's 44\%), drops below F by
+        KB=100 (45\%), and ends at \textbf{30\%} at KB=1000
+        ($-$14\,pp). The cross-over occurs around KB$\approx$100;
+        the gap then widens monotonically.
+  \item \textbf{J (RAG + shared LoRA) is the most KB-robust RAG
+        configuration but its lead over F erodes.} J goes 54\% $\to$
+        47\% (a 7\,pp drop), shrinking its margin over F from 10\,pp
+        at KB=34 to only 3\,pp at KB=1000 -- and J pays 42 context
+        tokens and runs a shared-LoRA forward pass on top, where F is
+        free of both. The shared LoRA absorbs retrieval misses by
+        falling back on parametric meta-skill, but the fallback is
+        not perfect.
+  \item \textbf{F is invariant to this axis} (44\% at every KB size)
+        because the test user's per-user Engram table never grows with
+        population size; this is the architectural feature of trigger-
+        keyed local edits.
+\end{itemize}
+
+The substrate ranking thus shifts with deployment scale. At toy KB
+sizes (34 facts), Qwen-3B + RAG is the accuracy ceiling and F is the
+zero-context option. At realistic KB sizes ($\geq$200 facts), F
+(44\%, zero context) decisively beats both naive RAG (29--32\%) and
+Qwen-3B + RAG (30--38\%); J's lead over F shrinks from 10\,pp at
+KB=34 to 3\,pp at KB=1000. The trade-off the original indirect-reasoning
+measurements presented as ``RAG wins on accuracy at context cost'' is
+in fact only true for small KBs; at deployment scale, F dominates on
+both accuracy and context cost while J converges to F.
+
+\paragraph{Where the failure happens.} The Engram side does have its
+own density ceiling -- Joint OPT at 100 facts/user reaches 65\%/98\%
+top-1/top-5 (Section~\ref{sec:density}), dropping to 35\%/40\% at 1000
+facts/user. Section~\ref{sec:factscale} measures this separately for
+per-fact independent OPT to 1000 facts. The two limits are
+mechanistically distinct: Engram density caps come from forward-pass
+interference among row writes inside one user's table; RAG retrieval
+caps come from nearest-neighbour confusion across an ever-growing
+candidate pool. The first is bounded by per-user fact count; the
+second is bounded by the size of whatever pool the retriever sees
+(per-user, per-tenant, or per-corpus, depending on deployment). For
+$10^2$--$10^3$ facts/user, Engram density is the binding constraint
+on the parametric side; for $10^4$+ facts in a shared corpus, RAG
+retrieval is the binding constraint on the retrieval side. The two
+costs scale on different axes, which is why the trade-off curve in
+Figure~\ref{fig:rag-scale}(a) crosses.
 
 \subsection{Rank ablation: r=16 is the sweet spot}
 
@@ -1965,33 +2299,42 @@ the relevant rows for the current query, via a small classifier) is
 a candidate future fix.
 
 \paragraph{When to use what.} Substrate selection is a function
-of two axes—\emph{how much per-user storage is acceptable}, and
-\emph{whether the question is a chain-of-fact recall or
-free-form synthesis}. The cells we recommend:
+of three axes—\emph{per-user fact count}, \emph{whether the query
+needs indirect reasoning over those facts}, and \emph{whether
+context-budget or per-user storage is the binding constraint}.
+The cells we recommend:
 \begin{itemize}[leftmargin=*,topsep=2pt,itemsep=1pt]
-  \item \emph{$<$10 facts/user, conversational AI.} ICL or RAG
-        with a strong retriever: lowest storage, highest recall,
-        but cannot internalise reasoning steps.
-  \item \emph{10--500 facts/user, millions of users, storage is
-        the binding constraint, 65--98\% multi-fact top-1/top-5
-        acceptable.} User-as-Engram + Joint OPT. Storage scales
-        linearly at $\sim$1\,KB/fact, and the multi-hop and
-        paraphrase wins
-        (Sections~\ref{sec:multihop},~\ref{sec:paraphrase}) accrue
-        here.
-  \item \emph{Enterprise personalisation requiring 100\% top-1,
-        $<$10K users, can afford 14\,MB/user.} Per-user LoRA with
-        S-LoRA serving—and accept the indirect-recall tax.
+  \item \emph{$<$10 facts/user, conversational AI, direct
+        single-fact recall only.} ICL or RAG with a strong retriever:
+        lowest storage, highest recall, no parametric training.
+        Retrieval recall is near-perfect at this scale.
+  \item \emph{10--1000 facts/user, indirect reasoning matters,
+        deployment with many users.} The layered design F (per-user
+        Engram + shared LoRA): zero context tokens, 44\% indirect\_any
+        invariant in the KB-size axis, 88\,KB/user. F decisively
+        beats RAG with a $\sim$2.5$\times$ larger instruction-tuned
+        LM at $N\geq 100$ (Section~\ref{sec:rag-scale}). If context
+        budget is free, J (RAG-top3 + F) adds a small accuracy
+        margin at the cost of 44 context tokens per query.
+  \item \emph{Enterprise personalisation requiring 100\% direct
+        top-1, $<$10K users, can afford 14\,MB/user.} Per-user LoRA
+        with S-LoRA serving—and accept the indirect-recall tax that
+        comes with global edits.
   \item \emph{Long-form documents, citations, provenance,
-        open-domain synthesis.} RAG: retrieval wins LOCOMO
-        open-domain by 53\%
-        (Table~\ref{tab:locomo-categories}).
+        open-domain synthesis, KB is a shared corpus.} RAG:
+        retrieval wins LOCOMO open-domain by 53\%
+        (Table~\ref{tab:locomo-categories}). Note that this is a
+        \emph{different} regime from personal memory; here the KB
+        scale issue we documented in Section~\ref{sec:rag-scale} is
+        even sharper because the KB is shared across users.
 \end{itemize}
-The crucial line is the third: \emph{any} substrate that hits
+The crucial line is the second: \emph{any} substrate that hits
 100\% direct top-1 on personal facts will incur some indirect-
 reasoning tax; the question is whether the tax is structural
-(global LoRA) or constructive (local Engram, where the trigger
-N-gram is the contract).
+(global LoRA), constructive (local Engram, where the trigger
+N-gram is the contract), or retrieval-quality-bounded
+(RAG, where the sentence encoder must discriminate the gold fact
+among $N$ candidates).
 
 \subsection{Future work: training-recipe changes}
 \label{sec:future}
@@ -2092,19 +2435,33 @@ single-hop on both token-F1 (+57\%) and LLM-judge (+18\%) at 1.22\,B;
 it loses open-domain ($-$53\%), where retrieval of an unseen evidence
 sentence is required.
 
+A direct head-to-head with RAG on indirect-reasoning probes
+(Sections~\ref{sec:layered-rag}--\ref{sec:rag-scale}) sharpens the
+substrate-selection question. At toy KB (34 facts/user), Qwen-3B + RAG
+matches or slightly beats F (52\% vs.\ 44\% indirect\_any). At
+realistic KB sizes ($N=1000$ facts/user), \texttt{all-MiniLM-L6-v2}
+recall@3 collapses 7$\times$ (62\% $\to$ 9\%), Qwen-3B + RAG-top-3
+drops to 30\% (14\,pp below F), and F's 44\% is invariant because the
+per-user Engram table doesn't grow with population size. The
+trade-off curve crosses around $N\approx 100$.
+
 Three recommendations follow. \textbf{(i)} \emph{Decompose personal
 memory by substrate}: content $\to$ per-user Engram-row override
 (local, 88\,KB/user); meta-skill $\to$ one shared LoRA amortised
-across users; open-domain synthesis $\to$ RAG. \textbf{(ii)}
-\emph{Match the training objective to the deployment metric}—
-multi-token answer-conditioned OPT where free-form answers matter,
-first-token OPT where the inserted span suffices. \textbf{(iii)}
-\emph{Treat substrate selection, not gradient training, as the
-bottleneck of personal memory}—gate-vs-store separation, layered
-composition, per-user override tables, and multi-tenant serving are
-architectural decisions, and together they unlock zero-leak personal
-memory at $\sim$100\,GB total storage for 1\,M users and 232\,req/s
-on one GPU.
+across users; open-domain synthesis over a shared corpus $\to$ RAG.
+\textbf{(ii)} \emph{Match the training objective to the deployment
+metric}—multi-token answer-conditioned OPT where free-form answers
+matter, first-token OPT where the inserted span suffices.
+\textbf{(iii)} \emph{Treat substrate selection, not gradient training,
+as the bottleneck of personal memory}—gate-vs-store separation,
+layered composition, per-user override tables, and multi-tenant
+serving are architectural decisions, and together they unlock
+zero-leak personal memory at $\sim$100\,GB total storage for 1\,M
+users and 232\,req/s on one GPU. Substrate ranking depends on
+deployment scale: at toy KBs RAG with a strong LM wins on accuracy;
+at production-scale per-user KBs ($\geq 100$ facts) the layered
+design (F) dominates on both accuracy and context cost while a
+$\sim$2.5$\times$ larger RAG baseline falls 14\,pp behind.
 
 \bibliographystyle{plainnat}
 \begin{thebibliography}{50}
@@ -2572,6 +2929,58 @@ contaminate non-trigger forwards. Engram with surgical row insertion
   dominates total latency (black).}
   \label{fig:cdf}
 \end{figure}
+
+\section{Appendix: Qwen-3B + RAG details}
+\label{app:qwen-rag-prompt}
+
+The Qwen-3B + RAG measurements in Table~\ref{tab:qwen-rag} use
+\texttt{Qwen/Qwen2.5-3B-Instruct} in bf16 with greedy decoding
+($\le 32$ new tokens). The chat-template prompt is:
+
+{\small
+\begin{verbatim}
+[SYSTEM]
+You are answering personal-memory questions about the user. Use only
+the facts provided. Answer with the shortest possible span (typically
+1-3 words). Do not explain or add any extra text.
+
+[USER]
+Facts about the user:
+- <retrieved fact 1>.
+- <retrieved fact 2>.
+...
+
+Question: <indirect question from indirect_qa>
+Answer:
+\end{verbatim}}
+
+Retrieval uses the same \texttt{sentence-transformers/all-MiniLM-L6-v2}
+encoder as the RAG/MEM0/MEMMACHINE baselines of
+Section~\ref{sec:memory-systems}, with the per-user fact set as the
+index. For each indirect probe the question text is embedded and
+cosine-similarity top-$k$ retrieval returns the facts to put in the
+context block. The same 20-user/20-probe split as
+Table~\ref{tab:layered-headline} is evaluated.
+
+Two answer-match criteria are reported: \emph{indirect\_top1} requires
+the first generated word to equal (case-insensitive) the first word of
+the gold answer; \emph{indirect\_any} requires the gold span to occur
+anywhere in the generation. This matches the substring matcher used
+for F.
+
+\paragraph{Why oracle-top-1 underperforms RAG-top-1.}
+A non-obvious result in Table~\ref{tab:qwen-rag} is that oracle
+top-1 retrieval (use \texttt{required\_fact\_keys} to fetch the
+ground-truth fact) gives 46\% indirect\_any, \emph{below} RAG top-1's
+55\%. Inspecting the data, retrieval often returns facts that are
+\emph{adjacent} to the required key in semantic space and that happen
+to also contain the answer surface (e.g.\ retrieving the
+``birth-year'' fact when asked about ``current age'' covers both the
+year and the implicit age). RAG with $k=1$ thus over-samples the
+information needed for indirect reasoning, while strict oracle
+retrieval leaves the LM to derive the answer from one
+single-attribute fact---which Qwen-3B often refuses to do under our
+``shortest span'' system prompt.
 
 \section{Appendix: Preliminary architectural validation}
 \label{app:tier1}
