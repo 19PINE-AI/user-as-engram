@@ -906,12 +906,21 @@ training, in-distribution to multi-schema training):
 F indirect-any $31\% \to 41\%$ ($+10$pp), F indirect-top-1
 $72\% \to 83\%$ ($+11$pp), and \textbf{users worse-than-base
 $9/20 \to 1/20$}. F now clearly beats A on medical ($41\%$ vs $29\%$,
-$+12$pp), eliminating the cross-schema gap visible in
-Table~\ref{tab:cross-schema}. Per-user LoRA stays catastrophic on
+$+12$pp), eliminating the substring-level cross-schema gap visible
+in Table~\ref{tab:cross-schema}. Per-user LoRA stays catastrophic on
 medical—$3\%$ indirect-any, all 20 users worse than the no-edit
-base, $\Delta$bpb $+1.46$. The substring-vs-judge gap remains a
-measurement caveat; LLM-judge re-evaluation of the multi-schema
-medical predictions is queued.
+base, $\Delta$bpb $+1.46$.
+
+\emph{Validated under LLM-judge.} We re-judged the multi-schema
+medical predictions with the same Qwen2.5-7B-Instruct judge used
+above. F judge accuracy: $25.0\%$ (vs A's $22.5\%$, F-vs-A
+$+2.5$pp); B judge accuracy: $5.6\%$ (F-vs-B $+19.4$pp,
+$4.5{\times}$). The substring metric inflated the F-vs-A gap by
+$\sim$9.5pp via short-answer overlap artifacts, but the
+\emph{direction} and \emph{fix} are real: multi-schema training
+moves F from $17.9\%$ judge (single-schema, below A) to $25.0\%$
+(multi-schema, above A)—a $+7.1$pp shift that crosses the
+no-edit baseline.
 
 \textbf{This narrows the open problem.} The architectural claim—
 that the layered design exposes the right surface for population-
