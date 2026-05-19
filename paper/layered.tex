@@ -476,7 +476,11 @@ generalisation \emph{and} higher contamination on text outside the
 training distribution. The follow-up question—\emph{how much further
 does the meta-skill improve with a 10$\times$ or 100$\times$ larger
 post-training corpus}—is the most important open question for the
-parametric-user-memory category, and we leave it as future work.
+parametric-user-memory category. Section~\ref{sec:robustness} takes
+the first step: doubling both the corpus (multi-schema) and the rank
+($r{=}16 {\to} r{=}32$) recovers single-schema performance with
+$+0.020$ bpb extra contamination, consistent with the
+capacity-should-match-corpus reading.
 
 % =============================================================================
 % 6. PUTTING IT TOGETHER — LAYERED MEMORY AND THE HEAD-TO-HEAD
@@ -922,17 +926,65 @@ moves F from $17.9\%$ judge (single-schema, below A) to $25.0\%$
 (multi-schema, above A)—a $+7.1$pp shift that crosses the
 no-edit baseline.
 
+\paragraph{Rank scaling resolves the multi-schema capacity tax.}
+Our diagnosis above is that the $\sim$10pp in-distribution drop
+under multi-schema training is capacity-bound at rank 16, not
+data-bound. We test this directly by retraining the shared LoRA
+at rank 32 on the same personal+medical corpus (1{,}010 samples,
+same 2{,}000 steps) and evaluating on both test schemas.
+Table~\ref{tab:multi-rank} reports F on both.
+
+\begin{table}[t]
+  \centering
+  \caption{Multi-schema shared-LoRA rank scaling on both test
+  schemas ($n{=}20$ each, $0/20$ users worse-than-A on all rows).
+  Rank 32 closes the personal-side capacity tax
+  ($35\% {\to} 47\%$, back to and slightly above single-schema
+  r=16's $45\%$) while preserving medical. Rank 64 closes the gap
+  symmetrically on the medical side ($41\% {\to} 45\%$) at the
+  cost of $-2$pp on personal. The pair (r=32, r=64) frames a
+  rank--schema trade-off, not a single sweet spot. Contamination
+  grows $+0.020$ then $+0.029$ bpb per doubling.}
+  \label{tab:multi-rank}
+  \begin{tabular}{lccc}
+    \toprule
+    shared LoRA training & personal F iA & medical F iA & $\Delta$bpb \\
+    \midrule
+    single-schema $r{=}16$ (Table~\ref{tab:layered-headline}) & 45\% & 31\%* & $+0.386$ \\
+    multi-schema $r{=}16$ & 35\% & 41\% & $+0.379$ \\
+    \textbf{multi-schema $r{=}32$} & \textbf{47\%} & 41\% & $+0.399$ \\
+    \textbf{multi-schema $r{=}64$} & 45\% & \textbf{45\%} & $+0.428$ \\
+    \bottomrule
+  \end{tabular}
+  \\[0.3em]
+  \footnotesize{*Single-schema r=16 medical is out-of-distribution; see Table~\ref{tab:meta-direction}.}
+\end{table}
+
+Rank doubling closes the multi-schema gap one side at a time.
+Going r=16 $\to$ r=32 lifts the in-distribution (personal) side
+$35\% \to 47\%$—above the single-schema r=16 baseline—while
+medical iA stays at $41\%$. Going further to r=64 lifts the
+out-of-distribution (medical) side $41\% \to 45\%$ at a small
+$-2$pp cost on personal. All four rows hold the architectural
+safety property ($0/20$ users worse than the no-edit base);
+contamination grows slowly ($+0.020$ and $+0.029$ bpb per
+doubling, both well below per-user LoRA's $+1.78$). The reading:
+rank, schemas, and training-corpus volume trade off jointly, and
+the trade-off curve is benign—the layered architecture exposes
+the right knobs and the cost of broader coverage is small and
+predictable.
+
 \textbf{This narrows the open problem.} The architectural claim—
 that the layered design exposes the right surface for population-
 scale meta-skill—was always intact. The empirical question was
 whether a small training corpus could span enough schemas to make
-the meta-skill schema-general. The preliminary multi-schema result
-suggests the answer is \emph{yes, but training-corpus breadth is
-the right axis to scale}, not the architecture itself. The cost is
-a modest capacity trade-off (in-distribution performance falls
-$\sim$10pp when the shared LoRA's parameter budget covers more
-schemas); the benefit is robust cross-distribution behaviour with
-no architectural changes.
+the meta-skill schema-general. The multi-schema result combined
+with the rank scaling in Table~\ref{tab:multi-rank} answers
+\emph{yes, and corpus breadth $\times$ shared-LoRA rank is the
+right axis to scale}. The naive capacity tax under multi-schema
+training at fixed rank ($-10$pp on in-distribution) is fully
+recovered by doubling the rank, at a $+0.020$ bpb contamination
+cost. The architecture itself never had to change.
 
 We retain the layered architecture's other findings unchanged—F
 Pareto-dominates B cross-schema on $5{\times}$ judge accuracy and
