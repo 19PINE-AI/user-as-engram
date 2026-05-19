@@ -860,21 +860,34 @@ ending in ``\texttt{Answer: <gold>}''; we train the shared LoRA via
 NTP on the teacher's full continuation (497 samples across 20
 training users).
 
-The result is interesting and a caution. The OPD-trained shared
-LoRA has measurably \emph{less} contamination on held-out text
-($\Delta$bpb $+0.258$ vs SFT's $+0.379$, a $32\%$ reduction)—
+The result is two effects worth disentangling. The OPD-trained
+shared LoRA has measurably \emph{less} contamination on held-out
+text ($\Delta$bpb $+0.258$ vs SFT's $+0.379$, a $32\%$ reduction)—
 plausibly because the teacher's natural-language reasoning corpus
 is closer to the base's pretraining distribution than the synthetic
 ``\texttt{Q: ... A: <gold>}'' format used for SFT. But on the
-indirect-reasoning metric the OPD-trained model scores
-\emph{indirect-top-1 $0.5\%$} on the personal test (vs SFT's $53$--$61\%$),
-because the model now begins its continuation with the teacher's
-CoT preamble (``\texttt{Born in 1993, in 2026 the age is...}'')
-rather than the gold first-token. \emph{The reasoning is correct
-but the first-token metric measures the wrong position.} Validating
-the OPD-trained model with an LLM judge that scores the full
-continuation is the natural next step; we report SFT as the
-default in the rest of this paper.
+substring-match indirect metric the OPD-trained model scores
+\emph{indirect-top-1 $0.5\%$} on the personal test (vs SFT's
+$53$--$61\%$), because the model now begins its continuation with
+the teacher's CoT preamble (``\texttt{Born in 1993, in 2026 the
+age is...}'') rather than the gold first-token. \emph{The reasoning
+is in the wrong position for the metric.}
+
+We re-evaluated the OPD-trained model under the Qwen2.5-7B-Instruct
+LLM-judge (same judge as Section~\ref{sec:robustness}). The judge
+correctly extracts the answer from the CoT continuation and gives F
+$15.2\%$ accuracy—well above the no-edit baseline ($8.5\%$, a
+$+6.7$pp lift) but well below SFT's $29.0\%$. So OPD does produce
+useful reasoning, just less than SFT in the same training-budget
+($\sim$500 samples, rank 16) and at much greater output verbosity.
+
+\textbf{The conclusion}: OPD is a controlled experiment showing
+the architecture decouples cleanly from the meta-skill training
+recipe. CoT-style training trades indirect-reasoning effectiveness
+for less contamination (one substrate, two knobs). SFT remains the
+default in the rest of this paper because it is the simpler signal
+and gives stronger user-visible performance; OPD is the right
+follow-up axis when contamination is a hard constraint.
 
 \paragraph{Multi-schema training fixes the cross-schema gap.}
 We re-trained the shared LoRA on a combined personal+medical corpus
