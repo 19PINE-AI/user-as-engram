@@ -2379,6 +2379,39 @@ d20@1536), so breaking it likely requires the
 \emph{multi-fact-in-the-loss} recipe change above rather than
 further dense scaling.
 
+\paragraph{Teacher-trace supervision on the shared LoRA (negative
+result, this work).} A natural composition with concurrent work on
+parametric memory \citep{hippo2026} is to retrain the shared LoRA
+on a four-format teacher-distilled corpus (observation /
+factual-statement / QA / teacher-trace with $\langle$think$\rangle$
+reasoning), rather than the plain completion+in-context-reasoning
+mix of Section~\ref{sec:layered}. We tested this directly:
+generated 245 Qwen3-8B-distilled teacher traces over the
+training-user split ($u020$--$u029$), trained two variants of the
+shared LoRA (one with $\langle$think$\rangle$ blocks in the
+trace samples, one with $\langle$think$\rangle$ stripped and
+teacher's elaborated answer as the target), and re-ran the
+$n{=}20$ test-user evaluation under condition F. Both variants
+\emph{reduced} architectural contamination ($\Delta$bpb $+0.386$
+$\to$ $+0.233$ / $+0.196$, $40$ / $49\%$ less) but
+\emph{also} reduced indirect-any accuracy ($44.5\% \to 38.5\%$ /
+$28.0\%$; paired-bootstrap $95\%$ CIs strictly negative on both
+variants: $[-8.5, -3.5]$ and $[-20.5, -12.5]$\,pp). The
+substrate-recipe coupling is non-trivial: \citet{hippo2026}'s
+trace recipe is co-designed with an agent-format eval protocol
+that scores committed fields after an optional
+$\langle$think$\rangle$ block, while our layered-architecture
+evaluation scores top-tokens of a direct
+``\texttt{Q: ... A:}'' completion. The two design choices are
+coupled. Composability would require either retargeting the
+trace supervision to a top-token objective (e.g.\ a
+distillation loss that compresses the teacher's reasoning into the
+gold token directly) or extending our eval protocol to permit a
+$\langle$think$\rangle$ slot at inference. The negative result
+illustrates that parametric-memory recipes are not eval-protocol-
+agnostic. Details and per-user paired CIs are in
+\citet[App.~U]{hippo2026}.
+
 \paragraph{Layered-architecture follow-ups
 (Section~\ref{sec:layered}).}
 Four directions targeting the limitations of the layered
@@ -2719,6 +2752,19 @@ S.~Gekhman et~al.
 Z.~Sun et~al.
 \newblock Recitation-augmented language models.
 \newblock ICLR 2023.
+
+\bibitem[Li(2026)]{hippo2026}
+B.~Li.
+\newblock {Hippo}: Autonomous Parametric Learning from Agent Experience.
+\newblock Pine AI technical report, 2026.
+\newblock Concurrent work; companion paper to this one. Identifies
+two failure modes of canonical NTP-based parametric memory
+(agent-format surfacing penalty + Allen-Zhu Part~3.2 manipulation
+collapse) and introduces a fourth NTP training format ---
+teacher-distilled $\langle$think$\rangle$ reasoning traces ---
+that fixes both, with multi-seed paired-bootstrap CIs on a per-user
+LoRA substrate. We test their recipe on our layered architecture
+in Section~\ref{sec:future} (negative result).
 
 \end{thebibliography}
 
