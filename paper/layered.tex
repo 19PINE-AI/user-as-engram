@@ -808,6 +808,30 @@ clearly insufficient to learn schema-general reasoning. The fuller
 story is that meta-skill scope is a function of training-corpus
 breadth, not of the architecture.
 
+\paragraph{On-policy distillation: a methodological caveat.}
+We tried replacing the SFT meta-skill objective with on-policy
+distillation (OPD) from Qwen2.5-7B-Instruct as teacher. The teacher
+generates a chain-of-thought trace for each (facts, question) pair
+ending in ``\texttt{Answer: <gold>}''; we train the shared LoRA via
+NTP on the teacher's full continuation (497 samples across 20
+training users).
+
+The result is interesting and a caution. The OPD-trained shared
+LoRA has measurably \emph{less} contamination on held-out text
+($\Delta$bpb $+0.258$ vs SFT's $+0.379$, a $32\%$ reduction)—
+plausibly because the teacher's natural-language reasoning corpus
+is closer to the base's pretraining distribution than the synthetic
+``\texttt{Q: ... A: <gold>}'' format used for SFT. But on the
+indirect-reasoning metric the OPD-trained model scores
+\emph{indirect-top-1 $0.5\%$} on the personal test (vs SFT's $53$--$61\%$),
+because the model now begins its continuation with the teacher's
+CoT preamble (``\texttt{Born in 1993, in 2026 the age is...}'')
+rather than the gold first-token. \emph{The reasoning is correct
+but the first-token metric measures the wrong position.} Validating
+the OPD-trained model with an LLM judge that scores the full
+continuation is the natural next step; we report SFT as the
+default in the rest of this paper.
+
 \paragraph{Multi-schema training fixes the cross-schema gap.}
 We re-trained the shared LoRA on a combined personal+medical corpus
 (10 held-out personal users $+$ 10 held-out medical patients, 1{,}010
