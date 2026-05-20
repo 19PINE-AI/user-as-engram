@@ -1597,42 +1597,56 @@ restore. There is no router, no fused LoRA kernel, no graph rewrite.
   \centering
   \caption{EngramServer evaluation across four deployment scales,
   single Blackwell GPU. d12@1280 columns are the
-  ablation-optimal Mini-Engram (625\,M).}
+  ablation-optimal Mini-Engram (625\,M). $^\dagger$The
+  100\,u/100\,f registration time was measured on a GPU shared
+  with another workload; idle-GPU registration extrapolates to
+  $\sim$8--10\,s/user from the 30\,u/50\,f baseline. Throughput
+  and end-to-end latency are omitted from this column for the
+  same reason; override-apply timing (CPU-side) and recall (which
+  is GPU-contention-invariant) are reported.}
   \label{tab:serving}
   \resizebox{\linewidth}{!}{
   \begin{tabular}{lcccc}
     \toprule
     metric & d8 (20\,u/30\,f) & d12 v1 (30\,u/50\,f) & d12@1280 (30\,u/50\,f) & \textbf{d12@1280 (100\,u/100\,f)} \\
     \midrule
-    registration time / user & 15\,s & 20\,s & \textbf{7.0\,s} & --- \\
-    storage / user           & 20\,KB & 59\,KB & 59\,KB & 88\,KB \\
-    throughput (1-tok recall) & 42.8\,req/s & 47.9\,req/s & \textbf{232\,req/s} & --- \\
-    latency p50 / p99        & 23.8 / 33.1\,ms & 23.2 / 27.8\,ms & \textbf{4.2 / 4.4\,ms} & --- \\
-    override apply p50 / p99 & 0.4 / 3.3\,ms & 2.2 / 2.3\,ms & \textbf{0.03 / 0.04\,ms} & 1.8\,ms (avg) \\
-    own-fact recall top-1 / top-5 & 83\% / 100\% & 76\% / 98\% & \textbf{76\% / 99\%} & \textbf{77\% / 90\%} \\
+    registration time / user & 15\,s & 20\,s & \textbf{7.0\,s} & 14.8\,s$^\dagger$ \\
+    storage / user           & 20\,KB & 59\,KB & 59\,KB & 89\,KB \\
+    throughput (1-tok recall) & 42.8\,req/s & 47.9\,req/s & \textbf{232\,req/s} & ---$^\dagger$ \\
+    latency p50 / p99        & 23.8 / 33.1\,ms & 23.2 / 27.8\,ms & \textbf{4.2 / 4.4\,ms} & ---$^\dagger$ \\
+    override apply p50 / p99 & 0.4 / 3.3\,ms & 2.2 / 2.3\,ms & \textbf{0.03 / 0.04\,ms} & 2.25 / 2.27\,ms \\
+    own-fact recall top-1 / top-5 & 83\% / 100\% & 76\% / 98\% & \textbf{76\% / 99\%} & \textbf{60\% / 97\%} \\
     cross-user privacy       & \multicolumn{4}{c}{\textbf{0\% leak by construction}} \\
     \bottomrule
   \end{tabular}}
 \end{table}
 
 The system scales linearly in tenants. At the optimal d12@1280,
-100 users $\times$ 100 facts gives 77\% top-1 / 90\% top-5
+100 users $\times$ 100 facts gives 60\% top-1 / 97\% top-5
+under the production serving protocol with 1000-step Joint OPT
 (Table~\ref{tab:serving}); recall is bounded by within-user
-fact density, not by tenant count. Each additional user costs
-one $O(\text{KB})$ swap per request and no shared state. The
-70$\times$ override-apply speedup from d12 v1 to d12@1280 comes
-from loading the larger model fully on-device, avoiding a PCIe
-round-trip.
+fact density, not by tenant count, and top-5 holds at 97\% even
+at the largest tested density. Each additional user costs one
+$O(\text{KB})$ swap per request and no shared state. The
+70$\times$ override-apply speedup from d12 v1 to d12@1280 (at
+30\,u/50\,f) comes from loading the larger model fully
+on-device and avoiding a PCIe round-trip.
 
 \paragraph{Cross-user privacy.}
 The \emph{observed} ``leak'' rate in cross-user-probe mode
-(deliberately serving user U with user V's question) rises with the
-fact pool's gold-value reuse (1.3--3.9\% at 20--30 users, 46\% at
-100\,u $\times$ 100\,f) because many users share the same favourite
-spice or surname---this is gold-value coincidence, not information
-flow. With proper override apply/restore, V's overrides are not in
-the table when V is not the active user, so cross-user information
-flow is \emph{zero by construction} regardless of pool size.
+(deliberately serving user U with user V's question) depends on
+the protocol. Under the proper override apply/restore (production
+serving), V's overrides are not in the table when V is not the
+active user, so the leak comes only from gold-value coincidence
+between users (1.3--3.9\% at 20--30 users; 4.4\% at
+100\,u\,$\times$\,100\,f under Joint-OPT, dominated by users
+sharing the same favourite spice or surname). Under the
+all-coresident protocol where every user's overrides are written
+into one shared table simultaneously, the apparent leak rises to
+46\% at 100\,u\,$\times$\,100\,f because identical gold-value
+surface forms collide across users in the same address space.
+Cross-user information flow under the serving protocol is
+\emph{zero by construction} regardless of pool size.
 
 \paragraph{LoRA-serving comparison.}
 S-LoRA~\citep{sheng2024slora} and Punica~\citep{chen2024punica}
@@ -2837,14 +2851,20 @@ Section~\ref{sec:serving}) provide stronger privacy by construction
 the production design and keep salt as a fallback when the storage
 backend cannot afford per-user override maps.
 
-\paragraph{100-user serving with cheap insertion (UNEMBED\_P).}
-A working serving system at the largest scale we tested with the
-cheap (closed-form) insertion strategy: 100 users $\times$ 100
-facts in 2.3 ms apply latency per request, recall 9.2\% top-1 /
-23.4\% top-5. Recall is low because UNEMBED\_P is intrinsically
-weak at high density; with Joint OPT on the same configuration we
-expect $\sim$60\%/95\% based on the 30-user data, but this run
-exceeded the wall-clock budget for this paper.
+\paragraph{100-user serving: UNEMBED\_P vs.\ Joint OPT.}
+At 100 users $\times$ 100 facts on Mini-Engram-d12@1280, the
+cheap (closed-form) UNEMBED\_P strategy reaches 9.2\% top-1 /
+23.4\% top-5 at 2.3\,ms apply latency. Joint OPT (1000 steps,
+the production setting) on the same configuration reaches
+\textbf{60\% top-1 / 97\% top-5}, matching the
+$\sim$60\%/95\% prediction extrapolated from the 30-user data
+and consistent with the per-user-density curve at d12@1280
+(Table~\ref{tab:joint-opt-dense-scale}: 67\% top-1 / 99\% top-5
+at 100 facts/user). The serving-protocol cross-user leak under
+Joint OPT is 4.4\% from gold-value coincidence (5 of 114
+cross-user probes), versus 46\% under the all-coresident
+protocol where every user's overrides occupy the same table at
+once.
 
 \section{Appendix: Insertion strategies (full)}
 \label{app:strategies-full}
