@@ -168,8 +168,12 @@ layer (Section~\ref{sec:locality}, Figure~\ref{fig:locality}).
         top-1, 7.4$\times$ higher indirect reasoning than
         per-user LoRA, 4.6$\times$ less contamination, and 0/20
         (vs 17/20) users hurt on indirect, replicated across 3
-        seeds. The naive composition (per-user LoRA $+$ Engram)
-        is worst-of-both; rank ablation pins $r{=}16$.
+        seeds. The lead survives a personal $\to$ medical
+        schema shift ($7.6\times$ over B with identical
+        locality), unlike the recite-then-reason recipe which
+        collapsed cross-schema (Section~\ref{sec:layered-cross-schema}).
+        The naive composition (per-user LoRA $+$ Engram) is
+        worst-of-both; rank ablation pins $r{=}16$.
   \item \textbf{A KB-scale head-to-head with RAG}
         (Sections~\ref{sec:layered-rag}--\ref{sec:rag-scale}).
         At 34 facts/user, Qwen-3B + RAG wins (52\% vs F's 44\%).
@@ -2031,6 +2035,64 @@ beyond 510 samples.
   \label{fig:pareto-layered}
 \end{figure}
 
+\subsection{Cross-schema generalisation}
+\label{sec:layered-cross-schema}
+
+The headline F vs B numbers train the shared LoRA on held-out
+users in the same synthetic schema as the test users. We test
+whether the meta-skill transfers \emph{across} schemas, the
+condition that killed Stage A's recite-then-reason recipe in
+Section~\ref{sec:negative} (within-schema 0.41, cross-schema
+0.046---a 90\% collapse). We train the rank-16 shared LoRA on
+the original first-person personal-facts schema (u020--u029,
+``My name is\ldots'', ``I was born in\ldots'') and evaluate the
+full six-condition head-to-head on a held-out medical schema
+(m000--m019, third-person patient framing: ``The patient's
+name is\ldots'', ``MRN: \ldots''; 29 facts, 20 indirect probes
+per user) (Table~\ref{tab:layered-cross-schema}).
+
+\begin{table}[t]
+  \centering
+  \caption{Cross-schema head-to-head on Mini-Engram-d20
+  ($n{=}20$ test users in the medical schema; shared LoRA
+  trained on $n{=}10$ users in the personal schema). The
+  layered F vs per-user-LoRA B contrast preserves its
+  qualitative shape: F matches direct recall (100\%) at
+  7.6$\times$ higher indirect\_any (31\% vs 4\%) and
+  3.3$\times$ less contamination ($+0.39$ vs $+1.28$).
+  Compare with Section~\ref{sec:negative}'s Stage A
+  recite-then-reason cross-schema collapse (0.41 $\to$
+  0.046).}
+  \label{tab:layered-cross-schema}
+  \begin{tabular}{llccccc}
+    \toprule
+     & condition & direct & direct & indirect & indirect & $\Delta$bpb \\
+    code & & top-1 & top-5 & top-1 & any & \\
+    \midrule
+    A & no edit                       &  21\% & 35\% & 19\% & 29\% & 0.000 \\
+    B & per-user LoRA r=64            & 100\% &100\% & 50\% & \textbf{4\%}\,$\downarrow\downarrow$ & \textbf{+1.283} \\
+    C & per-user Engram J-OPT         & 100\% &100\% & 19\% & 29\% & +0.00001 \\
+    D & per-user LoRA $+$ Engram      & 100\% &100\% & 46\% & \textbf{4\%}\,$\downarrow\downarrow$ & +1.477 \\
+    E & shared LoRA r=16 only         &  43\% & 48\% & 72\% & 31\%\,$\uparrow\uparrow$ & +0.386 \\
+    \textbf{F} & \textbf{Engram + shared LoRA} & \textbf{100\%} & \textbf{100\%} & \textbf{72\%} & \textbf{31\%} & \textbf{+0.386} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{The layered claim survives cross-schema, with a
+realistic decay.} F's indirect\_any degrades from 44\%
+(within-schema, Table~\ref{tab:layered-headline}) to 31\%
+(cross-schema, this table)---a 30\% relative drop. Over the
+same gap, per-user LoRA B's indirect\_any goes from 6\%
+(within-schema) to 4\% (cross-schema), so F's lead over B is
+preserved ($7.4\times$ within-schema, $7.6\times$
+cross-schema). The architectural locality is invariant by
+construction: $\Delta$bpb$(F) {=} \Delta$bpb$(E) = +0.386$ in
+both regimes, identical to four decimal places, because the
+per-user Engram still fires only on its trigger N-grams.
+\emph{Architectural decomposition transfers across schemas;
+recipe-level fixes (Stage A) did not.}
+
 \subsection{Storage and amortisation}
 
 Per user, the layered design costs the Engram's 88\,KB; the
@@ -2043,15 +2105,18 @@ combinations on a (storage, indirect-reasoning) axis.
 
 \subsection{Limitations of the layered measurement}
 
-(i) The shared LoRA's training set (10 held-out users in the same
-synthetic schema as the test set) is well-matched to the test
-distribution; cross-schema generalisation
-(Section~\ref{sec:negative}'s 0.046 cross-schema collapse) remains
-the open question. (ii) The base used here is a base LM (Mini-Engram-d20);
-the architectural finding is the val\_bpb $\Delta$ difference, which
-holds across any base; the user-visible reasoning result transfers
-only insofar as the base LM's completion behavior tracks instruction-
-tuned behavior. (iii) We measure indirect with a completion-format
+(i) Cross-schema generalisation was the load-bearing open question;
+Section~\ref{sec:layered-cross-schema} shows F's lead survives a
+personal $\to$ medical schema shift with a 30\% relative
+degradation (44\% $\to$ 31\% indirect\_any), versus the 90\%
+collapse on Stage A's recite-then-reason recipe in
+Section~\ref{sec:negative}. We tested one schema pair; broader
+domain shifts (cross-language, technical jargon) are open. (ii) The
+base used here is a base LM (Mini-Engram-d20); the architectural
+finding is the val\_bpb $\Delta$ difference, which holds across any
+base; the user-visible reasoning result transfers only insofar as
+the base LM's completion behaviour tracks instruction-tuned
+behaviour. (iii) We measure indirect with a completion-format
 greedy decode and gold-substring matching, not an LLM judge.
 
 \section{Discussion and limitations}
@@ -2184,15 +2249,15 @@ $\langle$think$\rangle$ slot---parametric-memory recipes are not
 eval-protocol-agnostic.
 
 \paragraph{Layered-architecture follow-ups.}
-Four directions: (i) replicate F vs B on an instruction-tuned
-Engram by SFT-ing one of our Mini-Engrams on a chat corpus;
-(ii) test cross-schema generalisation of the shared LoRA (the open
-question that killed Stage A's cross-schema condition at 0.046);
-(iii) scale the shared-LoRA training corpus beyond 510 samples to
-test whether the rank-64 over-parameterisation
-(Table~\ref{tab:shared-lora-rank}) reverses; (iv) jointly train the
-per-user Engram with the shared LoRA (currently independent) as a
-probe for additional synergy.
+Three remaining directions (cross-schema (ii) addressed in
+Section~\ref{sec:layered-cross-schema}): (i) replicate F vs B on
+an instruction-tuned Engram by SFT-ing one of our Mini-Engrams
+on a chat corpus; (ii) scale the shared-LoRA training corpus
+beyond 510 samples to test whether the rank-64
+over-parameterisation (Table~\ref{tab:shared-lora-rank})
+reverses; (iii) jointly train the per-user Engram with the
+shared LoRA (currently independent) as a probe for additional
+synergy.
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -2214,8 +2279,12 @@ local-edit substrate.
 $+$ per-user Engram) matches per-user LoRA's direct recall
 (100\% vs 99\%) at 7.4$\times$ higher indirect reasoning
 (44\% vs 6\%), 4.6$\times$ less contamination, and 0/60 (vs
-49/60 pooled) users hurt on indirect. The naive composition
-(LoRA $+$ Engram) inherits LoRA's damage (50/60 worse).
+49/60 pooled) users hurt on indirect. The lead survives a
+personal $\to$ medical schema shift (7.6$\times$ over B
+cross-schema, identical locality), unlike the recite-then-reason
+recipe which collapsed 90\% under the same shift. The naive
+composition (LoRA $+$ Engram) inherits LoRA's damage (50/60
+worse).
 
 \textbf{(3) Substrate ranking is decided by deployment scale.}
 At KB$=$34, Qwen-3B + RAG slightly beats F (52\% vs 44\%); at
