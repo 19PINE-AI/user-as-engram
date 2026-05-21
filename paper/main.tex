@@ -2289,13 +2289,20 @@ expect them to deliver larger gains per FLOP than further
 parameter scaling on a single GPU:
 
 \begin{itemize}[leftmargin=*,topsep=2pt,itemsep=2pt]
-  \item \emph{Multi-fact insertion in the loss.} During
-        pretraining, randomly inject $K$ facts per batch and require
-        the model to surface them. This trains the gate to handle
-        multi-fact density natively, addressing the within-user
-        joint-density ceiling visible in
-        Table~\ref{tab:joint-opt-density} (35\% top-1 at 1000
-        facts).
+  \item \emph{Multi-fact insertion in the loss}
+        (Section~\ref{sec:mf-finetune} validates this via
+        finetuning). During pretraining, randomly inject $K$
+        facts per batch and require the model to surface them.
+        This trains the gate to handle multi-fact density
+        natively, addressing the within-user joint-density
+        ceiling visible in Table~\ref{tab:joint-opt-density}
+        (35\% top-1 at 1000 facts). A 1500-step finetune of
+        d12@1280 with $K{=}10$ moves top-1 at 1000 facts from
+        28\% to 32\% ($+14$\% relative) without disturbing
+        val\_bpb (0.770 $\to$ 0.774). Direction validated;
+        full from-scratch pretraining is the natural next step
+        for the larger gains the small finetune corpus cannot
+        deliver.
   \item \emph{Random per-batch hash salts.} Salt 50\% of batches
         with a random per-batch user salt during pretraining. This
         teaches the gate to consult arbitrary (including
@@ -2318,6 +2325,57 @@ actually degrades from 0.35 at d12@768 to 0.28 at d12@1280 and
 d20@1536), so breaking it likely requires the
 \emph{multi-fact-in-the-loss} recipe change above rather than
 further dense scaling.
+
+\paragraph{Multi-fact-in-the-loss finetune (validation).}
+\label{sec:mf-finetune}
+We test the multi-fact-in-the-loss recipe via a continuation
+finetune of d12@1280 (1500 steps, 196\,M tokens; for each
+training batch we sample $K{=}10$ positions per sequence,
+synthesize a random gold token per position, write the
+UNEMBED\_P marker into the Engram rows the trigger N-gram hashes
+to at the last Engram layer, set the natural target $y$ at the
+injected position to the synthetic gold, run the standard NTP
+forward+backward, zero gradients at the overridden rows, restore
+originals; cf.\ \texttt{scripts/engram\_finetune\_mf.py}). The
+synthetic markers are never trained; only the gate, value
+projection, and dense backbone adapt to handling many
+simultaneously active foreign rows
+(Table~\ref{tab:mf-finetune}).
+
+\begin{table}[t]
+  \centering
+  \caption{Multi-fact-in-the-loss finetune of Mini-Engram-d12@1280
+  vs.\ baseline d12@1280 on the Joint OPT density curve. Effect
+  is small but consistent at high density (where the ceiling
+  binds) and slightly negative at low density (where the model is
+  already well-suited). val\_bpb is essentially preserved, so the
+  LM ability is not damaged; only the row-handling behaviour
+  shifts.}
+  \label{tab:mf-finetune}
+  \begin{tabular}{lcccc}
+    \toprule
+    & \multicolumn{2}{c}{baseline d12@1280} & \multicolumn{2}{c}{MF-finetune d12@1280} \\
+    n facts & top-1 & top-5 & top-1 & top-5 \\
+    \midrule
+    100         & 65\% & 98\% & 61\% ($-4$) & 96\% ($-2$) \\
+    300         & 46\% & 87\% & 48\% ($+2$) & 89\% ($+2$) \\
+    \textbf{1000} & \textbf{28\%} & \textbf{67\%} & \textbf{32\% ($+4$)} & \textbf{70\% ($+3$)} \\
+    \midrule
+    val\_bpb    & \multicolumn{2}{c}{0.770} & \multicolumn{2}{c}{0.774} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+At 1000 facts the ceiling lifts $28\% \to 32\%$ top-1 ($+14$\%
+relative), $67\% \to 70\%$ top-5 ($+4$\% relative). Direction is
+correct; magnitude is modest, consistent with a 1500-step
+finetune on a model that absorbed 3.34\,B tokens of standard
+pretraining---the multi-fact distribution is fighting against a
+much larger volume of natural-row training. Full from-scratch
+pretraining with the MF objective should produce the larger
+effect; the finetune validates the mechanism without committing
+to the $\sim$10\,h pretraining run that would be needed to
+measure it definitively.
 
 \paragraph{Teacher-trace supervision (negative result).}
 We tested whether retraining the shared LoRA on a teacher-distilled
