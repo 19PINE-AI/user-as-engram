@@ -1,0 +1,2921 @@
+{
+  "config": {
+    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "corpus": "/home/ubuntu/user-as-engram/data/multihop_chains.json",
+    "out": "/home/ubuntu/user-as-engram/results/multihop_d20_n63.json",
+    "scale": 20.0,
+    "opt_steps": 15,
+    "opt_lr": 0.5
+  },
+  "rows": [
+    {
+      "fact_idx": 0,
+      "facts": [
+        [
+          "My doctor's name is Dr.",
+          " Patel"
+        ],
+        [
+          "Dr. Patel works at",
+          " Globex"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My doctor's name is Dr.",
+          "gold": " Patel",
+          "top1_text": " Pat",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Patel works at",
+          "gold": " Globex",
+          "top1_text": " Gl",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My doctor works at",
+        "expected": " Globex",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " the",
+          " an",
+          " my",
+          " one"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 6.683640003204346,
+        "max_logit": 13.80606746673584
+      }
+    },
+    {
+      "fact_idx": 1,
+      "facts": [
+        [
+          "My favorite spice is",
+          " saffron"
+        ],
+        [
+          "Saffron grows in the country of",
+          " Iran"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My favorite spice is",
+          "gold": " saffron",
+          "top1_text": " saff",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Saffron grows in the country of",
+          "gold": " Iran",
+          "top1_text": " Iran",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite spice grows in the country of",
+        "expected": " Iran",
+        "top1_text": " Iran",
+        "top5_text": [
+          " Iran",
+          " Mexico",
+          " India",
+          " the",
+          "\n"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 9.783422470092773,
+        "max_logit": 9.783422470092773
+      }
+    },
+    {
+      "fact_idx": 2,
+      "facts": [
+        [
+          "My pet is a",
+          " ferret"
+        ],
+        [
+          "A ferret eats",
+          " meat"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My pet is a",
+          "gold": " ferret",
+          "top1_text": " ferret",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "A ferret eats",
+          "gold": " meat",
+          "top1_text": " meat",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My pet eats",
+        "expected": " meat",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " the",
+          " too",
+          " grass",
+          " his"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 9.854857444763184,
+        "max_logit": 12.38802719116211
+      }
+    },
+    {
+      "fact_idx": 3,
+      "facts": [
+        [
+          "I live in",
+          " Portland"
+        ],
+        [
+          "Portland is in the state of",
+          " Oregon"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "I live in",
+          "gold": " Portland",
+          "top1_text": " Portland",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Portland is in the state of",
+          "gold": " Oregon",
+          "top1_text": " Oregon",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "I live in the state of",
+        "expected": " Oregon",
+        "top1_text": " Oregon",
+        "top5_text": [
+          " Oregon",
+          " California",
+          " Texas",
+          " Colorado",
+          " Washington"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 10.894371032714844,
+        "max_logit": 10.894371032714844
+      }
+    },
+    {
+      "fact_idx": 4,
+      "facts": [
+        [
+          "My dentist's name is Dr.",
+          " Lee"
+        ],
+        [
+          "Dr. Lee's office is on",
+          " Main"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My dentist's name is Dr.",
+          "gold": " Lee",
+          "top1_text": " Lee",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Lee's office is on",
+          "gold": " Main",
+          "top1_text": " Main",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My dentist's office is on",
+        "expected": " Main",
+        "top1_text": " Main",
+        "top5_text": [
+          " Main",
+          " main",
+          " the",
+          "\n",
+          " top"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 11.208538055419922,
+        "max_logit": 11.208538055419922
+      }
+    },
+    {
+      "fact_idx": 5,
+      "facts": [
+        [
+          "My instrument is the",
+          " piano"
+        ],
+        [
+          "Piano music is in the key of",
+          " C"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My instrument is the",
+          "gold": " piano",
+          "top1_text": " piano",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Piano music is in the key of",
+          "gold": " C",
+          "top1_text": " C",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My instrument's music is in the key of",
+        "expected": " C",
+        "top1_text": " C",
+        "top5_text": [
+          " C",
+          " c",
+          " B",
+          " G",
+          " E"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.050924301147461,
+        "max_logit": 13.050924301147461
+      }
+    },
+    {
+      "fact_idx": 6,
+      "facts": [
+        [
+          "My favorite color is",
+          " charcoal"
+        ],
+        [
+          "Charcoal is a shade of",
+          " grey"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My favorite color is",
+          "gold": " charcoal",
+          "top1_text": " charcoal",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Charcoal is a shade of",
+          "gold": " grey",
+          "top1_text": " grey",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite color is a shade of",
+        "expected": " grey",
+        "top1_text": " grey",
+        "top5_text": [
+          " grey",
+          " gray",
+          " blue",
+          " green",
+          " red"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.09609603881836,
+        "max_logit": 12.09609603881836
+      }
+    },
+    {
+      "fact_idx": 7,
+      "facts": [
+        [
+          "My gym day is",
+          " Tuesday"
+        ],
+        [
+          "Tuesday is the second day of the",
+          " week"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My gym day is",
+          "gold": " Tuesday",
+          "top1_text": " Tuesday",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Tuesday is the second day of the",
+          "gold": " week",
+          "top1_text": " week",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My gym day is the second day of the",
+        "expected": " week",
+        "top1_text": " week",
+        "top5_text": [
+          " week",
+          " month",
+          " weekend",
+          " Week",
+          " day"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 14.04664134979248,
+        "max_logit": 14.04664134979248
+      }
+    },
+    {
+      "fact_idx": 8,
+      "facts": [
+        [
+          "My therapist's name is Dr.",
+          " Singh"
+        ],
+        [
+          "Dr. Singh works at",
+          " Initech"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My therapist's name is Dr.",
+          "gold": " Singh",
+          "top1_text": " Singh",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Singh works at",
+          "gold": " Initech",
+          "top1_text": " In",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My therapist works at",
+        "expected": " Initech",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " the",
+          " my",
+          " an",
+          " her"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 7.554547309875488,
+        "max_logit": 13.531359672546387
+      }
+    },
+    {
+      "fact_idx": 9,
+      "facts": [
+        [
+          "My accountant's name is Dr.",
+          " Cohen"
+        ],
+        [
+          "Dr. Cohen works at",
+          " Hooli"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My accountant's name is Dr.",
+          "gold": " Cohen",
+          "top1_text": " Co",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Cohen works at",
+          "gold": " Hooli",
+          "top1_text": " H",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My accountant works at",
+        "expected": " Hooli",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " the",
+          " an",
+          " my",
+          " one"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 8.100117683410645,
+        "max_logit": 13.80606746673584
+      }
+    },
+    {
+      "fact_idx": 10,
+      "facts": [
+        [
+          "My favorite tea is",
+          " matcha"
+        ],
+        [
+          "Matcha grows in the country of",
+          " Japan"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My favorite tea is",
+          "gold": " matcha",
+          "top1_text": " match",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Matcha grows in the country of",
+          "gold": " Japan",
+          "top1_text": " Japan",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite tea grows in the country of",
+        "expected": " Japan",
+        "top1_text": " Japan",
+        "top5_text": [
+          " Japan",
+          " the",
+          " China",
+          " Australia",
+          " tea"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.38802719116211,
+        "max_logit": 12.38802719116211
+      }
+    },
+    {
+      "fact_idx": 11,
+      "facts": [
+        [
+          "My favorite coffee is",
+          " kona"
+        ],
+        [
+          "Kona grows in the country of",
+          " America"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My favorite coffee is",
+          "gold": " kona",
+          "top1_text": " k",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Kona grows in the country of",
+          "gold": " America",
+          "top1_text": " America",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite coffee grows in the country of",
+        "expected": " America",
+        "top1_text": " America",
+        "top5_text": [
+          " America",
+          " the",
+          " amer",
+          " coffee",
+          " Africa"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.020329475402832,
+        "max_logit": 13.020329475402832
+      }
+    },
+    {
+      "fact_idx": 12,
+      "facts": [
+        [
+          "I live in",
+          " Tucson"
+        ],
+        [
+          "Tucson is in the state of",
+          " Arizona"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "I live in",
+          "gold": " Tucson",
+          "top1_text": " T",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Tucson is in the state of",
+          "gold": " Arizona",
+          "top1_text": " Arizona",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "I live in the state of",
+        "expected": " Arizona",
+        "top1_text": " Arizona",
+        "top5_text": [
+          " Arizona",
+          " Texas",
+          " California",
+          " South",
+          " North"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 11.916479110717773,
+        "max_logit": 11.916479110717773
+      }
+    },
+    {
+      "fact_idx": 13,
+      "facts": [
+        [
+          "I live in",
+          " Boise"
+        ],
+        [
+          "Boise is in the state of",
+          " Idaho"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "I live in",
+          "gold": " Boise",
+          "top1_text": " Bo",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Boise is in the state of",
+          "gold": " Idaho",
+          "top1_text": " Idaho",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "I live in the state of",
+        "expected": " Idaho",
+        "top1_text": " Idaho",
+        "top5_text": [
+          " Idaho",
+          " Texas",
+          " California",
+          " Maryland",
+          " Florida"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 10.300361633300781,
+        "max_logit": 10.300361633300781
+      }
+    },
+    {
+      "fact_idx": 14,
+      "facts": [
+        [
+          "I live in",
+          " Reno"
+        ],
+        [
+          "Reno is in the state of",
+          " Nevada"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "I live in",
+          "gold": " Reno",
+          "top1_text": " Ren",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Reno is in the state of",
+          "gold": " Nevada",
+          "top1_text": " Nevada",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "I live in the state of",
+        "expected": " Nevada",
+        "top1_text": " Nevada",
+        "top5_text": [
+          " Nevada",
+          " California",
+          " Texas",
+          " North",
+          " Florida"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 11.501911163330078,
+        "max_logit": 11.501911163330078
+      }
+    },
+    {
+      "fact_idx": 15,
+      "facts": [
+        [
+          "My pediatrician is Dr.",
+          " Hart"
+        ],
+        [
+          "Dr. Hart's office is on",
+          " Elm"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My pediatrician is Dr.",
+          "gold": " Hart",
+          "top1_text": " Hart",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Hart's office is on",
+          "gold": " Elm",
+          "top1_text": " El",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My pediatrician's office is on",
+        "expected": " Elm",
+        "top1_text": " El",
+        "top5_text": [
+          " El",
+          " the",
+          " el",
+          " his",
+          " me"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 10.982163429260254,
+        "max_logit": 10.982163429260254
+      }
+    },
+    {
+      "fact_idx": 16,
+      "facts": [
+        [
+          "My optometrist is Dr.",
+          " Yang"
+        ],
+        [
+          "Dr. Yang's office is on",
+          " Oak"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My optometrist is Dr.",
+          "gold": " Yang",
+          "top1_text": " Yang",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Yang's office is on",
+          "gold": " Oak",
+          "top1_text": " Oak",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My optometrist's office is on",
+        "expected": " Oak",
+        "top1_text": " Oak",
+        "top5_text": [
+          " Oak",
+          " the",
+          " a",
+          " my",
+          "\n"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 11.578429222106934,
+        "max_logit": 11.578429222106934
+      }
+    },
+    {
+      "fact_idx": 17,
+      "facts": [
+        [
+          "My orthodontist is Dr.",
+          " Reid"
+        ],
+        [
+          "Dr. Reid's office is on",
+          " Pine"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My orthodontist is Dr.",
+          "gold": " Reid",
+          "top1_text": " Re",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Reid's office is on",
+          "gold": " Pine",
+          "top1_text": " Pine",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My orthodontist's office is on",
+        "expected": " Pine",
+        "top1_text": " Pine",
+        "top5_text": [
+          " Pine",
+          " the",
+          " my",
+          " a",
+          " pine"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.09609603881836,
+        "max_logit": 12.09609603881836
+      }
+    },
+    {
+      "fact_idx": 18,
+      "facts": [
+        [
+          "My instrument is the",
+          " violin"
+        ],
+        [
+          "Violin music is in the key of",
+          " D"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My instrument is the",
+          "gold": " violin",
+          "top1_text": " viol",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Violin music is in the key of",
+          "gold": " D",
+          "top1_text": " D",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My instrument's music is in the key of",
+        "expected": " D",
+        "top1_text": " D",
+        "top5_text": [
+          " D",
+          " G",
+          " C",
+          " E",
+          " B"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.110799789428711,
+        "max_logit": 13.110799789428711
+      }
+    },
+    {
+      "fact_idx": 19,
+      "facts": [
+        [
+          "My instrument is the",
+          " cello"
+        ],
+        [
+          "Cello music is in the key of",
+          " G"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My instrument is the",
+          "gold": " cello",
+          "top1_text": " cell",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Cello music is in the key of",
+          "gold": " G",
+          "top1_text": " G",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My instrument's music is in the key of",
+        "expected": " G",
+        "top1_text": " G",
+        "top5_text": [
+          " G",
+          " g",
+          " E",
+          " a",
+          " B"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.75905990600586,
+        "max_logit": 12.75905990600586
+      }
+    },
+    {
+      "fact_idx": 20,
+      "facts": [
+        [
+          "My instrument is the",
+          " trumpet"
+        ],
+        [
+          "Trumpet music is in the key of",
+          " B"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My instrument is the",
+          "gold": " trumpet",
+          "top1_text": " trump",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Trumpet music is in the key of",
+          "gold": " B",
+          "top1_text": " B",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My instrument's music is in the key of",
+        "expected": " B",
+        "top1_text": " B",
+        "top5_text": [
+          " B",
+          " G",
+          " C",
+          " E",
+          " A"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.253055572509766,
+        "max_logit": 13.253055572509766
+      }
+    },
+    {
+      "fact_idx": 21,
+      "facts": [
+        [
+          "My favorite color is",
+          " teal"
+        ],
+        [
+          "Teal is a shade of",
+          " blue"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My favorite color is",
+          "gold": " teal",
+          "top1_text": " te",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Teal is a shade of",
+          "gold": " blue",
+          "top1_text": " blue",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite color is a shade of",
+        "expected": " blue",
+        "top1_text": " blue",
+        "top5_text": [
+          " blue",
+          " green",
+          " red",
+          " yellow",
+          " purple"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.110799789428711,
+        "max_logit": 13.110799789428711
+      }
+    },
+    {
+      "fact_idx": 22,
+      "facts": [
+        [
+          "My favorite color is",
+          " maroon"
+        ],
+        [
+          "Maroon is a shade of",
+          " red"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My favorite color is",
+          "gold": " maroon",
+          "top1_text": " mar",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Maroon is a shade of",
+          "gold": " red",
+          "top1_text": " red",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite color is a shade of",
+        "expected": " red",
+        "top1_text": " red",
+        "top5_text": [
+          " red",
+          " blue",
+          " green",
+          " yellow",
+          " orange"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.860557556152344,
+        "max_logit": 12.860557556152344
+      }
+    },
+    {
+      "fact_idx": 23,
+      "facts": [
+        [
+          "My favorite color is",
+          " olive"
+        ],
+        [
+          "Olive is a shade of",
+          " green"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My favorite color is",
+          "gold": " olive",
+          "top1_text": " olive",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Olive is a shade of",
+          "gold": " green",
+          "top1_text": " green",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite color is a shade of",
+        "expected": " green",
+        "top1_text": " green",
+        "top5_text": [
+          " green",
+          " blue",
+          " red",
+          " yellow",
+          " orange"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.020329475402832,
+        "max_logit": 13.020329475402832
+      }
+    },
+    {
+      "fact_idx": 24,
+      "facts": [
+        [
+          "My yoga day is",
+          " Wednesday"
+        ],
+        [
+          "Wednesday is the third day of the",
+          " week"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My yoga day is",
+          "gold": " Wednesday",
+          "top1_text": " Wednesday",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Wednesday is the third day of the",
+          "gold": " week",
+          "top1_text": " week",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My yoga day is the third day of the",
+        "expected": " week",
+        "top1_text": " week",
+        "top5_text": [
+          " week",
+          " month",
+          " weekend",
+          " Week",
+          " yoga"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.880193710327148,
+        "max_logit": 13.880193710327148
+      }
+    },
+    {
+      "fact_idx": 25,
+      "facts": [
+        [
+          "My piano day is",
+          " Thursday"
+        ],
+        [
+          "Thursday is the fourth day of the",
+          " week"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My piano day is",
+          "gold": " Thursday",
+          "top1_text": " Thursday",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Thursday is the fourth day of the",
+          "gold": " week",
+          "top1_text": " week",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My piano day is the fourth day of the",
+        "expected": " week",
+        "top1_text": " week",
+        "top5_text": [
+          " week",
+          " month",
+          " Week",
+          " weekend",
+          " seven"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.949885368347168,
+        "max_logit": 13.949885368347168
+      }
+    },
+    {
+      "fact_idx": 26,
+      "facts": [
+        [
+          "My swim day is",
+          " Friday"
+        ],
+        [
+          "Friday is the fifth day of the",
+          " week"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My swim day is",
+          "gold": " Friday",
+          "top1_text": " Friday",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Friday is the fifth day of the",
+          "gold": " week",
+          "top1_text": " week",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My swim day is the fifth day of the",
+        "expected": " week",
+        "top1_text": " week",
+        "top5_text": [
+          " week",
+          " month",
+          " Week",
+          " weekend",
+          " seven"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.983144760131836,
+        "max_logit": 13.983144760131836
+      }
+    },
+    {
+      "fact_idx": 27,
+      "facts": [
+        [
+          "My pet is a",
+          " tabby"
+        ],
+        [
+          "A tabby is a kind of",
+          " cat"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My pet is a",
+          "gold": " tabby",
+          "top1_text": " tab",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "A tabby is a kind of",
+          "gold": " cat",
+          "top1_text": " cat",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My pet is a kind of",
+        "expected": " cat",
+        "top1_text": " cat",
+        "top5_text": [
+          " cat",
+          " dog",
+          " rabbit",
+          " a",
+          " Cat"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.110799789428711,
+        "max_logit": 13.110799789428711
+      }
+    },
+    {
+      "fact_idx": 28,
+      "facts": [
+        [
+          "My pet is a",
+          " labrador"
+        ],
+        [
+          "A labrador is a kind of",
+          " dog"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My pet is a",
+          "gold": " labrador",
+          "top1_text": " lab",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "A labrador is a kind of",
+          "gold": " dog",
+          "top1_text": " dog",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My pet is a kind of",
+        "expected": " dog",
+        "top1_text": " dog",
+        "top5_text": [
+          " dog",
+          " cat",
+          " pet",
+          " rabbit",
+          " a"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.504819869995117,
+        "max_logit": 12.504819869995117
+      }
+    },
+    {
+      "fact_idx": 29,
+      "facts": [
+        [
+          "My pet is a",
+          " parakeet"
+        ],
+        [
+          "A parakeet is a kind of",
+          " bird"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My pet is a",
+          "gold": " parakeet",
+          "top1_text": " par",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "A parakeet is a kind of",
+          "gold": " bird",
+          "top1_text": " bird",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My pet is a kind of",
+        "expected": " bird",
+        "top1_text": " bird",
+        "top5_text": [
+          " bird",
+          " fish",
+          " cat",
+          " rabbit",
+          " animal"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.38802719116211,
+        "max_logit": 12.38802719116211
+      }
+    },
+    {
+      "fact_idx": 30,
+      "facts": [
+        [
+          "My car is a",
+          " Tesla"
+        ],
+        [
+          "Tesla is made in",
+          " America"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My car is a",
+          "gold": " Tesla",
+          "top1_text": " Tesla",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Tesla is made in",
+          "gold": " America",
+          "top1_text": " America",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My car is made in",
+        "expected": " America",
+        "top1_text": " America",
+        "top5_text": [
+          " America",
+          " the",
+          " amer",
+          " USA",
+          " Europe"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.110799789428711,
+        "max_logit": 13.110799789428711
+      }
+    },
+    {
+      "fact_idx": 31,
+      "facts": [
+        [
+          "My car is a",
+          " Toyota"
+        ],
+        [
+          "Toyota is made in",
+          " Japan"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My car is a",
+          "gold": " Toyota",
+          "top1_text": " Toyota",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Toyota is made in",
+          "gold": " Japan",
+          "top1_text": " Japan",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My car is made in",
+        "expected": " Japan",
+        "top1_text": " Japan",
+        "top5_text": [
+          " Japan",
+          " the",
+          " Germany",
+          " Europe",
+          " China"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.827205657958984,
+        "max_logit": 12.827205657958984
+      }
+    },
+    {
+      "fact_idx": 32,
+      "facts": [
+        [
+          "My car is a",
+          " Volvo"
+        ],
+        [
+          "Volvo is made in",
+          " Sweden"
+        ]
+      ],
+      "overlap": true,
+      "sanity": [
+        {
+          "prompt": "My car is a",
+          "gold": " Volvo",
+          "top1_text": " Vol",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Volvo is made in",
+          "gold": " Sweden",
+          "top1_text": " Sweden",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My car is made in",
+        "expected": " Sweden",
+        "top1_text": " Sweden",
+        "top5_text": [
+          " Sweden",
+          " the",
+          " Germany",
+          " Europe",
+          " America"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 11.29057502746582,
+        "max_logit": 11.29057502746582
+      }
+    },
+    {
+      "fact_idx": 33,
+      "facts": [
+        [
+          "My pet is a",
+          " ferret"
+        ],
+        [
+          "A ferret eats",
+          " meat"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My pet is a",
+          "gold": " ferret",
+          "top1_text": " ferret",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "A ferret eats",
+          "gold": " meat",
+          "top1_text": " meat",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My pet's diet is",
+        "expected": " meat",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " not",
+          " based",
+          " the",
+          " very"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 7.318874835968018,
+        "max_logit": 12.348011016845703
+      }
+    },
+    {
+      "fact_idx": 34,
+      "facts": [
+        [
+          "My pet is a",
+          " rabbit"
+        ],
+        [
+          "A rabbit eats",
+          " hay"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My pet is a",
+          "gold": " rabbit",
+          "top1_text": " rabbit",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "A rabbit eats",
+          "gold": " hay",
+          "top1_text": " hay",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My pet's diet is",
+        "expected": " hay",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " not",
+          " based",
+          " the",
+          " very"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 5.77925968170166,
+        "max_logit": 12.348011016845703
+      }
+    },
+    {
+      "fact_idx": 35,
+      "facts": [
+        [
+          "My pet is a",
+          " parrot"
+        ],
+        [
+          "A parrot eats",
+          " seeds"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My pet is a",
+          "gold": " parrot",
+          "top1_text": " parrot",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "A parrot eats",
+          "gold": " seeds",
+          "top1_text": " seeds",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My pet's diet is",
+        "expected": " seeds",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " not",
+          " based",
+          " the",
+          " very"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 1.0529528856277466,
+        "max_logit": 12.348011016845703
+      }
+    },
+    {
+      "fact_idx": 36,
+      "facts": [
+        [
+          "My doctor's name is Dr.",
+          " Wells"
+        ],
+        [
+          "Dr. Wells's employer is",
+          " Aperture"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My doctor's name is Dr.",
+          "gold": " Wells",
+          "top1_text": " Wells",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Wells's employer is",
+          "gold": " Aperture",
+          "top1_text": " A",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My doctor's employer is",
+        "expected": " Aperture",
+        "top1_text": " A",
+        "top5_text": [
+          " A",
+          " a",
+          " C",
+          " B",
+          "A"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 13.050924301147461,
+        "max_logit": 13.050924301147461
+      }
+    },
+    {
+      "fact_idx": 37,
+      "facts": [
+        [
+          "My doctor's name is Dr.",
+          " Park"
+        ],
+        [
+          "Dr. Park's employer is",
+          " Stark"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My doctor's name is Dr.",
+          "gold": " Park",
+          "top1_text": " Park",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Park's employer is",
+          "gold": " Stark",
+          "top1_text": " St",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My doctor's employer is",
+        "expected": " Stark",
+        "top1_text": " St",
+        "top5_text": [
+          " St",
+          " not",
+          " a",
+          " ins",
+          " the"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 10.590024948120117,
+        "max_logit": 10.590024948120117
+      }
+    },
+    {
+      "fact_idx": 38,
+      "facts": [
+        [
+          "My doctor's name is Dr.",
+          " Mendez"
+        ],
+        [
+          "Dr. Mendez's employer is",
+          " Cyberdyne"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My doctor's name is Dr.",
+          "gold": " Mendez",
+          "top1_text": " Mend",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Dr. Mendez's employer is",
+          "gold": " Cyberdyne",
+          "top1_text": " the",
+          "is_top1": 0,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My doctor's employer is",
+        "expected": " Cyberdyne",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " not",
+          " the",
+          " going",
+          " now"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 6.907157897949219,
+        "max_logit": 9.925514221191406
+      }
+    },
+    {
+      "fact_idx": 39,
+      "facts": [
+        [
+          "My favorite fruit is the",
+          " mango"
+        ],
+        [
+          "The mango is native to",
+          " India"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite fruit is the",
+          "gold": " mango",
+          "top1_text": " mango",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "The mango is native to",
+          "gold": " India",
+          "top1_text": " India",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite fruit comes from",
+        "expected": " India",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " a",
+          " my",
+          " trees",
+          " an"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 10.064506530761719,
+        "max_logit": 13.685999870300293
+      }
+    },
+    {
+      "fact_idx": 40,
+      "facts": [
+        [
+          "My favorite fruit is the",
+          " durian"
+        ],
+        [
+          "The durian is native to",
+          " Malaysia"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite fruit is the",
+          "gold": " durian",
+          "top1_text": " d",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "The durian is native to",
+          "gold": " Malaysia",
+          "top1_text": " Malaysia",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite fruit comes from",
+        "expected": " Malaysia",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " a",
+          " my",
+          " trees",
+          " an"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 8.144292831420898,
+        "max_logit": 13.685999870300293
+      }
+    },
+    {
+      "fact_idx": 41,
+      "facts": [
+        [
+          "My favorite fruit is the",
+          " kiwi"
+        ],
+        [
+          "The kiwi is native to",
+          " China"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite fruit is the",
+          "gold": " kiwi",
+          "top1_text": " k",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "The kiwi is native to",
+          "gold": " China",
+          "top1_text": " China",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite fruit comes from",
+        "expected": " China",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " a",
+          " my",
+          " trees",
+          " an"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 10.166731834411621,
+        "max_logit": 13.685999870300293
+      }
+    },
+    {
+      "fact_idx": 42,
+      "facts": [
+        [
+          "I live in",
+          " Madison"
+        ],
+        [
+          "Madison is the capital of",
+          " Wisconsin"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "I live in",
+          "gold": " Madison",
+          "top1_text": " Madison",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Madison is the capital of",
+          "gold": " Wisconsin",
+          "top1_text": " Wisconsin",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "I live in the capital city of",
+        "expected": " Wisconsin",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " New",
+          " Washington",
+          " India",
+          " California"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 7.785326957702637,
+        "max_logit": 11.77537727355957
+      }
+    },
+    {
+      "fact_idx": 43,
+      "facts": [
+        [
+          "I live in",
+          " Salem"
+        ],
+        [
+          "Salem is the capital of",
+          " Oregon"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "I live in",
+          "gold": " Salem",
+          "top1_text": " Sal",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Salem is the capital of",
+          "gold": " Oregon",
+          "top1_text": " Oregon",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "I live in the capital city of",
+        "expected": " Oregon",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " New",
+          " Washington",
+          " India",
+          " California"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 8.362173080444336,
+        "max_logit": 11.77537727355957
+      }
+    },
+    {
+      "fact_idx": 44,
+      "facts": [
+        [
+          "I live in",
+          " Bismarck"
+        ],
+        [
+          "Bismarck is the capital of",
+          " North Dakota"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "I live in",
+          "gold": " Bismarck",
+          "top1_text": " B",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Bismarck is the capital of",
+          "gold": " North Dakota",
+          "top1_text": " North",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "I live in the capital city of",
+        "expected": " North Dakota",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " New",
+          " India",
+          " Washington",
+          " California"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 9.02574634552002,
+        "max_logit": 11.77537727355957
+      }
+    },
+    {
+      "fact_idx": 45,
+      "facts": [
+        [
+          "My favorite spice is",
+          " cardamom"
+        ],
+        [
+          "Cardamom is harvested in",
+          " India"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite spice is",
+          "gold": " cardamom",
+          "top1_text": " card",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Cardamom is harvested in",
+          "gold": " India",
+          "top1_text": " India",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite spice's source country is",
+        "expected": " India",
+        "top1_text": " India",
+        "top5_text": [
+          " India",
+          " the",
+          " China",
+          " Indonesia",
+          " Vietnam"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.653152465820312,
+        "max_logit": 12.653152465820312
+      }
+    },
+    {
+      "fact_idx": 46,
+      "facts": [
+        [
+          "My favorite spice is",
+          " sumac"
+        ],
+        [
+          "Sumac is harvested in",
+          " Turkey"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite spice is",
+          "gold": " sumac",
+          "top1_text": " sum",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Sumac is harvested in",
+          "gold": " Turkey",
+          "top1_text": " Turkey",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite spice's source country is",
+        "expected": " Turkey",
+        "top1_text": " India",
+        "top5_text": [
+          " India",
+          " the",
+          " China",
+          " Indonesia",
+          " Vietnam"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 10.267239570617676,
+        "max_logit": 12.653152465820312
+      }
+    },
+    {
+      "fact_idx": 47,
+      "facts": [
+        [
+          "My favorite spice is",
+          " vanilla"
+        ],
+        [
+          "Vanilla is harvested in",
+          " Madagascar"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite spice is",
+          "gold": " vanilla",
+          "top1_text": " vanilla",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Vanilla is harvested in",
+          "gold": " Madagascar",
+          "top1_text": " Madagascar",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite spice's source country is",
+        "expected": " Madagascar",
+        "top1_text": " India",
+        "top5_text": [
+          " India",
+          " the",
+          " China",
+          " Indonesia",
+          " Vietnam"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 8.782917022705078,
+        "max_logit": 12.653152465820312
+      }
+    },
+    {
+      "fact_idx": 48,
+      "facts": [
+        [
+          "My favorite sport is",
+          " curling"
+        ],
+        [
+          "Curling originated in",
+          " Scotland"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite sport is",
+          "gold": " curling",
+          "top1_text": " curling",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Curling originated in",
+          "gold": " Scotland",
+          "top1_text": " Scotland",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite sport's home country is",
+        "expected": " Scotland",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " Germany",
+          " Japan",
+          " Australia",
+          " France"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 8.700372695922852,
+        "max_logit": 12.224618911743164
+      }
+    },
+    {
+      "fact_idx": 49,
+      "facts": [
+        [
+          "My favorite sport is",
+          " kabaddi"
+        ],
+        [
+          "Kabaddi originated in",
+          " India"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite sport is",
+          "gold": " kabaddi",
+          "top1_text": " k",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Kabaddi originated in",
+          "gold": " India",
+          "top1_text": " India",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite sport's home country is",
+        "expected": " India",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " Germany",
+          " Japan",
+          " Australia",
+          " France"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 10.43096923828125,
+        "max_logit": 12.224618911743164
+      }
+    },
+    {
+      "fact_idx": 50,
+      "facts": [
+        [
+          "My favorite sport is",
+          " sumo"
+        ],
+        [
+          "Sumo originated in",
+          " Japan"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite sport is",
+          "gold": " sumo",
+          "top1_text": " sum",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Sumo originated in",
+          "gold": " Japan",
+          "top1_text": " Japan",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite sport's home country is",
+        "expected": " Japan",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " Germany",
+          " Japan",
+          " Australia",
+          " France"
+        ],
+        "is_top1": 0,
+        "is_top5": 1,
+        "expected_logit": 10.95307731628418,
+        "max_logit": 12.224618911743164
+      }
+    },
+    {
+      "fact_idx": 51,
+      "facts": [
+        [
+          "My favorite drink is",
+          " sake"
+        ],
+        [
+          "Sake is brewed from",
+          " rice"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite drink is",
+          "gold": " sake",
+          "top1_text": " sake",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Sake is brewed from",
+          "gold": " rice",
+          "top1_text": " rice",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite drink's main ingredient is",
+        "expected": " rice",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " the",
+          " water",
+          " coconut",
+          " ginger"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 8.100117683410645,
+        "max_logit": 11.29057502746582
+      }
+    },
+    {
+      "fact_idx": 52,
+      "facts": [
+        [
+          "My favorite drink is",
+          " mead"
+        ],
+        [
+          "Mead is brewed from",
+          " honey"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite drink is",
+          "gold": " mead",
+          "top1_text": " me",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Mead is brewed from",
+          "gold": " honey",
+          "top1_text": " honey",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite drink's main ingredient is",
+        "expected": " honey",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " the",
+          " water",
+          " coconut",
+          " ginger"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 8.490500450134277,
+        "max_logit": 11.29057502746582
+      }
+    },
+    {
+      "fact_idx": 53,
+      "facts": [
+        [
+          "My favorite drink is",
+          " cider"
+        ],
+        [
+          "Cider is brewed from",
+          " apples"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite drink is",
+          "gold": " cider",
+          "top1_text": " cider",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Cider is brewed from",
+          "gold": " apples",
+          "top1_text": " apples",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite drink's main ingredient is",
+        "expected": " apples",
+        "top1_text": " a",
+        "top5_text": [
+          " a",
+          " the",
+          " water",
+          " coconut",
+          " ginger"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 6.833074569702148,
+        "max_logit": 11.29057502746582
+      }
+    },
+    {
+      "fact_idx": 54,
+      "facts": [
+        [
+          "My favorite author is",
+          " Borges"
+        ],
+        [
+          "Borges wrote in the language",
+          " Spanish"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite author is",
+          "gold": " Borges",
+          "top1_text": " Bor",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Borges wrote in the language",
+          "gold": " Spanish",
+          "top1_text": " Spanish",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite author's language is",
+        "expected": " Spanish",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " \"",
+          " a",
+          " that",
+          " one"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 6.956310749053955,
+        "max_logit": 12.38802719116211
+      }
+    },
+    {
+      "fact_idx": 55,
+      "facts": [
+        [
+          "My favorite author is",
+          " Murakami"
+        ],
+        [
+          "Murakami wrote in the language",
+          " Japanese"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite author is",
+          "gold": " Murakami",
+          "top1_text": " M",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Murakami wrote in the language",
+          "gold": " Japanese",
+          "top1_text": " Japanese",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite author's language is",
+        "expected": " Japanese",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " \"",
+          " a",
+          " that",
+          " one"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 6.173551559448242,
+        "max_logit": 12.38802719116211
+      }
+    },
+    {
+      "fact_idx": 56,
+      "facts": [
+        [
+          "My favorite author is",
+          " Kundera"
+        ],
+        [
+          "Kundera wrote in the language",
+          " Czech"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite author is",
+          "gold": " Kundera",
+          "top1_text": " K",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "Kundera wrote in the language",
+          "gold": " Czech",
+          "top1_text": " Czech",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite author's language is",
+        "expected": " Czech",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " \"",
+          " a",
+          " that",
+          " one"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 3.3637259006500244,
+        "max_logit": 12.38802719116211
+      }
+    },
+    {
+      "fact_idx": 57,
+      "facts": [
+        [
+          "My instrument is the",
+          " sitar"
+        ],
+        [
+          "The sitar comes from",
+          " India"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My instrument is the",
+          "gold": " sitar",
+          "top1_text": " sit",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "The sitar comes from",
+          "gold": " India",
+          "top1_text": " India",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My instrument's home country is",
+        "expected": " India",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " not",
+          " a",
+          " Germany",
+          " in"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 10.43096923828125,
+        "max_logit": 11.916479110717773
+      }
+    },
+    {
+      "fact_idx": 58,
+      "facts": [
+        [
+          "My instrument is the",
+          " bagpipe"
+        ],
+        [
+          "The bagpipe comes from",
+          " Scotland"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My instrument is the",
+          "gold": " bagpipe",
+          "top1_text": " bag",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "The bagpipe comes from",
+          "gold": " Scotland",
+          "top1_text": " Scotland",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My instrument's home country is",
+        "expected": " Scotland",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " not",
+          " a",
+          " Germany",
+          " in"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 7.507802486419678,
+        "max_logit": 11.916479110717773
+      }
+    },
+    {
+      "fact_idx": 59,
+      "facts": [
+        [
+          "My instrument is the",
+          " didgeridoo"
+        ],
+        [
+          "The didgeridoo comes from",
+          " Australia"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My instrument is the",
+          "gold": " didgeridoo",
+          "top1_text": " did",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "The didgeridoo comes from",
+          "gold": " Australia",
+          "top1_text": " Australia",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My instrument's home country is",
+        "expected": " Australia",
+        "top1_text": " the",
+        "top5_text": [
+          " the",
+          " not",
+          " a",
+          " Germany",
+          " in"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 10.200425148010254,
+        "max_logit": 11.916479110717773
+      }
+    },
+    {
+      "fact_idx": 60,
+      "facts": [
+        [
+          "My favorite flower is the",
+          " tulip"
+        ],
+        [
+          "The tulip blooms in",
+          " spring"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite flower is the",
+          "gold": " tulip",
+          "top1_text": " tul",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "The tulip blooms in",
+          "gold": " spring",
+          "top1_text": " spring",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite flower's season is",
+        "expected": " spring",
+        "top1_text": " spring",
+        "top5_text": [
+          " spring",
+          " the",
+          " in",
+          " summer",
+          " May"
+        ],
+        "is_top1": 1,
+        "is_top5": 1,
+        "expected_logit": 12.307440757751465,
+        "max_logit": 12.307440757751465
+      }
+    },
+    {
+      "fact_idx": 61,
+      "facts": [
+        [
+          "My favorite flower is the",
+          " sunflower"
+        ],
+        [
+          "The sunflower blooms in",
+          " summer"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite flower is the",
+          "gold": " sunflower",
+          "top1_text": " sunflower",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "The sunflower blooms in",
+          "gold": " summer",
+          "top1_text": " summer",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite flower's season is",
+        "expected": " summer",
+        "top1_text": " spring",
+        "top5_text": [
+          " spring",
+          " the",
+          " in",
+          " summer",
+          " May"
+        ],
+        "is_top1": 0,
+        "is_top5": 1,
+        "expected_logit": 11.29057502746582,
+        "max_logit": 12.307440757751465
+      }
+    },
+    {
+      "fact_idx": 62,
+      "facts": [
+        [
+          "My favorite flower is the",
+          " chrysanthemum"
+        ],
+        [
+          "The chrysanthemum blooms in",
+          " autumn"
+        ]
+      ],
+      "overlap": false,
+      "sanity": [
+        {
+          "prompt": "My favorite flower is the",
+          "gold": " chrysanthemum",
+          "top1_text": " chrys",
+          "is_top1": 1,
+          "is_top5": 1
+        },
+        {
+          "prompt": "The chrysanthemum blooms in",
+          "gold": " autumn",
+          "top1_text": " autumn",
+          "is_top1": 1,
+          "is_top5": 1
+        }
+      ],
+      "multihop": {
+        "query": "My favorite flower's season is",
+        "expected": " autumn",
+        "top1_text": " spring",
+        "top5_text": [
+          " spring",
+          " the",
+          " in",
+          " summer",
+          " May"
+        ],
+        "is_top1": 0,
+        "is_top5": 0,
+        "expected_logit": 8.823888778686523,
+        "max_logit": 12.307440757751465
+      }
+    }
+  ],
+  "summary": {
+    "n": 63,
+    "multihop_top1": 33,
+    "multihop_top5": 35,
+    "sanity_top1": 125,
+    "sanity_total": 126,
+    "n_overlap": 32,
+    "overlap_top1": 29,
+    "n_no_overlap": 31,
+    "no_overlap_top1": 4
+  }
+}

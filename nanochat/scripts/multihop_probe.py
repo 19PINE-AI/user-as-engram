@@ -129,14 +129,41 @@ def query_top1_top5(model, tokenizer, prompt, device):
     return top1_id, top5, logits
 
 
+def load_corpus(path):
+    """Load chained-fact items from a JSON file with the structure
+    {"items": [{"facts": [[prompt, gold], [prompt, gold]],
+                "query": ..., "expected": ..., "overlap": bool}, ...]}.
+    Each fact pair is converted to (prompt, gold) tuples and 'overlap' is
+    preserved per item for the surface-overlap-vs-no-overlap decomposition.
+    """
+    with open(path) as f:
+        d = json.load(f)
+    out = []
+    for it in d["items"]:
+        out.append({
+            "facts": [tuple(p) for p in it["facts"]],
+            "query": it["query"],
+            "expected": it["expected"],
+            "overlap": it.get("overlap"),
+        })
+    return out
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
+    p.add_argument("--corpus", default=None,
+                    help="Optional path to a JSON corpus file; falls back to "
+                         "the hardcoded 8-item MULTIHOP_FACTS if absent.")
     p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/multihop_probe.json")
     p.add_argument("--scale", type=float, default=20.0)
     p.add_argument("--opt-steps", type=int, default=15)
     p.add_argument("--opt-lr", type=float, default=0.5)
     args = p.parse_args()
+
+    multihop_facts = load_corpus(args.corpus) if args.corpus else MULTIHOP_FACTS
+    print(f"Loaded {len(multihop_facts)} chained-fact items"
+          + (f" from {args.corpus}" if args.corpus else " (built-in)"))
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     tokenizer = get_tokenizer()
@@ -149,7 +176,7 @@ def main():
     tbl = eng.tables[str(last_layer)]
 
     rows_data = []
-    for fi, item in enumerate(MULTIHOP_FACTS):
+    for fi, item in enumerate(multihop_facts):
         # Train and write each fact's row
         all_writes = []
         for prompt, gold in item["facts"]:
@@ -195,27 +222,45 @@ def main():
 
         rows_data.append({
             "fact_idx": fi, "facts": item["facts"],
+            "overlap": item.get("overlap"),
             "sanity": sanity, "multihop": multihop,
         })
-        print(f"[{fi+1}/{len(MULTIHOP_FACTS)}] query: {item['query']!r:55s} "
+        print(f"[{fi+1}/{len(multihop_facts)}] query: {item['query']!r:55s} "
               f"expected: {item['expected']!r:12s} got top-1: {multihop['top1_text']!r:12s} "
-              f"{'★ top1' if multihop['is_top1'] else ('+ top5' if multihop['is_top5'] else '')}")
+              f"{'★ top1' if multihop['is_top1'] else ('+ top5' if multihop['is_top5'] else '')}"
+              f" {'(ovl)' if item.get('overlap') else ('(no-ovl)' if item.get('overlap') is False else '')}")
 
     n = len(rows_data)
     n_top1 = sum(r["multihop"]["is_top1"] for r in rows_data)
     n_top5 = sum(r["multihop"]["is_top5"] for r in rows_data)
     sanity_top1 = sum(s["is_top1"] for r in rows_data for s in r["sanity"])
     sanity_total = sum(len(r["sanity"]) for r in rows_data)
+
+    # Surface-overlap decomposition (items where the query's suffix
+    # matches Fact 2's trigger fire the gate on Fact 2 directly; the
+    # complementary "no-overlap" subset requires true chaining).
+    ovl_items = [r for r in rows_data if r.get("overlap") is True]
+    noovl_items = [r for r in rows_data if r.get("overlap") is False]
+    ovl_top1 = sum(r["multihop"]["is_top1"] for r in ovl_items)
+    noovl_top1 = sum(r["multihop"]["is_top1"] for r in noovl_items)
+
     print(f"\n=== Multi-hop probe summary ===")
     print(f"  per-fact direct recall (sanity): {sanity_top1}/{sanity_total} = {sanity_top1/sanity_total:.1%}")
     print(f"  multi-hop top-1: {n_top1}/{n} = {n_top1/n:.1%}")
     print(f"  multi-hop top-5: {n_top5}/{n} = {n_top5/n:.1%}")
+    if ovl_items or noovl_items:
+        print(f"  surface-overlap subset:    {ovl_top1}/{len(ovl_items)}"
+              + (f" = {ovl_top1/len(ovl_items):.1%}" if ovl_items else ""))
+        print(f"  no-overlap (true chain):   {noovl_top1}/{len(noovl_items)}"
+              + (f" = {noovl_top1/len(noovl_items):.1%}" if noovl_items else ""))
 
     out = {
         "config": vars(args), "rows": rows_data,
         "summary": {
             "n": n, "multihop_top1": n_top1, "multihop_top5": n_top5,
             "sanity_top1": sanity_top1, "sanity_total": sanity_total,
+            "n_overlap": len(ovl_items), "overlap_top1": ovl_top1,
+            "n_no_overlap": len(noovl_items), "no_overlap_top1": noovl_top1,
         }
     }
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)

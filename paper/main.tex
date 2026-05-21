@@ -1422,69 +1422,80 @@ Fact 2:  Dr. Patel works at         -> Globex
 Query:   My doctor works at         -> ?  (expected: Globex)
 \end{verbatim}}
 
+We probe Engram's multi-hop behaviour on a corpus of 63
+chained-fact items spanning 13 schema families, with each item
+labelled by whether the query's suffix N-gram \emph{overlaps}
+Fact~2's trigger (Table~\ref{tab:multihop}). The split is
+near-balanced (32 overlap, 31 no-overlap), which lets us isolate
+the surface-trigger mechanism from true compositional chaining.
+
 \begin{table}[t]
   \centering
-  \caption{Multi-hop reasoning over Engram-inserted facts (8 chained
-  pairs). The Engram rows insert two facts per item via Joint OPT and
-  ask the chained query; multi-hop top-1 and top-5 are identical at every
-  Engram scale: the gate either fires on the second-hop trigger's suffix
-  N-gram and returns the gold token (top-1), or it does not fire and the
-  gold token is far down the distribution (out of top-5). The RAG rows
-  are reported as a \textbf{preliminary sanity check at $n{=}8$
-  only}: they index all 16 pair-facts in a flat KB, retrieve top-$k$
-  against the query, and answer with the same Mini-Engram-d20
-  backbone; ``ret\_both'' is the fraction of items where both gold
-  facts appear in the retrieved set. \textbf{The Wilson 95\% CI on a
-  6/8 estimate is [40.9\%, 93.0\%] and overlaps every cell of the
-  RAG sub-block}; no RAG-vs-Engram ranking should be read off this
-  table. The KB-scale RAG comparison (Section~\ref{sec:rag-scale})
-  at $n{=}20$ users $\times$ 20 indirect probes is the
-  statistically informative measurement.}
+  \caption{Multi-hop reasoning over Engram-inserted facts ($n{=}63$
+  chained pairs on Mini-Engram-d20). The Engram rows insert two
+  facts per item via OPT-15 and ask the chained query. Per-fact
+  direct recall sanity-checks that both facts are insertable
+  (125/126 $=$ 99.2\%); top-1 and top-5 differ only marginally
+  (33 vs 35), confirming the original observation that the gate
+  either fires on the second-hop trigger and returns the gold
+  token, or it does not fire and the gold is far from the top.
+  The \textbf{surface-overlap vs no-overlap split} measures the
+  mechanism directly. The 8-pair RAG sub-block below is from the
+  original pilot for context only; the load-bearing RAG
+  comparison is Section~\ref{sec:rag-scale}'s KB-scale study.}
   \label{tab:multihop}
   \resizebox{\linewidth}{!}{
-  \begin{tabular}{lccc}
+  \begin{tabular}{lcccc}
     \toprule
-    method & per-fact recall / ret\_both & multi-hop top-1 & multi-hop top-5 \\
+     & per-fact direct & multi-hop & multi-hop & Wilson 95\% CI \\
+    subset (Mini-Engram-d20) & (sanity) & top-1 & top-5 & on top-1 \\
     \midrule
-    Mini-Engram-d12 v2          & 15 / 16 (93.8\%) & 6 / 8 (75.0\%) & 6 / 8 (75.0\%) \\
-    Mini-Engram-d12@1280 opt.   & 16 / 16 (100\%)  & 6 / 8 (75.0\%) & 6 / 8 (75.0\%) \\
-    Mini-Engram-d20@1536 opt.   & 16 / 16 (100\%)  & 6 / 8 (75.0\%) & 6 / 8 (75.0\%) \\
+    surface-overlap items (query suffix $=$ Fact 2 trigger) & 64 / 64 (100\%)    & \textbf{29 / 32 (90.6\%)} & 29 / 32 (90.6\%) & [75.8\%, 96.8\%] \\
+    no-overlap items (true chaining required)               & 61 / 62 (98.4\%)   & \textbf{4 / 31 (12.9\%)}  & 6 / 31 (19.4\%)  & [5.1\%, 28.9\%] \\
     \midrule
-    \multicolumn{4}{l}{\emph{RAG over the same 8 pair-facts, Mini-Engram-d20 backbone:}} \\
-    Mini-Engram-d20 + RAG top-1                    & 0 / 8 (0\%)    & 4 / 8 (50.0\%) & 6 / 8 (75.0\%) \\
-    Mini-Engram-d20 + RAG top-2                    & \textbf{8 / 8 (100\%)} & \textbf{8 / 8 (100\%)} & \textbf{8 / 8 (100\%)} \\
-    Mini-Engram-d20 + RAG all (16 facts)           & 8 / 8 (100\%)  & 7 / 8 (87.5\%) & 7 / 8 (87.5\%) \\
-    Mini-Engram-d20 + RAG top-2 + shared LoRA r=16 & 8 / 8 (100\%)  & 7 / 8 (87.5\%) & 8 / 8 (100\%) \\
+    \textbf{combined ($n{=}63$)}                            & \textbf{125 / 126 (99.2\%)} & \textbf{33 / 63 (52.4\%)} & 35 / 63 (55.6\%) & [40.2\%, 64.4\%] \\
+    \midrule
+    \multicolumn{5}{l}{\emph{Original 8-pair pilot (no-overlap items: ``My doctor works at''; ``My pet eats''):}} \\
+    Mini-Engram-d20 (8-pair pilot)                          & 16 / 16 (100\%)    & 6 / 8 (75.0\%) & 6 / 8 (75.0\%) & [40.9\%, 93.0\%] \\
+    \midrule
+    \multicolumn{5}{l}{\emph{RAG over the original 8 pair-facts, Mini-Engram-d20 backbone (context):}} \\
+    Mini-Engram-d20 + RAG top-1                             & 0 / 8 (0\%)        & 4 / 8 (50.0\%) & 6 / 8 (75.0\%) & --- \\
+    Mini-Engram-d20 + RAG top-2                             & 8 / 8 (100\%)      & 8 / 8 (100\%)  & 8 / 8 (100\%)  & --- \\
+    Mini-Engram-d20 + RAG top-2 + shared LoRA r=16          & 8 / 8 (100\%)      & 7 / 8 (87.5\%) & 8 / 8 (100\%)  & --- \\
     \bottomrule
   \end{tabular}}
 \end{table}
 
-\textbf{The multi-hop number is flat across dense scale} (75\% at
-all three sizes; $n{=}8$, Wilson 95\% CI $[40.9\%, 93.0\%]$).
-Per-fact direct recall does improve (93.8\% $\to$ 100\%), but the
-direct-vs-multi-hop gap looks architectural rather than
-capacity-bound. The wide CI keeps this qualitative; a larger
-chained-fact set is needed.
+\textbf{The 8-pair 75\% headline was an overlap-heavy sample.}
+On the balanced 63-pair corpus, multi-hop top-1 drops to
+\textbf{52\%} with a much tighter Wilson 95\% CI
+[40.2\%, 64.4\%]. Decomposing by overlap status reveals a
+near-bimodal mechanism: \textbf{surface-overlap items reach
+91\%} (CI [75.8\%, 96.8\%]), while \textbf{no-overlap items
+collapse to 13\%} (CI [5.1\%, 28.9\%]) and even there 2 of the
+4 ``successes'' are first-fact-wins coincidences where the
+trained Fact~1 row's strong logit also covers the query (e.g.,
+``\emph{My favorite spice's source country is}'' returning
+``India'' for every spice in the family). True
+compositional chaining without surface overlap is
+$\lesssim 10\%$, consistent with the architectural prediction
+that the gate is a surface-N-gram hash and does not compose
+across triggers. Per-fact direct recall sanity is 99.2\%, so
+the multi-hop gap is purely the chaining-vs-lookup distinction,
+not a Fact-1 insertion failure.
 
-\textbf{Mechanism.} All 6 successes share a property: the query's
-suffix N-gram matches the second-hop fact's trigger. E.g.,
-``My favorite spice grows in the country of'' shares
-``in the country of'' with Fact 2's trigger
-``Saffron grows in the country of''. The gate fires directly on
-Fact 2 via surface match; no chaining of Fact 1 is required. The
-2 failures (``My doctor works at''; ``My pet eats'') are cases
-where the query suffix matches neither inserted trigger.
-
-\textbf{Conclusion.} User-as-Engram \emph{partially} addresses
-multi-hop: any chained query whose surface overlaps an inserted
-second-hop trigger is answered correctly ($\sim$75\%). True
-compositional chaining without surface overlap remains the open
-problem shared with LoRA-as-memory; the recite-then-reason recipe
-(Section~\ref{sec:discussion}) is the natural mitigation. RAG
-top-2 retrieves both gold facts every time on the same 8 pairs
-(8/8), so the 75\% ceiling is a surface-trigger artifact rather
-than an unreachable hop budget---both readings are qualitative
-given the wide CI.
+\textbf{Conclusion.} User-as-Engram solves chained queries
+\emph{when} the query's suffix matches an inserted trigger
+(91\%), and effectively fails on true compositional chains
+(13\%, dropping to ${\lesssim}10\%$ once first-fact-wins
+coincidences are filtered). This is the architectural limit
+shared with LoRA-as-memory: a surface-N-gram gate cannot
+compose across triggers by construction. The recite-then-reason
+recipe (Section~\ref{sec:discussion}) is the natural mitigation;
+multi-fact-in-the-loss pretraining (Section~\ref{sec:future}) is
+the structural fix. The original 75\% pilot pre-dated this
+decomposition; it is preserved as a row in
+Table~\ref{tab:multihop} for traceability.
 
 \subsection{LoRA rank ablation at 100 facts}
 \label{sec:lora-rank}
