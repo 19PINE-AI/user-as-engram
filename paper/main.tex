@@ -2093,6 +2093,82 @@ per-user Engram still fires only on its trigger N-grams.
 \emph{Architectural decomposition transfers across schemas;
 recipe-level fixes (Stage A) did not.}
 
+\subsection{Layered F on a Q/A-format-adapted Engram base}
+\label{sec:layered-sft}
+
+The headline F vs B numbers are on a base LM (Mini-Engram-d20).
+Section~\ref{sec:negative}'s cross-base table shows that per-user
+LoRA's \emph{user-visible} damage shrinks dramatically on
+instruction-tuned bases (85\% of users worse on a base LM, 0--20\%
+on four instruction-tuned bases). Does F still dominate B when B
+itself becomes a stronger baseline?
+
+We SFT Mini-Engram-d20 on $\sim$2000 single-token (Q, A) pairs
+from the same fact templates the layered experiment uses (1500
+steps, lr $1{\times}10^{-4}$, post-embedding params trained,
+Engram tables frozen). The SFT is intentionally narrow---no
+general-text corpus mixed in---so it tests Q/A format adaptation,
+not full chat-tuning. val\_bpb on raw ClimbMix rises from 0.73
+to 4.42, indicating the model has been pushed toward the Q/A
+distribution at the cost of general-text LM ability. We then
+train a fresh rank-16 shared LoRA on this SFT'd base
+(\texttt{shared\_lora\_d20\_sft/r16}, 2000 steps on
+u020--u029) and rerun the six-condition head-to-head
+(Table~\ref{tab:layered-sft}).
+
+\begin{table}[t]
+  \centering
+  \caption{Layered head-to-head on a Q/A-format-adapted
+  Mini-Engram-d20 ($n{=}20$ test users u000--u019).
+  ``$\Delta$bpb'' is relative to the SFT'd base's val\_bpb
+  ($4.42$). All edits drop val\_bpb because the SFT moved the
+  base away from raw ClimbMix; the conserved quantity is
+  $|\Delta$bpb$(F) - \Delta$bpb$(E)|$, which measures the
+  contamination added by Engram on top of shared LoRA and is
+  $1 \times 10^{-4}$ on this base---essentially identical to the
+  $5 \times 10^{-5}$ noise floor on the original d20 base
+  (Section~\ref{sec:negative}).}
+  \label{tab:layered-sft}
+  \begin{tabular}{llcccccc}
+    \toprule
+     & condition & direct & direct & indirect & indirect & $\Delta$bpb \\
+    code & & top-1 & top-5 & top-1 & any & \\
+    \midrule
+    A & no edit                       & 12\% & 16\% &  1\% &  1\% &  0.0000 \\
+    B & per-user LoRA r=64            & 100\% &100\% & 24\% &  6\% & $-$0.441 \\
+    C & per-user Engram J-OPT         &  97\% & 98\% &  1\% &  1\% & +0.0022 \\
+    D & per-user LoRA $+$ Engram      & 100\% &100\% & 24\% &  3\% & $-$0.517 \\
+    E & shared LoRA r=16 only         &  51\% & 69\% & 36\% & 16\% & $-$1.4268 \\
+    \textbf{F} & \textbf{Engram + shared LoRA} & \textbf{100\%} & \textbf{100\%} & \textbf{37\%} & \textbf{16\%} & \textbf{$-$1.4267} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{F still Pareto-dominates B; the lead shrinks as B
+strengthens.} The qualitative picture survives Q/A adaptation:
+F matches B on direct (100\%~vs~100\%), beats B on indirect
+($1.6\times$ on top-1, $2.8\times$ on indirect\_any), and the
+architectural locality is preserved
+($|\Delta$bpb$(F){-}\Delta$bpb$(E)| = 1\times 10^{-4}$, on the
+same order as the $5\times 10^{-5}$ original-base noise floor).
+The cross-base prediction reproduces: per-user LoRA's
+indirect\_top1 jumps from 1.3\% (A) to 23.5\% (B) on this
+adapted base, matching Section~\ref{sec:negative}'s
+``instruction-tuned bases absorb the LoRA perturbation''
+pattern. F's lead over B on indirect\_any compresses from
+$7.4\times$ (base LM) to $2.8\times$ (SFT'd), but F is still
+the dominant substrate.
+
+\paragraph{Caveats.}
+The SFT here is narrow Q/A adaptation, not full chat-tuning:
+mixing general-text in the SFT corpus or starting from a
+true instruction-tuned base (the cross-base table's
+Qwen/Llama/Mistral setup, but with an Engram-pretrained
+backbone) is the natural follow-up. The aggressive SFT also
+collapses A and C's indirect to floor (1\%), which inflates
+F's relative lead on top of A but not the F-vs-B contrast that
+matters for the substrate-selection conclusion.
+
 \subsection{Storage and amortisation}
 
 Per user, the layered design costs the Engram's 88\,KB; the
@@ -2111,13 +2187,15 @@ personal $\to$ medical schema shift with a 30\% relative
 degradation (44\% $\to$ 31\% indirect\_any), versus the 90\%
 collapse on Stage A's recite-then-reason recipe in
 Section~\ref{sec:negative}. We tested one schema pair; broader
-domain shifts (cross-language, technical jargon) are open. (ii) The
-base used here is a base LM (Mini-Engram-d20); the architectural
-finding is the val\_bpb $\Delta$ difference, which holds across any
-base; the user-visible reasoning result transfers only insofar as
-the base LM's completion behaviour tracks instruction-tuned
-behaviour. (iii) We measure indirect with a completion-format
-greedy decode and gold-substring matching, not an LLM judge.
+domain shifts (cross-language, technical jargon) are open.
+(ii) The headline base is a base LM (Mini-Engram-d20);
+Section~\ref{sec:layered-sft} shows F still Pareto-dominates B on
+a Q/A-format-adapted Mini-Engram-d20 ($2.8\times$ on
+indirect\_any), though the lead compresses from $7.4\times$ as B
+becomes a stronger baseline. A full chat-tuned Engram-pretrained
+backbone (the cross-base table's setup) is the natural next test.
+(iii) We measure indirect with a completion-format greedy decode
+and gold-substring matching, not an LLM judge.
 
 \section{Discussion and limitations}
 \label{sec:discussion}
@@ -2249,15 +2327,16 @@ $\langle$think$\rangle$ slot---parametric-memory recipes are not
 eval-protocol-agnostic.
 
 \paragraph{Layered-architecture follow-ups.}
-Three remaining directions (cross-schema (ii) addressed in
-Section~\ref{sec:layered-cross-schema}): (i) replicate F vs B on
-an instruction-tuned Engram by SFT-ing one of our Mini-Engrams
-on a chat corpus; (ii) scale the shared-LoRA training corpus
-beyond 510 samples to test whether the rank-64
-over-parameterisation (Table~\ref{tab:shared-lora-rank})
-reverses; (iii) jointly train the per-user Engram with the
-shared LoRA (currently independent) as a probe for additional
-synergy.
+Two remaining directions (cross-schema and a Q/A-format-adapted
+base addressed in
+Sections~\ref{sec:layered-cross-schema}--\ref{sec:layered-sft}):
+(i) scale the shared-LoRA training corpus beyond 510 samples to
+test whether the rank-64 over-parameterisation
+(Table~\ref{tab:shared-lora-rank}) reverses; (ii) jointly train
+the per-user Engram with the shared LoRA (currently independent)
+as a probe for additional synergy. A full chat-tuned Engram base
+(starting from a chat corpus rather than Q/A pairs) remains
+open.
 
 \section{Conclusion}
 \label{sec:conclusion}
