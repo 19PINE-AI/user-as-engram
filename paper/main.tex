@@ -2290,19 +2290,20 @@ parameter scaling on a single GPU:
 
 \begin{itemize}[leftmargin=*,topsep=2pt,itemsep=2pt]
   \item \emph{Multi-fact insertion in the loss}
-        (Section~\ref{sec:mf-finetune} validates this via
-        finetuning). During pretraining, randomly inject $K$
-        facts per batch and require the model to surface them.
-        This trains the gate to handle multi-fact density
-        natively, addressing the within-user joint-density
-        ceiling visible in Table~\ref{tab:joint-opt-density}
-        (35\% top-1 at 1000 facts). A 1500-step finetune of
+        (Section~\ref{sec:mf-finetune} characterises this via
+        finetuning). During pretraining (or finetuning),
+        randomly inject $K$ facts per batch and require the
+        model to surface them. A 1500-step finetune of
         d12@1280 with $K{=}10$ moves top-1 at 1000 facts from
-        28\% to 32\% ($+14$\% relative) without disturbing
-        val\_bpb (0.770 $\to$ 0.774). Direction validated;
-        full from-scratch pretraining is the natural next step
-        for the larger gains the small finetune corpus cannot
-        deliver.
+        28\% to 32\% \emph{at fixed inference budget}, without
+        disturbing val\_bpb. With expanded inference budget
+        (12k OPT steps) baseline d12@1280 also reaches 34.6\%
+        and the MF model matches at 34.5\%---so MF accelerates
+        Joint OPT convergence rather than raising the
+        asymptotic ceiling. The from-scratch MF pretraining
+        originally proposed here would refine that
+        characterisation but is unlikely to shift an asymptote
+        the recipe does not move.
   \item \emph{Random per-batch hash salts.} Salt 50\% of batches
         with a random per-batch user salt during pretraining. This
         teaches the gate to consult arbitrary (including
@@ -2326,56 +2327,86 @@ d20@1536), so breaking it likely requires the
 \emph{multi-fact-in-the-loss} recipe change above rather than
 further dense scaling.
 
-\paragraph{Multi-fact-in-the-loss finetune (validation).}
+\paragraph{Multi-fact-in-the-loss finetune (and what it does, vs.\ what it doesn't).}
 \label{sec:mf-finetune}
 We test the multi-fact-in-the-loss recipe via a continuation
-finetune of d12@1280 (1500 steps, 196\,M tokens; for each
+finetune of d12@1280 (1500 steps, 196\,M tokens). For each
 training batch we sample $K{=}10$ positions per sequence,
 synthesize a random gold token per position, write the
 UNEMBED\_P marker into the Engram rows the trigger N-gram hashes
 to at the last Engram layer, set the natural target $y$ at the
-injected position to the synthetic gold, run the standard NTP
-forward+backward, zero gradients at the overridden rows, restore
-originals; cf.\ \texttt{scripts/engram\_finetune\_mf.py}). The
-synthetic markers are never trained; only the gate, value
-projection, and dense backbone adapt to handling many
-simultaneously active foreign rows
-(Table~\ref{tab:mf-finetune}).
+injected position to the synthetic gold, run standard NTP
+forward+backward, zero gradients at the overridden rows, and
+restore originals
+(\texttt{scripts/engram\_finetune\_mf.py}). The synthetic
+markers are never trained; only the gate, value projection, and
+dense backbone adapt to handling many simultaneously active
+foreign rows. val\_bpb stays at 0.774 vs.\ baseline 0.770
+(general LM ability preserved).
 
 \begin{table}[t]
   \centering
-  \caption{Multi-fact-in-the-loss finetune of Mini-Engram-d12@1280
-  vs.\ baseline d12@1280 on the Joint OPT density curve. Effect
-  is small but consistent at high density (where the ceiling
-  binds) and slightly negative at low density (where the model is
-  already well-suited). val\_bpb is essentially preserved, so the
-  LM ability is not damaged; only the row-handling behaviour
-  shifts.}
+  \caption{Multi-fact-in-the-loss finetune vs.\ baseline
+  d12@1280 on the Joint OPT density curve. At each $n$ we use
+  the Section~\ref{sec:density} protocol (matched OPT-steps
+  schedule: 2k at $n{=}100$, 4k at 300, 6k at 500, 8k at 1000,
+  12k at 2000). The bottom block isolates inference compute by
+  pinning OPT-steps to 12k at $n{=}1000$ for both models.}
   \label{tab:mf-finetune}
-  \begin{tabular}{lcccc}
+  \begin{tabular}{lcccccc}
     \toprule
-    & \multicolumn{2}{c}{baseline d12@1280} & \multicolumn{2}{c}{MF-finetune d12@1280} \\
-    n facts & top-1 & top-5 & top-1 & top-5 \\
+     & OPT & \multicolumn{2}{c}{baseline} & \multicolumn{2}{c}{MF-finetune} & $\Delta$ top-1 \\
+    n facts & steps & top-1 & top-5 & top-1 & top-5 & (pp / rel) \\
     \midrule
-    100         & 65\% & 98\% & 61\% ($-4$) & 96\% ($-2$) \\
-    300         & 46\% & 87\% & 48\% ($+2$) & 89\% ($+2$) \\
-    \textbf{1000} & \textbf{28\%} & \textbf{67\%} & \textbf{32\% ($+4$)} & \textbf{70\% ($+3$)} \\
+    100         & 2k  & 65\% & 98\% & 61\% & 96\% & $-4$ / $-6$\% \\
+    300         & 4k  & 46\% & 87\% & 48\% & 89\% & $+2$ / $+4$\% \\
+    500         & 6k  & 39\% & 83\% & 42\% & 83\% & $+3$ / $+8$\% \\
+    1000        & 8k  & 28\% & 67\% & \textbf{32\%} & \textbf{70\%} & $+4$ / $+14$\% \\
+    2000        & 12k & 30\% & 67\% & 30\% & 67\% & $0$ / $0$\% \\
     \midrule
-    val\_bpb    & \multicolumn{2}{c}{0.770} & \multicolumn{2}{c}{0.774} \\
+    \multicolumn{7}{l}{\emph{Same 1000-fact regime at expanded inference budget:}} \\
+    1000        & 12k & 34.6\% & 74\% & 34.5\% & 73\% & $\sim 0$ \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-At 1000 facts the ceiling lifts $28\% \to 32\%$ top-1 ($+14$\%
-relative), $67\% \to 70\%$ top-5 ($+4$\% relative). Direction is
-correct; magnitude is modest, consistent with a 1500-step
-finetune on a model that absorbed 3.34\,B tokens of standard
-pretraining---the multi-fact distribution is fighting against a
-much larger volume of natural-row training. Full from-scratch
-pretraining with the MF objective should produce the larger
-effect; the finetune validates the mechanism without committing
-to the $\sim$10\,h pretraining run that would be needed to
-measure it definitively.
+\paragraph{What MF actually does.}
+The headline ``$+14$\% relative at $n{=}1000$'' decomposes
+cleanly once the inference budget is unpinned (bottom block of
+Table~\ref{tab:mf-finetune}). With 12k Joint OPT steps,
+baseline d12@1280 reaches $34.6$\% top-1 at $n{=}1000$ and the
+MF model reaches $34.5$\%---essentially identical. The MF
+finetune does not raise the asymptotic ceiling; \textbf{it
+accelerates Joint OPT convergence}, letting the inference-time
+optimizer reach the same recall in fewer steps. The two regimes
+matter for different deployment shapes:
+\begin{itemize}[leftmargin=*,topsep=2pt,itemsep=1pt]
+  \item \textbf{Fixed inference budget per registration (the
+        common case at scale)}: MF reduces per-user
+        registration time at iso-recall, or improves recall at
+        iso-time. The $+14$\% at $n{=}1000$, 8k steps row is the
+        relevant number.
+  \item \textbf{Unlimited inference budget}: MF and baseline
+        converge to the same recall. The asymptotic density
+        ceiling is set by gradient interference at inference,
+        not by pretraining.
+\end{itemize}
+This reframes the paper's earlier claim that ``the density
+ceiling does not relax with dense scale''
+(Section~\ref{sec:density}, Table~\ref{tab:joint-opt-dense-scale}):
+the ceiling at fixed OPT-steps is real and dense-invariant; but
+the ceiling at unlimited OPT-steps is meaningfully higher
+($+6.6$\,pp on baseline d12@1280 at $n{=}1000$ when steps go
+$8\text{k} \to 12\text{k}$). The economic question---what does
+each registration second cost?---makes MF a Pareto-improving
+recipe for production deployments; the architectural
+question---is there a hard density ceiling?---is answered by
+spending more inference compute, not by pretraining differently.
+
+The finetune does not commit to the $\sim$10\,h from-scratch
+MF pretraining the paper's Future work bullet originally
+proposed; given that pretraining shifts an asymptote MF doesn't
+shift, the full pretrain may be the wrong dial to turn.
 
 \paragraph{Teacher-trace supervision (negative result).}
 We tested whether retraining the shared LoRA on a teacher-distilled
