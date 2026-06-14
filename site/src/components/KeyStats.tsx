@@ -10,9 +10,9 @@ export function KeyStats() {
         <FindingCard
           tag="Layered F vs per-user LoRA (B)"
           color="badge-blue"
-          stat="6.8×"
+          stat="7.4×"
           headline="higher indirect-reasoning"
-          subline="44% vs 7% indirect_any · 4.0× less contamination · 0/20 vs 17/20 users worse"
+          subline="44% vs 6% indirect_any · 4.6× less contamination · 0/20 vs 17/20 users worse"
         />
         <FindingCard
           tag="F vs Qwen-3B + RAG @ KB=1000"
@@ -31,9 +31,9 @@ export function KeyStats() {
         <FindingCard
           tag="Architectural contamination"
           color="badge-rose"
-          stat="15 000×"
+          stat="34 000×"
           headline="less than per-user LoRA"
-          subline="Engram-row insertion's Δbpb = +0.0001 on held-out text vs LoRA's +1.56 (2.1× val_bpb increase on the same Mini-Engram-d20 base)"
+          subline="Engram-row insertion's Δbpb = +0.00005 on held-out text vs LoRA's +1.78 — which more than triples val_bpb (0.74 → 2.52) on the same Mini-Engram-d20 base"
         />
       </div>
     </div>

@@ -12,10 +12,15 @@ const BIB = `@article{li2026userasengram,
 export function CitationCard() {
   const [copied, setCopied] = useState(false);
   const copy = () => {
-    navigator.clipboard.writeText(BIB).then(() => {
+    const flash = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
-    });
+    };
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(BIB).then(flash).catch(flash);
+    } else {
+      flash();
+    }
   };
   return (
     <div>

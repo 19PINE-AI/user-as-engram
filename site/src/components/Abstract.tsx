@@ -6,17 +6,17 @@ export function Abstract() {
         Personal memory in LLMs is two problems, not one: <em>content</em>
         (per-user facts) and <em>meta-skill</em> (reasoning patterns that use
         facts to answer questions). Per-user LoRA conflates them in one
-        substrate, producing <strong>15,000× more contamination</strong> than
+        substrate, producing <strong>34,000× more contamination</strong> than
         per-user Engram-row insertion on the same Mini-Engram-d20 base
-        (Δbpb +1.56 vs +0.0001).
+        (Δbpb +1.78 vs +0.00005).
       </p>
       <p>
         This motivates a <strong>layered architecture</strong>: one shared LoRA
         holds cross-user meta-skill (amortised over the population), and per-user
         Engram-row overrides hold per-user content (local, 88 KB/user). At n=20
         test users on Mini-Engram-d20, the layered design <strong>Pareto-dominates</strong> every
-        per-user single-substrate baseline: 100% direct top-1, 6.8× better
-        indirect reasoning than per-user LoRA (44% vs 7%), 4.0× less
+        per-user single-substrate baseline: 100% direct top-1, 7.4× better
+        indirect reasoning than per-user LoRA (44% vs 6%), 4.6× less
         contamination, and never hurts indirect reasoning relative to the no-adapter
         base (0/20 users worse vs 17/20 for per-user LoRA).
       </p>

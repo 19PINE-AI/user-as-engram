@@ -2,6 +2,7 @@ import { Hero } from "./components/Hero";
 import { Abstract } from "./components/Abstract";
 import { KeyStats } from "./components/KeyStats";
 import { Architecture } from "./components/Architecture";
+import { MechanismSection } from "./components/MechanismSection";
 import { ParetoSection } from "./components/ParetoSection";
 import { LayeredHeadline } from "./components/LayeredHeadline";
 import { KBScaleSection } from "./components/KBScaleSection";
@@ -15,6 +16,7 @@ const sections = [
   { id: "abstract", title: "Abstract" },
   { id: "stats", title: "Key Findings" },
   { id: "method", title: "Architecture" },
+  { id: "mechanism", title: "Mechanism" },
   { id: "layered", title: "Layered (A–F)" },
   { id: "rag", title: "RAG Comparison" },
   { id: "scale", title: "KB-Scale" },
@@ -37,6 +39,7 @@ export default function App() {
           <section id="abstract"><Abstract /></section>
           <section id="stats"><KeyStats /></section>
           <section id="method"><Architecture /></section>
+          <section id="mechanism"><MechanismSection /></section>
           <section id="layered"><LayeredHeadline /></section>
           <section id="rag"><ComparisonTableSection focus="rag" /></section>
           <section id="scale"><KBScaleSection /></section>

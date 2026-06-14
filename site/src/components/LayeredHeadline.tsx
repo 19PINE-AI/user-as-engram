@@ -90,7 +90,7 @@ export function LayeredHeadline() {
         All conditions on the same Mini-Engram-d20 base, same 20 test users and
         20 indirect-reasoning probes. Click column headers to sort. The
         head-to-head story: <strong>F (0 ctx)</strong> matches per-user LoRA's
-        direct recall while delivering 6.8× higher indirect_any;
+        direct recall while delivering 7.4× higher indirect_any;{" "}
         <strong>J (44 ctx)</strong> adds RAG on top to push indirect_any to 54%.
         Naive RAG without the shared LoRA (G/H/I) stays below F.
       </p>

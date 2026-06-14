@@ -31,7 +31,7 @@ export function Hero() {
           <BadgeStat number="44%" label="F indirect_any (n=20, 0 ctx)" />
           <BadgeStat number="14 pp" label="F vs Qwen+RAG at KB=1000" />
           <BadgeStat number="88 KB" label="Storage per user" />
-          <BadgeStat number="15 000×" label="Less contamination than LoRA" />
+          <BadgeStat number="34 000×" label="Less contamination than LoRA" />
         </div>
       </div>
     </header>

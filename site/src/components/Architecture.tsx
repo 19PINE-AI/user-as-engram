@@ -16,8 +16,8 @@ export function Architecture() {
         fails this; Engram-row insertion passes by construction.
       </p>
       <div className="mt-4 flex flex-wrap gap-2">
-        <ModeBtn label="Per-user LoRA (POLAR)" subtitle="global edit, +1.56 Δbpb" active={mode === "lora"} onClick={() => setMode("lora")} />
-        <ModeBtn label="Per-user Engram override" subtitle="local edit, +0.0001 Δbpb" active={mode === "engram"} onClick={() => setMode("engram")} />
+        <ModeBtn label="Per-user LoRA (POLAR)" subtitle="global edit, +1.78 Δbpb" active={mode === "lora"} onClick={() => setMode("lora")} />
+        <ModeBtn label="Per-user Engram override" subtitle="local edit, +0.00005 Δbpb" active={mode === "engram"} onClick={() => setMode("engram")} />
         <ModeBtn label="Layered: Engram + shared LoRA" subtitle="content + meta-skill" active={mode === "layered"} onClick={() => setMode("layered")} />
       </div>
 
@@ -55,7 +55,9 @@ function ArchitectureSVG({ mode }: { mode: Mode }) {
   const sharedActive = mode === "layered";
 
   return (
-    <svg viewBox="0 0 760 320" className="w-full h-auto">
+    <svg viewBox="0 0 760 320" className="w-full h-auto" role="img"
+         aria-label="Diagram of the selected memory substrate: how a per-user edit enters the forward pass and which tokens it affects.">
+      <title>Per-user memory substrate diagram</title>
       {/* tokens */}
       <text x="60" y="30" fontSize="11" fill="#64748b" fontFamily="JetBrains Mono">
         Input tokens (q)
@@ -158,7 +160,7 @@ function ArchitectureSVG({ mode }: { mode: Mode }) {
           </text>
           <text x="590" y="234" textAnchor="middle" fontSize="11" fill="#064e3b"
                 fontFamily="JetBrains Mono">
-            ✓ Δbpb = +0.0001 by construction
+            ✓ Δbpb = +0.00005 by construction
           </text>
         </g>
       )}
@@ -195,8 +197,8 @@ function ArchitectureExplain({ mode }: { mode: Mode }) {
       <strong>Per-user LoRA (POLAR-class):</strong> a low-rank delta is added to
       every Q/K/V/O projection in every block. Every forward pass — including
       those that have nothing to do with the user's facts — sees the delta. We
-      measure +1.56 val_bpb on held-out ClimbMix text (Mini-Engram-d20),
-      a 2.1× degradation. 17/20 users worse than no-edit base on indirect
+      measure a +1.78 Δbpb on held-out ClimbMix text (Mini-Engram-d20),
+      more than tripling val_bpb (0.74 → 2.52). 17/20 users worse than no-edit base on indirect
       reasoning. Direct recall is 100% on every base.
     </p>;
   }
@@ -206,7 +208,7 @@ function ArchitectureExplain({ mode }: { mode: Mode }) {
       (DeepSeek's architecture); at each token position, suffix N-grams hash into
       embedding-table rows whose retrieval is gated by an attention-style scalar.
       We write per-user fact rows into an override map and apply it per request.
-      Δbpb = +0.0001 (~15 000× less than LoRA) because the gate fires only on the
+      Δbpb = +0.00005 (~34 000× less than LoRA) because the gate fires only on the
       fact's trigger N-gram and the lookup is the identity elsewhere.
     </p>;
   }

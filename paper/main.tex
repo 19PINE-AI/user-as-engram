@@ -158,7 +158,7 @@ layer (Section~\ref{sec:locality}, Figure~\ref{fig:locality}).
         A 30-cell $5{\times}3{\times}2$ ablation pins the
         capacity optimum; LOCOMO Joint OPT multi-token F1 scales
         from 0.159 to 0.310 between 178\,M and 1.22\,B. By
-        category, Engram is $+49$\%/$+178$\%/$-53$\% on
+        category at d20, Engram is $+58$\%/$+178$\%/$-53$\% on
         reasoning/multi-hop/open-domain (the multi-hop wins
         come from suffix-N-gram surface overlap, not chained
         reasoning).
@@ -170,8 +170,8 @@ layer (Section~\ref{sec:locality}, Figure~\ref{fig:locality}).
         per-user LoRA, 4.6$\times$ less contamination, and
         0/20 (vs.\ 17/20) users hurt on indirect, replicated
         across 3 seeds. The lead survives a personal
-        $\to$ medical schema shift ($7.6\times$ over B with
-        identical locality), unlike the recite-then-reason
+        $\to$ medical schema shift ($7.6\times$ over per-user
+        LoRA with identical locality), unlike the recite-then-reason
         recipe, which collapses cross-schema
         (Section~\ref{sec:layered-cross-schema}). The naive
         composition (per-user LoRA $+$ Engram) is
@@ -385,7 +385,7 @@ three instruction-tuned bases and one base LM
     \toprule
     base & $n$ & mean $\Delta$ user-indirect & $\Delta$ range & worse than base \\
     \midrule
-    Qwen2.5-3B-Instruct (original pilot) & 10 & $-$0.008 & --- & 6/10 = 60\% \\
+    Qwen2.5-3B-Instruct (original pilot) & 10 & $-$0.008 & --- & 5/10 = 50\% \\
     Qwen2.5-3B-Instruct (scaled) & \textbf{30} & \textbf{+0.088} & {[}$-$0.143, +0.214{]} & \textbf{6/30 = 20\%} \\
     Llama-3.1-8B-Instruct & 20 & \textbf{+0.188} & {[}+0.030, +0.333{]} & \textbf{0/20 = 0\%} \\
     Mistral-7B-Instruct-v0.3 & 20 & \textbf{+0.217} & {[}+0.091, +0.344{]} & \textbf{0/20 = 0\%} \\
@@ -505,6 +505,10 @@ subsequent attention/MLP layers, while the trigger-position diff
 is 123.0 at layer 8 and 1.54 at the final layer. \textbf{This is
 the architectural property that distinguishes Engram from LoRA}:
 no contamination of non-trigger forwards.
+Appendix~\ref{app:mech} consolidates this locality result with
+the read/write probe, the LogitLens depth analysis, and the
+multi-hop decomposition into an end-to-end account of how an
+inserted fact is addressed, stored, and retrieved.
 
 \subsection{Per-user override tables and additive composition}
 
@@ -533,8 +537,9 @@ backbone~\citep{radford2019gpt2} optimised with
 Muon+AdamW~\citep{jordan2024muon}---and train four Mini-Engram
 models on a single Blackwell GPU at the ablation-optimal recipe
 (Section~\ref{sec:capacity-ablation}): the same \texttt{large}
-Engram table (50\,K $\times$ 256, 51.2\,M params) at Karpathy
-12 t/p of scaling-params for every dense size.
+Engram table (50\,K $\times$ 256, 51.2\,M params), trained at
+Karpathy's 12 tokens-per-param (t/p) budget on the scaling-params
+for every dense size.
 
 \paragraph{Model-name notation.} Throughout the paper we use
 \texttt{d\{depth\}@\{width\}} for the ablation-optimal Mini-Engrams
@@ -576,7 +581,8 @@ same 51.2\,M Engram-table.
 Suppressing Engram (\texttt{engram\_suppress=True}) costs +0.035
 bpb on validation. Factual top-5 retains 93.3\% of active
 performance; reading top-5 retains 100\%. The asymmetry $\Delta
-= +0.067$ matches the direction of \citet{cheng2026engram}
+= +0.067$ (a 6.7\,pp factual-vs-reading retention gap) matches
+the direction of \citet{cheng2026engram}
 Figure 6 (TriviaQA: 29\% retained; C3: 93\%; $\Delta \approx
 +0.6$) at $\sim$10$\times$ smaller magnitude---expected, since
 our model is two orders smaller and our corpus three orders
@@ -1757,7 +1763,7 @@ trigger N-gram lookup), the shared LoRA provides the skill.
 We evaluate every per-user combination on $n{=}20$ test users
 ($n{=}10$ training users held out for the shared LoRA), measuring direct
 top-1/top-5 recall on the user's facts (completion-format prompts),
-indirect top-1 and indirect-any on completion-format indirect probes
+indirect top-1 and indirect\_any on completion-format indirect probes
 (``\texttt{Q: <q>\textbackslash nA:}'', greedy 16-token continuation),
 and val\_bpb on a held-out 262\,K-token ClimbMix shard
 (Table~\ref{tab:layered-headline}).
@@ -1932,8 +1938,8 @@ answer the user's question (Appendix~\ref{app:qwen-rag-prompt}).
 Qwen-3B + RAG-all hits 57\% indirect\_any (its retrieval
 ceiling); RAG top-1 lands at 55\%. Our \textbf{J configuration
 on the 1.22\,B Mini-Engram-d20 hits 54\%}---within 3\,pp of a
-strictly larger instruction-tuned model at 2$\times$ less
-context. Our \textbf{F (no retrieval, 0 context tokens) is
+strictly larger instruction-tuned model at $\sim$9$\times$ less
+context (44 vs.\ 390 context tokens). Our \textbf{F (no retrieval, 0 context tokens) is
 12\,pp below Qwen-3B + RAG-all}, on a base that was never
 instruction-tuned. On indirect\_top1, J's 80\% exceeds every
 Qwen+RAG variant.
@@ -1948,8 +1954,10 @@ This is the Pareto picture in Figure~\ref{fig:pareto-rag}.
 $\sim$310\,ms (16-token greedy, no retrieval); J $\sim$440\,ms
 (with RAG top-3); Qwen-3B + RAG top-3 $\sim$92\,ms (smaller
 dense-only). Latency is comparable; the deployment-scale gap
-is in per-user storage (88\,KB Engram vs.\ $\sim$130 stored
-fact strings; Figure~\ref{fig:scaling}).
+is in per-user storage: the per-user Engram override is a fixed
+88\,KB, while RAG must store and index the user's raw fact strings,
+a cost that grows with the user's fact count
+(Figure~\ref{fig:scaling}).
 
 \subsection{RAG-vs-Engram trade-offs sharpen as the KB grows}
 \label{sec:rag-scale}
@@ -2014,8 +2022,9 @@ only the test user's facts, independent of population size.
 Retrieval degrades quickly: top-3 recall on
 \texttt{all-MiniLM-L6-v2} drops 7$\times$ (62\% $\to$ 9\%)
 purely from more candidates in the same embedding space; top-1
-drops $22\% \to 6\%$. Naive RAG falls 14--15\,pp below F at
-$N \geq 100$. Qwen-3B + RAG, the strongest realistic baseline,
+drops $22\% \to 6\%$. Naive RAG falls 9--14\,pp below F at
+$N \geq 100$ (9\,pp at $N{=}100$, widening to 14\,pp by
+$N{\geq}300$). Qwen-3B + RAG, the strongest realistic baseline,
 starts above F at KB=34 (52\%), crosses below at KB=100, and
 ends 14\,pp below F at KB=1000. J (RAG + shared LoRA) is the
 most KB-robust RAG configuration, but its lead over F shrinks
@@ -2026,7 +2035,7 @@ tokens plus a shared-LoRA forward pass that F does not. F holds
 \textbf{Substrate ranking shifts with deployment scale.} At
 KB$=$34, Qwen-3B + RAG is the accuracy ceiling and F is the
 zero-context option. At KB $\geq 200$, F decisively beats both
-naive RAG (29--32\%) and Qwen-3B + RAG (30--38\%); the ``RAG
+naive RAG (30--32\%) and Qwen-3B + RAG (30--38\%); the ``RAG
 wins at context cost'' trade-off holds only at small KB.
 
 \paragraph{Where each side's failure comes from.} The two
@@ -2085,7 +2094,7 @@ is scaled beyond 510 samples.
   (Section~\ref{sec:layered}). Same Mini-Engram-d20 base, $n{=}20$
   test users, six substrate combinations. \textbf{F (LAYERED) is on
   the Pareto frontier}: matches the highest indirect-reasoning
-  accuracy (44\% indirect-any) at low storage (88\,KB/user) and low
+  accuracy (44\% indirect\_any) at low storage (88\,KB/user) and low
   contamination ($\Delta$bpb $+0.39$). Per-user LoRA (B) is
   Pareto-dominated by F on every axis. Naive combination (B+C, the
   ``add Engram on top of LoRA'' baseline) is also dominated.}
@@ -2468,7 +2477,7 @@ teacher-distilled trace corpus
 $\langle$think$\rangle$-reasoning; 245 Qwen3-8B traces) would
 improve F. Two variants both reduced contamination ($\Delta$bpb
 $+0.386$ $\to$ $+0.233$ / $+0.196$, 40--49\% less) but
-\emph{also} reduced indirect-any accuracy ($44.5\% \to
+\emph{also} reduced indirect\_any accuracy ($44.5\% \to
 38.5\%$/$28.0\%$; paired-bootstrap 95\% CIs strictly negative).
 \citet{hippo2026}'s trace recipe is co-designed with an
 agent-format eval protocol that scores committed fields after
@@ -2834,7 +2843,7 @@ reasoning-negative.
   \caption{Per-user direct vs.\ indirect recall, POLAR LoRA Stage A
   on Qwen2.5-3B-Instruct (10 users, 50 facts each). Sample of users
   0--1; the original $n{=}10$ pilot mean was $\Delta {=} {-}0.008$
-  (6/10 users worse than base). At the scaled $n{=}30$ replication
+  (5/10 users worse than base). At the scaled $n{=}30$ replication
   (Table~\ref{tab:lora-cross-model} in the main paper) the mean
   inverts to $\Delta {=} {+}0.088$ with 6/30 users worse, refuting
   the original headline.}
@@ -2887,7 +2896,7 @@ indirect-recall gap.
   \centering
   \caption{Recite-then-reason traces mixed into Stage A.}
   \label{tab:userlora-traces}
-  \begin{tabular}{lccc}
+  \begin{tabular}{lcc}
     \toprule
     condition & direct & indirect \\
     \midrule
@@ -2952,12 +2961,118 @@ exactly this property.
 \section{Appendix: Mechanistic analysis}
 \label{app:mech}
 
+This appendix consolidates the mechanistic evidence that is
+referenced piecewise in the main text (locality in
+Section~\ref{sec:locality}, the multi-hop decomposition in
+Section~\ref{sec:multihop}, the read/write probe in
+Appendix~\ref{app:tier1}) into a single account of \emph{how} a
+per-user fact becomes a retrievable, leak-free parametric edit.
+The picture is deliberately simple: User-as-Engram is not an
+opaque learned circuit but a \textbf{content-addressable memory}
+whose every step is either deterministic (hashing, gating) or
+directly measurable (the value the row writes, the locality of
+its effect). We trace the path of one inserted fact through five
+observable stages.
+
+\paragraph{(1) Addressing: a fact's trigger N-gram is a hash key.}
+A fact is written at the row(s) that its trigger suffix N-gram
+hashes to, via the deterministic multiplicative-XOR hash of the
+Engram architecture~\citep{cheng2026engram}. The address is a
+pure function of surface tokens---no learning, no per-user
+state---which is why two users' edits never interfere unless
+their \emph{distinguishing} tokens collide. The T1 collision
+audit (Appendix~\ref{app:tier1}) measures this directly: across
+100 synthetic users $\times$ 30 facts, pairwise overlap on
+user-distinguishing key tokens (\texttt{Patel}, \texttt{Portland},
+\texttt{1991}) is just 4.5\%, and a 30-fact user occupies
+0.027\% of the demo table. Addressing is sparse and content-keyed,
+so capacity is never the binding constraint
+(Section~\ref{sec:capacity-ablation}).
+
+\paragraph{(2) Read: a row stores the value that the model
+would have needed to emit the gold token.} What does a row
+actually \emph{contain}? The T2 read/write probe
+(Appendix~\ref{app:tier1})---an existence proof on the reference
+architecture, not the trained model---shows the empirical change a
+written row induces at the trigger position has cosine similarity
+\textbf{0.998} with the analytically predicted
+$W_V \cdot \text{marker}$ projection. The row is not an inscrutable
+embedding---it is, to three decimals, the value vector that the
+gated lookup multiplies into the residual stream. The trained model
+corroborates the direction from the behavioural side via the
+sensitivity asymmetry (Section~\ref{sec:repro}): ablating the
+Engram pathway (\texttt{engram\_suppress}) degrades \emph{factual}
+top-5 recall (93.3\% retained) while \emph{reading} comprehension
+is untouched (100\% retained). The magnitude is modest at our scale
+(a 6.7\,pp asymmetry, $\sim$10$\times$ smaller than
+\citet{cheng2026engram} report), but the \emph{direction}
+localises factual content to the Engram pathway rather than the
+dense backbone.
+
+\paragraph{(3) Write/locality: the gated lookup fires only on the
+trigger and is mathematically inert elsewhere.} The gate is an
+attention-style scalar that is non-zero only when the suffix
+N-gram is present. Section~\ref{sec:locality} and
+Figure~\ref{fig:locality} verify the consequence by inspection on
+Mini-Engram-d12: inserting a row perturbs the residual stream by
+\textbf{exactly 0.000} at every non-trigger position and at every
+position before the Engram layer (causality), propagated through
+five subsequent attention/MLP layers, while the trigger position
+moves by 123.0 at layer 8 and 1.54 at the final layer. This is
+the load-bearing mechanism for the paper's central claim: because
+the edit is \emph{conditional}, a per-user write contaminates no
+unrelated forward pass ($\Delta$bpb $+0.00005$ vs.\ a global
+LoRA's $+1.78$; Section~\ref{sec:negative}), and cross-user
+leakage is zero by construction (Section~\ref{sec:method}).
+
+\paragraph{(4) Depth: the edit lands where the model has already
+``deepened''.} Engram rows are read at a late Engram layer, after
+the network has effectively committed to a next-token
+distribution. The LogitLens trace (Figure~\ref{fig:logitlens})
+shows Mini-Engram-d8 converging to its output distribution
+\emph{faster} than the base---layer-3 KL is 3.66 lower---%
+reproducing Cheng et al.'s ``effective deepening'' at our scale.
+A row therefore overrides a near-final prediction at exactly the
+position where it is decoded, rather than steering an early,
+still-malleable representation (the regime where a global LoRA
+delta does its damage).
+
+\paragraph{(5) Limit: the gate is a surface-N-gram hash, so it
+cannot compose across triggers.} The same mechanism that makes
+the edit local also bounds what it can do. The multi-hop
+decomposition (Section~\ref{sec:multihop},
+Table~\ref{tab:multihop}) is the cleanest mechanistic readout in
+the paper: on a balanced 63-pair corpus, chained queries succeed
+\textbf{91\%} of the time when the query's suffix N-gram
+\emph{overlaps} the second fact's trigger, but only \textbf{13\%}
+(${\lesssim}10\%$ after filtering first-fact-wins coincidences)
+when true composition is required---even though per-fact direct
+recall is 99.2\% in both subsets. The near-bimodal split is exactly
+what a surface-keyed lookup predicts: the gate fires on a matching
+trigger and returns the stored token, or it does not fire and the
+gold token is far from the top. There is no chaining circuit to
+find because, by construction, there is none.
+
+\paragraph{Synthesis.} The five stages compose into one sentence:
+\emph{User-as-Engram hashes a fact's surface trigger to a sparse
+row, stores the gold value there (cosine 0.998 to the predicted
+projection), reads it through a gate that fires only on that
+trigger (0.000 perturbation elsewhere) at a late, already-deepened
+layer, and therefore retrieves single facts with zero
+contamination but cannot compose across facts.} This is why the
+substrate cleanly separates \emph{content} (the rows) from
+\emph{meta-skill} (composition, which must come from the shared
+LoRA in the layered design of Section~\ref{sec:layered})---the
+content/skill split the paper proposes is not an engineering
+convenience but a direct consequence of the mechanism.
+
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.7\linewidth]{figs/fig6_logitlens.pdf}
   \caption{LogitLens KL by layer (Mini-Engram-d8 vs.\ base-d8).
   Engram converges faster at layer 3 (--3.66 KL gap), confirming
-  Cheng et al.'s effective-deepening claim at our scale.}
+  Cheng et al.'s effective-deepening claim at our scale (stage 4
+  of the mechanism above).}
   \label{fig:logitlens}
 \end{figure}
 
