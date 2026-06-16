@@ -726,10 +726,39 @@ stack, but at the row level. Section~\ref{sec:experiments}
 confirms that additive composition is lossless when the domains
 have disjoint trigger templates.
 
-\section{Nano-scale public reproduction of Engram}
+\section{Experiments}
+\label{sec:experiments}
+
+This section reports five blocks of measurements, each
+answering a distinct question about User-as-Engram:
+\textbf{(a) per-fact recall and density}
+(Sections~\ref{sec:single-fact}--\ref{sec:density}): how
+accurately do single and multiple per-user facts surface?
+\textbf{(b) cost}
+(Sections~\ref{sec:storage}--\ref{sec:method-cmp}):
+storage and wall time vs.\ per-user LoRA.
+\textbf{(c) direct comparison with memory systems / RAG / LOCOMO}
+(Sections~\ref{sec:memory-systems}--\ref{sec:locomo}): how does
+our method compare against retrieval baselines on the same
+answering LM?
+\textbf{(d) scaling ablations}
+(Sections~\ref{sec:capacity-ablation}--\ref{sec:dense-scaling}):
+capacity vs.\ token budget vs.\ dense size.
+\textbf{(e) probes beyond direct recall}
+(Sections~\ref{sec:multihop}--\ref{sec:paraphrase}): multi-hop,
+free-continuation, paraphrase.
+We use three corpora throughout: the \textbf{base} 200-fact
+benchmark (100 USER + 100 ORG facts), the \textbf{XL} corpus of
+1{,}000 USER + 1{,}000 ORG templated facts
+(Section~\ref{sec:factscale}), and the \textbf{XXL} corpus of
+3{,}132 distinct trigger templates (used for high-density and
+distinct-template stress tests).
+
+\subsection{Setup: Mini-Engram substrate}
 \label{sec:repro}
 
-\citet{cheng2026engram} released only architectural reference
+Before measuring per-user insertion we need an Engram backbone to
+insert into. \citet{cheng2026engram} released only architectural reference
 code; no Engram-trained weights are public. We graft Engram into
 Karpathy's nanochat~\citep{karpathy2026nanochat}---a GPT-2-style
 backbone~\citep{radford2019gpt2} optimised with
@@ -746,13 +775,10 @@ for every dense size.
 \texttt{v1}/\texttt{v2} to denote earlier and final training runs
 at the same shape. Where the width is omitted (e.g.\ \texttt{d12}
 without a suffix), we mean the \texttt{v2} (ablation-optimal at
-width 768, 339\,M total) checkpoint. The four headline trained
-checkpoints and their token budgets are:
-\texttt{d8 v2} (178\,M total, 42\,M scaling, 0.50\,B tokens),
-\texttt{d12 v2} a.k.a.\ \texttt{d12@768} (339\,M / 110\,M / 1.32\,B),
-\texttt{d12@1280} (625\,M / 278\,M / 3.34\,B), and
-\texttt{d20@1536} (1.22\,B / 617\,M / 7.40\,B). All four use the
-same 51.2\,M Engram-table.
+width 768, 339\,M total) checkpoint. The four headline checkpoints,
+their param counts and token budgets are in
+Table~\ref{tab:miniengram}; all four share the same 51.2\,M Engram
+table.
 
 \begin{table}[t]
   \centering
@@ -786,34 +812,6 @@ layers also act as effective extra depth: a LogitLens probe shows
 our small Engram model resolving its prediction earlier than its
 dense-only twin, matching their \S6.1 (Appendix
 Figure~\ref{fig:logitlens}).
-
-\section{Experiments}
-\label{sec:experiments}
-
-This section reports five blocks of measurements, each
-answering a distinct question about User-as-Engram:
-\textbf{(a) per-fact recall and density}
-(Sections~\ref{sec:single-fact}--\ref{sec:density}): how
-accurately do single and multiple per-user facts surface?
-\textbf{(b) cost}
-(Sections~\ref{sec:storage}--\ref{sec:method-cmp}):
-storage and wall time vs.\ per-user LoRA.
-\textbf{(c) direct comparison with memory systems / RAG / LOCOMO}
-(Sections~\ref{sec:memory-systems}--\ref{sec:locomo}): how does
-our method compare against retrieval baselines on the same
-answering LM?
-\textbf{(d) scaling ablations}
-(Sections~\ref{sec:capacity-ablation}--\ref{sec:dense-scaling}):
-capacity vs.\ token budget vs.\ dense size.
-\textbf{(e) probes beyond direct recall}
-(Sections~\ref{sec:multihop}--\ref{sec:paraphrase}): multi-hop,
-free-continuation, paraphrase.
-We use three corpora throughout: the \textbf{base} 200-fact
-benchmark (100 USER + 100 ORG facts), the \textbf{XL} corpus of
-1{,}000 USER + 1{,}000 ORG templated facts
-(Section~\ref{sec:factscale}), and the \textbf{XXL} corpus of
-3{,}132 distinct trigger templates (used for high-density and
-distinct-template stress tests).
 
 \subsection{Single-fact recall}
 \label{sec:single-fact}
