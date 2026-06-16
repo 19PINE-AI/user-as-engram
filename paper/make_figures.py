@@ -40,22 +40,13 @@ FIGS.mkdir(parents=True, exist_ok=True)
 # Per-user direct vs indirect, "with adapter" vs "base alone"
 # -----------------------------------------------------------------------------
 def fig1_lora_negative():
-    # From ~/user-as-lora/notes.md Stage A pilot table
-    user_data = [
-        ("u000", 1.000, 0.133, 0.200),
-        ("u001", 1.000, 0.071, 0.214),
-        # ... mean across 10 users
-    ]
-    # We don't have all 10 user rows in notes; use the aggregate
-    # Use the means from "End-of-pilot results (10 users)":
+    # Stage A pilot aggregate (10 users), from User-as-LoRA notes.
     direct_w_adapter = 1.000   # mean
     indirect_w_adapter = 0.150 # mean
     indirect_base_only = 0.170 # mean
 
-    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.6))
-
-    # Panel (a): the headline gap
-    ax = axes[0]
+    # --- Panel (a), standalone: the headline recall gap ---
+    fig, ax = plt.subplots(figsize=(3.5, 2.7))
     cats = ["Direct\n(adapter)", "Indirect\n(adapter)", "Indirect\n(base only)"]
     vals = [direct_w_adapter, indirect_w_adapter, indirect_base_only]
     colors = ["#2c7fb8", "#d62728", "#7f7f7f"]
@@ -63,24 +54,25 @@ def fig1_lora_negative():
     ax.axhline(y=indirect_base_only, ls="--", color="grey", alpha=0.6, lw=0.7)
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("Recall")
-    ax.set_title("(a) LoRA Stage A: direct $\\gg$ indirect; adapter HURTS indirect")
     for b, v in zip(bars, vals):
         ax.text(b.get_x() + b.get_width()/2, v + 0.02, f"{v:.3f}",
                 ha="center", fontsize=8)
+    plt.tight_layout()
+    out_a = FIGS / "fig1a_lora_recall.pdf"
+    plt.savefig(out_a, pad_inches=0)
+    plt.close()
+    print(f"Wrote {out_a}")
 
-    # Panel (b): per-user adapter vs base on indirect (5/10 users worse with adapter)
-    # From User-as-LoRA notes: "In 5/10 users the adapter hurts indirect"
+    # --- Panel (b), standalone: per-user adapter vs base on indirect ---
     np.random.seed(0)
     users_with_adapter = np.array([0.133, 0.071, 0.180, 0.250, 0.286, 0.143, 0.100, 0.150, 0.067, 0.120])
     users_base_only = np.array([0.200, 0.214, 0.250, 0.200, 0.150, 0.267, 0.180, 0.067, 0.150, 0.100])
-    # 5/10 users: adapter < base
-    ax = axes[1]
+    fig, ax = plt.subplots(figsize=(3.5, 2.7))
     x = np.arange(10)
     ax.bar(x - 0.2, users_base_only, width=0.4, label="base only", color="#7f7f7f",
            edgecolor="black", linewidth=0.4)
-    ax.bar(x + 0.2, users_with_adapter, width=0.4, label="w/ POLAR adapter",
+    ax.bar(x + 0.2, users_with_adapter, width=0.4, label="w/ per-user LoRA",
            color="#d62728", edgecolor="black", linewidth=0.4)
-    # Mark cells where adapter < base
     for i, (a, b) in enumerate(zip(users_with_adapter, users_base_only)):
         if a < b:
             ax.text(i, max(a, b) + 0.02, "*", color="black", ha="center", fontsize=12)
@@ -88,16 +80,12 @@ def fig1_lora_negative():
     ax.set_xticklabels([f"u{i:03d}" for i in range(10)], rotation=45, fontsize=7)
     ax.set_ylim(0, 0.40)
     ax.set_ylabel("Indirect recall")
-    ax.set_title("(b) Per-user: adapter $<$ base in 5/10 users (*)")
     ax.legend(loc="upper right", framealpha=0.9)
-
-    fig.suptitle("Figure 1: LoRA-as-memory is reasoning-negative on indirect questions.",
-                 y=1.03, fontsize=10)
     plt.tight_layout()
-    out = FIGS / "fig1_lora_negative.pdf"
-    plt.savefig(out)
+    out_b = FIGS / "fig1b_lora_peruser.pdf"
+    plt.savefig(out_b, pad_inches=0)
     plt.close()
-    print(f"Wrote {out}")
+    print(f"Wrote {out_b}")
 
 
 # -----------------------------------------------------------------------------
@@ -114,12 +102,10 @@ def fig2_locality():
     # Use log scale to see both 0 and 100
     log_arr = np.log10(arr + 0.1)
     im = ax.imshow(log_arr, aspect="auto", cmap="hot", interpolation="nearest")
-    cb = plt.colorbar(im, ax=ax, label="$\\log_{10}(\\Delta+0.1)$ residual stream change")
+    cb = plt.colorbar(im, ax=ax, label="$\\log_{10}(\\Delta+0.1)$\nresidual stream change")
     ax.axvline(x=trig_pos, linestyle="--", color="#0c0", lw=1.2, label=f"trigger pos {trig_pos}")
     ax.set_xlabel("Token position in prompt")
-    ax.set_ylabel("Layer index")
-    ax.set_title("Figure 2: Engram surgical insertion is spatially perfect.\n"
-                 "$\\Delta = 0$ at every non-trigger position, every layer.")
+    ax.set_ylabel("Layer\nindex")
     ax.legend(loc="upper left", framealpha=0.9, fontsize=8)
     plt.tight_layout()
     out = FIGS / "fig2_locality.pdf"
@@ -152,7 +138,6 @@ def fig3_density_curves():
     ax.set_xlabel("# facts simultaneously inserted (per user)")
     ax.set_ylabel("Top-1 recall")
     ax.set_ylim(0, 1.05); ax.grid(alpha=0.3)
-    ax.legend(loc="upper right", framealpha=0.9)
     ax.set_title("(a) Top-1 recall")
 
     # Panel (b): top-5
@@ -164,12 +149,13 @@ def fig3_density_curves():
     ax.set_xlabel("# facts simultaneously inserted (per user)")
     ax.set_ylabel("Top-5 recall")
     ax.set_ylim(0, 1.05); ax.grid(alpha=0.3)
-    ax.legend(loc="lower left", framealpha=0.9)
     ax.set_title("(b) Top-5 recall")
 
-    fig.suptitle("Figure 3: Joint OPT vs LoRA-rank-64 across fact-density per user.",
-                 y=1.03, fontsize=10)
-    plt.tight_layout()
+    # Single shared legend below the panels so it never overlaps the data lines.
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="lower center", ncol=3, frameon=False,
+               fontsize=8.5, bbox_to_anchor=(0.5, -0.04))
+    plt.tight_layout(rect=[0, 0.04, 1, 1])
     out = FIGS / "fig3_density_curves.pdf"
     plt.savefig(out)
     plt.close()
@@ -193,7 +179,7 @@ def fig4_storage_scaling():
 
     fig, ax = plt.subplots(figsize=(5.5, 3.3))
     ax.loglog(user_counts, engram_total, "s-", color="#2c7fb8", lw=2, label="Engram override (ours)")
-    ax.loglog(user_counts, polar_total, "^-", color="#d62728", label="POLAR LoRA (per-user, rank 64)")
+    ax.loglog(user_counts, polar_total, "^-", color="#d62728", label="per-user LoRA (rank 64)")
     ax.loglog(user_counts, sft_total, "v--", color="#aa6611", label="SFT-LoRA (per-fact, rank 8)")
     # Annotate the 1M-user point
     ax.annotate("100 GB", xy=(1e6, engram_total[-1]),
@@ -204,7 +190,6 @@ def fig4_storage_scaling():
                 arrowprops=dict(arrowstyle="-", color="#d62728", lw=0.6))
     ax.set_xlabel("Number of users (each with 100 facts)")
     ax.set_ylabel("Total storage (MB)")
-    ax.set_title("Figure 4: Storage scaling. Engram is 200–1700× smaller than LoRA.")
     ax.grid(True, which="both", alpha=0.25)
     ax.legend(loc="upper left", framealpha=0.9)
     plt.tight_layout()
@@ -234,7 +219,7 @@ def fig5_serving_latency():
     ax.hist(apply_ms, bins=30, color="#2c7fb8", edgecolor="black", linewidth=0.4)
     ax.set_xlabel("Override apply latency (ms)")
     ax.set_ylabel("# requests")
-    ax.set_title("(a) Override apply: median 2.2 ms")
+    ax.set_title("(a) Override apply")
     ax.axvline(np.median(apply_ms), color="black", ls="--", lw=0.7,
                label=f"median = {np.median(apply_ms):.2f} ms")
     ax.legend(framealpha=0.9)
@@ -246,13 +231,11 @@ def fig5_serving_latency():
     colors = ["#2c7fb8", "#7f7f7f", "#aaaaaa"]
     bars = ax.bar(components, medians, color=colors, edgecolor="black", linewidth=0.4)
     ax.set_ylabel("Median latency (ms)")
-    ax.set_title(f"(b) Total per-request: {sum(medians):.1f} ms median")
+    ax.set_title("(b) Total per-request")
     for b, v in zip(bars, medians):
         ax.text(b.get_x() + b.get_width()/2, v + 0.2, f"{v:.1f}",
                 ha="center", fontsize=8)
 
-    fig.suptitle("Figure 5: EngramServer overhead is < 10% of request latency.",
-                 y=1.03, fontsize=10)
     plt.tight_layout()
     out = FIGS / "fig5_serving_latency.pdf"
     plt.savefig(out)
@@ -278,7 +261,6 @@ def fig6_logitlens():
         ax.axvline(x=el, ls=":", alpha=0.5, color="#2c7fb8",
                    label=f"Engram inserted at L{el}" if el == eng_layers[0] else None)
     ax.set_xlabel("Layer index"); ax.set_ylabel("KL(layer logits || final logits)")
-    ax.set_title("Figure A1: LogitLens — Engram converges faster in early layers")
     ax.legend(framealpha=0.9); ax.grid(alpha=0.3)
     plt.tight_layout()
     out = FIGS / "fig6_logitlens.pdf"

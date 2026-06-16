@@ -116,8 +116,6 @@ def fig_capacity_heatmap():
                 ax.set_title(metric_name, fontsize=9)
             ax.grid(False)
 
-    fig.suptitle("Engram capacity × tokens response surface",
-                  fontsize=10, y=1.03)
     fig.tight_layout()
     fig.savefig(OUT / "fig_capacity_heatmap.pdf")
     print(f"  wrote {OUT / 'fig_capacity_heatmap.pdf'}")
@@ -163,8 +161,6 @@ def fig_factscale():
         if ax_i == 0:
             ax.legend(loc="lower left", fontsize=6.5, framealpha=0.9)
 
-    fig.suptitle("Per-fact independent OPT recall is flat in $n$ up to 1000 facts",
-                  fontsize=10, y=1.04)
     fig.tight_layout()
     fig.savefig(OUT / "fig_factscale.pdf")
     print(f"  wrote {OUT / 'fig_factscale.pdf'}")
@@ -223,8 +219,6 @@ def fig_dense_scaling():
     ax.set_title("Dense scaling: pretraining vs.\\ insertion", fontsize=9)
     ax.grid(False)
 
-    fig.suptitle("Dense-size scaling at the ablation-optimal recipe",
-                  fontsize=10, y=1.04)
     fig.tight_layout()
     fig.savefig(OUT / "fig_dense_scaling.pdf")
     print(f"  wrote {OUT / 'fig_dense_scaling.pdf'}")
@@ -261,8 +255,6 @@ def fig_joint_opt_dense():
         if ax_i == 0:
             ax.legend(loc="lower left", fontsize=7)
 
-    fig.suptitle("Joint-OPT density ceiling is set by Engram table, not dense scale",
-                  fontsize=10, y=1.04)
     fig.tight_layout()
     fig.savefig(OUT / "fig_joint_opt_dense.pdf")
     print(f"  wrote {OUT / 'fig_joint_opt_dense.pdf'}")
@@ -299,8 +291,6 @@ def fig_pareto_layered():
     ax.set_ylim(0.0, 0.55)
     ax.set_xlabel("storage per user (KB, log scale)")
     ax.set_ylabel("indirect reasoning (any-match, $n{=}20$)")
-    ax.set_title("Layered architecture Pareto: same Mini-Engram-d20, varying substrate",
-                  fontsize=8.5)
     # Pareto frontier line for the new winning region
     ax.plot([88, 0], [0.443, 0.440], "k--", alpha=0.3, lw=0.8)
     ax.text(0.6, 0.50, "shared LoRA carries the meta-skill;\nadding Engram preserves it",
@@ -329,7 +319,7 @@ def fig_pareto():
         # (storage KB/fact, LOCOMO F1, label, color, marker)
         (1.0, 0.219, "Engram J-OPT\n(ours, d20)",   "#1f77b4", "o"),
         (1.0, 0.177, "Engram OPT (per-fact)",      "#88ccee", "o"),
-        (135.0, 0.219, "POLAR-class LoRA\n(ours-equiv)",   "#aa4499", "*"),
+        (135.0, 0.219, "per-user LoRA\n(ours-equiv)",   "#aa4499", "*"),
         (30.0, 0.140, "MEMMACHINE_LIKE",            "#cc6677", "s"),
         (30.0, 0.114, "RAG (top-3)",               "#996666", "s"),
         (0.0, 0.043, "no memory",                  "#aaaaaa", "x"),
@@ -342,8 +332,6 @@ def fig_pareto():
     ax.set_xscale("log")
     ax.set_xlabel("storage per fact (KB, log scale)")
     ax.set_ylabel("LOCOMO Joint-OPT F1")
-    ax.set_title("Cost-quality Pareto: same LM (Mini-Engram-d20@1536), varying memory substrate",
-                  fontsize=8)
     ax.set_xlim(0.1, 1000)
     ax.set_ylim(0.0, 0.27)
     # Pareto frontier connector for Engram
@@ -351,7 +339,7 @@ def fig_pareto():
     ax.text(15, 0.225, "Engram & LoRA tied on quality, 135× storage gap →",
              fontsize=7, color="#333333")
     fig.tight_layout()
-    fig.savefig(OUT / "fig_pareto.pdf")
+    fig.savefig(OUT / "fig_pareto.pdf", pad_inches=0)
     print(f"  wrote {OUT / 'fig_pareto.pdf'}")
     plt.close(fig)
 
@@ -361,10 +349,13 @@ def fig_pareto():
 # ============================================================
 def fig_locomo_scaling():
     """Updated for full 10-conv data."""
-    fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.0))
+    fig, axes = plt.subplots(1, 2, figsize=(7.6, 3.0))
 
     sizes = [178, 339, 625, 1224]
     size_labels = ["d8\n178M", "d12\n339M", "d12@1280\n625M", "d20@1536\n1.22B"]
+    # Equal-spaced categorical x: a log axis crammed the four sizes together and
+    # collided the custom labels with matplotlib's default decade tick labels.
+    xs = list(range(len(sizes)))
 
     # Token-F1 (full 10-conv)
     jopt_tf   = [0.134, 0.169, 0.176, 0.233]
@@ -374,11 +365,12 @@ def fig_locomo_scaling():
     nomem_tf   = [0.038, 0.036, 0.049, 0.046]
 
     ax = axes[0]
-    ax.semilogx(sizes, jopt_tf,   "o-",  color="#1f77b4", lw=2, ms=7, label="Engram Joint OPT")
-    ax.semilogx(sizes, mem0_tf,   "s--", color="#cc6677", lw=1.5, ms=5, label="MEM0_LIKE")
-    ax.semilogx(sizes, memmach_tf,"^--", color="#ff8855", lw=1.5, ms=5, label="MEMMACHINE_LIKE")
-    ax.semilogx(sizes, nomem_tf,  "x--", color="#aaaaaa", lw=1.0, ms=4, label="NO_MEMORY")
-    ax.set_xticks(sizes); ax.set_xticklabels(size_labels, fontsize=7.5)
+    ax.plot(xs, jopt_tf,   "o-",  color="#1f77b4", lw=2, ms=7, label="Engram Joint OPT")
+    ax.plot(xs, mem0_tf,   "s--", color="#cc6677", lw=1.5, ms=5, label="MEM0_LIKE")
+    ax.plot(xs, memmach_tf,"^--", color="#ff8855", lw=1.5, ms=5, label="MEMMACHINE_LIKE")
+    ax.plot(xs, nomem_tf,  "x--", color="#aaaaaa", lw=1.0, ms=4, label="NO_MEMORY")
+    ax.set_xticks(xs); ax.set_xticklabels(size_labels, fontsize=7.5)
+    ax.set_xlim(-0.3, len(sizes) - 0.7)
     ax.set_xlabel("Mini-Engram dense parameters", fontsize=8.5)
     ax.set_ylabel("LOCOMO token F1", fontsize=8.5)
     ax.set_ylim(0.0, 0.27)
@@ -393,18 +385,17 @@ def fig_locomo_scaling():
     nomem_jg   = [0.005, 0.010, 0.025, 0.030]
 
     ax = axes[1]
-    ax.semilogx(sizes, jopt_jg,   "o-",  color="#1f77b4", lw=2, ms=7, label="Engram Joint OPT")
-    ax.semilogx(sizes, mem0_jg,   "s--", color="#cc6677", lw=1.5, ms=5, label="MEM0_LIKE")
-    ax.semilogx(sizes, memmach_jg,"^--", color="#ff8855", lw=1.5, ms=5, label="MEMMACHINE_LIKE")
-    ax.semilogx(sizes, nomem_jg,  "x--", color="#aaaaaa", lw=1.0, ms=4, label="NO_MEMORY")
-    ax.set_xticks(sizes); ax.set_xticklabels(size_labels, fontsize=7.5)
+    ax.plot(xs, jopt_jg,   "o-",  color="#1f77b4", lw=2, ms=7, label="Engram Joint OPT")
+    ax.plot(xs, mem0_jg,   "s--", color="#cc6677", lw=1.5, ms=5, label="MEM0_LIKE")
+    ax.plot(xs, memmach_jg,"^--", color="#ff8855", lw=1.5, ms=5, label="MEMMACHINE_LIKE")
+    ax.plot(xs, nomem_jg,  "x--", color="#aaaaaa", lw=1.0, ms=4, label="NO_MEMORY")
+    ax.set_xticks(xs); ax.set_xticklabels(size_labels, fontsize=7.5)
+    ax.set_xlim(-0.3, len(sizes) - 0.7)
     ax.set_xlabel("Mini-Engram dense parameters", fontsize=8.5)
     ax.set_ylabel("LLM-judge accuracy", fontsize=8.5)
     ax.set_ylim(0.0, 0.23)
     ax.set_title("(b) Qwen2.5-14B LLM-as-judge", fontsize=9)
 
-    fig.suptitle("LOCOMO single-hop: token-F1 over-credits Engram; semantic judge flips the ranking",
-                  fontsize=9.5, y=1.04)
     fig.tight_layout()
     fig.savefig(OUT / "fig_locomo_scaling.pdf")
     print(f"  wrote {OUT / 'fig_locomo_scaling.pdf'}")
@@ -438,8 +429,6 @@ def fig_metric_mismatch():
     ax.set_xlabel("LOCOMO token-F1 (10-conv, per dense size)", fontsize=8.5)
     ax.set_ylabel("LOCOMO LLM-judge accuracy", fontsize=8.5)
     ax.set_xlim(0, 0.27); ax.set_ylim(0, 0.23)
-    ax.set_title("token-F1 vs LLM-judge: Engram OPT systematically over-credited by token-F1",
-                  fontsize=9)
     ax.legend(loc="lower right", fontsize=6.5, ncol=2)
     fig.tight_layout()
     fig.savefig(OUT / "fig_metric_mismatch.pdf")

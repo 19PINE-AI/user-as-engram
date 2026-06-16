@@ -70,38 +70,30 @@ def fig_crossbase():
                 ha="center", va="bottom" if d >= 0 else "top", fontsize=7.5)
     ax.set_ylim(-0.22, 0.28)
     clean(ax)
-    ax.set_title("Per-user LoRA helps instruction-tuned bases, hurts the base LM",
-                 fontsize=9.5, fontweight="bold")
     save(fig, "fig_crossbase.pdf")
 
 
 # ---------------------------------------------------------------- D. memory systems
 def fig_memsystems():
-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(8.6, 2.8), sharey=True)
-    # trigger-exact top-1
-    m1 = ["RAG top-1", "MEM0", "MEMMACH", "Engram\nJ-OPT"]
-    v1 = [99.0, 94.0, 93.0, 68.0]
-    c1 = [RED, RED, RED, BLUE]
-    a1.bar(m1, v1, color=c1, width=0.62)
-    a1.set_title("Trigger-exact query", fontsize=10, fontweight="bold")
-    a1.set_ylabel("top-1 recall (%)", fontsize=9)
-    # paraphrase top-1
-    m2 = ["RAG top-3", "MEM0", "MEMMACH", "Engram\nmulti-trig."]
-    v2 = [65.6, 62.5, 75.0, 96.9]
-    c2 = [RED, RED, RED, BLUE]
-    a2.bar(m2, v2, color=c2, width=0.62)
-    a2.set_title("Paraphrased query", fontsize=10, fontweight="bold")
-    for ax, vs in ((a1, v1), (a2, v2)):
+    # Split into two standalone panels; the "retrieval wins" / "Engram wins"
+    # messaging now lives in the LaTeX subfigure captions, not inside the figure.
+    panels = [
+        ("fig_memsystems_a.pdf", "Trigger-exact query",
+         ["RAG top-1", "MEM0", "MEMMACH", "Engram\nJ-OPT"], [99.0, 94.0, 93.0, 68.0]),
+        ("fig_memsystems_b.pdf", "Paraphrased query",
+         ["RAG top-3", "MEM0", "MEMMACH", "Engram\nmulti-trig."], [65.6, 62.5, 75.0, 96.9]),
+    ]
+    for name, title, labels, vals in panels:
+        fig, ax = plt.subplots(figsize=(4.3, 2.9))
+        colors = [RED, RED, RED, BLUE]
+        ax.bar(labels, vals, color=colors, width=0.62)
+        ax.set_ylabel("top-1 recall (%)", fontsize=9)
         clean(ax)
         ax.set_ylim(0, 109)
-        for i, v in enumerate(vs):
+        for i, v in enumerate(vals):
             ax.text(i, v + 1.5, f"{v:.0f}", ha="center", fontsize=8)
         ax.tick_params(axis="x", labelsize=8)
-    a1.text(0.5, -0.34, "retrieval wins (0 ctx tokens for Engram)", transform=a1.transAxes,
-            ha="center", fontsize=7.5, color=GRAY)
-    a2.text(0.5, -0.34, "Engram multi-trigger wins by 22 pts", transform=a2.transAxes,
-            ha="center", fontsize=7.5, color=GRAY)
-    save(fig, "fig_memsystems.pdf")
+        save(fig, name)
 
 
 # ---------------------------------------------------------------- E. LOCOMO judge / multitoken
@@ -117,8 +109,6 @@ def fig_locomo_judge():
     ax.set_xticks(x); ax.set_xticklabels(scales, fontsize=8)
     ax.set_ylabel("LOCOMO LLM-judge accuracy", fontsize=9)
     ax.legend(frameon=False, fontsize=8.5, loc="upper left")
-    ax.set_title("Multi-token OPT overtakes retrieval from d12@1280 up (matched pipeline)",
-                 fontsize=8.8, fontweight="bold")
     clean(ax)
     save(fig, "fig_locomo_judge.pdf")
 
@@ -139,17 +129,17 @@ def fig_multihop():
     ax.set_ylim(0, 105)
     for xi, v in zip(x, top1):
         ax.text(xi, v + 4, f"{v:.0f}%", ha="center", fontsize=9, fontweight="bold")
-    ax.set_title("The gate matches surfaces, it does not chain (n=63, Wilson 95% CI)",
-                 fontsize=8.6, fontweight="bold")
     clean(ax)
     save(fig, "fig_multihop.pdf")
 
 
 # ---------------------------------------------------------------- M. layered conditions A-F
 def fig_layered_conditions():
-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(8.8, 3.0))
-    conds = ["A: base", "B: per-user\nLoRA", "C: per-user\nEngram",
-             "D: LoRA+\nEngram", "E: shared\nLoRA", "F: Engram+\nshared LoRA"]
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(9.8, 3.4))
+    # Stacked, single-word-per-line tick labels avoid the horizontal collisions
+    # of the old "A: per-user LoRA" labels; the framing text moves to the caption.
+    conds = ["A\nbase", "B\nper-user\nLoRA", "C\nper-user\nEngram",
+             "D\nLoRA+\nEngram", "E\nshared\nLoRA", "F\nEngram+\nshared LoRA"]
     direct = [29, 99, 100, 100, 54, 100]
     indirect_any = [19, 6, 23, 8, 44, 44]
     dbpb = [0.000, 1.784, 0.00005, 1.819, 0.386, 0.386]
@@ -157,20 +147,21 @@ def fig_layered_conditions():
     w = 0.4
     a1.bar(x - w/2, direct, w, label="direct top-1", color=GRAY)
     a1.bar(x + w/2, indirect_any, w, label="indirect_any", color=BLUE)
-    a1.set_xticks(x); a1.set_xticklabels(conds, fontsize=7.2)
+    a1.set_xticks(x); a1.set_xticklabels(conds, fontsize=7.6)
     a1.set_ylabel("recall (%)", fontsize=9)
-    a1.legend(frameon=False, fontsize=8, loc="upper left")
-    a1.set_title("Recall: F matches LoRA direct, 7.4$\\times$ its indirect",
-                 fontsize=8.6, fontweight="bold")
-    clean(a1); a1.set_ylim(0, 115)
+    a1.set_ylim(0, 116)
+    # Legend sits above the axes so it never overlaps the tall direct-recall bars.
+    a1.legend(frameon=False, fontsize=8.5, ncol=2, loc="lower center",
+              bbox_to_anchor=(0.5, 1.0))
+    clean(a1)
     # contamination
     colors = [RED if d > 0.5 else BLUE for d in dbpb]
     a2.bar(x, dbpb, color=colors, width=0.6)
-    a2.set_xticks(x); a2.set_xticklabels(conds, fontsize=7.2)
+    a2.set_xticks(x); a2.set_xticklabels(conds, fontsize=7.6)
     a2.set_ylabel(r"$\Delta$bpb on unrelated text", fontsize=9)
-    a2.set_title("Contamination: F adds none on top of the shared skill",
-                 fontsize=8.6, fontweight="bold")
+    a2.set_ylim(0, 2.05)
     clean(a2)
+    fig.tight_layout()
     save(fig, "fig_layered_conditions.pdf")
 
 
@@ -192,7 +183,6 @@ def fig_shared_rank():
     ax2.tick_params(axis="y", labelcolor=RED)
     ax.set_ylim(0, 52)
     clean(ax)
-    ax.set_title("r=16 is the sweet spot", fontsize=9.5, fontweight="bold")
     save(fig, "fig_shared_rank.pdf")
 
 
@@ -214,8 +204,6 @@ def fig_crossschema():
         ax.text(xi, v + 1, f"{v}%", ha="center", fontsize=8.5)
     ax.set_ylim(0, 52)
     clean(ax)
-    ax.set_title("F's lead survives a schema shift (7.4$\\times$ → 7.6$\\times$ over B)",
-                 fontsize=8.4, fontweight="bold")
     save(fig, "fig_crossschema.pdf")
 
 
@@ -232,10 +220,6 @@ def fig_serving_scale():
         ax.text(xi, v + 4, f"{v:g}", ha="center", fontsize=8.5)
     ax.set_ylim(0, 260)
     clean(ax)
-    ax.set_title("232 req/s on one GPU; per-request work independent of tenant count",
-                 fontsize=8.2, fontweight="bold")
-    ax.text(0.99, 0.04, "0% cross-user leak by construction", transform=ax.transAxes,
-            ha="right", fontsize=8, style="italic", color=GREEN)
     save(fig, "fig_serving_scale.pdf")
 
 
@@ -254,8 +238,6 @@ def fig_mf_finetune():
     ax.legend(frameon=False, fontsize=8.5)
     ax.set_ylim(0, 75)
     clean(ax)
-    ax.set_title("MF accelerates convergence (+14% rel at n=1000, fixed budget)",
-                 fontsize=8.2, fontweight="bold")
     save(fig, "fig_mf_finetune.pdf")
 
 

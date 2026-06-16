@@ -61,7 +61,7 @@ def fig_arch():
     box(0.3, 4.4, 2.8, 0.9,
         "Per-user override store\n(DRAM, $\\sim$60KB / user)", "#cfe7ff")
     box(4.0, 4.4, 2.0, 0.9,
-        "Override apply\n(\\textbf{$\\sim$2 ms})", "#fff3b0")
+        "Override apply\n($\\mathbf{\\sim\\!2\\ ms}$)", "#fff3b0")
     box(7.2, 4.4, 2.5, 0.9,
         "Engram table\n(HBM)", "#fcd5ce")
     arrow(3.1, 4.85, 4.0, 4.85)
@@ -79,7 +79,7 @@ def fig_arch():
     arrow(8.1, 3.2, 8.4, 3.2)
     # vertical arrow from override apply to lookup
     arrow(5.5, 4.4, 5.4, 3.8, color="#2c7fb8", lw=1.2)
-    ax.text(5.55, 4.1, "writes overrides\\\\into lookup table",
+    ax.text(5.55, 4.1, "writes overrides\ninto lookup table",
             ha="left", va="center", fontsize=7, color="#2c7fb8")
 
     # Bottom row: residual addition + downstream layers
@@ -94,13 +94,10 @@ def fig_arch():
     arrow(8.3, 1.1, 8.6, 1.1)
     # gate output → residual addition
     arrow(9.1, 2.6, 3.0, 1.6, color="#d62728", lw=1.0)
-    ax.text(6.0, 2.05, "gated lookup adds\\\\to residual at trigger",
+    ax.text(6.0, 2.05, "gated lookup adds\nto residual at trigger",
             ha="center", va="center", fontsize=7, color="#d62728",
             bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none", alpha=0.9))
 
-    # Title
-    ax.text(5, 5.45, "EngramServer architecture: per-user overrides applied per request",
-            ha="center", va="bottom", fontsize=10)
     plt.tight_layout()
     out = FIGS / "fig_arch.pdf"
     plt.savefig(out)
@@ -136,7 +133,6 @@ def fig_pretrain_loss():
     axes[0].set_title("(a) Training loss"); axes[0].grid(alpha=0.3); axes[0].legend()
     axes[1].set_xlabel("step"); axes[1].set_ylabel("validation bits-per-byte")
     axes[1].set_title("(b) Validation bpb"); axes[1].grid(alpha=0.3); axes[1].legend()
-    fig.suptitle("Figure A2: Mini-Engram pretraining curves.", y=1.04, fontsize=10)
     plt.tight_layout()
     out = FIGS / "fig_pretrain_loss.pdf"
     plt.savefig(out)
@@ -161,7 +157,6 @@ def fig_strategy_bars():
     ax.set_xticks(x); ax.set_xticklabels(strategies, rotation=15)
     ax.set_ylabel("Recall (100 facts/user, d12)")
     ax.set_ylim(0, 1.05)
-    ax.set_title("Figure A3: Insertion strategy comparison.")
     ax.legend(loc="upper left")
     for i, (a, b) in enumerate(zip(top1, top5)):
         if a > 0.02: ax.text(i - 0.2, a + 0.02, f"{a:.0%}", ha="center", fontsize=7)
@@ -189,7 +184,6 @@ def fig_paraphrase():
     ax.set_xticks(x); ax.set_xticklabels(facts, rotation=20, fontsize=7)
     ax.set_ylabel("Top-1 recall across 5 paraphrases per fact")
     ax.set_ylim(0, 1.1)
-    ax.set_title("Figure A4: Paraphrase generalisation (4 facts × 5 paraphrases).")
     ax.legend(loc="lower right")
     plt.tight_layout()
     out = FIGS / "fig_paraphrase.pdf"
@@ -220,8 +214,6 @@ def fig_multidomain():
     ax.set_xticks(range(len(Ds))); ax.set_xticklabels([f"D={d}" for d in Ds])
     ax.set_yticks(range(len(domain_names))); ax.set_yticklabels(domain_names, fontsize=7)
     ax.set_xlabel("Number of stacked domains")
-    ax.set_title("Figure A5: Multi-domain composition (top-1 per domain).\n"
-                 "Heavy degradation when domains share trigger templates.")
     cb = plt.colorbar(im, ax=ax, label="top-1 recall")
     for i in range(mat.shape[0]):
         for j in range(mat.shape[1]):
@@ -258,7 +250,6 @@ def fig_serving_cdf():
     ax.axhline(0.99, ls=":", color="grey", alpha=0.5)
     ax.set_xscale("log")
     ax.set_xlabel("Latency (ms, log)"); ax.set_ylabel("CDF")
-    ax.set_title("Figure A6: Per-request latency CDF (d12, 30u×50f).")
     ax.legend(loc="lower right"); ax.grid(alpha=0.3)
     plt.tight_layout()
     out = FIGS / "fig_serving_cdf.pdf"
@@ -283,7 +274,6 @@ def fig_joint_opt_loss():
     ax.plot(j100_steps, j100_loss, "o-", color="#2c7fb8", label="N=100 facts/user", lw=1.4)
     ax.plot(j1000_steps, j1000_loss_full, "s-", color="#d62728", label="N=1000 facts/user", lw=1.4)
     ax.set_xlabel("Joint OPT step"); ax.set_ylabel("Cross-entropy loss (200-step EMA)")
-    ax.set_title("Figure A7: Joint OPT convergence on Mini-Engram-d12.")
     ax.legend(); ax.grid(alpha=0.3)
     plt.tight_layout()
     out = FIGS / "fig_joint_opt_loss.pdf"

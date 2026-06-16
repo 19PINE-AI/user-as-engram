@@ -94,8 +94,20 @@ def main():
                 "ms": a.get(f"{code}_ms_per_query", None),
             })
 
+    # Short annotation codes keep the dense high-accuracy cluster from colliding;
+    # the full condition names live in the legend and the body text (A-J, Qwen).
+    short = {
+        "A: no edit": "A", "B: per-user LoRA": "B", "C: per-user Engram": "C",
+        "E: shared LoRA only": "E", "F: layered (Engram + shared LoRA)": "F",
+        "G: RAG top-1": "G", "H: RAG top-3": "H", "I: RAG all": "I",
+        "G': oracle top-1": "G$'$", "J: RAG top-3 + shared LoRA": "J",
+        "Qwen-3B: no context": "Q:none", "Qwen-3B + RAG top-1": "Q:R@1",
+        "Qwen-3B + RAG top-3": "Q:R@3", "Qwen-3B + RAG all": "Q:R@all",
+        "Qwen-3B + oracle top-1": "Q:O@1",
+    }
+
     # ---- Plot ----
-    fig, ax = plt.subplots(figsize=(7.2, 4.8))
+    fig, ax = plt.subplots(figsize=(8.0, 5.0))
     style = {
         "layered":  {"color": "tab:blue",   "marker": "o", "s": 95,
                       "label": "Mini-Engram-d20 substrate (A-F)"},
@@ -110,22 +122,22 @@ def main():
                    "C: per-user Engram": 0.45,
                    "E: shared LoRA only": 0.38,
                    "F: layered (Engram + shared LoRA)": 0.55}
-    label_offsets = {  # (dx, dy) in display pts; tune the labels case by case
-        "A: no edit": (8, 4),
-        "B: per-user LoRA": (8, 4),
-        "C: per-user Engram": (8, 4),
-        "E: shared LoRA only": (-105, 4),
-        "F: layered (Engram + shared LoRA)": (8, 6),
-        "G: RAG top-1": (8, 4),
-        "H: RAG top-3": (8, 4),
-        "I: RAG all": (-55, 6),
-        "G': oracle top-1": (8, -10),
-        "J: RAG top-3 + shared LoRA": (-15, 12),
-        "Qwen-3B: no context": (8, 4),
-        "Qwen-3B + RAG top-1": (-10, -14),
-        "Qwen-3B + RAG top-3": (8, -6),
-        "Qwen-3B + RAG all": (-100, 10),
-        "Qwen-3B + oracle top-1": (8, 4),
+    label_offsets = {  # (dx, dy) in display pts; tune the short codes case by case
+        "A: no edit": (7, -11),
+        "B: per-user LoRA": (7, -3),
+        "C: per-user Engram": (7, 3),
+        "E: shared LoRA only": (-15, 5),
+        "F: layered (Engram + shared LoRA)": (7, 4),
+        "G: RAG top-1": (6, -12),
+        "H: RAG top-3": (7, 3),
+        "I: RAG all": (7, 3),
+        "G': oracle top-1": (6, -12),
+        "J: RAG top-3 + shared LoRA": (-6, 9),
+        "Qwen-3B: no context": (8, -3),
+        "Qwen-3B + RAG top-1": (7, 4),
+        "Qwen-3B + RAG top-3": (7, 4),
+        "Qwen-3B + RAG all": (7, 4),
+        "Qwen-3B + oracle top-1": (6, -12),
     }
     plotted_groups = set()
     for pt in points:
@@ -137,20 +149,17 @@ def main():
             kwargs["label"] = gs["label"]
             plotted_groups.add(pt["group"])
         ax.scatter(x, pt["y"], **kwargs)
-        # Annotate
+        # Annotate with the short condition code
         text = pt["label"]
         dx, dy = label_offsets.get(text, (6, 4))
-        ax.annotate(text.split(":", 1)[-1].strip(),
-                    (x, pt["y"]), xytext=(dx, dy),
+        ax.annotate(short.get(text, text), (x, pt["y"]), xytext=(dx, dy),
                     textcoords="offset points", fontsize=7.5)
 
     ax.set_xscale("log")
-    ax.set_xlim(0.3, 700)
+    ax.set_xlim(0.3, 900)
     ax.set_ylim(0, 65)
     ax.set_xlabel("Avg context tokens per query (log)")
-    ax.set_ylabel("Indirect-reasoning accuracy (indirect\\_any, \\%)")
-    ax.set_title("Indirect reasoning vs.\\ context cost ($n{=}20$ users, "
-                 "20 probes each)")
+    ax.set_ylabel("Indirect-reasoning accuracy (indirect_any, %)")
     ax.grid(True, alpha=0.3)
     ax.legend(loc="lower right", fontsize=8.5)
     plt.tight_layout()
