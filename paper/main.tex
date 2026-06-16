@@ -111,6 +111,7 @@ it~\citep{semon1921mneme,tonegawa2015engram,mcclelland1995cls}.
 Keeping the fast, local store apart from the slow, shared one is
 exactly what lets us learn that Maya is allergic to penicillin
 without disturbing how we reason about allergies in general.
+
 Personal memory in a language model, we argue, has the same
 two-part structure---\emph{content} (the user's specific facts)
 and \emph{reasoning skill} (turning facts into answers)---and
@@ -122,29 +123,25 @@ learning (ICL,~\citealt{brown2020gpt3,min2022rethinking})
 prefixes the facts; retrieval-augmented generation
 (RAG,~\citealt{lewis2020rag,gao2023ragsurvey}) fetches them at
 query time; per-user adapters bake them into the model's weights.
-The adapter family has converged on one recipe:
-PRAG~\citep{su2024prag}, DyPRAG~\citep{tan2025dyprag},
-DistilledPRAG~\citep{distilledprag2025}, OPPU~\citep{tan2024oppu},
-HYDRA~\citep{zhuang2024hydra}, MemLoRA~\citep{memlora2025},
-T2L~\citep{t2l2024}, and PER-PCS~\citep{tan2024perpcs} all train a
-per-user rank-$\sim$64 LoRA~\citep{hu2022lora,houlsby2019adapters}
-on $Q/K/V/O$ over an (observation, fact, QA) mixture and apply it
-on a frozen base (we use this canonical recipe as our reference
-\textbf{per-user-LoRA}
-baseline: rank-64 on $Q/K/V/O$ in every layer, 12 epochs
-$\times$ 200 NTP samples per user). A LoRA is one change layered
-over the whole model---it keeps the facts and the reasoning skill
-in the same parameters and, like nudging every synapse, changes
-the model everywhere, not just where the user's facts are
-relevant.
 
-\paragraph{Why a per-user LoRA damages the model.}
-The damage is not a tuning artifact---it is what storing a fact
+This parametric family has converged on one recipe---a per-user
+LoRA~\citep{hu2022lora} on a frozen base's attention projections,
+fit on each user's facts (Section~\ref{sec:background})---which we
+adopt as our reference \textbf{per-user-LoRA} baseline. A LoRA is
+one change layered over the whole model: it keeps a user's facts
+and the reasoning skill in the same parameters and, like nudging
+every synapse, changes the model everywhere, not just where the
+user's facts are relevant.
+
+\paragraph{Why a per-user LoRA's edit is global.}
+This is not a tuning artifact---it is what storing a fact
 in a shared function costs. A LoRA has no address: to raise the
 probability of one fact, gradient descent must bend $Q/K/V/O$
 along whatever directions most cheaply fit it, and those
 directions are active on unrelated text too, so every forward
-pass sees the edit. We see this as two effects that come apart.
+pass sees the edit.
+
+We see this as two effects that come apart.
 The \emph{architectural} cost---extra loss on unrelated
 text---is a property of the parameterization: large, and present
 on every base we tried. The \emph{user-visible} cost---worse
@@ -161,13 +158,15 @@ edit to the hash-keyed memory table of an Engram-pretrained
 model~\citep{cheng2026engram}, whose gated lookups fire only on
 suffix N-grams via deterministic multiplicative-XOR hashing,
 while the reasoning skill that interprets the facts lives in one
-\emph{shared} adapter trained across other users. \emph{Why it
-works}: the table is content-addressable and inert off its key,
+\emph{shared} adapter trained across other users.
+
+\emph{Why it works}: the table is content-addressable and inert off its key,
 so writing a fact changes the model's output only at the
 positions whose trigger N-gram addresses it---and we can verify
 the change is \emph{exactly} 0.000 everywhere else, through every
 subsequent attention and MLP layer, not merely small in the limit
 (Section~\ref{sec:locality}, Figure~\ref{fig:locality}).
+
 \emph{Why the table is the right place} for personal memory, in
 three ways the weights cannot offer: writes are isolated, so
 per-user facts compose and never leak across tenants by
@@ -181,15 +180,18 @@ model.
 
 \paragraph{Contributions.}
 \begin{enumerate}[leftmargin=*,topsep=2pt,itemsep=2pt]
-  \item \textbf{A measured contamination gap}
-        (Section~\ref{sec:negative}). A per-user LoRA's edit is
-        active on every forward pass; an Engram row fires only on
-        its trigger N-gram. On a controlled base this is a
-        $\sim$34{,}000$\times$ difference in damage to unrelated
+  \item \textbf{The cost of storing facts in shared weights}
+        (Section~\ref{sec:negative}). A per-user LoRA has no
+        address: to fit even one fact, gradient descent must bend
+        the same $Q/K/V/O$ directions that are active on unrelated
+        text, so the edit changes every forward pass---it
+        contaminates globally. An Engram row, by contrast, fires
+        only on its trigger N-gram. On a controlled base this is a
+        $\sim$34{,}000$\times$ difference in extra loss on unrelated
         text---an architectural property, not a tuning artifact.
         We separate this robust architectural cost from the
         variable, base-dependent effect on user-visible reasoning.
-  \item \textbf{User as Engram} (Sections~\ref{sec:method}--\ref{sec:repro}):
+  \item \textbf{User as Engram} (Section~\ref{sec:method}):
         a way to write a user's facts as surgical, local edits to
         an Engram model's memory table, with a verified locality
         property---\emph{exactly} zero change at every non-trigger
@@ -203,8 +205,7 @@ model.
         system---and beats every all-in-one baseline on direct
         recall, indirect reasoning ($7.4\times$ over per-user
         LoRA), contamination, and per-user reasoning regressions.
-        The lead survives a personal $\to$ medical schema shift
-        that breaks the recite-then-reason alternative.
+        The lead survives a personal $\to$ medical schema shift.
   \item \textbf{A deployment-scale comparison with retrieval}
         (Sections~\ref{sec:layered-rag}--\ref{sec:rag-scale}):
         which method wins is set by facts-per-user and population
@@ -213,35 +214,6 @@ model.
         retrieval pipeline---running on a $2.5\times$ larger
         model---once the knowledge base passes $\sim$100 facts.
 \end{enumerate}
-
-\begin{figure}[t]
-  \centering
-  \begin{subfigure}{0.49\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figs/fig1a_lora_recall.pdf}
-    \caption{Per-user LoRA hits perfect direct recall (1.000);
-    indirect recall (0.150) sits below the no-adapter base (0.170).}
-    \label{fig:negative-a}
-  \end{subfigure}\hfill
-  \begin{subfigure}{0.49\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figs/fig1b_lora_peruser.pdf}
-    \caption{5 of 10 users worse on indirect recall with the
-    adapter (\,*\,).}
-    \label{fig:negative-b}
-  \end{subfigure}
-  \caption{The original $n{=}10$ pilot
-  (Section~\ref{sec:negative}, Qwen2.5-3B-Instruct).
-  \textbf{This pilot does not replicate at scale}: at $n{=}30$ the
-  mean change is $+0.088$ with 6/30 ($\sim$20\%) worse, and on
-  three further instruction-tuned bases (Llama-8B, Mistral-7B,
-  Qwen-7B at $n{=}20$) the worse-fraction is 0--5\%. The
-  \emph{architectural} contamination is robust regardless
-  (Figure~\ref{fig:contamination}): val\_bpb $\Delta$ on
-  Mini-Engram-d20 is $+1.70$ (3-seed mean) for per-user LoRA vs.\
-  $+0.00005$ for Engram-row insertion.}
-  \label{fig:negative}
-\end{figure}
 
 \begin{figure}[t]
   \centering
@@ -276,7 +248,7 @@ contention.
 
 \paragraph{LoRA-as-memory family.} Per-user/per-document LoRA
 adapters~\citep{su2024prag,tan2024oppu,zhuang2024hydra,t2l2024,
-tan2024perpcs} train a low-rank
+tan2024perpcs,memlora2025} train a low-rank
 delta~\citep{hu2022lora,houlsby2019adapters,mangrulkar2022peft}---one
 member of a broad parameter-efficient fine-tuning family that also
 includes prefix-tuning~\citep{li2021prefix} and adaptive-rank and
@@ -402,7 +374,7 @@ Section~\ref{sec:negative}, and treat it as a candidate
 mitigation for Engram in our discussion.
 
 \paragraph{Complementary learning systems and continual learning.}
-The damage a per-user LoRA does to unrelated text is a modern
+The extra loss a per-user LoRA imposes on unrelated text is a modern
 instance of \emph{catastrophic interference}: training on
 something new overwrites what was there
 before~\citep{mccloskey1989catastrophic}, which decades of
@@ -521,9 +493,7 @@ Mistral-7B~\citep{jiang2023mistral}---and one base LM
   base LM (Mini-Engram-d20) a per-user LoRA disrupts fragile
   completion behaviour (85\% worse, $\Delta{=}{-}0.133$); on every
   instruction-tuned base the reasoning skill absorbs the
-  perturbation (0--20\% worse, $\Delta$ from $+0.088$ to $+0.217$).
-  The original $n{=}10$ Qwen-3B pilot's ``5/10 worse'' was a
-  high-variance artifact: scaling to $n{=}30$ drops it to 20\%.}
+  perturbation (0--20\% worse, $\Delta$ from $+0.088$ to $+0.217$).}
   \label{fig:crossbase}
 \end{figure}
 
@@ -531,9 +501,7 @@ The split is clean (Figure~\ref{fig:crossbase}). On a base LM the
 global perturbation also disrupts fragile completion behaviour,
 so indirect recall drops outright; on an instruction-tuned base
 the base's own reasoning carries the indirect question and masks
-the adapter's inability to provide it---which is why the early
-$n{=}10$ pilot's ``5/10 worse'' shrinks toward zero at scale on
-strong bases. The caution is methodological: judging a per-user
+the adapter's inability to provide it. The caution is methodological: judging a per-user
 LoRA by task accuracy on a strong instruction-tuned base hides
 both the contamination and the fact that the adapter never
 learned to reason over what it stored. The reasoning has to come
@@ -543,6 +511,24 @@ it.
 
 \section{Method: User as Engram}
 \label{sec:method}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_engram_in_transformer.pdf}
+  \caption{\textbf{Where the Engram lives in the transformer.} The
+  backbone is a standard transformer; at a few designated Engram
+  layers ($\bigstar$) a content-addressable lookup runs alongside
+  attention and the MLP. At a position, the recent tokens' suffix
+  $N$-gram is hashed by $K$ heads into $K$ table addresses
+  (deterministic, hence known before the forward pass); the
+  retrieved rows are projected by $W_K, W_V$, gated by $\alpha$,
+  and added to the residual stream---but the gate fires only where
+  the trigger $N$-gram is present. Unlike attention and the MLP,
+  which touch every position and every weight, the Engram read is
+  sparse and addressable; that is what lets a single written row
+  change behaviour locally.}
+  \label{fig:engram-arch}
+\end{figure}
 
 We instantiate the ``local per-user edit'' concretely: surgically write
 per-user fact rows into the hash-keyed memory table of an
@@ -587,25 +573,24 @@ at a handful of positions, so editing one row changes the model
 only where that row is addressed. The rest of this section turns
 that into a per-user memory.
 
+\subsection{Surgical row insertion}
+
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figs/fig_engram_in_transformer.pdf}
-  \caption{\textbf{Where the Engram lives in the transformer.} The
-  backbone is a standard transformer; at a few designated Engram
-  layers ($\bigstar$) a content-addressable lookup runs alongside
-  attention and the MLP. At a position, the recent tokens' suffix
-  $N$-gram is hashed by $K$ heads into $K$ table addresses
-  (deterministic, hence known before the forward pass); the
-  retrieved rows are projected by $W_K, W_V$, gated by $\alpha$,
-  and added to the residual stream---but the gate fires only where
-  the trigger $N$-gram is present. Unlike attention and the MLP,
-  which touch every position and every weight, the Engram read is
-  sparse and addressable; that is what lets a single written row
-  change behaviour locally.}
-  \label{fig:engram-arch}
+  \includegraphics[width=\linewidth]{figs/fig_user_insertion.pdf}
+  \caption{\textbf{Inserting a user fact into the Engram.} A fact
+  is reduced to \emph{where} and \emph{what}: the trigger's suffix
+  $N$-gram hashes to a sparse set of row addresses $R_f$
+  (\emph{where}), and one of three strategies writes a value
+  $e^\star$ into those rows (\emph{what}). UNEMBED\_P solves for
+  $e^\star$ in closed form; OPT takes a few gradient steps per
+  fact; Joint OPT---our default beyond $\sim$30 facts/user---
+  optimises all of the user's rows together so they do not
+  interfere. The result is a per-user override map of
+  $\sim$88\,KB; every row outside $R_f$, and the entire backbone,
+  is left bit-identical.}
+  \label{fig:user-insertion}
 \end{figure}
-
-\subsection{Surgical row insertion}
 
 To write a fact, we put its answer where its trigger is read. The
 trigger's suffix $N$-gram hashes to a fixed, sparse set of table
@@ -634,23 +619,6 @@ coexist, which is what holds recall up as facts-per-user grows
 lands only in that user's $R_f$, so however many facts or domains
 are stacked, the store stays additive and private---the locality
 is the architecture's, not a constraint we have to impose.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig_user_insertion.pdf}
-  \caption{\textbf{Inserting a user fact into the Engram.} A fact
-  is reduced to \emph{where} and \emph{what}: the trigger's suffix
-  $N$-gram hashes to a sparse set of row addresses $R_f$
-  (\emph{where}), and one of three strategies writes a value
-  $e^\star$ into those rows (\emph{what}). UNEMBED\_P solves for
-  $e^\star$ in closed form; OPT takes a few gradient steps per
-  fact; Joint OPT---our default beyond $\sim$30 facts/user---
-  optimises all of the user's rows together so they do not
-  interfere. The result is a per-user override map of
-  $\sim$88\,KB; every row outside $R_f$, and the entire backbone,
-  is left bit-identical.}
-  \label{fig:user-insertion}
-\end{figure}
 
 Read together, the two figures give the method in one sentence:
 \textbf{remembering a fact is writing a few rows.} A fact
@@ -1170,11 +1138,11 @@ the surface-trigger mechanism from true compositional chaining.
   \label{fig:multihop}
 \end{figure}
 
-\textbf{The earlier 75\% headline was an overlap-heavy sample.}
-On the balanced 63-pair corpus the mechanism is near-bimodal
-(Figure~\ref{fig:multihop}): when the query's suffix N-gram
-coincides with the second fact's trigger the gate fires and
-recall is high, but when true chaining is required it collapses
+\textbf{The mechanism is near-bimodal.} On the balanced 63-pair
+corpus (Figure~\ref{fig:multihop}), when the query's suffix
+N-gram coincides with the second fact's trigger the gate fires
+and recall is high, but when true chaining is required it
+collapses
 to near chance---and the few apparent successes are
 ``first-fact-wins'' coincidences (the trained first row's logit
 happens to cover the query). Because per-fact direct recall is
@@ -1577,9 +1545,9 @@ encoder must pick the gold fact out of $N$ candidates).
 Both LoRA and Engram are surface-trigger keyed; neither
 composes facts across triggers (``if my doctor is Patel and
 Patel works at Globex, what is my doctor's employer?'').
-User-as-Engram inherits this gap from User-as-LoRA. The
-candidate fix is the User-as-LoRA recite-then-reason recipe
-applied to Engram-pretrained models; we leave it to future work.
+User-as-Engram inherits this gap from per-user LoRA. A candidate
+fix is to mix recite-then-reason traces into Engram pretraining;
+we leave it to future work.
 
 \paragraph{Within-user density ceiling.}
 Joint OPT at 1000 facts reaches 35\% top-1. The slot space is
@@ -1622,21 +1590,19 @@ on a single GPU:
         steps), baseline d12@1280 also reaches 34.6\% and the
         MF model matches at 34.5\%---so MF accelerates Joint
         OPT convergence rather than raising the asymptotic
-        ceiling. The from-scratch MF pretraining originally
-        proposed here would refine that characterisation but
-        is unlikely to shift an asymptote that the recipe does
-        not move.
+        ceiling. A from-scratch MF pretrain would refine that
+        characterisation but is unlikely to shift an asymptote
+        the recipe does not move.
   \item \emph{Random per-batch hash salts.} Salt 50\% of batches
         with a random per-batch user salt during pretraining.
         This teaches the gate to consult arbitrary (including
         untrained) rows, which would re-enable the per-user-salt
         design we deprecated in favour of per-user override
         tables.
-  \item \emph{Recite-then-reason traces.} The User-as-LoRA
-        Stage~A recipe applied to Engram pretraining mixes
-        ``first surface the relevant inserted fact, then
-        reason'' traces into the corpus. This is the most
-        direct attack on the shared multi-hop gap.
+  \item \emph{Recite-then-reason traces.} Mixing ``first surface
+        the relevant inserted fact, then reason'' traces into
+        Engram pretraining is the most direct attack on the
+        shared multi-hop gap.
 \end{itemize}
 
 One further open item revealed by the ablation: the d20@1536
@@ -1681,8 +1647,8 @@ Section~\ref{sec:density}---the ceiling at a fixed optimisation
 budget is real and dense-scale-invariant, but it is set by
 inference-time gradient interference, not by pretraining. MF is
 therefore an economic win (less per-user registration compute),
-not an architectural one, and the full from-scratch MF pretrain
-originally proposed is likely the wrong dial to turn.
+not an architectural one, and a full from-scratch MF pretrain is
+likely the wrong dial to turn.
 
 \paragraph{Teacher-trace supervision (negative result).}
 We tested whether retraining the shared LoRA on a
@@ -2330,139 +2296,6 @@ closes the resulting judge gap.
   into place after the Engram-anchored prefix.}
   \label{fig:locomo-judge}
 \end{figure}
-
-\section{Detailed User-as-LoRA results}
-\label{app:userlora}
-
-This appendix expands Section~\ref{sec:negative} with the full
-empirical record that motivates the present paper. All results
-are on Qwen2.5-3B-Instruct with a rank-64 per-user LoRA,
-10 synthetic users, and the trace-mix Stage A
-recipe where indicated. The reader should treat this as the
-empirical foundation for our claim that LoRA-as-memory is
-reasoning-negative.
-
-\subsection{Stage A pilot: per-user breakdown}
-
-\begin{table}[t]
-  \centering
-  \caption{Per-user direct vs.\ indirect recall, per-user LoRA Stage A
-  on Qwen2.5-3B-Instruct (10 users, 50 facts each). Sample of users
-  0--1; the original $n{=}10$ pilot mean was $\Delta {=} {-}0.008$
-  (5/10 users worse than base). At the scaled $n{=}30$ replication
-  (Figure~\ref{fig:crossbase} in the main paper) the mean
-  inverts to $\Delta {=} {+}0.088$ with 6/30 users worse, refuting
-  the original headline.}
-  \label{tab:userlora-perfact}
-  \begin{tabular}{lcccc}
-    \toprule
-    uid & direct (with adapter) & indirect (with adapter) & indirect (base only) & train sec \\
-    \midrule
-    u000 & 1.000 & 0.133 & 0.200 & 102 \\
-    u001 & 1.000 & 0.071 & 0.214 & 98  \\
-    \multicolumn{5}{c}{\dots (8 more users with similar pattern)} \\
-    \midrule
-    \textbf{mean (n=10)} & \textbf{1.000} & \textbf{0.150} & \textbf{0.170} & 100 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-In 5 of 10 users the indirect recall with the adapter is
-\emph{strictly worse} than the no-adapter base
-(Figure~\ref{fig:negative}b in main paper). The direct recall is
-saturated at 1.000 for every user.
-
-\subsection{Stage A baselines}
-
-\begin{table}[t]
-  \centering
-  \caption{Stage A baselines (mean over 10 users, 30 indirect Qs each).}
-  \label{tab:userlora-baselines}
-  \begin{tabular}{lcc}
-    \toprule
-    condition & direct & indirect \\
-    \midrule
-    no insertion (base only) & 0.000 & 0.170 \\
-    per-user LoRA adapter & \textbf{1.000} & 0.150 \\
-    per-user LoRA adapter + explicit CoT prompt & --- & 0.296 \\
-    ICL upper bound (facts in context) & 0.515 & 0.304 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-The CoT-prompt + adapter condition reaches the ICL ceiling,
-showing the facts are \emph{accessible} through the adapter,
-just not spontaneously invoked. This rules out ``the adapter
-doesn't contain the answer'' as the cause of the
-indirect-recall gap.
-
-\subsection{Trace-mix Stage A: within-schema vs.\ cross-schema}
-
-\begin{table}[t]
-  \centering
-  \caption{Recite-then-reason traces mixed into Stage A.}
-  \label{tab:userlora-traces}
-  \begin{tabular}{lcc}
-    \toprule
-    condition & direct & indirect \\
-    \midrule
-    Stage A pilot (paraphrase + QA) & 1.000 & 0.158 \\
-    per-user LoRA + explicit CoT prompt & --- & 0.296 \\
-    ICL upper (facts in context) & 0.515 & 0.304 \\
-    \textbf{Stage A + recite traces, within-schema held} & \textbf{0.985} & \textbf{0.407} \\
-    Stage A + recite traces, cross-schema held & 0.985 & \textbf{0.046} \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-Within-schema indirect recovers to 0.41 (Wilson 95\% CI
-[0.30, 0.54]), matching the ICL-with-CoT ceiling.
-\emph{Cross-schema} indirect collapses to 0.046 (Wilson 95\%
-CI [0.016, 0.127]), worse than the no-adapter base. The strong
-invocation hypothesis (``adapter learns to recite its facts at
-any indirect question'') is empirically falsified.
-
-\subsection{Stage C meta-train (failed)}
-
-\begin{table}[t]
-  \centering
-  \caption{Stage C: full-parameter base meta-trained over LoRA
-  distribution. 8 train uids, 2 held uids, 300 steps at LR 1e-5.}
-  \label{tab:userlora-stagec}
-  \begin{tabular}{lccc}
-    \toprule
-    split & indirect (pre Stage C) & indirect (post Stage C) & direct (post Stage C) \\
-    \midrule
-    train users & 0.147 & \textbf{0.269} & 0.219 (collapsed) \\
-    held users & 0.167 & 0.167 (\textbf{no transfer}) & 0.312 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-Two findings: (1) held-user indirect lift is $+0.000$---the
-``Introspection Transfer'' hypothesis fails at minimum scale;
-(2) direct recall on the train users \emph{collapses} from 1.000
-to 0.22 because the base fine-tune misaligns the frozen LoRAs.
-
-\subsection{Diagnosis: LoRA's global-edit failure mode}
-
-The empirical picture from User-as-LoRA is consistent:
-per-user LoRA contains the facts (CoT-prompted recall $\approx$
-the ICL ceiling); LoRA does not spontaneously surface them on
-indirect queries (recall 0.150); the LoRA's global weight
-perturbation actively interferes with the model's general
-reasoning (5/10 users have indirect with LoRA \emph{worse} than
-without). Recite-then-reason traces help within-schema but not
-cross-schema. Stage C meta-training over the LoRA distribution
-does not learn to introspect held-out adapters at the scales
-we tested.
-
-These findings collectively motivate a per-user memory mechanism
-where (a) the gate-vs-store separation is architectural rather
-than learned, and (b) the per-user edit is local enough to
-never contaminate non-trigger forwards. Engram with surgical
-row insertion (main paper Section~\ref{sec:method}) provides
-exactly this property.
 
 \section{Mechanistic analysis}
 \label{app:mech}
@@ -3235,8 +3068,9 @@ surfaces in the first 8 generated tokens (greedy decoding) on
 
 % [reorg] tab:longform dropped; rates (23%/53% at d12 v1 -> 90%/90% at d20) stated in prose.
 
-\textbf{Dense scaling sharpens generation behaviour.} At d12 v1
-the gold token is the immediate top-1 only 23\% of the time but
+\textbf{Dense scaling sharpens generation behaviour.} At the
+smallest scale the gold token is the immediate top-1 only 23\%
+of the time but
 \emph{anywhere in the next 8 tokens} 53\% of the time---the
 model ``approaches'' the fact across a few tokens. From
 d12@1280 onward, the gold either lands at position 0 or never
@@ -3296,10 +3130,8 @@ is scaled beyond 510 samples.
 
 The headline F vs.\ B numbers train the shared LoRA on
 held-out users in the same synthetic schema as the test users.
-We test whether the reasoning skill transfers \emph{across} schemas
----the condition that killed Stage A's recite-then-reason
-recipe in Section~\ref{sec:negative} (within-schema 0.41,
-cross-schema 0.046---a 90\% collapse). We train the rank-16
+We test whether the reasoning skill transfers \emph{across}
+schemas. We train the rank-16
 shared LoRA on the original first-person personal-facts schema
 (u020--u029; ``My name is\ldots'', ``I was born in\ldots'')
 and evaluate the full six-condition head-to-head on a held-out
@@ -3316,9 +3148,7 @@ indirect probes per user; Figure~\ref{fig:crossschema}).
   44\% to 31\% (a realistic 30\% relative drop) while per-user
   LoRA B goes 6\% $\to$ 4\%, so F's lead over B is preserved
   ($7.4\times \to 7.6\times$); locality is unchanged
-  ($\Delta$bpb$(F){=}\Delta$bpb$(E){=}{+}0.386$). The Stage-A
-  recite-then-reason recipe, by contrast, collapsed 90\%
-  cross-schema (Section~\ref{sec:negative}).}
+  ($\Delta$bpb$(F){=}\Delta$bpb$(E){=}{+}0.386$).}
   \label{fig:crossschema}
 \end{figure}
 
@@ -3333,8 +3163,7 @@ The architectural locality is guaranteed by design:
 $\Delta$bpb$(F) {=} \Delta$bpb$(E) = +0.386$ in both cases,
 identical to four decimal places, because the per-user Engram
 still fires only on its trigger N-grams.
-\emph{Architectural decomposition transfers across schemas;
-recipe-level fixes (Stage A) did not.}
+\emph{Architectural decomposition transfers across schemas.}
 
 \subsection{Layered F on a Q/A-format-adapted Engram base}
 \label{sec:layered-sft}
