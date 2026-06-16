@@ -113,9 +113,8 @@ exactly what lets us learn that Maya is allergic to penicillin
 without disturbing how we reason about allergies in general.
 Personal memory in a language model, we argue, has the same
 two-part structure---\emph{content} (the user's specific facts)
-and \emph{reasoning skill} (turning facts into answers)---and, as
-we argue next, each wants a different kind of memory
-(Section~\ref{sec:engram-bio}).
+and \emph{reasoning skill} (turning facts into answers)---and
+each wants a different kind of memory.
 
 Three families of methods address personal memory, and the
 dominant parametric one conflates these two parts. In-context
@@ -255,70 +254,6 @@ model.
   side of the curve but cap out below Engram on quality.}
   \label{fig:pareto}
 \end{figure}
-
-\section{Two kinds of memory: content and skill}
-\label{sec:engram-bio}
-
-Personal memory has two parts that pull in different directions.
-A user's \emph{content}---Maya's cardiologist, her penicillin
-allergy---is a set of specific, idiosyncratic facts that should
-be written once, read back exactly, and that differ from user to
-user. The \emph{reasoning skill} that turns those facts into
-answers (\emph{``where should I get a heart check-up near my
-daughter?''}) is the opposite: one competence, shared across
-users, that should generalize. The two want different homes:
-content wants a private, addressable store that can be written
-and composed cheaply per user, while skill wants the shared,
-generalizing weights a single model already supplies. The
-dominant per-user-LoRA recipe puts both into one per-user weight
-edit, and Section~\ref{sec:negative} shows why that is the wrong
-home for the content.
-
-The brain draws the same line, and the word \emph{engram} points
-to it. An engram is the physical trace a memory leaves in neural
-tissue~\citep{semon1921mneme}; modern neuroscience localizes
-\emph{engram cells}---sparse neuron populations whose
-reactivation triggers recall---largely to the
-hippocampus~\citep{tonegawa2015engram}. Complementary learning
-systems theory~\citep{mcclelland1995cls,kumaran2016cls} explains
-why a separate fast store exists at all: a sparse,
-pattern-separated hippocampal code can write a new episode
-without overwriting the slow, distributed cortical
-representations that hold general skills. User as Engram makes
-that division architectural (Table~\ref{tab:bio-mapping}): each
-user's facts are the fast, local trace, written into a
-hash-addressed table the model was pretrained to read from, while
-the shared adapter and frozen backbone are the slow, distributed
-skill. The mechanism that keeps the two from interfering---the
-table's content-addressable, gated read---is described in
-Section~\ref{sec:method} and verified exact in
-Section~\ref{sec:locality}.
-
-\begin{table}[t]
-  \centering
-  \caption{User as Engram as an artificial complementary learning
-  system. The architecture mirrors the brain's separation of a
-  fast, sparse, local episodic store from a slow, distributed
-  skill store; the right column is realized, not metaphorical.
-  We claim a \emph{computational} analogy---Engram rows are
-  written by gradient optimisation, not Hebbian plasticity, and
-  the lookup is feed-forward, not a recurrent attractor---so the
-  mapping is a design principle, not a claim of biological
-  fidelity.}
-  \label{tab:bio-mapping}
-  \resizebox{\linewidth}{!}{
-  \begin{tabular}{ll}
-    \toprule
-    Complementary learning systems (brain) & User as Engram (this work) \\
-    \midrule
-    Hippocampal engram: sparse, local episodic trace & Per-user Engram row: sparse hash-keyed edit (88\,KB) \\
-    Neocortex: slow, distributed general skills & Shared LoRA + frozen backbone: shared reasoning skill \\
-    Pattern separation avoids catastrophic interference & Locality: $\Delta$bpb $+0.00005$ on unrelated text \\
-    CA3 pattern completion: partial cue $\to$ full memory & Gated lookup: trigger N-gram $\to$ stored value \\
-    Systems consolidation: hippocampus $\to$ cortex & Folding recurring content into the shared skill \\
-    \bottomrule
-  \end{tabular}}
-\end{table}
 
 \section{Background}
 \label{sec:background}
@@ -466,21 +401,35 @@ apply the recitation idea to per-user adapters in
 Section~\ref{sec:negative}, and treat it as a candidate
 mitigation for Engram in our discussion.
 
-\paragraph{Continual learning and catastrophic forgetting.}
+\paragraph{Complementary learning systems and continual learning.}
 The damage a per-user LoRA does to unrelated text is a modern
 instance of \emph{catastrophic interference}: training on
 something new overwrites what was there
-before~\citep{mccloskey1989catastrophic}. Decades of
-continual-learning work fight this by protecting important
-weights~\citep{kirkpatrick2017ewc} or replaying old data, and the
-problem persists for large language
-models~\citep{shi2024continual}. Complementary learning systems
-theory~\citep{mcclelland1995cls,kumaran2016cls} argues the brain
-avoids it with a fast, sparse hippocampal store sitting beside a
-slow cortex---the separation we make architectural. Where
+before~\citep{mccloskey1989catastrophic}, which decades of
+continual-learning work fight by protecting important
+weights~\citep{kirkpatrick2017ewc} or replaying old data, with
+the problem persisting for large language
+models~\citep{shi2024continual}. The brain avoids it with a
+different architecture, and the word \emph{engram} points to how:
+an engram is the physical trace a memory leaves in neural
+tissue~\citep{semon1921mneme}, and \emph{engram cells}---sparse
+neuron populations whose reactivation triggers recall---sit
+largely in the hippocampus~\citep{tonegawa2015engram}, while
+general skills live in the slow, distributed neocortex.
+Complementary learning systems
+theory~\citep{mcclelland1995cls,kumaran2016cls} argues this split
+is what lets a new episode be written without overwriting old
+skills. User as Engram is the same division made architectural:
+the per-user Engram row is the fast, sparse, local trace (the
+hippocampal engram); the shared LoRA and frozen backbone are the
+slow, distributed skill (the neocortex); the gated
+trigger-N-gram lookup completes a memory from a partial cue; and
+our measured locality ($\Delta$bpb $+0.00005$ on unrelated text,
+Section~\ref{sec:negative}) is the engineering form of the
+pattern separation that keeps the two from interfering. Where
 continual learning asks one set of weights to absorb new facts
-gracefully, we sidestep the interference entirely by writing each
-fact to its own address and leaving the shared weights untouched.
+gracefully, we sidestep the interference by writing each fact to
+its own address and leaving the shared weights untouched.
 
 \section{Per-user LoRA contaminates globally}
 \label{sec:negative}
@@ -595,8 +544,7 @@ it.
 \section{Method: User as Engram}
 \label{sec:method}
 
-We instantiate the ``local per-user edit'' of
-Section~\ref{sec:engram-bio} concretely: surgically write
+We instantiate the ``local per-user edit'' concretely: surgically write
 per-user fact rows into the hash-keyed memory table of an
 Engram-pretrained model. Three pictures carry the method---where
 that table sits in the network (Figure~\ref{fig:engram-arch}),
@@ -630,8 +578,9 @@ given query will read, and the table can be offloaded to host
 DRAM. Second, the gate makes the read sparse and conditional:
 most positions retrieve essentially nothing, and a stored row
 affects the output only at positions whose $N$-gram addresses it.
-This is precisely the addressable, sparse storage substrate that
-Section~\ref{sec:engram-bio} argued personal facts want.
+This is the addressable, sparse store that per-user facts
+want---the opposite of the global weight edit of
+Section~\ref{sec:negative}.
 Attention and the MLP are dense and global---every position,
 every weight---whereas the Engram read touches a handful of rows
 at a handful of positions, so editing one row changes the model
@@ -1251,7 +1200,7 @@ holds at every size (Section~\ref{sec:memory-systems}, ``Scale
 invariance'' paragraph). Per-paraphrase rank data are in
 Appendix~\ref{app:paraphrase-detail}.
 
-\section{Layered architecture: content + reasoning skill}
+\section{Layered architecture: shared reasoning skill + per-user content}
 \label{sec:layered}
 
 So far: per-user LoRA contaminates (Section~\ref{sec:negative})
@@ -1278,6 +1227,23 @@ hypotheses make this concrete:
         Section~\ref{sec:method}'s locality property).
 \end{itemize}
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_layered_arch.pdf}
+  \caption{The layered architecture splits personal memory by who owns
+  it and how often it changes. \textbf{(a)} Per-user \emph{content} is a
+  small Engram-row override (88\,KB/user) that fires only on its trigger
+  N-gram, so it perturbs unrelated text by $\Delta$bpb${}=+0.0001$.
+  \textbf{(b)} The shared \emph{reasoning skill} is a single rank-16 LoRA
+  trained on cross-user indirect-QA samples; its $\Delta$bpb${}=+0.39$
+  contamination is paid once and amortised across all users.
+  \textbf{(c)} At inference both layers are live on the frozen
+  Mini-Engram base: the Engram supplies content via N-gram lookup and the
+  shared LoRA supplies the in-context-reasoning skill, at a total per-user
+  storage cost of 88\,KB.}
+  \label{fig:layered-arch}
+\end{figure}
+
 \subsection{Design}
 
 Train a single shared LoRA on cross-user in-context-reasoning data:
@@ -1289,7 +1255,8 @@ the facts in \texttt{required\_fact\_keys}. This teaches the LoRA the
 memorising any specific user's content. At inference, attach the
 shared LoRA + the test user's Engram-row override and ask the indirect
 question without facts in the prompt: the Engram provides content (via
-trigger N-gram lookup), the shared LoRA provides the skill.
+trigger N-gram lookup), the shared LoRA provides the skill
+(Figure~\ref{fig:layered-arch}).
 
 \subsection{Six-condition head-to-head}
 
