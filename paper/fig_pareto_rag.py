@@ -13,6 +13,26 @@ import json, os, math
 from pathlib import Path
 import matplotlib.pyplot as plt
 
+# Shared paper style: serif type, despined axes, light dotted grid, canonical palette.
+plt.rcParams.update({
+    "font.family": "serif",
+    "font.serif": ["Palatino", "Palatino Linotype", "Times New Roman", "DejaVu Serif"],
+    "font.size": 9,
+    "axes.titlesize": 10,
+    "axes.labelsize": 9,
+    "axes.spines.top": False,
+    "axes.spines.right": False,
+    "grid.color": "#b3b3b3",
+    "grid.linestyle": ":",
+    "grid.linewidth": 0.6,
+    "grid.alpha": 0.7,
+    "savefig.bbox": "tight",
+    "savefig.pad_inches": 0.03,
+})
+BLUE = "#34507F"     # ours (Engram / layered)
+RED = "#C24A3F"      # baseline
+ORANGE = "#D98A3D"
+GREEN = "#3E7C5A"
 
 PAPER = Path(__file__).parent
 RES = PAPER.parent / "results"
@@ -109,11 +129,11 @@ def main():
     # ---- Plot ----
     fig, ax = plt.subplots(figsize=(8.0, 5.0))
     style = {
-        "layered":  {"color": "tab:blue",   "marker": "o", "s": 95,
+        "layered":  {"color": BLUE,   "marker": "o", "s": 95,
                       "label": "Mini-Engram-d20 substrate (A-F)"},
-        "rag-mini": {"color": "tab:orange", "marker": "s", "s": 95,
+        "rag-mini": {"color": ORANGE, "marker": "s", "s": 95,
                       "label": "Mini-Engram-d20 + RAG (G-J)"},
-        "qwen":     {"color": "tab:green",  "marker": "^", "s": 95,
+        "qwen":     {"color": GREEN,  "marker": "^", "s": 95,
                       "label": "Qwen2.5-3B-Instruct + RAG"},
     }
     # Jitter overlapping zero-context labels so they don't pile up.

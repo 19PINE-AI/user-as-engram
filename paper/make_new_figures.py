@@ -18,7 +18,7 @@ import numpy as np
 # NeurIPS-style figure setup
 plt.rcParams.update({
     "font.family": "serif",
-    "font.serif": ["Times New Roman", "DejaVu Serif"],
+    "font.serif": ["Palatino", "Palatino Linotype", "Times New Roman", "DejaVu Serif"],
     "font.size": 9,
     "axes.titlesize": 10,
     "axes.labelsize": 9,
@@ -31,10 +31,23 @@ plt.rcParams.update({
     "axes.spines.top": False,
     "axes.spines.right": False,
     "axes.grid": True,
-    "grid.alpha": 0.25,
-    "grid.linestyle": "--",
-    "grid.linewidth": 0.5,
+    "grid.color": "#b3b3b3",
+    "grid.alpha": 0.7,
+    "grid.linestyle": ":",
+    "grid.linewidth": 0.6,
 })
+
+# Canonical paper palette (shared with the other figure scripts).
+BLUE = "#34507F"     # ours (Engram / Joint OPT)
+BLUE_LT = "#7E97C4"  # ours, secondary (per-fact OPT / shared LoRA)
+RED = "#C24A3F"      # primary baseline (per-user LoRA / MEM0)
+ORANGE = "#D98A3D"   # secondary baseline (MEMMACHINE)
+GREEN = "#3E7C5A"    # layered (F)
+PURPLE = "#6E5687"
+TEAL = "#4F8C9D"
+BROWN = "#8C6D5C"    # RAG
+GRAY = "#8A8F9A"
+GRAY_LT = "#C2C6CE"
 
 RES = Path("/home/ubuntu/user-as-engram/results")
 OUT = Path("/home/ubuntu/user-as-engram/paper/figs")
@@ -129,12 +142,12 @@ def fig_factscale():
     fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.6))
 
     models = [
-        ("engram_d8_v2",              "d8 v2 (0.5B)",          178, "#888888", "-"),
-        ("engram_d8_large_t2B",       "d8 best (2B)",          178, "#cc6677", "-"),
-        ("engram_d12_v2",             "d12 v2 (1.32B)",        339, "#666666", "-"),
-        ("engram_d12_large_t25B",     "d12 best (2.5B)",       339, "#88ccee", "-"),
-        ("engram_d12_w1280_optimal",  "d12@1280 opt.",         625, "#44aa99", "-"),
-        ("engram_d20_w1536_optimal",  "d20@1536 opt.",         1224, "#aa4499", "-"),
+        ("engram_d8_v2",              "d8 v2 (0.5B)",          178, GRAY_LT, "-"),
+        ("engram_d8_large_t2B",       "d8 best (2B)",          178, GRAY, "-"),
+        ("engram_d12_v2",             "d12 v2 (1.32B)",        339, BLUE_LT, "-"),
+        ("engram_d12_large_t25B",     "d12 best (2.5B)",       339, TEAL, "-"),
+        ("engram_d12_w1280_optimal",  "d12@1280 opt.",         625, PURPLE, "-"),
+        ("engram_d20_w1536_optimal",  "d20@1536 opt.",         1224, BLUE, "-"),
     ]
     Ns = [100, 200, 500, 1000]
 
@@ -190,10 +203,10 @@ def fig_dense_scaling():
     # Equal-spaced categorical x; a log axis crammed the four sizes together and
     # collided the custom labels with matplotlib's default decade tick labels.
     xs = np.arange(len(rows))
-    ax.plot(xs, locomo, "o-", color="#1f77b4", lw=2, ms=8, label="User-as-Engram J-OPT")
+    ax.plot(xs, locomo, "o-", color=BLUE, lw=2, ms=8, label="User-as-Engram J-OPT")
     # Baseline (MEMMACHINE) per dense size; from LOCOMO sweeps
     mem_baseline = [0.075, 0.105, 0.113, 0.140]
-    ax.plot(xs, mem_baseline, "s--", color="#cc6677", lw=2, ms=6,
+    ax.plot(xs, mem_baseline, "s--", color=RED, lw=2, ms=6,
                  label="MEMMACHINE_LIKE (best retr.)")
     for x, y in zip(xs, locomo):
         ax.annotate(f"{y:.3f}", (x, y), textcoords="offset points", xytext=(0, 8),
@@ -209,13 +222,13 @@ def fig_dense_scaling():
 
     ax = axes[1]
     bars_x = np.arange(len(rows))
-    ax.bar(bars_x - 0.18, bpb, 0.36, color="#999999", label="val bpb")
-    ax.set_ylabel("ClimbMix val bpb", color="#666666")
-    ax.tick_params(axis='y', labelcolor='#666666')
+    ax.bar(bars_x - 0.18, bpb, 0.36, color=GRAY, label="val bpb")
+    ax.set_ylabel("ClimbMix val bpb", color=GRAY)
+    ax.tick_params(axis='y', labelcolor=GRAY)
     ax2 = ax.twinx()
-    ax2.bar(bars_x + 0.18, e1opt, 0.36, color="#1f77b4", label="E1 USER OPT t1")
-    ax2.set_ylabel("E1 USER OPT top-1", color="#1f77b4")
-    ax2.tick_params(axis='y', labelcolor='#1f77b4')
+    ax2.bar(bars_x + 0.18, e1opt, 0.36, color=BLUE, label="E1 USER OPT t1")
+    ax2.set_ylabel("E1 USER OPT top-1", color=BLUE)
+    ax2.tick_params(axis='y', labelcolor=BLUE)
     ax2.set_ylim(0.8, 1.05)
     ax.set_xticks(bars_x)
     ax.set_xticklabels(labels, fontsize=7)
@@ -234,9 +247,9 @@ def fig_joint_opt_dense():
     fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.6))
 
     models = [
-        ("d12@768 (339M)",     [(100,'joint_opt_100'),(300,'joint_opt_300'),(1000,'joint_opt_1000')], "#888888"),
-        ("d12@1280 (625M)",    [(100,'joint_opt_d12_w1280_n100'),(300,'joint_opt_d12_w1280_n300'),(1000,'joint_opt_d12_w1280_n1000')], "#1f77b4"),
-        ("d20@1536 (1.22B)",   [(100,'joint_opt_d20_w1536_n100'),(300,'joint_opt_d20_w1536_n300'),(1000,'joint_opt_d20_w1536_n1000')], "#cc6677"),
+        ("d12@768 (339M)",     [(100,'joint_opt_100'),(300,'joint_opt_300'),(1000,'joint_opt_1000')], GRAY),
+        ("d12@1280 (625M)",    [(100,'joint_opt_d12_w1280_n100'),(300,'joint_opt_d12_w1280_n300'),(1000,'joint_opt_d12_w1280_n1000')], BLUE),
+        ("d20@1536 (1.22B)",   [(100,'joint_opt_d20_w1536_n100'),(300,'joint_opt_d20_w1536_n300'),(1000,'joint_opt_d20_w1536_n1000')], TEAL),
     ]
     for ax_i, (key, label) in enumerate([("top1", "Joint OPT top-1"),
                                               ("top5", "Joint OPT top-5")]):
@@ -273,12 +286,12 @@ def fig_pareto_layered():
     # (storage_KB_per_user, indirect_any%, label, color, marker, Δbpb)
     # Numbers from results/layered_d20_r16_full.json agg block.
     pts = [
-        (0.0,    0.192, "no edit",                    "#aaaaaa", "x",  0.000),
-        (14200,  0.072, "per-user LoRA (B)",          "#aa4499", "*",  1.559),
-        (88,     0.233, "per-user Engram (C)",        "#1f77b4", "o",  0.000),
-        (14288,  0.080, "B + C (combo A)",            "#cc6677", "v",  1.419),
-        (0.0,    0.440, "shared LoRA only (E)",       "#88ccee", "D",  0.386),
-        (88,     0.443, "LAYERED: shared LoRA + Engram (F)", "#117733", "P", 0.386),
+        (0.0,    0.192, "no edit",                    GRAY, "x",  0.000),
+        (14200,  0.072, "per-user LoRA (B)",          RED, "*",  1.559),
+        (88,     0.233, "per-user Engram (C)",        BLUE, "o",  0.000),
+        (14288,  0.080, "B + C (combo A)",            ORANGE, "v",  1.419),
+        (0.0,    0.440, "shared LoRA only (E)",       BLUE_LT, "D",  0.386),
+        (88,     0.443, "LAYERED: shared LoRA + Engram (F)", GREEN, "P", 0.386),
     ]
     # B and the B+C combo sit almost on top of each other at the far right, so
     # their labels are placed left of the markers (and split vertically) to avoid
@@ -303,8 +316,8 @@ def fig_pareto_layered():
     # Pareto frontier line for the new winning region
     ax.plot([88, 0], [0.443, 0.440], "k--", alpha=0.3, lw=0.8)
     # Annotate contamination
-    ax.text(14200, 0.03, "Δbpb=+1.56", fontsize=7, color="#aa4499", ha="center")
-    ax.text(88, 0.39, "Δbpb=+0.39", fontsize=7, color="#117733", ha="center")
+    ax.text(14200, 0.03, "Δbpb=+1.56", fontsize=7, color=RED, ha="center")
+    ax.text(88, 0.39, "Δbpb=+0.39", fontsize=7, color=GREEN, ha="center")
     ax.grid(True, which="both", alpha=0.25, lw=0.4)
     fig.tight_layout()
     fig.savefig(OUT / "fig_pareto_layered.pdf")
@@ -324,12 +337,12 @@ def fig_pareto():
     # Locomo F1 from our headline LM (d20@1536 = 0.140 MEMMACHINE, 0.219 J-OPT, 0.177 single-trigger OPT)
     points = [
         # (storage KB/fact, LOCOMO F1, label, color, marker)
-        (1.0, 0.219, "Engram J-OPT\n(ours, d20)",   "#1f77b4", "o"),
-        (1.0, 0.177, "Engram OPT (per-fact)",      "#88ccee", "o"),
-        (135.0, 0.219, "per-user LoRA\n(ours-equiv)",   "#aa4499", "*"),
-        (30.0, 0.140, "MEMMACHINE_LIKE",            "#cc6677", "s"),
-        (30.0, 0.114, "RAG (top-3)",               "#996666", "s"),
-        (0.0, 0.043, "no memory",                  "#aaaaaa", "x"),
+        (1.0, 0.219, "Engram J-OPT\n(ours, d20)",   BLUE, "o"),
+        (1.0, 0.177, "Engram OPT (per-fact)",      BLUE_LT, "o"),
+        (135.0, 0.219, "per-user LoRA\n(ours-equiv)",   RED, "*"),
+        (30.0, 0.140, "MEMMACHINE_LIKE",            ORANGE, "s"),
+        (30.0, 0.114, "RAG (top-3)",               BROWN, "s"),
+        (0.0, 0.043, "no memory",                  GRAY, "x"),
     ]
     for x, y, label, color, marker in points:
         x_eff = max(x, 0.2)  # avoid log(0)
@@ -370,10 +383,10 @@ def fig_locomo_scaling():
     nomem_tf   = [0.038, 0.036, 0.049, 0.046]
 
     ax = axes[0]
-    ax.plot(xs, jopt_tf,   "o-",  color="#1f77b4", lw=2, ms=7, label="Engram Joint OPT")
-    ax.plot(xs, mem0_tf,   "s--", color="#cc6677", lw=1.5, ms=5, label="MEM0_LIKE")
-    ax.plot(xs, memmach_tf,"^--", color="#ff8855", lw=1.5, ms=5, label="MEMMACHINE_LIKE")
-    ax.plot(xs, nomem_tf,  "x--", color="#aaaaaa", lw=1.0, ms=4, label="NO_MEMORY")
+    ax.plot(xs, jopt_tf,   "o-",  color=BLUE, lw=2, ms=7, label="Engram Joint OPT")
+    ax.plot(xs, mem0_tf,   "s--", color=RED, lw=1.5, ms=5, label="MEM0_LIKE")
+    ax.plot(xs, memmach_tf,"^--", color=ORANGE, lw=1.5, ms=5, label="MEMMACHINE_LIKE")
+    ax.plot(xs, nomem_tf,  "x--", color=GRAY, lw=1.0, ms=4, label="NO_MEMORY")
     ax.set_xticks(xs); ax.set_xticklabels(size_labels, fontsize=7.5)
     ax.set_xlim(-0.3, len(sizes) - 0.7)
     ax.set_xlabel("Mini-Engram dense parameters", fontsize=8.5)
@@ -390,10 +403,10 @@ def fig_locomo_scaling():
     nomem_jg   = [0.005, 0.010, 0.025, 0.030]
 
     ax = axes[1]
-    ax.plot(xs, jopt_jg,   "o-",  color="#1f77b4", lw=2, ms=7, label="Engram Joint OPT")
-    ax.plot(xs, mem0_jg,   "s--", color="#cc6677", lw=1.5, ms=5, label="MEM0_LIKE")
-    ax.plot(xs, memmach_jg,"^--", color="#ff8855", lw=1.5, ms=5, label="MEMMACHINE_LIKE")
-    ax.plot(xs, nomem_jg,  "x--", color="#aaaaaa", lw=1.0, ms=4, label="NO_MEMORY")
+    ax.plot(xs, jopt_jg,   "o-",  color=BLUE, lw=2, ms=7, label="Engram Joint OPT")
+    ax.plot(xs, mem0_jg,   "s--", color=RED, lw=1.5, ms=5, label="MEM0_LIKE")
+    ax.plot(xs, memmach_jg,"^--", color=ORANGE, lw=1.5, ms=5, label="MEMMACHINE_LIKE")
+    ax.plot(xs, nomem_jg,  "x--", color=GRAY, lw=1.0, ms=4, label="NO_MEMORY")
     ax.set_xticks(xs); ax.set_xticklabels(size_labels, fontsize=7.5)
     ax.set_xlim(-0.3, len(sizes) - 0.7)
     ax.set_xlabel("Mini-Engram dense parameters", fontsize=8.5)
@@ -418,13 +431,13 @@ def fig_metric_mismatch():
     sizes = [178, 339, 625, 1224]
     size_names = ["d8", "d12", "d12@1280", "d20"]
     sys_data = {
-        "NO_MEMORY":      ([0.038,0.036,0.049,0.046], [0.005,0.010,0.025,0.030], "#aaaaaa", "x"),
-        "MARKDOWN_ALL":   ([0.060,0.080,0.085,0.075], [0.036,0.049,0.026,0.000], "#996644", "v"),
-        "MEM0_LIKE":      ([0.088,0.131,0.160,0.161], [0.116,0.156,0.169,0.190], "#cc6677", "s"),
-        "MEMMACHINE":     ([0.088,0.116,0.152,0.169], [0.106,0.158,0.158,0.177], "#ff8855", "^"),
-        "RAG_TOP3":       ([0.087,0.118,0.142,0.147], [0.110,0.158,0.155,0.169], "#aa6644", "D"),
-        "Engram OPT":     ([0.090,0.127,0.145,0.173], [0.028,0.041,0.079,0.110], "#88ccee", "o"),
-        "Engram J-OPT":   ([0.134,0.169,0.176,0.233], [0.044,0.059,0.095,0.140], "#1f77b4", "*"),
+        "NO_MEMORY":      ([0.038,0.036,0.049,0.046], [0.005,0.010,0.025,0.030], GRAY, "x"),
+        "MARKDOWN_ALL":   ([0.060,0.080,0.085,0.075], [0.036,0.049,0.026,0.000], GRAY_LT, "v"),
+        "MEM0_LIKE":      ([0.088,0.131,0.160,0.161], [0.116,0.156,0.169,0.190], RED, "s"),
+        "MEMMACHINE":     ([0.088,0.116,0.152,0.169], [0.106,0.158,0.158,0.177], ORANGE, "^"),
+        "RAG_TOP3":       ([0.087,0.118,0.142,0.147], [0.110,0.158,0.155,0.169], BROWN, "D"),
+        "Engram OPT":     ([0.090,0.127,0.145,0.173], [0.028,0.041,0.079,0.110], BLUE_LT, "o"),
+        "Engram J-OPT":   ([0.134,0.169,0.176,0.233], [0.044,0.059,0.095,0.140], BLUE, "*"),
     }
     for name, (tf, jg, color, marker) in sys_data.items():
         ax.scatter(tf, jg, s=60, color=color, marker=marker, edgecolor="black", lw=0.5, label=name, zorder=3)

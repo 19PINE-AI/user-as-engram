@@ -256,51 +256,43 @@ model.
   \label{fig:pareto}
 \end{figure}
 
-\section{Why an engram? Two substrates for memory}
+\section{Two kinds of memory: content and skill}
 \label{sec:engram-bio}
 
-Underneath the content/skill split is a fact about \emph{where}
-each kind of memory wants to live. A transformer's weights are an
-excellent substrate for \emph{computation}---they encode smooth,
-reusable functions that generalize---but a poor substrate for
-\emph{storage}, because they have no addresses. Every weight is
-read on every forward pass, so there is no way to write one fact
-without also bending the function the model computes for inputs
-that have nothing to do with it. A lookup table is the mirror
-image: it stores by address---write a slot, read it back
-untouched---and stays inert until its key appears, but it
-computes nothing on its own. Personal memory needs both at once.
-A user's \emph{content} is a storage problem: a pile of specific,
-idiosyncratic facts to be written once and read back exactly. The
-\emph{reasoning skill} that turns those facts into answers is a
-computation problem: a smooth function, shared across users, that
-generalizes. The dominant per-user-LoRA recipe forces both into
-the same parameters---storage onto the computation
-substrate---and pays for it in the damage we measure in
-Section~\ref{sec:negative}.
+Personal memory has two parts that pull in different directions.
+A user's \emph{content}---Maya's cardiologist, her penicillin
+allergy---is a set of specific, idiosyncratic facts that should
+be written once, read back exactly, and that differ from user to
+user. The \emph{reasoning skill} that turns those facts into
+answers (\emph{``where should I get a heart check-up near my
+daughter?''}) is the opposite: one competence, shared across
+users, that should generalize. The two want different homes:
+content wants a private, addressable store that can be written
+and composed cheaply per user, while skill wants the shared,
+generalizing weights a single model already supplies. The
+dominant per-user-LoRA recipe puts both into one per-user weight
+edit, and Section~\ref{sec:negative} shows why that is the wrong
+home for the content.
 
-The brain settled this division long ago, and the word
-\emph{engram} is a pointer to how. An engram is the physical
-trace a memory leaves in neural tissue~\citep{semon1921mneme};
-modern neuroscience localizes \emph{engram cells}---sparse neuron
-populations whose reactivation triggers recall---largely to the
+The brain draws the same line, and the word \emph{engram} points
+to it. An engram is the physical trace a memory leaves in neural
+tissue~\citep{semon1921mneme}; modern neuroscience localizes
+\emph{engram cells}---sparse neuron populations whose
+reactivation triggers recall---largely to the
 hippocampus~\citep{tonegawa2015engram}. Complementary learning
 systems theory~\citep{mcclelland1995cls,kumaran2016cls} explains
-\emph{why} a separate fast store exists at all: a sparse,
+why a separate fast store exists at all: a sparse,
 pattern-separated hippocampal code can write a new episode
-\emph{without} catastrophically overwriting the slow, distributed
-cortical representations that hold general skills---exactly the
-interference a per-user LoRA suffers and the hippocampus avoids.
-User as Engram makes that division architectural
-(Table~\ref{tab:bio-mapping}): each user's facts are the fast,
-local trace, written into a hash-addressed table the model was
-pretrained to read from, while the shared adapter and frozen
-backbone are the slow, distributed skill. Because the table is
-content-addressable and its read is gated on the trigger N-gram,
-a written fact perturbs the model only where that fact is
-addressed---\emph{exactly} zero elsewhere, as we verify in
-Section~\ref{sec:locality}---which is the engineering restatement
-of the interference-avoidance the hippocampus exists to provide.
+without overwriting the slow, distributed cortical
+representations that hold general skills. User as Engram makes
+that division architectural (Table~\ref{tab:bio-mapping}): each
+user's facts are the fast, local trace, written into a
+hash-addressed table the model was pretrained to read from, while
+the shared adapter and frozen backbone are the slow, distributed
+skill. The mechanism that keeps the two from interfering---the
+table's content-addressable, gated read---is described in
+Section~\ref{sec:method} and verified exact in
+Section~\ref{sec:locality}.
 
 \begin{table}[t]
   \centering
@@ -468,14 +460,11 @@ consequences. Unlike these methods, which overwrite knowledge the
 model was pretrained with, we \emph{add} per-user facts the model
 never saw, and care about leaving its other behaviour untouched.
 Recitation methods (SR-RAG~\citep{srrag2024},
-\citet{hewitt2026introspection}, ``Thinking to
-Recall''~\citep{gekhman2026thinking},
 recitation-augmented generation~\citep{sun2023recitation}) train
-or prompt the model to surface stored facts before reasoning.
-We apply the recitation idea to per-user adapters in
-Section~\ref{sec:negative} (within-schema 0.41, but cross-schema
-collapses to 0.05), and treat it as a candidate mitigation for
-Engram in our discussion.
+or prompt the model to surface stored facts before reasoning. We
+apply the recitation idea to per-user adapters in
+Section~\ref{sec:negative}, and treat it as a candidate
+mitigation for Engram in our discussion.
 
 \paragraph{Continual learning and catastrophic forgetting.}
 The damage a per-user LoRA does to unrelated text is a modern
@@ -496,17 +485,19 @@ fact to its own address and leaving the shared weights untouched.
 \section{Per-user LoRA contaminates globally}
 \label{sec:negative}
 
-A per-user LoRA edits $Q/K/V/O$ in every layer, so its edit is
-unconditioned---part of every forward pass. This section takes
-that fact apart into the two things it actually does, which
-behave very differently. The \emph{architectural} cost---loss on
-text unrelated to the user---is the direct signature of storing a
-fact in a shared function: large, and the same in kind on every
-base. The \emph{user-visible} cost---degraded reasoning---is
-downstream of the first but mediated by how robust the base is,
-and so it varies. Reading the two together explains both why the
-literature disagrees about whether per-user LoRA ``works'' and
-why no training recipe repairs it.
+Weights are an excellent place to keep knowledge---pretraining
+packs millions of facts into them accurately. They are a poor
+place to keep \emph{one user's} facts written as a \emph{per-user
+weight edit}, and not for lack of capacity. A per-user LoRA edits
+$Q/K/V/O$ in every layer, so its edit is unconditioned (part of
+every forward pass) and must be fit per user from a handful of
+examples. Two problems follow, and we measure both: the edit is
+global, so it contaminates text that has nothing to do with the
+user; and the facts, once trained in, are \emph{recalled but not
+readily reasoned over}. The first is an architectural cost paid
+on every base; the second matters most for personalization, and
+is why a fact belongs in a store the shared reasoning can read
+rather than in a per-user copy of the weights.
 
 \subsection{Architectural contamination on the same base (Mini-Engram-d20)}
 
@@ -549,9 +540,24 @@ contamination from a shared delta accumulates and cannot be
 quarantined per user, whereas addressed writes have zero
 cross-talk by construction (Section~\ref{sec:serving}).
 
-\subsection{User-visible effect varies with the base model}
+\subsection{Recall without reasoning}
 
-We replicate the per-user LoRA recipe (rank-64 NTP on
+A per-user LoRA learns to \emph{recall} its facts---direct recall
+is near-perfect---but the harder half of personal memory is
+\emph{reasoning over} them, and that is where it struggles. The
+reason is composability. Knowledge acquired in pretraining is
+laid down in a form the model's reasoning can chain; a per-user
+adapter fit to a handful of examples instead memorizes a flat
+trigger$\to$answer mapping that the shared reasoning does not
+readily pick up and combine. To answer an indirect question the
+adapter would have to carry the reasoning skill as well, learned
+from the same few examples---hard to train, and it does not
+transfer to facts it never saw. This recall-without-reasoning gap
+is the recurring finding of the per-user-adapter
+line~\citep{su2024prag,tan2024oppu,zhuang2024hydra}: the facts go
+in, but indirect questions over them do not reliably come out.
+
+What a user sees in addition depends on the base. We replicate the per-user LoRA recipe (rank-64 NTP on
 observation/fact/QA mixtures, 12 epochs $\times$ 200 samples) on
 three instruction-tuned bases---Qwen2.5-7B~\citep{qwen2025qwen25},
 Llama-3.1-8B~\citep{grattafiori2024llama3}, and
@@ -572,97 +578,143 @@ Mistral-7B~\citep{jiang2023mistral}---and one base LM
   \label{fig:crossbase}
 \end{figure}
 
-The split is mechanistically clean. The bpb damage above is the
-same in kind on every base, because it is a property of the
-parameterization; what differs is whether the model's
-\emph{readout} survives it. An instruction-tuned model has
-redundant, well-conditioned reasoning circuits that tolerate a
-small global nudge, so its answers barely move; a base LM's
-completion behaviour is fragile, so the same nudge derails it
-(here, 17/20 users worse). The lesson is methodological:
-evaluating per-user LoRA only by task accuracy on a robust base
-hides the edit, because robustness masks a perturbation that is
-nonetheless always present. The early $n{=}10$ pilot's ``5/10
-worse'' was this fragile-base signal read at small $n$; at scale
-the user-visible effect shrinks toward zero on instruction-tuned
-bases even as the architectural damage stays put.
-
-\subsection{Why no recipe fixes this}
-
-If contamination is what storing a fact in a shared function
-costs, then no way of \emph{training} that function should remove
-it---only changing where the fact lives can. The two recipe-level
-fixes we tried bear this out. \emph{Recite-then-reason} traces
-teach the adapter to surface a fact before using it: this closes
-the reasoning gap \emph{within} the training schema but collapses
-when the test fact comes from a new one, because it sharpened the
-skill without making the storage local. A full-parameter
-\emph{meta-train} over the adapter distribution lifts reasoning
-on training users, transfers essentially nothing to held-out
-ones, and misaligns the frozen adapters enough to break direct
-recall (Appendix~\ref{app:userlora}). Both attack the symptom
-(reasoning) and leave the cause (storage on a computation
-substrate) untouched. The fix is to move the fact, not retrain
-the delta: Section~\ref{sec:method} puts content on a storage
-substrate, and Section~\ref{sec:layered} keeps the reasoning
-skill on the shared computation substrate where it belongs.
+The split is clean (Figure~\ref{fig:crossbase}). On a base LM the
+global perturbation also disrupts fragile completion behaviour,
+so indirect recall drops outright; on an instruction-tuned base
+the base's own reasoning carries the indirect question and masks
+the adapter's inability to provide it---which is why the early
+$n{=}10$ pilot's ``5/10 worse'' shrinks toward zero at scale on
+strong bases. The caution is methodological: judging a per-user
+LoRA by task accuracy on a strong instruction-tuned base hides
+both the contamination and the fact that the adapter never
+learned to reason over what it stored. The reasoning has to come
+from somewhere---and Section~\ref{sec:layered} supplies it from
+one shared skill instead of asking each per-user edit to relearn
+it.
 
 \section{Method: User as Engram}
 \label{sec:method}
 
-We instantiate the ``local per-user edit'' as follows: surgically
-write per-user fact rows into the hash-keyed embedding table of
-an Engram-pretrained model. Figure~\ref{fig:arch} shows the
-serving architecture; the rest of this section walks through
-each component.
+We instantiate the ``local per-user edit'' of
+Section~\ref{sec:engram-bio} concretely: surgically write
+per-user fact rows into the hash-keyed memory table of an
+Engram-pretrained model. Three pictures carry the method---where
+that table sits in the network (Figure~\ref{fig:engram-arch}),
+how a fact is written into it (Figure~\ref{fig:user-insertion}),
+and how the writes are served per user
+(Figure~\ref{fig:arch})---and the subsections below walk through
+each.
+
+\subsection{Where the Engram lives}
+\label{sec:engram-arch-text}
+
+Most of an Engram model is an ordinary
+transformer~\citep{vaswani2017transformer}; the only addition is
+a content-addressable lookup spliced into a few layers
+(Figure~\ref{fig:engram-arch}; two layers in our Mini-Engrams).
+At every position, the recent tokens---a suffix $N$-gram---are
+hashed by $K$ deterministic multiplicative-XOR heads into
+addresses in a large embedding table $E$. The retrieved rows are
+projected by $W_K, W_V$, weighted by an attention-style gate
+$\alpha=\sigma(\cdot)$, and \emph{added to the residual stream},
+exactly where attention and the MLP also write. The lookup is
+thus a read from memory, but keyed by the surface form of the
+recent tokens rather than by query--key similarity across the
+sequence.
+
+Two properties make this a genuine store rather than just more
+parameters, and both are what we exploit. First, the address is a
+deterministic function of the input token IDs---known
+\emph{before} the forward pass---so we know exactly which rows a
+given query will read, and the table can be offloaded to host
+DRAM. Second, the gate makes the read sparse and conditional:
+most positions retrieve essentially nothing, and a stored row
+affects the output only at positions whose $N$-gram addresses it.
+This is precisely the addressable, sparse storage substrate that
+Section~\ref{sec:engram-bio} argued personal facts want.
+Attention and the MLP are dense and global---every position,
+every weight---whereas the Engram read touches a handful of rows
+at a handful of positions, so editing one row changes the model
+only where that row is addressed. The rest of this section turns
+that into a per-user memory.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figs/fig_arch.pdf}
-  \caption{EngramServer architecture. Per user, an override map of
-  $(\text{row\_idx}, \text{row\_vector})$ pairs lives in DRAM. On each
-  request, the server saves the originals at the affected addresses
-  ($\sim$2 ms), writes the user's overrides, runs the forward pass,
-  then restores. The Engram lookup at the configured layer
-  transparently sees the override values; the gate fires only at the
-  trigger N-gram. There is no router and no graph rewrite.}
-  \label{fig:arch}
+  \includegraphics[width=\linewidth]{figs/fig_engram_in_transformer.pdf}
+  \caption{\textbf{Where the Engram lives in the transformer.} The
+  backbone is a standard transformer; at a few designated Engram
+  layers ($\bigstar$) a content-addressable lookup runs alongside
+  attention and the MLP. At a position, the recent tokens' suffix
+  $N$-gram is hashed by $K$ heads into $K$ table addresses
+  (deterministic, hence known before the forward pass); the
+  retrieved rows are projected by $W_K, W_V$, gated by $\alpha$,
+  and added to the residual stream---but the gate fires only where
+  the trigger $N$-gram is present. Unlike attention and the MLP,
+  which touch every position and every weight, the Engram read is
+  sparse and addressable; that is what lets a single written row
+  change behaviour locally.}
+  \label{fig:engram-arch}
 \end{figure}
 
 \subsection{Surgical row insertion}
 
-Tokenise the trigger to $x_1, \ldots, x_T$. The trigger position is
-$t^\star = T-1$. For each $(n, k)$ in the configured Engram layer,
-the addresses $\{z_{t^\star, n, k}\}$ are deterministic from the
-trigger tokens. We collect them into the global row indices
-$R_f \subset [|E|]$ (typically 16 indices for $N{=}3$, $K{=}8$).
-
-\paragraph{Three insertion strategies} (in increasing cost and
-quality; Appendix Figure~\ref{fig:strategies} plots their recall
-side by side against a RANDOM control):
-
+To write a fact, we put its answer where its trigger is read. The
+trigger's suffix $N$-gram hashes to a fixed, sparse set of table
+rows $R_f$---about 16 rows for our $N{=}3$, $K{=}8$
+configuration---deterministically, touching no other row. What
+remains is \emph{what} to write into those rows, for which we use
+three strategies of increasing cost and fidelity (per-strategy
+recall against a RANDOM control in Appendix~\ref{app:strategies}):
 \begin{itemize}[leftmargin=*,topsep=1pt,itemsep=1pt]
-  \item \textbf{UNEMBED\_P} (closed-form): solve
-        $W_V e^\star \approx U_y$ via the Moore--Penrose
-        pseudo-inverse $e^\star = W_V^\dagger U_y$, where $U_y$
-        is the unembed direction of the answer's first token.
-        Write $e^\star$ into all rows in $R_f$. Cost: one
-        matrix--vector product, ${<}\,1$\,ms per fact.
-  \item \textbf{OPT independent}: initialise from UNEMBED\_P,
-        then take 15 Adam steps on $e$ to maximise
-        $\log p(y \mid \mathrm{trigger})$. Cost: 15 fwd+bwd,
-        $\sim$1\,s per fact. Each fact is optimised in
-        isolation.
-  \item \textbf{Joint OPT} (the recommended default for
-        ${\geq}\,30$ facts/user): allocate one trainable row
-        tensor over the union of all addresses touched by the
-        user's facts. Each step samples a random fact,
-        evaluates the model with all rows live, and backprops
-        through the entire row stack. By coordinating rows
-        during training, Joint OPT eliminates the cross-fact
-        forward-pass interference that limits independent OPT
-        at high density (Section~\ref{sec:experiments}).
+  \item \textbf{UNEMBED\_P} (closed form): solve in one step for
+        the row value whose projection steers the next-token
+        distribution toward the answer---a single matrix--vector
+        product, ${<}1$\,ms, no training.
+  \item \textbf{OPT}: refine that value with a few gradient steps
+        per fact ($\sim$1\,s), trading time for accuracy.
+  \item \textbf{Joint OPT} (our default beyond $\sim$30
+        facts/user): optimise \emph{all} of a user's rows
+        together rather than one fact at a time.
 \end{itemize}
+Joint OPT is the default because of the one place this design has
+to earn its keep. When many of a user's facts are live at once,
+their rows are read in the same forward passes and interfere;
+optimising them jointly lets the rows settle into values that
+coexist, which is what holds recall up as facts-per-user grows
+(Section~\ref{sec:experiments}). Crucially, every write still
+lands only in that user's $R_f$, so however many facts or domains
+are stacked, the store stays additive and private---the locality
+is the architecture's, not a constraint we have to impose.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_user_insertion.pdf}
+  \caption{\textbf{Inserting a user fact into the Engram.} A fact
+  is reduced to \emph{where} and \emph{what}: the trigger's suffix
+  $N$-gram hashes to a sparse set of row addresses $R_f$
+  (\emph{where}), and one of three strategies writes a value
+  $e^\star$ into those rows (\emph{what}). UNEMBED\_P solves for
+  $e^\star$ in closed form; OPT takes a few gradient steps per
+  fact; Joint OPT---our default beyond $\sim$30 facts/user---
+  optimises all of the user's rows together so they do not
+  interfere. The result is a per-user override map of
+  $\sim$88\,KB; every row outside $R_f$, and the entire backbone,
+  is left bit-identical.}
+  \label{fig:user-insertion}
+\end{figure}
+
+Read together, the two figures give the method in one sentence:
+\textbf{remembering a fact is writing a few rows.} A fact
+decomposes into an address set $R_f$ (\emph{where}, fixed by the
+trigger's hash) and a value $e^\star$ (\emph{what}, set by one of
+the strategies above), and the write touches nothing else. The
+locality we rely on is therefore \emph{inherited from the
+architecture}---the read was already sparse and addressed
+(Section~\ref{sec:engram-arch-text})---rather than enforced by a
+separate mechanism. That is why per-user and per-domain writes
+compose without a combiner and never leak across users
+(Section~\ref{sec:experiments}), and Section~\ref{sec:locality}
+verifies that ``touches nothing else'' is literally exact.
 
 \subsection{Local edit verified}
 \label{sec:locality}
@@ -703,6 +755,19 @@ request time, the server saves the originals at the affected
 addresses, writes the user's overrides, runs the forward, and
 restores. Cross-user leakage is \emph{zero by design}---%
 user A's overrides are not in the table when user B queries.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_arch.pdf}
+  \caption{EngramServer architecture. Per user, an override map of
+  $(\text{row\_idx}, \text{row\_vector})$ pairs lives in DRAM. On each
+  request, the server saves the originals at the affected addresses
+  ($\sim$2 ms), writes the user's overrides, runs the forward pass,
+  then restores. The Engram lookup at the configured layer
+  transparently sees the override values; the gate fires only at the
+  trigger N-gram. There is no router and no graph rewrite.}
+  \label{fig:arch}
+\end{figure}
 
 Override maps with disjoint addresses commute, so corporate
 facts + user facts (or any number of domain-specific Engrams)
@@ -1186,81 +1251,6 @@ holds at every size (Section~\ref{sec:memory-systems}, ``Scale
 invariance'' paragraph). Per-paraphrase rank data are in
 Appendix~\ref{app:paraphrase-detail}.
 
-\section{Multi-tenant serving system}
-\label{sec:serving}
-
-We implement \texttt{EngramServer}, a $\sim$50-line wrapper
-around an Engram-pretrained model that supports per-user (and
-per-org) override maps with sub-millisecond apply/restore.
-Figure~\ref{fig:serving} breaks down per-request latency: applying
-and restoring the override map cost $\sim$2.3\,ms each, leaving the
-frozen forward pass to dominate the 23.2\,ms end-to-end median. The
-full per-request latency CDF is in Appendix Figure~\ref{fig:cdf}.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig5_serving_latency.pdf}
-  \caption{Multi-tenant serving on Mini-Engram-d12 (30 users
-  $\times$ 50 facts $\times$ 600 requests). \textbf{(a)} Override-apply
-  latency distribution: median 2.2 ms. \textbf{(b)} Median per-request
-  latency by component: apply (2.3 ms) + forward (16.5 ms) + restore
-  (2.3 ms); the frozen forward pass dominates, and the override
-  apply+restore overhead ($\sim$4.6 ms) is under 20\% of the 23.2 ms
-  end-to-end median.}
-  \label{fig:serving}
-\end{figure}
-
-\paragraph{Architecture.}
-HBM holds the frozen base and global Engram tables. DRAM holds
-the override store, keyed by
-\texttt{(scope\_id) $\to$ OverrideMap}. Per request: resolve
-user/org $\to$ apply overrides $\to$ forward $\to$ restore.
-There is no router, no fused LoRA kernel, and no graph rewrite.
-
-\paragraph{Empirical results.}
-Figure~\ref{fig:serving-scale} reports throughput, latency,
-storage, and recall across four deployment scales.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.74\linewidth]{figs/fig_serving_scale.pdf}
-  \caption{EngramServer throughput across four deployment scales
-  on one idle Blackwell GPU. On the ablation-optimal d12@1280 the
-  server reaches 232\,req/s (30\,u/50\,f) and holds 226\,req/s at
-  100\,u/100\,f---within 3\% as tenants triple---at 4.4\,ms p50
-  latency, a 0.03\,ms override apply, 88\,KB/user, and 62\%/96\%
-  top-1/top-5 own-fact recall. Per-request work is independent of
-  tenant count, and cross-user information flow is zero under the
-  apply/restore protocol.}
-  \label{fig:serving-scale}
-\end{figure}
-
-The system scales linearly in tenants: per-request work is
-independent of tenant count, so throughput and latency barely
-move as users triple (Figure~\ref{fig:serving-scale}). Recall is
-bounded by within-user fact density rather than by how many
-tenants share the server, and each additional user costs one
-$O(\text{KB})$ override swap per request with no shared state.
-
-\paragraph{Cross-user privacy.} Cross-user information flow under
-the serving protocol is \emph{zero by design}: a user's overrides
-are simply not in the table when anyone else is the active user.
-The only residual ``leak'' under a cross-user probe is gold-value
-coincidence---two users who happen to share a favourite spice or
-surname---which is small and protocol-independent. It inflates
-only under a deliberately wrong all-coresident protocol that
-writes every user's rows into one shared table at once, where
-identical surface forms collide in the same address space.
-
-\paragraph{LoRA-serving comparison.}
-S-LoRA~\citep{sheng2024slora} and Punica~\citep{chen2024punica}
-serve per-user LoRAs via custom CUDA kernels with
-per-batch-row routing. \texttt{EngramServer} requires no such
-infrastructure: the override apply is a standard
-\texttt{embedding.weight[rows] = ...} operation. Production
-batched multi-user serving needs one extra \texttt{gather} op
-per Engram layer; we do not benchmark that kernel here.
-
 \section{Layered architecture: content + reasoning skill}
 \label{sec:layered}
 
@@ -1497,6 +1487,81 @@ facts/user, Engram density is the limiting factor on the
 parametric side; for $10^4$+ facts in a shared corpus,
 retrieval is the limiting factor on the RAG side. The two
 costs scale on different axes and cross around $N \approx 100$.
+
+\section{Multi-tenant serving system}
+\label{sec:serving}
+
+We implement \texttt{EngramServer}, a $\sim$50-line wrapper
+around an Engram-pretrained model that supports per-user (and
+per-org) override maps with sub-millisecond apply/restore.
+Figure~\ref{fig:serving} breaks down per-request latency: applying
+and restoring the override map cost $\sim$2.3\,ms each, leaving the
+frozen forward pass to dominate the 23.2\,ms end-to-end median. The
+full per-request latency CDF is in Appendix Figure~\ref{fig:cdf}.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig5_serving_latency.pdf}
+  \caption{Multi-tenant serving on Mini-Engram-d12 (30 users
+  $\times$ 50 facts $\times$ 600 requests). \textbf{(a)} Override-apply
+  latency distribution: median 2.2 ms. \textbf{(b)} Median per-request
+  latency by component: apply (2.3 ms) + forward (16.5 ms) + restore
+  (2.3 ms); the frozen forward pass dominates, and the override
+  apply+restore overhead ($\sim$4.6 ms) is under 20\% of the 23.2 ms
+  end-to-end median.}
+  \label{fig:serving}
+\end{figure}
+
+\paragraph{Architecture.}
+HBM holds the frozen base and global Engram tables. DRAM holds
+the override store, keyed by
+\texttt{(scope\_id) $\to$ OverrideMap}. Per request: resolve
+user/org $\to$ apply overrides $\to$ forward $\to$ restore.
+There is no router, no fused LoRA kernel, and no graph rewrite.
+
+\paragraph{Empirical results.}
+Figure~\ref{fig:serving-scale} reports throughput, latency,
+storage, and recall across four deployment scales.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.74\linewidth]{figs/fig_serving_scale.pdf}
+  \caption{EngramServer throughput across four deployment scales
+  on one idle Blackwell GPU. On the ablation-optimal d12@1280 the
+  server reaches 232\,req/s (30\,u/50\,f) and holds 226\,req/s at
+  100\,u/100\,f---within 3\% as tenants triple---at 4.4\,ms p50
+  latency, a 0.03\,ms override apply, 88\,KB/user, and 62\%/96\%
+  top-1/top-5 own-fact recall. Per-request work is independent of
+  tenant count, and cross-user information flow is zero under the
+  apply/restore protocol.}
+  \label{fig:serving-scale}
+\end{figure}
+
+The system scales linearly in tenants: per-request work is
+independent of tenant count, so throughput and latency barely
+move as users triple (Figure~\ref{fig:serving-scale}). Recall is
+bounded by within-user fact density rather than by how many
+tenants share the server, and each additional user costs one
+$O(\text{KB})$ override swap per request with no shared state.
+
+\paragraph{Cross-user privacy.} Cross-user information flow under
+the serving protocol is \emph{zero by design}: a user's overrides
+are simply not in the table when anyone else is the active user.
+The only residual ``leak'' under a cross-user probe is gold-value
+coincidence---two users who happen to share a favourite spice or
+surname---which is small and protocol-independent. It inflates
+only under a deliberately wrong all-coresident protocol that
+writes every user's rows into one shared table at once, where
+identical surface forms collide in the same address space.
+
+\paragraph{LoRA-serving comparison.}
+S-LoRA~\citep{sheng2024slora} and Punica~\citep{chen2024punica}
+serve per-user LoRAs via custom CUDA kernels with
+per-batch-row routing. \texttt{EngramServer} requires no such
+infrastructure: the override apply is a standard
+\texttt{embedding.weight[rows] = ...} operation. Production
+batched multi-user serving needs one extra \texttt{gather} op
+per Engram layer; we do not benchmark that kernel here.
 
 \section{Discussion and limitations}
 \label{sec:discussion}
@@ -1987,17 +2052,6 @@ D.~Wu, J.-C. Gu, K.-W. Chang, and N.~Peng.
   verbalization.
 \newblock arXiv:2504.01018, 2025.
 
-\bibitem[Hewitt et~al.(2026)]{hewitt2026introspection}
-J.~Hewitt et~al.
-\newblock Introspective reasoning traces for parametric knowledge surfacing.
-\newblock arXiv:2602.22193, 2026.
-
-\bibitem[Gekhman et~al.(2026)]{gekhman2026thinking}
-S.~Gekhman et~al.
-\newblock Thinking to Recall: chain-of-thought pre-recitation for multi-hop
-  parametric recall.
-\newblock arXiv:2603.09906, 2026.
-
 \bibitem[Sun et~al.(2023)]{sun2023recitation}
 Z.~Sun et~al.
 \newblock Recitation-augmented language models.
@@ -2234,7 +2288,12 @@ T.~Dettmers, A.~Pagnoni, A.~Holtzman, and L.~Zettlemoyer.
 
 \appendix
 
-\section{Appendix: LOCOMO full results}
+% Appendix section headings read "Appendix C: Title" (arxiv.sty uses titlesec;
+% \thesection is left as the bare letter so "Appendix~\ref{app:...}" stays correct).
+\titleformat{\section}
+  {\color{arxivink}\sffamily\large\bfseries}{Appendix~\thesection:}{0.6em}{}
+
+\section{LOCOMO full results}
 \label{app:locomo}
 
 Figure~\ref{fig:locomo-categories} summarizes the category
@@ -2307,7 +2366,7 @@ closes the resulting judge gap.
   \label{fig:locomo-judge}
 \end{figure}
 
-\section{Appendix: Detailed User-as-LoRA results}
+\section{Detailed User-as-LoRA results}
 \label{app:userlora}
 
 This appendix expands Section~\ref{sec:negative} with the full
@@ -2440,7 +2499,7 @@ never contaminate non-trigger forwards. Engram with surgical
 row insertion (main paper Section~\ref{sec:method}) provides
 exactly this property.
 
-\section{Appendix: Mechanistic analysis}
+\section{Mechanistic analysis}
 \label{app:mech}
 
 This appendix consolidates the mechanistic evidence that is
@@ -2558,7 +2617,7 @@ convenience but a direct consequence of the mechanism.
   \label{fig:logitlens}
 \end{figure}
 
-\section{Appendix: Pretraining curves}
+\section{Pretraining curves}
 \label{app:pretrain}
 
 Figure~\ref{fig:pretrain} shows the Mini-Engram pretraining runs that
@@ -2581,7 +2640,7 @@ the substrates for the row-insertion results in the body.
   \label{fig:pretrain}
 \end{figure}
 
-\section{Appendix: Insertion strategy comparison}
+\section{Insertion strategy comparison}
 \label{app:strategies}
 
 Figure~\ref{fig:strategies} compares five ways of writing a fact
@@ -2610,7 +2669,7 @@ Appendix~\ref{app:strategies-full}.
   \label{fig:strategies}
 \end{figure}
 
-\section{Appendix: Paraphrase generalisation}
+\section{Paraphrase generalisation}
 \label{app:paraphrase}
 
 Figure~\ref{fig:paraphrase} tests whether a fact written at one
@@ -2637,7 +2696,7 @@ Appendix~\ref{app:paraphrase-detail}.
   \label{fig:paraphrase}
 \end{figure}
 
-\section{Appendix: Multi-domain composition}
+\section{Multi-domain composition}
 \label{app:multidomain}
 
 Figure~\ref{fig:multidomain} stacks $D$ fact domains into one Engram
@@ -2665,7 +2724,7 @@ corp+user composition measured directly in Section~\ref{sec:additive}.
   \label{fig:multidomain}
 \end{figure}
 
-\section{Appendix: Serving latency CDF}
+\section{Serving latency CDF}
 \label{app:cdf}
 
 Figure~\ref{fig:cdf} shows the per-request latency distribution under
@@ -2689,7 +2748,7 @@ Figure~\ref{fig:serving-scale}.
   \label{fig:cdf}
 \end{figure}
 
-\section{Appendix: Qwen-3B + RAG details}
+\section{Qwen-3B + RAG details}
 \label{app:qwen-rag-prompt}
 
 The Qwen-3B + RAG measurements in Section~\ref{sec:qwen-rag} use
@@ -2714,7 +2773,7 @@ Answer:
 \end{verbatim}}
 
 Retrieval uses the same \texttt{sentence-transformers/all-MiniLM-L6-v2}
-encoder as the RAG/MEM0/MEMMACHINE baselines of
+encoder as the RAG/\allowbreak MEM0/\allowbreak MEMMACHINE baselines of
 Section~\ref{sec:memory-systems}, with the per-user fact set as the
 index. For each indirect probe the question text is embedded and
 cosine-similarity top-$k$ retrieval returns the facts to put in the
@@ -2742,7 +2801,7 @@ leaves the LM to derive the answer from one single-attribute
 fact---which Qwen-3B often refuses to do under our ``shortest
 span'' system prompt.
 
-\section{Appendix: Preliminary architectural validation}
+\section{Preliminary architectural validation}
 \label{app:tier1}
 
 Before training Mini-Engram, we ran three feasibility probes on
@@ -2783,7 +2842,7 @@ from genuine hash collisions. With the per-user override design
 (one global table, swap per request) cross-user collision is
 irrelevant by design.
 
-\section{Appendix: Alternative architectures we considered}
+\section{Alternative architectures we considered}
 \label{app:alt}
 
 For completeness we report two alternative designs we benchmarked
@@ -2838,7 +2897,7 @@ cross-user probes), versus 46\% under the all-coresident
 protocol where every user's overrides occupy the same table at
 once.
 
-\section{Appendix: Insertion strategies (full)}
+\section{Insertion strategies (full)}
 \label{app:strategies-full}
 
 The first comparison of insertion strategies on Mini-Engram-d8 with
@@ -2869,7 +2928,7 @@ UNEMBED\_P (4/16 $+\Delta$logit)---over-constraining $e$ drives
 it off the trained-row distribution and the gate suppresses it.
 We dropped DUAL.
 
-\section{Appendix: Per-paraphrase rank table}
+\section{Per-paraphrase rank table}
 \label{app:paraphrase-detail}
 
 The full per-paraphrase rank data behind Section~\ref{sec:paraphrase}
@@ -2919,7 +2978,7 @@ the surface form diverges (``I love the spice'' vs.\ ``My
 favorite spice is''). Inserting at all 5 paraphrases per fact
 (multi-trigger) drives every paraphrase to rank 0.
 
-\section{Appendix: Joint OPT convergence}
+\section{Joint OPT convergence}
 \label{app:joint-loss}
 
 Figure~\ref{fig:jointopt} traces the Joint OPT optimisation behind the
@@ -2941,7 +3000,7 @@ leave no easy gains on the table.
   \label{fig:jointopt}
 \end{figure}
 
-\section{Appendix: Joint OPT algorithm}
+\section{Joint OPT algorithm}
 \label{app:joint-opt}
 
 \begin{enumerate}[leftmargin=*,topsep=2pt,itemsep=1pt]
@@ -2967,7 +3026,7 @@ LR 0.5. Wall time scales as $K$ alone (one fwd+bwd per step) so per-fact
 cost \emph{decreases} with more facts: 0.44 s/fact at $N{=}100$,
 0.23 s/fact at $N{=}1000$.
 
-\section{Appendix: Seed variance of the layered measurement}
+\section{Seed variance of the layered measurement}
 \label{app:layered-seeds}
 
 The headline F vs B numbers in Figure~\ref{fig:layered-conditions} are
@@ -3025,37 +3084,7 @@ modestly: seed-to-seed F indirect\_any spans $34.8$\%--$44.5$\%
 appendix makes the per-seed variance explicit so readers can see
 which numbers depend on which seed.
 
-\section{Appendix: Reproducing the paper}
-\label{app:reproduce}
-
-{\scriptsize
-\begin{verbatim}
-git clone https://github.com/19PINE-AI/user-as-engram
-cd user-as-engram/nanochat
-uv venv && source .venv/bin/activate && uv sync --extra gpu
-export NANOCHAT_BASE_DIR=$(pwd)/../nanochat_base
-export CKPT=$NANOCHAT_BASE_DIR/engram_runs/engram_d12
-
-# Pretrain Mini-Engram-d12 (~3h on a single GPU)
-python -m scripts.engram_pretrain --depth 12 --num-iterations 6000 \
-   --device-batch-size 8 --total-batch-size 131072 --max-seq-len 1024 \
-   --window-pattern L --engram on --engram-layer-ids 2 7 \
-   --engram-vocab-per-ngram 50000 --engram-n-embed 256 \
-   --no-compile --model-tag engram_d12
-
-# Build corpora
-python -m scripts.build_corpus_xxl
-
-# Run all evaluations
-python -m scripts.scalability_benchmark --ckpt-dir $CKPT
-python -m scripts.joint_opt           --ckpt-dir $CKPT --n-facts 100
-python -m scripts.multifact_lora      --ckpt-dir $CKPT --n-facts 100
-python -m scripts.eval_serving        --ckpt-dir $CKPT --n-users 30
-\end{verbatim}
-}
-
-
-\section{Appendix: Extended experiments and ablations}
+\section{Extended experiments and ablations}
 \label{app:extended}
 
 This appendix collects the capacity, fact-count, dense-size, and
@@ -3403,24 +3432,5 @@ users. For 1\,M users that is 100\,GB $+$
 versus 14.2\,TB for per-user LoRA at the same recall ceiling.
 Figure~\ref{fig:pareto-layered} plots all six method
 combinations against storage and indirect-reasoning accuracy.
-
-\subsection{Limitations of the layered measurement}
-
-(i) Cross-schema generalisation was the most important open
-question; Section~\ref{sec:layered-cross-schema} shows that F's
-lead survives a personal $\to$ medical schema shift with a 30\%
-relative degradation (44\% $\to$ 31\% indirect\_any), versus the
-90\% collapse of Stage A's recite-then-reason recipe in
-Section~\ref{sec:negative}. We tested one schema pair; broader
-domain shifts (cross-language, technical jargon) remain open.
-(ii) The headline base is a base LM (Mini-Engram-d20);
-Section~\ref{sec:layered-sft} shows F still beats B on every
-measure on a Q/A-format-adapted Mini-Engram-d20 ($2.8\times$ on
-indirect\_any), though the lead compresses from $7.4\times$ as
-B becomes a stronger baseline. A full chat-tuned
-Engram-pretrained backbone (the cross-base table's setup) is
-the natural next test.
-(iii) We measure indirect performance with a completion-format
-greedy decode and gold-substring matching, not an LLM judge.
 
 \end{document}

@@ -19,17 +19,32 @@ import numpy as np
 # NeurIPS-style figure setup
 plt.rcParams.update({
     "font.family": "serif",
-    "font.serif": ["Times New Roman", "DejaVu Serif"],
+    "font.serif": ["Palatino", "Palatino Linotype", "Times New Roman", "DejaVu Serif"],
     "font.size": 9,
     "axes.titlesize": 10,
     "axes.labelsize": 9,
     "xtick.labelsize": 8,
     "ytick.labelsize": 8,
     "legend.fontsize": 8,
+    "axes.spines.top": False,
+    "axes.spines.right": False,
+    "grid.color": "#b3b3b3",
+    "grid.linestyle": ":",
+    "grid.linewidth": 0.6,
+    "grid.alpha": 0.7,
     "figure.dpi": 150,
     "savefig.bbox": "tight",
     "savefig.pad_inches": 0.02,
 })
+
+# Canonical paper palette (shared with gen_reorg_figs.py / fig_locomo_categories.py).
+BLUE = "#34507F"     # ours (Engram / Joint OPT)
+BLUE_LT = "#7E97C4"  # ours, secondary
+RED = "#C24A3F"      # primary baseline (per-user LoRA)
+ORANGE = "#D98A3D"   # secondary baseline (SFT-LoRA / restore)
+GREEN = "#3E7C5A"
+GRAY = "#8A8F9A"
+GRAY_LT = "#C2C6CE"
 
 FIGS = Path(__file__).parent / "figs"
 FIGS.mkdir(parents=True, exist_ok=True)
@@ -49,7 +64,7 @@ def fig1_lora_negative():
     fig, ax = plt.subplots(figsize=(3.5, 2.7))
     cats = ["Direct\n(adapter)", "Indirect\n(adapter)", "Indirect\n(base only)"]
     vals = [direct_w_adapter, indirect_w_adapter, indirect_base_only]
-    colors = ["#2c7fb8", "#d62728", "#7f7f7f"]
+    colors = [BLUE, RED, GRAY]
     bars = ax.bar(cats, vals, color=colors, width=0.6, edgecolor="black", linewidth=0.5)
     ax.axhline(y=indirect_base_only, ls="--", color="grey", alpha=0.6, lw=0.7)
     ax.set_ylim(0, 1.05)
@@ -69,10 +84,10 @@ def fig1_lora_negative():
     users_base_only = np.array([0.200, 0.214, 0.250, 0.200, 0.150, 0.267, 0.180, 0.067, 0.150, 0.100])
     fig, ax = plt.subplots(figsize=(3.5, 2.7))
     x = np.arange(10)
-    ax.bar(x - 0.2, users_base_only, width=0.4, label="base only", color="#7f7f7f",
+    ax.bar(x - 0.2, users_base_only, width=0.4, label="base only", color=GRAY,
            edgecolor="black", linewidth=0.4)
     ax.bar(x + 0.2, users_with_adapter, width=0.4, label="w/ per-user LoRA",
-           color="#d62728", edgecolor="black", linewidth=0.4)
+           color=RED, edgecolor="black", linewidth=0.4)
     for i, (a, b) in enumerate(zip(users_with_adapter, users_base_only)):
         if a < b:
             ax.text(i, max(a, b) + 0.02, "*", color="black", ha="center", fontsize=12)
@@ -103,7 +118,7 @@ def fig2_locality():
     log_arr = np.log10(arr + 0.1)
     im = ax.imshow(log_arr, aspect="auto", cmap="hot", interpolation="nearest")
     cb = plt.colorbar(im, ax=ax, label="$\\log_{10}(\\Delta+0.1)$\nresidual stream change")
-    ax.axvline(x=trig_pos, linestyle="--", color="#0c0", lw=1.2, label=f"trigger pos {trig_pos}")
+    ax.axvline(x=trig_pos, linestyle="--", color=GREEN, lw=1.5, label=f"trigger pos {trig_pos}")
     ax.set_xlabel("Token position in prompt")
     ax.set_ylabel("Layer\nindex")
     ax.legend(loc="upper left", framealpha=0.9, fontsize=8)
@@ -131,9 +146,9 @@ def fig3_density_curves():
 
     # Panel (a): top-1
     ax = axes[0]
-    ax.plot(n, opt_indep_top1, "o-", color="#999", label="OPT independent")
-    ax.plot([100, 1000], [0.68, 0.351], "s-", color="#2c7fb8", label="Joint OPT (ours)", lw=2)
-    ax.plot([100, 1000], [0.99, 0.438], "^--", color="#d62728", label="LoRA rank-64")
+    ax.plot(n, opt_indep_top1, "o-", color=GRAY, label="OPT independent")
+    ax.plot([100, 1000], [0.68, 0.351], "s-", color=BLUE, label="Joint OPT (ours)", lw=2)
+    ax.plot([100, 1000], [0.99, 0.438], "^--", color=RED, label="LoRA rank-64")
     ax.set_xscale("log"); ax.set_xticks(n); ax.set_xticklabels([str(x) for x in n])
     ax.set_xlabel("# facts simultaneously inserted (per user)")
     ax.set_ylabel("Top-1 recall")
@@ -142,9 +157,9 @@ def fig3_density_curves():
 
     # Panel (b): top-5
     ax = axes[1]
-    ax.plot(n, opt_indep_top5, "o-", color="#999", label="OPT independent")
-    ax.plot([100, 1000], [0.96, 0.715], "s-", color="#2c7fb8", label="Joint OPT (ours)", lw=2)
-    ax.plot([100, 1000], [1.00, 0.813], "^--", color="#d62728", label="LoRA rank-64")
+    ax.plot(n, opt_indep_top5, "o-", color=GRAY, label="OPT independent")
+    ax.plot([100, 1000], [0.96, 0.715], "s-", color=BLUE, label="Joint OPT (ours)", lw=2)
+    ax.plot([100, 1000], [1.00, 0.813], "^--", color=RED, label="LoRA rank-64")
     ax.set_xscale("log"); ax.set_xticks(n); ax.set_xticklabels([str(x) for x in n])
     ax.set_xlabel("# facts simultaneously inserted (per user)")
     ax.set_ylabel("Top-5 recall")
@@ -178,16 +193,16 @@ def fig4_storage_scaling():
     polar_total = [u * polar_lora_per_user_mb for u in user_counts]                          # MB
 
     fig, ax = plt.subplots(figsize=(5.5, 3.3))
-    ax.loglog(user_counts, engram_total, "s-", color="#2c7fb8", lw=2, label="Engram override (ours)")
-    ax.loglog(user_counts, polar_total, "^-", color="#d62728", label="per-user LoRA (rank 64)")
-    ax.loglog(user_counts, sft_total, "v--", color="#aa6611", label="SFT-LoRA (per-fact, rank 8)")
+    ax.loglog(user_counts, engram_total, "s-", color=BLUE, lw=2, label="Engram override (ours)")
+    ax.loglog(user_counts, polar_total, "^-", color=RED, label="per-user LoRA (rank 64)")
+    ax.loglog(user_counts, sft_total, "v--", color=ORANGE, label="SFT-LoRA (per-fact, rank 8)")
     # Annotate the 1M-user point
     ax.annotate("100 GB", xy=(1e6, engram_total[-1]),
-                xytext=(2e5, 1e2), fontsize=8, color="#2c7fb8",
-                arrowprops=dict(arrowstyle="-", color="#2c7fb8", lw=0.6))
+                xytext=(2e5, 1e2), fontsize=8, color=BLUE,
+                arrowprops=dict(arrowstyle="-", color=BLUE, lw=0.6))
     ax.annotate("40 TB", xy=(1e6, polar_total[-1]),
-                xytext=(2e5, 1e6), fontsize=8, color="#d62728",
-                arrowprops=dict(arrowstyle="-", color="#d62728", lw=0.6))
+                xytext=(2e5, 1e6), fontsize=8, color=RED,
+                arrowprops=dict(arrowstyle="-", color=RED, lw=0.6))
     ax.set_xlabel("Number of users (each with 100 facts)")
     ax.set_ylabel("Total storage (MB)")
     ax.grid(True, which="both", alpha=0.25)
@@ -216,7 +231,7 @@ def fig5_serving_latency():
 
     # Panel (a): histogram of apply latency (the override swap is the new cost)
     ax = axes[0]
-    ax.hist(apply_ms, bins=30, color="#2c7fb8", edgecolor="black", linewidth=0.4)
+    ax.hist(apply_ms, bins=30, color=BLUE, edgecolor="black", linewidth=0.4)
     ax.set_xlabel("Override apply latency (ms)")
     ax.set_ylabel("# requests")
     ax.set_title("(a) Override apply")
@@ -228,7 +243,7 @@ def fig5_serving_latency():
     ax = axes[1]
     components = ["apply", "forward", "restore"]
     medians = [np.median(apply_ms), np.median(fwd_ms), np.median(rest_ms)]
-    colors = ["#2c7fb8", "#7f7f7f", "#aaaaaa"]
+    colors = [BLUE, GRAY, ORANGE]
     bars = ax.bar(components, medians, color=colors, edgecolor="black", linewidth=0.4)
     ax.set_ylabel("Median latency (ms)")
     ax.set_title("(b) Total per-request")
@@ -255,10 +270,10 @@ def fig6_logitlens():
 
     fig, ax = plt.subplots(figsize=(5.5, 3.0))
     layers = list(range(len(eng)))
-    ax.plot(layers, base, "o-", color="#7f7f7f", label="base d8 (no Engram)")
-    ax.plot(layers, eng, "s-", color="#d62728", label="engram d8")
+    ax.plot(layers, base, "o-", color=GRAY, label="base d8 (no Engram)")
+    ax.plot(layers, eng, "s-", color=BLUE, label="engram d8")
     for el in eng_layers:
-        ax.axvline(x=el, ls=":", alpha=0.5, color="#2c7fb8",
+        ax.axvline(x=el, ls=":", alpha=0.7, color=ORANGE,
                    label=f"Engram inserted at L{el}" if el == eng_layers[0] else None)
     ax.set_xlabel("Layer index"); ax.set_ylabel("KL(layer logits || final logits)")
     ax.legend(framealpha=0.9); ax.grid(alpha=0.3)

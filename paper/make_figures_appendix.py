@@ -20,17 +20,32 @@ import numpy as np
 
 plt.rcParams.update({
     "font.family": "serif",
-    "font.serif": ["Times New Roman", "DejaVu Serif"],
+    "font.serif": ["Palatino", "Palatino Linotype", "Times New Roman", "DejaVu Serif"],
     "font.size": 9,
     "axes.titlesize": 10,
     "axes.labelsize": 9,
     "xtick.labelsize": 8,
     "ytick.labelsize": 8,
     "legend.fontsize": 8,
+    "axes.spines.top": False,
+    "axes.spines.right": False,
+    "grid.color": "#b3b3b3",
+    "grid.linestyle": ":",
+    "grid.linewidth": 0.6,
+    "grid.alpha": 0.7,
     "figure.dpi": 150,
     "savefig.bbox": "tight",
     "savefig.pad_inches": 0.04,
 })
+
+# Canonical paper palette (shared with the other figure scripts).
+BLUE = "#34507F"     # ours (Engram / Joint OPT)
+BLUE_LT = "#7E97C4"  # ours, secondary
+BLUE_DK = "#22365A"  # ours, emphasis
+RED = "#C24A3F"      # baseline
+ORANGE = "#D98A3D"
+GRAY = "#8A8F9A"
+GRAY_LT = "#C2C6CE"
 
 FIGS = Path(__file__).parent / "figs"
 
@@ -78,9 +93,9 @@ def fig_arch():
     arrow(6.2, 3.2, 6.7, 3.2)
     arrow(8.1, 3.2, 8.4, 3.2)
     # vertical arrow from override apply to lookup
-    arrow(5.5, 4.4, 5.4, 3.8, color="#2c7fb8", lw=1.2)
+    arrow(5.5, 4.4, 5.4, 3.8, color=BLUE, lw=1.2)
     ax.text(5.55, 4.1, "writes overrides\ninto lookup table",
-            ha="left", va="center", fontsize=7, color="#2c7fb8")
+            ha="left", va="center", fontsize=7, color=BLUE)
 
     # Bottom row: residual addition + downstream layers
     box(0.3, 0.6, 1.5, 1.0, "Residual\n$h_t$", "#e2e2e2")
@@ -93,9 +108,9 @@ def fig_arch():
     arrow(6.3, 1.1, 6.8, 1.1)
     arrow(8.3, 1.1, 8.6, 1.1)
     # gate output → residual addition
-    arrow(9.1, 2.6, 3.0, 1.6, color="#d62728", lw=1.0)
+    arrow(9.1, 2.6, 3.0, 1.6, color=RED, lw=1.0)
     ax.text(6.0, 2.05, "gated lookup adds\nto residual at trigger",
-            ha="center", va="center", fontsize=7, color="#d62728",
+            ha="center", va="center", fontsize=7, color=RED,
             bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none", alpha=0.9))
 
     plt.tight_layout()
@@ -110,9 +125,9 @@ def fig_arch():
 # -----------------------------------------------------------------------------
 def fig_pretrain_loss():
     runs = [
-        ("base d8", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/base_d8/train_log.jsonl", "#999"),
-        ("engram d8", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d8/train_log.jsonl", "#d62728"),
-        ("engram d12", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12/train_log.jsonl", "#2c7fb8"),
+        ("base d8", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/base_d8/train_log.jsonl", GRAY),
+        ("engram d8", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d8/train_log.jsonl", BLUE_LT),
+        ("engram d12", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12/train_log.jsonl", BLUE),
     ]
     fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.8))
     for label, path, color in runs:
@@ -148,7 +163,7 @@ def fig_strategy_bars():
     strategies = ["RANDOM", "WTE", "UNEMBED_P", "OPT-15", "Joint OPT"]
     top1 = [0.0, 0.0, 0.06, 0.38, 0.68]   # at 100-fact density
     top5 = [0.0, 0.06, 0.18, 0.44, 0.96]
-    colors = ["#888", "#aaa", "#88bbcc", "#2c7fb8", "#1f5e8a"]
+    colors = [GRAY_LT, GRAY, BLUE_LT, BLUE, BLUE_DK]
     x = np.arange(len(strategies))
     fig, ax = plt.subplots(figsize=(5.2, 3.0))
     ax.bar(x - 0.2, top1, width=0.4, color=colors, edgecolor="black", linewidth=0.4, label="top-1")
@@ -177,14 +192,17 @@ def fig_paraphrase():
     multi_top1 = [5/5, 5/5, 5/5, 5/5]    # from paraphrase_multi
     x = np.arange(len(facts))
     fig, ax = plt.subplots(figsize=(5.5, 2.8))
-    ax.bar(x - 0.2, single_top1, width=0.4, color="#88bbcc", edgecolor="black",
+    ax.bar(x - 0.2, single_top1, width=0.4, color=BLUE_LT, edgecolor="black",
            linewidth=0.4, label="single-trigger insert")
-    ax.bar(x + 0.2, multi_top1, width=0.4, color="#2c7fb8", edgecolor="black",
+    ax.bar(x + 0.2, multi_top1, width=0.4, color=BLUE, edgecolor="black",
            linewidth=0.4, label="multi-trigger insert (5×)")
     ax.set_xticks(x); ax.set_xticklabels(facts, rotation=20, fontsize=7)
-    ax.set_ylabel("Top-1 recall across 5 paraphrases per fact")
-    ax.set_ylim(0, 1.1)
-    ax.legend(loc="lower right")
+    ax.set_ylabel("Top-1 recall\n(over 5 paraphrases/fact)")
+    ax.set_ylim(0, 1.15)
+    # Legend above the panel: the multi-trigger bars fill the top of the axes,
+    # so an in-panel legend would overlap the data.
+    ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.01), ncol=2,
+              frameon=False, fontsize=8)
     plt.tight_layout()
     out = FIGS / "fig_paraphrase.pdf"
     plt.savefig(out)
@@ -210,7 +228,7 @@ def fig_multidomain():
                 row_idx = domain_names.index(d_info["name"])
                 mat[row_idx, di] = d_info["top1"]
     fig, ax = plt.subplots(figsize=(5.5, 2.8))
-    im = ax.imshow(mat, aspect="auto", cmap="YlGn", vmin=0, vmax=1)
+    im = ax.imshow(mat, aspect="auto", cmap="Blues", vmin=0, vmax=1)
     ax.set_xticks(range(len(Ds))); ax.set_xticklabels([f"D={d}" for d in Ds])
     ax.set_yticks(range(len(domain_names))); ax.set_yticklabels(domain_names, fontsize=7)
     ax.set_xlabel("Number of stacked domains")
@@ -243,9 +261,9 @@ def fig_serving_cdf():
     fig, ax = plt.subplots(figsize=(5.5, 2.8))
     cdf = np.arange(1, len(e2e_ms)+1) / len(e2e_ms)
     ax.plot(e2e_ms, cdf, color="black", lw=1.5, label="end-to-end")
-    ax.plot(apply_ms, np.arange(1, len(apply_ms)+1) / len(apply_ms), color="#2c7fb8", label="override apply")
-    ax.plot(fwd_ms, np.arange(1, len(fwd_ms)+1) / len(fwd_ms), color="#7f7f7f", label="forward")
-    ax.plot(rest_ms, np.arange(1, len(rest_ms)+1) / len(rest_ms), color="#aa6611", label="override restore")
+    ax.plot(apply_ms, np.arange(1, len(apply_ms)+1) / len(apply_ms), color=BLUE, label="override apply")
+    ax.plot(fwd_ms, np.arange(1, len(fwd_ms)+1) / len(fwd_ms), color=GRAY, label="forward")
+    ax.plot(rest_ms, np.arange(1, len(rest_ms)+1) / len(rest_ms), color=ORANGE, label="override restore")
     ax.axhline(0.5, ls=":", color="grey", alpha=0.5)
     ax.axhline(0.99, ls=":", color="grey", alpha=0.5)
     ax.set_xscale("log")
@@ -271,8 +289,8 @@ def fig_joint_opt_loss():
     j1000_loss_late = [1.964, 2.262, 2.074, 2.065, 2.021, 2.190, 2.086, 2.161]
     j1000_loss_full = [4.5, 3.4, 2.9, 2.6, 2.45, 2.3, 2.25, 2.2, 2.15, 2.10, 2.07, 2.05, 2.02, 2.05, 2.16]
     fig, ax = plt.subplots(figsize=(5.5, 3.0))
-    ax.plot(j100_steps, j100_loss, "o-", color="#2c7fb8", label="N=100 facts/user", lw=1.4)
-    ax.plot(j1000_steps, j1000_loss_full, "s-", color="#d62728", label="N=1000 facts/user", lw=1.4)
+    ax.plot(j100_steps, j100_loss, "o-", color=BLUE, label="N=100 facts/user", lw=1.4)
+    ax.plot(j1000_steps, j1000_loss_full, "s-", color=RED, label="N=1000 facts/user", lw=1.4)
     ax.set_xlabel("Joint OPT step"); ax.set_ylabel("Cross-entropy loss (200-step EMA)")
     ax.legend(); ax.grid(alpha=0.3)
     plt.tight_layout()

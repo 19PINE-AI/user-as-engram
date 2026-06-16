@@ -11,6 +11,32 @@ import json, math
 from pathlib import Path
 import matplotlib.pyplot as plt
 
+# Shared paper style: serif type, despined axes, light dotted grid, and the
+# canonical palette (slate blue = ours, muted red = primary baseline).
+plt.rcParams.update({
+    "font.family": "serif",
+    "font.serif": ["Palatino", "Palatino Linotype", "Times New Roman", "DejaVu Serif"],
+    "font.size": 9,
+    "axes.titlesize": 10,
+    "axes.labelsize": 9,
+    "axes.spines.top": False,
+    "axes.spines.right": False,
+    "grid.color": "#b3b3b3",
+    "grid.linestyle": ":",
+    "grid.linewidth": 0.6,
+    "grid.alpha": 0.7,
+    "savefig.bbox": "tight",
+    "savefig.pad_inches": 0.03,
+})
+BLUE = "#34507F"     # ours (Engram / layered)
+BLUE_LT = "#7E97C4"  # ours, secondary
+RED = "#C24A3F"      # primary baseline (LoRA / retrieval)
+ORANGE = "#D98A3D"
+GREEN = "#3E7C5A"
+PURPLE = "#6E5687"
+TEAL = "#4F8C9D"
+GRAY = "#8A8F9A"
+
 PAPER = Path(__file__).parent
 RES = PAPER.parent / "results"
 FIGS = PAPER / "figs"
@@ -36,9 +62,9 @@ def main():
 
     if mini and "agg" in mini:
         for cname, color, marker, name in [
-            ("G_rag1", "tab:orange", "s", "Mini-Engram-d20 + RAG top-1"),
-            ("H_rag3", "tab:red", "s", "Mini-Engram-d20 + RAG top-3"),
-            ("J_rag3_sharedLoRA", "tab:purple", "D",
+            ("G_rag1", ORANGE, "s", "Mini-Engram-d20 + RAG top-1"),
+            ("H_rag3", RED, "s", "Mini-Engram-d20 + RAG top-3"),
+            ("J_rag3_sharedLoRA", PURPLE, "D",
              "Mini-Engram-d20 + RAG top-3 + shared LoRA (= J)"),
         ]:
             pts = []
@@ -53,8 +79,8 @@ def main():
 
     if qwen and "agg" in qwen:
         for k_, color, marker, name in [
-            (1, "tab:green", "^", "Qwen-3B + RAG top-1"),
-            (3, "tab:olive", "^", "Qwen-3B + RAG top-3"),
+            (1, GREEN, "^", "Qwen-3B + RAG top-1"),
+            (3, TEAL, "^", "Qwen-3B + RAG top-3"),
         ]:
             pts = []
             for kb in qwen["config"]["kb_sizes"]:
@@ -84,14 +110,14 @@ def main():
         ax.plot(xs, ys, color=s["color"], marker=s["marker"],
                 linestyle=s["linestyle"], label=s["label"], linewidth=2,
                 markersize=7)
-    ax.axhline(f_indirect, color="tab:blue", linestyle="-", linewidth=2.5,
-               label=f"F (layered, Engram + shared LoRA) = {f_indirect:.0f}\\%",
-               alpha=0.85)
-    ax.axhline(e_indirect, color="tab:cyan", linestyle=":", linewidth=1.5,
-               alpha=0.6, label=f"E (shared LoRA only) = {e_indirect:.0f}\\%")
+    ax.axhline(f_indirect, color=BLUE, linestyle="-", linewidth=2.5,
+               label=f"F (layered, Engram + shared LoRA) = {f_indirect:.0f}%",
+               alpha=0.9)
+    ax.axhline(e_indirect, color=BLUE_LT, linestyle=":", linewidth=1.8,
+               alpha=0.9, label=f"E (shared LoRA only) = {e_indirect:.0f}%")
     ax.set_xscale("log")
     ax.set_xlabel("KB size = test user's 34 facts + distractors (log scale)")
-    ax.set_ylabel("Indirect-reasoning accuracy (indirect\\_any, \\%)")
+    ax.set_ylabel("Indirect-reasoning accuracy (indirect_any, %)")
     ax.set_title("(a) RAG accuracy vs KB size")
     ax.set_ylim(0, 70)
     ax.grid(True, alpha=0.3, which="both")
@@ -107,7 +133,7 @@ def main():
                 markersize=7)
     ax.set_xscale("log")
     ax.set_xlabel("KB size = test user's 34 facts + distractors (log scale)")
-    ax.set_ylabel("Retrieval recall (\\%): required\\_fact\\_keys $\\subseteq$ retrieved")
+    ax.set_ylabel("Retrieval recall (%): required_fact_keys $\\subseteq$ retrieved")
     ax.set_title("(b) Retrieval recall vs KB size")
     ax.set_ylim(0, 100)
     ax.grid(True, alpha=0.3, which="both")
