@@ -187,36 +187,38 @@ def fig_dense_scaling():
     e1opt  = [r[4] for r in rows]
 
     ax = axes[0]
-    ax.semilogx(params, locomo, "o-", color="#1f77b4", lw=2, ms=8, label="User-as-Engram J-OPT")
+    # Equal-spaced categorical x; a log axis crammed the four sizes together and
+    # collided the custom labels with matplotlib's default decade tick labels.
+    xs = np.arange(len(rows))
+    ax.plot(xs, locomo, "o-", color="#1f77b4", lw=2, ms=8, label="User-as-Engram J-OPT")
     # Baseline (MEMMACHINE) per dense size; from LOCOMO sweeps
     mem_baseline = [0.075, 0.105, 0.113, 0.140]
-    ax.semilogx(params, mem_baseline, "s--", color="#cc6677", lw=2, ms=6,
+    ax.plot(xs, mem_baseline, "s--", color="#cc6677", lw=2, ms=6,
                  label="MEMMACHINE_LIKE (best retr.)")
-    for x, y, lbl in zip(params, locomo, labels):
+    for x, y in zip(xs, locomo):
         ax.annotate(f"{y:.3f}", (x, y), textcoords="offset points", xytext=(0, 8),
                     ha="center", fontsize=7)
     ax.set_xlabel("dense parameters")
     ax.set_ylabel("LOCOMO Joint OPT F1")
-    ax.set_xticks(params)
+    ax.set_xticks(xs)
     ax.set_xticklabels(labels, fontsize=7)
+    ax.set_xlim(-0.3, len(rows) - 0.7)
     ax.legend(loc="lower right", fontsize=7)
-    ax.set_title("Conversational recall (LOCOMO)", fontsize=9)
     ax.set_ylim(0.0, 0.27)
     ax.grid(True, alpha=0.25)
 
     ax = axes[1]
     bars_x = np.arange(len(rows))
     ax.bar(bars_x - 0.18, bpb, 0.36, color="#999999", label="val bpb")
-    ax.set_ylabel("ClimbMix val bpb (lower better)", color="#666666")
+    ax.set_ylabel("ClimbMix val bpb", color="#666666")
     ax.tick_params(axis='y', labelcolor='#666666')
     ax2 = ax.twinx()
     ax2.bar(bars_x + 0.18, e1opt, 0.36, color="#1f77b4", label="E1 USER OPT t1")
-    ax2.set_ylabel("E1 USER OPT top-1 (higher better)", color="#1f77b4")
+    ax2.set_ylabel("E1 USER OPT top-1", color="#1f77b4")
     ax2.tick_params(axis='y', labelcolor='#1f77b4')
     ax2.set_ylim(0.8, 1.05)
     ax.set_xticks(bars_x)
     ax.set_xticklabels(labels, fontsize=7)
-    ax.set_title("Dense scaling: pretraining vs.\\ insertion", fontsize=9)
     ax.grid(False)
 
     fig.tight_layout()
@@ -278,14 +280,21 @@ def fig_pareto_layered():
         (0.0,    0.440, "shared LoRA only (E)",       "#88ccee", "D",  0.386),
         (88,     0.443, "LAYERED: shared LoRA + Engram (F)", "#117733", "P", 0.386),
     ]
+    # B and the B+C combo sit almost on top of each other at the far right, so
+    # their labels are placed left of the markers (and split vertically) to avoid
+    # colliding with each other and running off the right edge.
+    offs_map = {
+        "LAYERED: shared LoRA + Engram (F)": ((10, -8), "left"),
+        "per-user LoRA (B)":                 ((-12, -11), "right"),
+        "B + C (combo A)":                   ((-12, 12), "right"),
+    }
     for x, y, label, color, marker, _bpb in pts:
         x_eff = max(x, 0.5)   # avoid log(0)
         ax.scatter([x_eff], [y], color=color, marker=marker, s=140,
                      edgecolor="black", lw=0.7, zorder=3)
-        # Right-of-point label by default; F-layered uses below to avoid overlap with C
-        offs = (10, 0) if label != "LAYERED: shared LoRA + Engram (F)" else (10, -8)
+        offs, ha = offs_map.get(label, ((10, 0), "left"))
         ax.annotate(label, (x_eff, y), textcoords="offset points",
-                     xytext=offs, fontsize=8, va="center")
+                     xytext=offs, fontsize=8, va="center", ha=ha)
     ax.set_xscale("log")
     ax.set_xlim(0.3, 30000)
     ax.set_ylim(0.0, 0.55)
@@ -293,10 +302,8 @@ def fig_pareto_layered():
     ax.set_ylabel("indirect reasoning (any-match, $n{=}20$)")
     # Pareto frontier line for the new winning region
     ax.plot([88, 0], [0.443, 0.440], "k--", alpha=0.3, lw=0.8)
-    ax.text(0.6, 0.50, "shared LoRA carries the meta-skill;\nadding Engram preserves it",
-             fontsize=7, color="#333333")
     # Annotate contamination
-    ax.text(14200, 0.05, "Δbpb=+1.56", fontsize=7, color="#aa4499", ha="center")
+    ax.text(14200, 0.03, "Δbpb=+1.56", fontsize=7, color="#aa4499", ha="center")
     ax.text(88, 0.39, "Δbpb=+0.39", fontsize=7, color="#117733", ha="center")
     ax.grid(True, which="both", alpha=0.25, lw=0.4)
     fig.tight_layout()
@@ -334,10 +341,8 @@ def fig_pareto():
     ax.set_ylabel("LOCOMO Joint-OPT F1")
     ax.set_xlim(0.1, 1000)
     ax.set_ylim(0.0, 0.27)
-    # Pareto frontier connector for Engram
+    # Pareto frontier connector for Engram (same quality, far less storage)
     ax.plot([1.0, 135.0], [0.219, 0.219], "k--", alpha=0.3, lw=0.8)
-    ax.text(15, 0.225, "Engram & LoRA tied on quality, 135× storage gap →",
-             fontsize=7, color="#333333")
     fig.tight_layout()
     fig.savefig(OUT / "fig_pareto.pdf", pad_inches=0)
     print(f"  wrote {OUT / 'fig_pareto.pdf'}")

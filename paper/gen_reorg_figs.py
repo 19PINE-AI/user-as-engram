@@ -91,7 +91,10 @@ def fig_memsystems():
         clean(ax)
         ax.set_ylim(0, 109)
         for i, v in enumerate(vals):
-            ax.text(i, v + 1.5, f"{v:.0f}", ha="center", fontsize=8)
+            # Match caption precision: integers stay integer, fractional values
+            # keep one decimal (e.g. 96.9, 65.6) so bar labels equal the caption.
+            vlabel = f"{v:.1f}".rstrip("0").rstrip(".")
+            ax.text(i, v + 1.5, vlabel, ha="center", fontsize=8)
         ax.tick_params(axis="x", labelsize=8)
         save(fig, name)
 
@@ -128,7 +131,7 @@ def fig_multihop():
     ax.set_ylabel("multi-hop top-1 (%)", fontsize=9)
     ax.set_ylim(0, 105)
     for xi, v in zip(x, top1):
-        ax.text(xi, v + 4, f"{v:.0f}%", ha="center", fontsize=9, fontweight="bold")
+        ax.text(xi, v + 4, f"{v:.1f}%", ha="center", fontsize=9, fontweight="bold")
     clean(ax)
     save(fig, "fig_multihop.pdf")
 
