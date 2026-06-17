@@ -54,7 +54,7 @@ def fig_glassbox(model_tag="d20"):
     ax.bar(x + w/2, nontrig_vals, w, color=GRAY_LT, label="non-trigger (max)", edgecolor="black", linewidth=0.4)
     ax.set_xticks(x); ax.set_xticklabels(labels)
     ax.set_ylabel(r"Engram gate $\alpha$")
-    ax.set_title("(a) the write opens its own gate")
+    ax.set_title("(a)", loc="left", fontweight="bold")
     ax.set_ylim(0, 1.05); ax.legend(loc="upper left")
     for xi, v in zip(x - w/2, trig_vals):
         ax.text(xi, v + 0.03, f"{v:.2f}", ha="center", fontsize=7)
@@ -67,14 +67,16 @@ def fig_glassbox(model_tag="d20"):
             agg["UNEMBED_P"]["mean_cos_WVrow_to_gold"],
             agg["OPT"]["mean_cos_WVrow_to_gold"],
             agg["joint_opt"]["mean_cos_WVrow_to_gold"]]
-    colors = [BLUE, GREEN, ORANGE, RED]
+    # Slate-family palette: dark blue for the headline value-path alignment,
+    # a light->dark slate ramp for the three write strategies (no warm-on-warm).
+    colors = [BLUE, "#AEBDD9", "#8AA0C8", "#5E79A8"]
     pos = [0.0, 1.3, 2.2, 3.1]
     bars = ax.bar(pos, vals, color=colors, edgecolor="black", linewidth=0.4, width=0.78)
     ax.axvline(0.7, color=GRAY, ls=":", lw=0.9)
     ax.set_xticks(pos); ax.set_xticklabels(labels, fontsize=7.5)
     ax.set_ylabel("cosine similarity"); ax.set_ylim(0, 1.32)
     ax.set_xlim(-0.6, 3.7)
-    ax.set_title("(b) what the row injects vs. encodes")
+    ax.set_title("(b)", loc="left", fontweight="bold")
     ax.text(0.0, 1.22, "effect $=$\nvalue path", ha="center", va="center", fontsize=6.6,
             style="italic", color=BLUE)
     ax.text(2.13, 1.24, "row vs. gold-token\ndirection", ha="center", va="center",
@@ -97,7 +99,7 @@ def fig_glassbox(model_tag="d20"):
     ax.set_yscale("log"); ax.set_ylim(floor, max(trigfinal)*5)
     ax.set_xticks(x); ax.set_xticklabels(strat_names)
     ax.set_ylabel(r"$\|\Delta$ residual$\|$ (final layer)")
-    ax.set_title("(c) exact locality: 0.000 off-trigger")
+    ax.set_title("(c)", loc="left", fontweight="bold")
     ax.legend(loc="upper right")
     for xi, m in zip(x + w/2, maxnt):
         ax.text(xi, floor*1.3, f"{m:.0e}", ha="center", fontsize=7, rotation=0)

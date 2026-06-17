@@ -54,8 +54,8 @@ def _arrow(ax, x1, y1, x2, y2, color="black", lw=0.9, ls="-", ms=11, rad=0.0):
 # Figure 1: where the Engram lives inside the transformer
 # ---------------------------------------------------------------------------
 def fig_engram_in_transformer():
-    fig, ax = plt.subplots(figsize=(7.4, 4.5))
-    ax.set_xlim(0, 10.2); ax.set_ylim(0, 6.4); ax.axis("off")
+    fig, ax = plt.subplots(figsize=(7.4, 3.55))
+    ax.set_xlim(0, 10.05); ax.set_ylim(0.45, 5.45); ax.axis("off")
 
     # ---- left: transformer stack (contiguous boxes) ----
     sx, sw = 0.45, 2.2

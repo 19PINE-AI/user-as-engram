@@ -11,12 +11,12 @@ Engram-base + RAG@3,200,32.00,27.50
 Engram-base + RAG@3,300,29.75,19.50
 Engram-base + RAG@3,500,29.75,11.50
 Engram-base + RAG@3,1000,29.75,9.25
-+ shared LoRA (J),34,54.25,62.00
-+ shared LoRA (J),100,52.25,39.25
-+ shared LoRA (J),200,51.25,27.50
-+ shared LoRA (J),300,51.25,19.50
-+ shared LoRA (J),500,48.25,11.50
-+ shared LoRA (J),1000,47.00,9.25
+RAG@3 + shared LoRA,34,54.25,62.00
+RAG@3 + shared LoRA,100,52.25,39.25
+RAG@3 + shared LoRA,200,51.25,27.50
+RAG@3 + shared LoRA,300,51.25,19.50
+RAG@3 + shared LoRA,500,48.25,11.50
+RAG@3 + shared LoRA,1000,47.00,9.25
 Qwen-3B + RAG@1,34,55.25,21.75
 Qwen-3B + RAG@1,100,41.25,13.00
 Qwen-3B + RAG@1,200,34.75,8.50

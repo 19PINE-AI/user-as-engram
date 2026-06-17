@@ -115,24 +115,25 @@ def main():
             })
 
     # Short annotation codes keep the dense high-accuracy cluster from colliding;
-    # the full condition names live in the legend and the body text (A-J, Qwen).
+    # the full condition names live in the legend and the body text.
     short = {
-        "A: no edit": "A", "B: per-user LoRA": "B", "C: per-user Engram": "C",
-        "E: shared LoRA only": "E", "F: layered (Engram + shared LoRA)": "F",
-        "G: RAG top-1": "G", "H: RAG top-3": "H", "I: RAG all": "I",
-        "G': oracle top-1": "G$'$", "J: RAG top-3 + shared LoRA": "J",
-        "Qwen-3B: no context": "Q:none", "Qwen-3B + RAG top-1": "Q:R@1",
-        "Qwen-3B + RAG top-3": "Q:R@3", "Qwen-3B + RAG all": "Q:R@all",
-        "Qwen-3B + oracle top-1": "Q:O@1",
+        "A: no edit": "no edit", "B: per-user LoRA": "per-user LoRA",
+        "C: per-user Engram": "per-user Engram",
+        "E: shared LoRA only": "shared LoRA", "F: layered (Engram + shared LoRA)": "layered",
+        "G: RAG top-1": "RAG@1", "H: RAG top-3": "RAG@3", "I: RAG all": "RAG all",
+        "G': oracle top-1": "oracle@1", "J: RAG top-3 + shared LoRA": "RAG@3+LoRA",
+        "Qwen-3B: no context": "Qwen none", "Qwen-3B + RAG top-1": "Qwen R@1",
+        "Qwen-3B + RAG top-3": "Qwen R@3", "Qwen-3B + RAG all": "Qwen R@all",
+        "Qwen-3B + oracle top-1": "Qwen O@1",
     }
 
     # ---- Plot ----
     fig, ax = plt.subplots(figsize=(8.0, 5.0))
     style = {
         "layered":  {"color": BLUE,   "marker": "o", "s": 95,
-                      "label": "Mini-Engram-d20 substrate (A-F)"},
+                      "label": "Mini-Engram-d20 substrate (no retrieval)"},
         "rag-mini": {"color": ORANGE, "marker": "s", "s": 95,
-                      "label": "Mini-Engram-d20 + RAG (G-J)"},
+                      "label": "Mini-Engram-d20 + RAG"},
         "qwen":     {"color": GREEN,  "marker": "^", "s": 95,
                       "label": "Qwen2.5-3B-Instruct + RAG"},
     }

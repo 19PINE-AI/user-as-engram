@@ -136,13 +136,13 @@ def fig_multihop():
     save(fig, "fig_multihop.pdf")
 
 
-# ---------------------------------------------------------------- M. layered conditions A-F
+# ---------------------------------------------------------------- M. layered conditions
 def fig_layered_conditions():
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(9.8, 3.4))
     # Stacked, single-word-per-line tick labels avoid the horizontal collisions
     # of the old "A: per-user LoRA" labels; the framing text moves to the caption.
-    conds = ["A\nbase", "B\nper-user\nLoRA", "C\nper-user\nEngram",
-             "D\nLoRA+\nEngram", "E\nshared\nLoRA", "F\nEngram+\nshared LoRA"]
+    conds = ["base", "per-user\nLoRA", "per-user\nEngram",
+             "LoRA+\nEngram", "shared\nLoRA", "Engram+\nshared LoRA"]
     direct = [29, 99, 100, 100, 54, 100]
     indirect_any = [19, 6, 23, 8, 44, 44]
     dbpb = [0.000, 1.784, 0.00005, 1.819, 0.386, 0.386]
@@ -196,8 +196,8 @@ def fig_crossschema():
     F = [44, 31]
     B = [6, 4]
     x = np.arange(len(groups)); w = 0.36
-    ax.bar(x - w/2, F, w, label="F (layered)", color=BLUE)
-    ax.bar(x + w/2, B, w, label="B (per-user LoRA)", color=RED)
+    ax.bar(x - w/2, F, w, label="layered design", color=BLUE)
+    ax.bar(x + w/2, B, w, label="per-user LoRA", color=RED)
     ax.set_xticks(x); ax.set_xticklabels(groups, fontsize=8.5)
     ax.set_ylabel("indirect_any (%)", fontsize=9)
     ax.legend(frameon=False, fontsize=8.5)

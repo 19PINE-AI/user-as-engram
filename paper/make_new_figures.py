@@ -42,7 +42,7 @@ BLUE = "#34507F"     # ours (Engram / Joint OPT)
 BLUE_LT = "#7E97C4"  # ours, secondary (per-fact OPT / shared LoRA)
 RED = "#C24A3F"      # primary baseline (per-user LoRA / MEM0)
 ORANGE = "#D98A3D"   # secondary baseline (MEMMACHINE)
-GREEN = "#3E7C5A"    # layered (F)
+GREEN = "#3E7C5A"    # layered design
 PURPLE = "#6E5687"
 TEAL = "#4F8C9D"
 BROWN = "#8C6D5C"    # RAG
@@ -72,7 +72,8 @@ def agg_e1(rows_list, prefix):
 # Figure: Capacity × tokens heatmap (d8 and d12 side-by-side)
 # ============================================================
 def fig_capacity_heatmap():
-    fig, axes = plt.subplots(2, 2, figsize=(7.0, 5.0), squeeze=False)
+    fig, axes = plt.subplots(2, 2, figsize=(7.8, 5.0), squeeze=False,
+                             constrained_layout=True)
 
     caps = ["tiny", "small", "medium", "large", "xlarge"]
     cap_labels = ["tiny\n1.3M", "small\n10M", "medium\n26M", "large\n51M", "xlarge\n102M"]
@@ -86,9 +87,13 @@ def fig_capacity_heatmap():
         ("LOCOMO Joint OPT F1", "locomo_jopt"),
     ]
 
+    # Gather all four matrices first so each metric (row) can share one colour
+    # scale across both dense sizes -- otherwise per-panel normalisation makes
+    # the columns incomparable and amplifies the near-flat LOCOMO band into
+    # misleading "confetti".
+    mats = {}
     for col_i, (title, prefix, tok_labels, tok_disp) in enumerate(cfgs):
         for row_i, (metric_name, metric_key) in enumerate(metrics):
-            ax = axes[row_i, col_i]
             mat = np.full((len(caps), len(tok_labels)), np.nan)
             for i, cap in enumerate(caps):
                 for j, tok in enumerate(tok_labels):
@@ -103,17 +108,29 @@ def fig_capacity_heatmap():
                         if l and "summary" in l:
                             v = l["summary"].get("USER_AS_ENGRAM_JOINT_OPT")
                             if v is not None: mat[i, j] = v
+            mats[(row_i, col_i)] = mat
 
-            vmax = np.nanmax(mat) if not np.all(np.isnan(mat)) else 1.0
-            vmin = np.nanmin(mat) if not np.all(np.isnan(mat)) else 0.0
+    # one shared (vmin, vmax) per metric row
+    row_norm = {}
+    for row_i in range(len(metrics)):
+        allv = np.concatenate([mats[(row_i, c)].flatten() for c in range(len(cfgs))])
+        allv = allv[~np.isnan(allv)]
+        row_norm[row_i] = (float(np.min(allv)), float(np.max(allv)))
+
+    row_im = {}
+    for col_i, (title, prefix, tok_labels, tok_disp) in enumerate(cfgs):
+        for row_i, (metric_name, metric_key) in enumerate(metrics):
+            ax = axes[row_i, col_i]
+            mat = mats[(row_i, col_i)]
+            vmin, vmax = row_norm[row_i]
             im = ax.imshow(mat, cmap="viridis", aspect="auto",
                             vmin=vmin, vmax=vmax)
-            # annotate cells
+            row_im[row_i] = im
             for i in range(len(caps)):
                 for j in range(len(tok_labels)):
                     if not np.isnan(mat[i, j]):
                         v = mat[i, j]
-                        c = "white" if v < (vmin+vmax)/2 else "black"
+                        c = "white" if v < (vmin + vmax) / 2 else "black"
                         ax.text(j, i, f"{v:.2f}", ha="center", va="center",
                                  color=c, fontsize=7.5)
             ax.set_xticks(range(len(tok_labels)))
@@ -129,7 +146,11 @@ def fig_capacity_heatmap():
                 ax.set_title(metric_name, fontsize=9)
             ax.grid(False)
 
-    fig.tight_layout()
+    # one shared colourbar per metric row (so colour maps to a legible value)
+    for row_i in range(len(metrics)):
+        fig.colorbar(row_im[row_i], ax=[axes[row_i, 0], axes[row_i, 1]],
+                     fraction=0.046, pad=0.02)
+
     fig.savefig(OUT / "fig_capacity_heatmap.pdf")
     print(f"  wrote {OUT / 'fig_capacity_heatmap.pdf'}")
     plt.close(fig)
@@ -287,19 +308,19 @@ def fig_pareto_layered():
     # Numbers from results/layered_d20_r16_full.json agg block.
     pts = [
         (0.0,    0.192, "no edit",                    GRAY, "x",  0.000),
-        (14200,  0.072, "per-user LoRA (B)",          RED, "*",  1.559),
-        (88,     0.233, "per-user Engram (C)",        BLUE, "o",  0.000),
-        (14288,  0.080, "B + C (combo A)",            ORANGE, "v",  1.419),
-        (0.0,    0.440, "shared LoRA only (E)",       BLUE_LT, "D",  0.386),
-        (88,     0.443, "LAYERED: shared LoRA + Engram (F)", GREEN, "P", 0.386),
+        (14200,  0.072, "per-user LoRA",              RED, "*",  1.559),
+        (88,     0.233, "per-user Engram",            BLUE, "o",  0.000),
+        (14288,  0.080, "LoRA + Engram stack",        ORANGE, "v",  1.419),
+        (0.0,    0.440, "shared LoRA only",           BLUE_LT, "D",  0.386),
+        (88,     0.443, "Layered: shared LoRA + Engram", GREEN, "P", 0.386),
     ]
     # B and the B+C combo sit almost on top of each other at the far right, so
     # their labels are placed left of the markers (and split vertically) to avoid
     # colliding with each other and running off the right edge.
     offs_map = {
-        "LAYERED: shared LoRA + Engram (F)": ((10, -8), "left"),
-        "per-user LoRA (B)":                 ((-12, -11), "right"),
-        "B + C (combo A)":                   ((-12, 12), "right"),
+        "Layered: shared LoRA + Engram": ((10, -8), "left"),
+        "per-user LoRA":                 ((-12, -11), "right"),
+        "LoRA + Engram stack":           ((-12, 12), "right"),
     }
     for x, y, label, color, marker, _bpb in pts:
         x_eff = max(x, 0.5)   # avoid log(0)
@@ -385,14 +406,14 @@ def fig_locomo_scaling():
     ax = axes[0]
     ax.plot(xs, jopt_tf,   "o-",  color=BLUE, lw=2, ms=7, label="Engram Joint OPT")
     ax.plot(xs, mem0_tf,   "s--", color=RED, lw=1.5, ms=5, label="MEM0_LIKE")
-    ax.plot(xs, memmach_tf,"^--", color=ORANGE, lw=1.5, ms=5, label="MEMMACHINE_LIKE")
+    ax.plot(xs, memmach_tf,"^--", color=PURPLE, lw=1.5, ms=5, label="MEMMACHINE_LIKE")
     ax.plot(xs, nomem_tf,  "x--", color=GRAY, lw=1.0, ms=4, label="NO_MEMORY")
     ax.set_xticks(xs); ax.set_xticklabels(size_labels, fontsize=7.5)
     ax.set_xlim(-0.3, len(sizes) - 0.7)
     ax.set_xlabel("Mini-Engram dense parameters", fontsize=8.5)
     ax.set_ylabel("LOCOMO token F1", fontsize=8.5)
     ax.set_ylim(0.0, 0.27)
-    ax.set_title("(a) token-F1 metric", fontsize=9)
+    ax.set_title("(a)", loc="left", fontweight="bold", fontsize=9)
     ax.legend(loc="upper left", fontsize=7)
 
     # LLM-judge accuracy (Qwen2.5-14B)
@@ -405,14 +426,14 @@ def fig_locomo_scaling():
     ax = axes[1]
     ax.plot(xs, jopt_jg,   "o-",  color=BLUE, lw=2, ms=7, label="Engram Joint OPT")
     ax.plot(xs, mem0_jg,   "s--", color=RED, lw=1.5, ms=5, label="MEM0_LIKE")
-    ax.plot(xs, memmach_jg,"^--", color=ORANGE, lw=1.5, ms=5, label="MEMMACHINE_LIKE")
+    ax.plot(xs, memmach_jg,"^--", color=PURPLE, lw=1.5, ms=5, label="MEMMACHINE_LIKE")
     ax.plot(xs, nomem_jg,  "x--", color=GRAY, lw=1.0, ms=4, label="NO_MEMORY")
     ax.set_xticks(xs); ax.set_xticklabels(size_labels, fontsize=7.5)
     ax.set_xlim(-0.3, len(sizes) - 0.7)
     ax.set_xlabel("Mini-Engram dense parameters", fontsize=8.5)
     ax.set_ylabel("LLM-judge accuracy", fontsize=8.5)
     ax.set_ylim(0.0, 0.23)
-    ax.set_title("(b) Qwen2.5-14B LLM-as-judge", fontsize=9)
+    ax.set_title("(b)", loc="left", fontweight="bold", fontsize=9)
 
     fig.tight_layout()
     fig.savefig(OUT / "fig_locomo_scaling.pdf")

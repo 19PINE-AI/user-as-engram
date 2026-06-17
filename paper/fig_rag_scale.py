@@ -65,7 +65,7 @@ def main():
             ("G_rag1", ORANGE, "s", "Engram-base + RAG@1"),
             ("H_rag3", RED, "s", "Engram-base + RAG@3"),
             ("J_rag3_sharedLoRA", PURPLE, "D",
-             "+ shared LoRA (J)"),
+             "RAG@3 + shared LoRA"),
         ]:
             pts = []
             for kb in mini["config"]["kb_sizes"]:
@@ -100,7 +100,9 @@ def main():
     if layered and "agg" in layered:
         e_indirect = layered["agg"]["E_shared_lora_only_indirect_any"] * 100
 
-    fig, axes = plt.subplots(2, 1, figsize=(7.0, 6.2), sharex=True)
+    # Side-by-side panels (a) indirect accuracy, (b) retrieval recall, with a
+    # single shared legend placed outside the plot area (below).
+    fig, axes = plt.subplots(1, 2, figsize=(9.8, 3.9), constrained_layout=True)
 
     # Panel A: indirect_any (log-x for KB)
     ax = axes[0]
@@ -110,17 +112,18 @@ def main():
         ax.plot(xs, ys, color=s["color"], marker=s["marker"],
                 linestyle=s["linestyle"], label=s["label"], linewidth=2,
                 markersize=7)
-    ax.axhline(f_indirect, color=BLUE, linestyle="-", linewidth=2.5,
-               label=f"F (layered) = {f_indirect:.0f}%",
-               alpha=0.9)
-    ax.axhline(e_indirect, color=BLUE_LT, linestyle=":", linewidth=1.8,
-               alpha=0.9, label=f"E (shared LoRA) = {e_indirect:.0f}%")
+    # The layered design and the shared-LoRA-only condition both sit at ~44%
+    # indirect and are KB-invariant (no retrieval); draw a single reference
+    # line to avoid a confusing overlapping band.
+    ax.axhline(f_indirect, color=BLUE, linestyle="-", linewidth=2.6,
+               label=f"Layered (Engram + shared LoRA), no retrieval = {f_indirect:.0f}%",
+               alpha=0.95, zorder=1)
     ax.set_xscale("log")
+    ax.set_xlabel("KB size (facts + distractors, log scale)")
     ax.set_ylabel("Indirect accuracy (%)")
-    ax.set_title("(a) RAG accuracy vs KB size")
+    ax.set_title("(a)", loc="left", fontweight="bold")
     ax.set_ylim(0, 70)
     ax.grid(True, alpha=0.3, which="both")
-    ax.legend(loc="lower left", fontsize=8.5, framealpha=0.95)
 
     # Panel B: retrieval recall (log-x)
     ax = axes[1]
@@ -131,13 +134,15 @@ def main():
                 linestyle=s["linestyle"], label=s["label"], linewidth=2,
                 markersize=7)
     ax.set_xscale("log")
-    ax.set_xlabel("KB size = test user's 34 facts + distractors (log scale)")
+    ax.set_xlabel("KB size (facts + distractors, log scale)")
     ax.set_ylabel("Retrieval recall (%)")
-    ax.set_title("(b) Retrieval recall vs KB size")
+    ax.set_title("(b)", loc="left", fontweight="bold")
     ax.set_ylim(0, 100)
-    ax.grid(True, alpha=0.3, which="both")  # legend shared with panel (a)
+    ax.grid(True, alpha=0.3, which="both")
 
-    plt.tight_layout()
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="outside lower center", ncol=3,
+               fontsize=8.5, framealpha=0.95)
     out_pdf = FIGS / "fig_rag_scale.pdf"
     out_png = FIGS / "fig_rag_scale.png"
     plt.savefig(out_pdf)
