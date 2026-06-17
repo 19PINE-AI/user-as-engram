@@ -1,73 +1,55 @@
-# User as Engram — interactive paper site
+# User as Engram — interactive site
 
-React + Vite + Tailwind + Recharts. All result JSONs and figures from the
-paper are bundled in `public/` and the app reads them at runtime.
+A visual-first scrollytelling site for the paper. The idea is explained through
+bespoke SVG visuals and interactions, not transcribed prose — one idea per
+screen. React + Vite + Tailwind + [motion](https://motion.dev), with self-hosted
+fonts (Fraunces / Newsreader / IBM Plex Mono). No chart library; every visual is
+hand-rolled SVG/Canvas.
 
 ## Run
 
 ```bash
 cd site
 npm install
-npm run dev        # → http://localhost:5173
-```
-
-Build for static hosting:
-```bash
-npm run build      # → dist/
+npm run dev        # → http://localhost:5173/research/user-as-engram/
+npm run build      # → dist/   (static, self-contained)
 npm run preview    # serve dist/ locally
 ```
 
-## Layout
+Deployed under `…/research/user-as-engram/` (see `vite.config.ts` `base`).
+
+## Structure
 
 ```
-site/
-├── public/
-│   ├── data/             # result JSONs (copied from ../results)
-│   └── figs/             # PNG previews of paper figures
-└── src/
-    ├── App.tsx           # page composition + sidebar nav
-    ├── index.css         # Tailwind base + theme tokens
-    ├── types.ts          # shared TS types for data shapes
-    ├── lib/data.ts       # JSON loaders + view-model builders
-    └── components/
-        ├── Hero.tsx                  # title, authors, stat chips
-        ├── Abstract.tsx              # paper abstract
-        ├── KeyStats.tsx              # 4 headline cards
-        ├── Architecture.tsx          # interactive SVG diagram
-        ├── LayeredHeadline.tsx       # Table 24 (A–J) sortable
-        ├── ComparisonTableSection.tsx# All methods, family chips, sortable
-        ├── KBScaleSection.tsx        # Trend chart + KB slider snapshot
-        ├── ParetoSection.tsx         # Toggleable-family scatter
-        ├── MultihopSection.tsx       # 8-pair RAG vs Engram
-        ├── DataBrowser.tsx           # Per-user drill-down for all datasets
-        ├── CitationCard.tsx          # BibTeX
-        └── SidebarNav.tsx            # Sticky TOC with scroll-spy
+src/
+├── App.tsx                 # the scene sequence (single-page scrollytelling)
+├── main.tsx                # font imports + mount
+├── index.css               # design system (parchment/slate/rust, grain, type)
+├── theme.ts                # palette constants for SVG fills
+├── data/                   # SINGLE SOURCE OF TRUTH — transcribed from the paper
+│   ├── headline.ts         #   canonical numbers (5.6×/7.4×, 33,000×, 88 KB, …)
+│   ├── conditions.ts       #   the six conditions (descriptive names)
+│   ├── ragScale.ts         #   KB-size sweep (layered-flat vs RAG-decay)
+│   └── facts.ts            #   Maya's facts for the write/two-jobs demos
+├── lib/                     # useInView / useScrollProgress, toy hash for the write demo
+└── components/
+    ├── layout/  Nav · Scene · Reveal
+    ├── ui/      Counter (count-up)
+    ├── scenes/  Hero · Resources
+    └── visuals/ MemoryGrid · TwoJobs · PriceLocator · BrainSplit ·
+                 ContaminationSplit · WriteAFact · GlassBox ·
+                 LayeredBars · KBCrossover · ServingFlow
 ```
 
-## Data sources
+## The scenes
 
-All in `public/data/` (kept in sync with `../results/`):
+Hero → Two jobs → **Where the price lands** (thesis) → Brain split →
+**Contamination** (Engram vs LoRA heatmaps) → **Write a fact** → **Glass box**
+(gate / value-path / depth slider) → Layered payoff → **KB crossover** slider →
+Serving → Resources.
 
-| File | Contents |
-|---|---|
-| `layered_d20_r16_full.json` | Conditions A–F on Mini-Engram-d20, 20 users |
-| `layered_rag_full.json` | RAG conditions G–J, 20 users |
-| `layered_rag_scale_v2.json` | KB sweep N∈{34..1000}, Mini-Engram |
-| `qwen_rag_full.json` | Qwen-3B + RAG, single KB (34) |
-| `qwen_rag_scale_v2.json` | KB sweep N∈{34..1000}, Qwen-3B |
-| `multihop_rag.json` | 8-pair chained-fact RAG |
-| `latency_table.csv`, `rag_scale_table.csv` | Aggregate CSVs |
+## Keeping data fresh
 
-## Adding a new visualization
-
-1. Add a loader to `src/lib/data.ts` (return a clean view-model, not raw JSON).
-2. Write a component in `src/components/` that uses Recharts.
-3. Add a section in `src/App.tsx` with an `id` matching the sidebar entry.
-
-## Tech notes
-
-- Tailwind v3 (not v4) — uses standard PostCSS pipeline.
-- Recharts is the only chart lib (~110 KB gzipped). Build warns about a 600 KB
-  bundle; fine for an academic site, can be code-split later if it matters.
-- Sticky sidebar uses an IntersectionObserver scroll-spy (no router).
-- Charts are pure data → recharts, no Plotly/D3 — keeps the bundle small.
+All numbers live in `src/data/*.ts`, transcribed from the current paper so the
+site cannot drift. If a paper number changes, update the relevant `data/` module
+(not the components). Reduced-motion is respected throughout.

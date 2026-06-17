@@ -1,28 +1,62 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
+        // Warm parchment canvas + warm ink — print-adjacent, journal-like.
+        paper: {
+          DEFAULT: "#F4F0E6",
+          50: "#FBF9F3",
+          100: "#F7F4EA",
+          200: "#EDE7D6",
+          300: "#E2DAC4",
+        },
         ink: {
-          50: "#f8fafc", 100: "#f1f5f9", 200: "#e2e8f0", 300: "#cbd5e1",
-          400: "#94a3b8", 500: "#64748b", 600: "#475569", 700: "#334155",
-          800: "#1e293b", 900: "#0f172a",
+          DEFAULT: "#211E18",
+          50: "#6B6557",
+          100: "#534D41",
+          200: "#3A352C",
+          300: "#2A261F",
+          400: "#211E18",
         },
-        accent: {
-          50: "#eff6ff", 100: "#dbeafe", 500: "#3b82f6", 600: "#2563eb",
-          700: "#1d4ed8", 900: "#1e3a8a",
+        // "ours" — the slate-blue from the paper.
+        engram: {
+          DEFAULT: "#34507F",
+          light: "#5E79A8",
+          lighter: "#8FA6C9",
+          deep: "#23375C",
+          wash: "#E7ECF3",
         },
+        // baseline / cost — muted terracotta from the paper.
+        rust: {
+          DEFAULT: "#C24A3F",
+          light: "#D6796F",
+          deep: "#8F352D",
+          wash: "#F3E3DF",
+        },
+        ochre: { DEFAULT: "#B8893B", light: "#D8BC7E" },
+        rule: "#CFC6B2",
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
-        serif: ['Charter', 'Georgia', 'serif'],
+        display: ['"Fraunces Variable"', "Fraunces", "Georgia", "serif"],
+        body: ['"Newsreader Variable"', "Newsreader", "Georgia", "serif"],
+        mono: ['"IBM Plex Mono"', "ui-monospace", "SFMono-Regular", "monospace"],
       },
+      letterSpacing: { tightest: "-0.04em" },
+      maxWidth: { prose: "34rem" },
+      keyframes: {
+        grain: {
+          "0%,100%": { transform: "translate(0,0)" },
+          "10%": { transform: "translate(-3%,-2%)" },
+          "30%": { transform: "translate(2%,-4%)" },
+          "50%": { transform: "translate(-2%,3%)" },
+          "70%": { transform: "translate(3%,2%)" },
+          "90%": { transform: "translate(-3%,1%)" },
+        },
+      },
+      animation: { grain: "grain 8s steps(6) infinite" },
     },
   },
   plugins: [],
-}
+};

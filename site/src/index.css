@@ -3,60 +3,84 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --grain: 0.04;
+  }
   html {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    background: theme("colors.paper.DEFAULT");
   }
   body {
-    @apply bg-white text-ink-800 antialiased;
+    @apply bg-paper text-ink font-body;
+    font-optical-sizing: auto;
+    overflow-x: hidden;
   }
-  h1 {
-    @apply text-4xl md:text-5xl font-semibold tracking-tight text-ink-900;
+  ::selection {
+    background: theme("colors.engram.DEFAULT");
+    color: theme("colors.paper.50");
   }
-  h2 {
-    @apply text-2xl md:text-3xl font-semibold tracking-tight text-ink-900 mt-12 mb-4 scroll-mt-24;
+  /* Tabular, lining figures everywhere numbers matter. */
+  .mono {
+    @apply font-mono;
+    font-feature-settings: "tnum" 1, "zero" 1;
   }
-  h3 {
-    @apply text-xl font-semibold tracking-tight text-ink-900 mt-8 mb-3 scroll-mt-24;
-  }
-  p {
-    @apply leading-7 text-ink-700;
-  }
-  code {
-    @apply font-mono text-sm bg-ink-100 text-ink-800 rounded px-1.5 py-0.5;
-  }
-  pre {
-    @apply font-mono text-sm bg-ink-50 text-ink-800 rounded-lg p-4 overflow-x-auto border border-ink-200;
-  }
-  a {
-    @apply text-accent-600 hover:text-accent-700 underline-offset-2;
-  }
-  a:hover { text-decoration: underline; }
-  table { @apply text-sm; }
 }
 
 @layer components {
-  .container-page {
-    @apply max-w-6xl mx-auto px-6 md:px-10;
+  .display {
+    @apply font-display tracking-tightest;
+    font-weight: 540;
+    font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 80;
+    line-height: 0.98;
   }
-  .prose-paper p { @apply max-w-[70ch] mb-4; }
-  .prose-paper li { @apply max-w-[70ch]; }
-  .badge {
-    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+  .display-italic {
+    font-style: italic;
+    font-variation-settings: "SOFT" 40, "WONK" 1, "opsz" 80;
   }
-  .badge-blue { @apply bg-accent-50 text-accent-700; }
-  .badge-orange { @apply bg-orange-50 text-orange-700; }
-  .badge-green { @apply bg-emerald-50 text-emerald-700; }
-  .badge-rose { @apply bg-rose-50 text-rose-700; }
-  .badge-purple { @apply bg-purple-50 text-purple-700; }
-  .badge-gray { @apply bg-ink-100 text-ink-700; }
-  .card {
-    @apply bg-white border border-ink-200 rounded-lg shadow-sm;
+  .kicker {
+    @apply font-mono uppercase text-engram;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
   }
-  .stat {
-    @apply text-3xl font-semibold tabular-nums text-ink-900;
+  .eyebrow-num {
+    @apply font-mono text-ink-50;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
   }
-  .stat-label {
-    @apply text-xs uppercase tracking-wider text-ink-500 mt-1;
+  .lede {
+    @apply font-body text-ink-100;
+    font-size: clamp(1.05rem, 1.7vw, 1.4rem);
+    line-height: 1.5;
+  }
+  .hairline {
+    border-color: theme("colors.rule");
+  }
+  /* Grain overlay — fixed, multiply, very subtle. */
+  .grain-overlay::before {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    z-index: 60;
+    opacity: var(--grain);
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 8s steps(6) infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .grain-overlay::before {
+    animation: none;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
   }
 }
