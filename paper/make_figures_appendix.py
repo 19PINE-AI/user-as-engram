@@ -126,7 +126,7 @@ def fig_arch():
 def fig_pretrain_loss():
     runs = [
         ("base d8", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/base_d8/train_log.jsonl", GRAY),
-        ("engram d8", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d8/train_log.jsonl", BLUE_LT),
+        ("engram d8", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d8/train_log.jsonl", ORANGE),
         ("engram d12", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12/train_log.jsonl", BLUE),
     ]
     fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.8))
@@ -141,7 +141,7 @@ def fig_pretrain_loss():
                 elif row.get("type") == "eval":
                     eval_steps.append(row["step"]); eval_bpb.append(row["val_bpb"])
         if train_steps:
-            axes[0].plot(train_steps[::5], train_losses[::5], alpha=0.55, label=label, color=color, lw=0.7)
+            axes[0].plot(train_steps[::5], train_losses[::5], alpha=0.75, label=label, color=color, lw=0.8)
         if eval_steps:
             axes[1].plot(eval_steps, eval_bpb, marker="o", label=label, color=color, lw=1.2, ms=3)
     axes[0].set_xlabel("step"); axes[0].set_ylabel("train loss"); axes[0].set_yscale("linear")

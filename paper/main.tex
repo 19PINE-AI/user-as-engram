@@ -81,10 +81,7 @@ pipeline running on a $2.5\times$ larger model. The thread tying this
 together is simple: every method that reaches near-perfect recall
 pays for it in weaker reasoning, and they differ only in \emph{where}
 that price is paid---in the shared weights (LoRA), at one address
-(Engram), or in a search index (RAG). We release four Mini-Engram
-checkpoints---a nano-scale public replication of Engram---all
-code and data, and a 50-line multi-tenant server with zero
-cross-user leakage by design.
+(Engram), or in a search index (RAG).
 \end{abstract}
 
 \begin{center}
@@ -199,9 +196,23 @@ how many facts a single user has. Retrieval pays in the search step,
 where the cost grows with the size of the pool the encoder must
 search. Asking \emph{where the price is paid} is what turns ``which
 method is better'' into a question about how the system will be
-deployed---the view the rest of the paper makes concrete.
+deployed---the view Figure~\ref{fig:pareto} previews and the rest of
+the paper makes concrete.
 
-\paragraph{Contributions.}
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.78\linewidth]{figs/fig_pareto.pdf}
+  \caption{Cost-quality trade-off across personal-memory methods
+  at the same answering LM (Mini-Engram-d20@1536). User-as-Engram
+  Joint OPT matches a per-user LoRA's LOCOMO F1 at
+  161$\times$ smaller per-user storage (88\,KB vs.\ 14.2\,MB at
+  100 facts). Retrieval baselines sit on the steep low-storage
+  side of the curve but cap out below Engram on quality.}
+  \label{fig:pareto}
+\end{figure}
+
+\paragraph{Organization of the paper.}
+The rest of the paper develops four results, each in its own section:
 \begin{enumerate}[leftmargin=*,topsep=2pt,itemsep=2pt]
   \item \textbf{The cost of storing facts in shared weights---and
         why earlier work missed it} (Section~\ref{sec:negative}).
@@ -229,7 +240,7 @@ deployed---the view the rest of the paper makes concrete.
         on the memory lookup at exactly its trigger, adds the value
         the answer needs and nothing else (every other position is
         unchanged to the last bit), and stops working if written into
-        the wrong layer (Figures~\ref{fig:locality}--\ref{fig:glassbox}).
+        the wrong layer (Figures~\ref{fig:locality} and~\ref{fig:glassbox}).
         We release four Mini-Engram checkpoints
         (178\,M--1.22\,B; a nano-scale public replication of
         Engram), all code and data, and a 50-line multi-tenant
@@ -249,18 +260,6 @@ deployed---the view the rest of the paper makes concrete.
         retrieval pipeline---running on a $2.5\times$ larger
         model---once the knowledge base passes $\sim$100 facts.
 \end{enumerate}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.78\linewidth]{figs/fig_pareto.pdf}
-  \caption{Cost-quality trade-off across personal-memory methods
-  at the same answering LM (Mini-Engram-d20@1536). User-as-Engram
-  Joint OPT matches a per-user LoRA's LOCOMO F1 at
-  161$\times$ smaller per-user storage (88\,KB vs.\ 14.2\,MB at
-  100 facts). Retrieval baselines sit on the steep low-storage
-  side of the curve but cap out below Engram on quality.}
-  \label{fig:pareto}
-\end{figure}
 
 \section{Background}
 \label{sec:background}
@@ -588,6 +587,23 @@ that into a per-user memory.
 
 \subsection{Surgical row insertion}
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_user_insertion.pdf}
+  \caption{\textbf{Inserting a user fact into the Engram.} A fact
+  is reduced to \emph{where} and \emph{what}: the trigger's suffix
+  $N$-gram hashes to a sparse set of row addresses $R_f$
+  (\emph{where}), and one of three strategies writes a value
+  $e^\star$ into those rows (\emph{what}). UNEMBED\_P solves for
+  $e^\star$ in closed form; OPT takes a few gradient steps per
+  fact; Joint OPT---our default beyond $\sim$30 facts/user---
+  optimises all of the user's rows together so they do not
+  interfere. The result is a per-user override map of
+  $\sim$88\,KB; every row outside $R_f$, and the entire backbone,
+  is left bit-identical.}
+  \label{fig:user-insertion}
+\end{figure}
+
 To write a fact, we put its answer where its trigger is read. The
 trigger's suffix $N$-gram hashes to a fixed, sparse set of table
 rows $R_f$---about 16 rows for our $N{=}3$, $K{=}8$
@@ -632,14 +648,6 @@ verifies that ``touches nothing else'' is literally exact.
 \subsection{The local edit is a glass box}
 \label{sec:locality}
 
-A LoRA's change is spread invisibly across the whole model, so you
-cannot point to what it did. An Engram write is the opposite: you can
-watch every step of it on the trained model. We follow one inserted
-fact through the write and check each step on the trained
-Mini-Engrams (full detail, with the depth and multi-hop probes, in
-Appendix~\ref{app:mech}). Three things are worth seeing, and
-Figures~\ref{fig:locality}--\ref{fig:glassbox} show each.
-
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figs/fig_lora_vs_engram.pdf}
@@ -657,6 +665,15 @@ Figures~\ref{fig:locality}--\ref{fig:glassbox} show each.
   the function everywhere; storing it at an address does not.}
   \label{fig:locality}
 \end{figure}
+
+A LoRA's change is spread invisibly across the whole model, so you
+cannot point to what it did. An Engram write is the opposite: you can
+watch every step of it on the trained model. We follow one inserted
+fact through the write and check each step on the trained
+Mini-Engrams (full detail, with the depth and multi-hop probes, in
+Appendix~\ref{app:mech}). Three things are worth seeing, and
+Figures~\ref{fig:locality} and~\ref{fig:glassbox} show each.
+
 
 \paragraph{(1) The write switches on its own lookup, and adds just
 the value it should.} A row reaches the output only through a gated
@@ -730,6 +747,19 @@ request time, the server saves the originals at the affected
 addresses, writes the user's overrides, runs the forward, and
 restores. Cross-user leakage is \emph{zero by design}---%
 user A's overrides are not in the table when user B queries.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_arch.pdf}
+  \caption{EngramServer architecture. Per user, an override map of
+  (row index, row vector) pairs lives in DRAM. On each
+  request, the server saves the originals at the affected addresses
+  ($\sim$2 ms), writes the user's overrides, runs the forward pass,
+  then restores. The Engram lookup at the configured layer
+  transparently sees the override values; the gate fires only at the
+  trigger N-gram. There is no router and no graph rewrite.}
+  \label{fig:arch}
+\end{figure}
 
 Override maps with disjoint addresses commute, so corporate
 facts + user facts (or any number of domain-specific Engrams)
@@ -1085,11 +1115,26 @@ hypotheses make this concrete:
 
 \subsection{Design}
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_layered_arch.pdf}
+  \caption{The layered architecture splits personal memory by who owns
+  it and how often it changes. \textbf{(a)} Per-user \emph{content} is a
+  small Engram-row override (88\,KB/user) that fires only on its trigger
+  N-gram, so it perturbs unrelated text by $\Delta$bpb${}=+0.0001$.
+  \textbf{(b)} The shared \emph{reasoning skill} is a single rank-16 LoRA
+  trained on cross-user indirect-QA samples; its $\Delta$bpb${}=+0.39$
+  contamination is paid once and amortised across all users.
+  \textbf{(c)} At inference both layers are live on the frozen
+  Mini-Engram base.}
+  \label{fig:layered-arch}
+\end{figure}
+
 Train a single shared LoRA on cross-user in-context-reasoning data:
 for each held-out training user (here, u020–u029), render each
 indirect QA as a completion-format sample
 ``\texttt{Facts: <fact1>. <fact2>. ... Q: <q> A: <gold>}'', using only
-the facts in \texttt{required\_fact\_keys}. This teaches the LoRA the
+the facts the question needs. This teaches the LoRA the
 \emph{pattern} ``given facts in context, do the reasoning,'' without
 memorising any specific user's content. At inference, attach the
 shared LoRA + the test user's Engram-row override and ask the indirect
@@ -1193,7 +1238,7 @@ only the test user's facts, independent of population size.
   (54\% $\to$ 47\%) because the shared reasoning skill compensates when
   retrieval misses, though its lead over F shrinks from 10\,pp to 3\,pp
   across the sweep. \textbf{(b)} Retrieval recall (fraction of probes
-  where the retrieved set covers all gold \texttt{required\_fact\_keys})
+  where the retrieved set covers every fact the question needs)
   drops by 7$\times$ for top-3 (62\% $\to$ 9\%) between KB=34 and
   KB=1000, which is the mechanistic driver of (a).}
   \label{fig:rag-scale}
@@ -2016,10 +2061,8 @@ whose every step is either deterministic (hashing, gating) or
 directly measurable (the value the row writes, the gate it opens,
 the locality of its effect). We trace the path of one inserted fact
 through five observable stages, verifying each on the trained
-Mini-Engrams (d12@1280 and d20, 16 canonical facts; probes in
-\texttt{scripts/mech\_glassbox.py}, \texttt{mech\_lora\_vs\_engram.py},
-\texttt{mech\_depth.py}). All numbers below are on the trained
-models unless stated.
+Mini-Engrams (d12@1280 and d20, 16 canonical facts). All numbers
+below are on the trained models unless stated.
 
 \paragraph{(1) Addressing: a fact's trigger N-gram is a hash key.}
 A fact is written at the row(s) that its trigger suffix N-gram
@@ -2056,8 +2099,7 @@ closed-form marker is dominated by the convolution nonlinearity, so
 its \emph{direction} is noisier; OPT drives the row norm up, $99\to
 132$, until the value path dominates.) The trained model corroborates
 this from the behavioural side via the sensitivity asymmetry
-(Section~\ref{sec:repro}): ablating the Engram pathway
-(\texttt{engram\_suppress}) degrades \emph{factual} top-5 recall
+(Section~\ref{sec:repro}): ablating the Engram pathway degrades \emph{factual} top-5 recall
 (93.3\% retained) while \emph{reading} comprehension is untouched
 (100\% retained)---a 6.7\,pp asymmetry that localises factual content
 to the Engram pathway.
@@ -2083,8 +2125,8 @@ trigger before the write. Locality has a simpler source: we write
 only the trigger's rows, and the trigger's suffix $N$-gram is unique
 in the sequence, so every other position reads unchanged rows and its
 output is bit-identical. We verify the consequence not on one fact but
-across \emph{all 16 canonical facts and both insertion strategies}
-(\texttt{mech\_glassbox.py}): the maximum residual change over every
+across \emph{all 16 canonical facts and both insertion strategies}:
+the maximum residual change over every
 non-trigger position and every layer is \textbf{0.000}, and the change
 before the Engram layer is \textbf{0.000}---exact, through every
 subsequent attention/MLP layer (the trigger position itself moves by
@@ -2110,7 +2152,7 @@ change does its damage). We make this dependence \emph{causal}
 rather than merely correlational by re-running the insertion at the
 model's \emph{early} Engram layer instead of the late one (layer 2
 vs.\ layer 11 on d20, layer 2 vs.\ 7 on d12@1280; identical OPT-15
-budget, \texttt{mech\_depth.py}): top-1 recall collapses from
+budget): top-1 recall collapses from
 \textbf{1.00 at the late layer to 0.25} (d20) / \textbf{0.31}
 (d12@1280) \textbf{at the early layer}, because an early injection
 must survive the rest of the transformer stack and largely washes
@@ -2325,7 +2367,7 @@ Question: <indirect question from indirect_qa>
 Answer:
 \end{verbatim}}
 
-Retrieval uses the same \texttt{sentence-transformers/all-MiniLM-L6-v2}
+Retrieval uses the same \texttt{all-MiniLM-L6-v2}
 encoder as the RAG/\allowbreak MEM0/\allowbreak MEMMACHINE baselines of
 Section~\ref{sec:memory-systems}, with the per-user fact set as the
 index. For each indirect probe the question text is embedded and
@@ -2355,7 +2397,7 @@ for F.
 
 \paragraph{Why oracle-top-1 underperforms RAG top-1.}
 A non-obvious result in the Qwen-3B + RAG experiment is that
-oracle top-1 retrieval (using \texttt{required\_fact\_keys} to
+oracle top-1 retrieval (using the known required facts to
 fetch the ground-truth fact) gives 46\% indirect\_any,
 \emph{below} RAG top-1's 55\%. Inspecting the data, retrieval
 often returns facts that are \emph{adjacent} to the required
@@ -2658,55 +2700,9 @@ This appendix collects the capacity, fact-count, dense-size, and
 rank ablations, and the layered-architecture robustness studies,
 that the main text summarizes in figures.
 
-\subsection{Additional figures (schematics and supporting results)}
+\subsection{Additional result figures}
 \label{app:morefigs}
-The figures here are referenced from the body; they are placed in the
-appendix to keep the body figure-light.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig_user_insertion.pdf}
-  \caption{\textbf{Inserting a user fact into the Engram.} A fact
-  is reduced to \emph{where} and \emph{what}: the trigger's suffix
-  $N$-gram hashes to a sparse set of row addresses $R_f$
-  (\emph{where}), and one of three strategies writes a value
-  $e^\star$ into those rows (\emph{what}). UNEMBED\_P solves for
-  $e^\star$ in closed form; OPT takes a few gradient steps per
-  fact; Joint OPT---our default beyond $\sim$30 facts/user---
-  optimises all of the user's rows together so they do not
-  interfere. The result is a per-user override map of
-  $\sim$88\,KB; every row outside $R_f$, and the entire backbone,
-  is left bit-identical.}
-  \label{fig:user-insertion}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig_arch.pdf}
-  \caption{EngramServer architecture. Per user, an override map of
-  $(\text{row\_idx}, \text{row\_vector})$ pairs lives in DRAM. On each
-  request, the server saves the originals at the affected addresses
-  ($\sim$2 ms), writes the user's overrides, runs the forward pass,
-  then restores. The Engram lookup at the configured layer
-  transparently sees the override values; the gate fires only at the
-  trigger N-gram. There is no router and no graph rewrite.}
-  \label{fig:arch}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig_layered_arch.pdf}
-  \caption{The layered architecture splits personal memory by who owns
-  it and how often it changes. \textbf{(a)} Per-user \emph{content} is a
-  small Engram-row override (88\,KB/user) that fires only on its trigger
-  N-gram, so it perturbs unrelated text by $\Delta$bpb${}=+0.0001$.
-  \textbf{(b)} The shared \emph{reasoning skill} is a single rank-16 LoRA
-  trained on cross-user indirect-QA samples; its $\Delta$bpb${}=+0.39$
-  contamination is paid once and amortised across all users.
-  \textbf{(c)} At inference both layers are live on the frozen
-  Mini-Engram base.}
-  \label{fig:layered-arch}
-\end{figure}
+Supporting figures referenced from the body.
 
 \begin{figure}[t]
   \centering
