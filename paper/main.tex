@@ -132,7 +132,7 @@ be learned once and shared (Figure~\ref{fig:layered-arch}).
   \textbf{Top (content).} Each user's facts are written as a few local
   row overrides (colored) in the Engram model's one hash-keyed memory
   table; the table's other rows hold the general knowledge learned at
-  pretraining (grey). A write touches only that user's rows
+  pretraining (gray). A write touches only that user's rows
   ($\Delta$bpb${}=+0.0001$ on all other text), and different users hash
   to different addresses, so they never overlap: the fast, sparse,
   local trace of a hippocampal engram.
