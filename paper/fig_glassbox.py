@@ -59,20 +59,28 @@ def fig_glassbox(model_tag="d20"):
     for xi, v in zip(x - w/2, trig_vals):
         ax.text(xi, v + 0.03, f"{v:.2f}", ha="center", fontsize=7)
 
-    # (b) injection is the value path; what the row encodes
+    # (b) two distinct cosines, visually separated: (left) the row's effect
+    # aligns with its value path; (right) how the row relates to the gold token.
     ax = axes[1]
-    cats = ["cos(Δresid,\n$W_V e$)\nOPT", "cos($W_V e$,\ngold)\nUNEMBED", "cos($W_V e$,\ngold)\nOPT", "cos($W_V e$,\ngold)\nJoint OPT"]
+    labels = ["$W_V e$\n(OPT)", "UNEMB.", "OPT", "Joint\nOPT"]
     vals = [agg["OPT"]["mean_cos_dy_to_WVmarker"],
             agg["UNEMBED_P"]["mean_cos_WVrow_to_gold"],
             agg["OPT"]["mean_cos_WVrow_to_gold"],
             agg["joint_opt"]["mean_cos_WVrow_to_gold"]]
     colors = [BLUE, GREEN, ORANGE, RED]
-    bars = ax.bar(range(len(cats)), vals, color=colors, edgecolor="black", linewidth=0.4, width=0.7)
-    ax.set_xticks(range(len(cats))); ax.set_xticklabels(cats, fontsize=6.5)
-    ax.set_ylabel("cosine similarity"); ax.set_ylim(0, 1.05)
-    ax.set_title("(b) injection $=$ value path; row vs gold")
+    pos = [0.0, 1.3, 2.2, 3.1]
+    bars = ax.bar(pos, vals, color=colors, edgecolor="black", linewidth=0.4, width=0.78)
+    ax.axvline(0.7, color=GRAY, ls=":", lw=0.9)
+    ax.set_xticks(pos); ax.set_xticklabels(labels, fontsize=7.5)
+    ax.set_ylabel("cosine similarity"); ax.set_ylim(0, 1.32)
+    ax.set_xlim(-0.6, 3.7)
+    ax.set_title("(b) what the row injects vs. encodes")
+    ax.text(0.0, 1.22, "effect $=$\nvalue path", ha="center", va="center", fontsize=6.6,
+            style="italic", color=BLUE)
+    ax.text(2.13, 1.24, "row vs. gold-token\ndirection", ha="center", va="center",
+            fontsize=6.6, style="italic", color="#555555")
     for b, v in zip(bars, vals):
-        ax.text(b.get_x()+b.get_width()/2, v + 0.03, f"{v:.2f}", ha="center", fontsize=7)
+        ax.text(b.get_x()+b.get_width()/2, v + 0.025, f"{v:.2f}", ha="center", fontsize=7)
 
     # (c) exact locality across all facts
     ax = axes[2]

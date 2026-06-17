@@ -338,13 +338,12 @@ edit.
 
 \paragraph{Retrieval and non-parametric memory.}
 Retrieval-augmented generation~\citep{lewis2020rag,gao2023ragsurvey}
-is the dominant non-parametric route, from early retrieve-then-read
-pre-training~\citep{guu2020realm,khandelwal2020knnlm} through
-large-scale retrieval pre-training~\citep{borgeaud2022retro,izacard2023atlas}
-to self-reflective retrieval~\citep{asai2024selfrag}. Its quality
-is bounded by the encoder's ability to surface the right evidence
-among many candidates---exactly the failure mode we measure as the
-knowledge base grows (Section~\ref{sec:rag-scale}).
+is the dominant non-parametric route, spanning retrieve-then-read
+pretraining, large-scale retrieval pretraining, and self-reflective
+retrieval~\citep{guu2020realm,khandelwal2020knnlm,borgeaud2022retro,izacard2023atlas,asai2024selfrag}.
+Its quality is bounded by the encoder's ability to surface the right
+evidence among many candidates---exactly the failure mode we measure
+as the knowledge base grows (Section~\ref{sec:rag-scale}).
 
 \paragraph{Personal memory benchmarks.} Long-term personal memory
 is evaluated by LOCOMO~\citep{maharana2024locomo},
@@ -444,7 +443,8 @@ base.
   \label{fig:contamination}
 \end{figure}
 
-The figure shows the gap; the mechanism is the point. A LoRA
+Figure~\ref{fig:contamination} shows the gap; the mechanism is the
+point. A LoRA
 cannot write a fact without bending a function every input
 shares---to lift the probability of Maya's cardiologist it moves
 $Q/K/V/O$ along directions that also fire on unrelated text---so
@@ -479,7 +479,8 @@ in, but indirect questions over them do not reliably come out.
 
 What a user sees in addition depends on the base. We replicate the per-user LoRA recipe (rank-64 NTP on
 observation/fact/QA mixtures, 12 epochs $\times$ 200 samples) on
-three instruction-tuned bases---Qwen2.5-7B~\citep{qwen2025qwen25},
+four instruction-tuned bases---Qwen2.5-3B and
+Qwen2.5-7B~\citep{qwen2025qwen25},
 Llama-3.1-8B~\citep{grattafiori2024llama3}, and
 Mistral-7B~\citep{jiang2023mistral}---and one base LM
 (Figure~\ref{fig:crossbase}):
@@ -540,12 +541,10 @@ skill, instead of asking every per-user edit to learn it again.
 
 We instantiate the ``local per-user edit'' concretely: surgically write
 per-user fact rows into the hash-keyed memory table of an
-Engram-pretrained model. Three pictures carry the method---where
-that table sits in the network (Figure~\ref{fig:engram-arch}),
-how a fact is written into it (Figure~\ref{fig:user-insertion}),
-and how the writes are served per user
-(Figure~\ref{fig:arch})---and the subsections below walk through
-each.
+Engram-pretrained model. Figure~\ref{fig:engram-arch} shows where that
+table sits in the network; the subsections below walk through how a
+fact is written into it (Appendix Figure~\ref{fig:user-insertion}) and
+how the writes are served per user (Appendix Figure~\ref{fig:arch}).
 
 \subsection{Where the Engram lives}
 \label{sec:engram-arch-text}
@@ -737,29 +736,23 @@ have disjoint trigger templates.
 \section{Experiments}
 \label{sec:experiments}
 
-This section reports five blocks of measurements, each
-answering a distinct question about User-as-Engram:
-\textbf{(a) per-fact recall and density}
-(Sections~\ref{sec:single-fact}--\ref{sec:density}): how
-accurately do single and multiple per-user facts surface?
-\textbf{(b) cost}
-(Sections~\ref{sec:storage}--\ref{sec:method-cmp}):
-storage and wall time vs.\ per-user LoRA.
-\textbf{(c) direct comparison with memory systems / RAG / LOCOMO}
-(Sections~\ref{sec:memory-systems}--\ref{sec:locomo}): how does
-our method compare against retrieval baselines on the same
-answering LM?
-\textbf{(d) scaling ablations}
-(Sections~\ref{sec:capacity-ablation}--\ref{sec:dense-scaling}):
-capacity vs.\ token budget vs.\ dense size.
-\textbf{(e) probes beyond direct recall}
-(Sections~\ref{sec:multihop}--\ref{sec:paraphrase}): multi-hop,
-free-continuation, paraphrase.
-We use three corpora throughout: the \textbf{base} 200-fact
+This section answers four questions about User-as-Engram, in order.
+\textbf{(a)~How accurately do facts surface?}
+(Section~\ref{sec:density}) for one fact and for many at once.
+\textbf{(b)~What does it cost?} (Section~\ref{sec:storage}) storage
+and composition vs.\ a per-user LoRA. \textbf{(c)~Does writing the
+fact beat retrieving it?} (Sections~\ref{sec:memory-systems}--\ref{sec:locomo})
+against memory-system and RAG baselines on the same answering LM.
+\textbf{(d)~Where does it break?}
+(Sections~\ref{sec:multihop}--\ref{sec:paraphrase}) multi-hop chaining
+and paraphrases. The capacity, token-budget, and dense-size
+scaling ablations that justify our recipe are in
+Appendix~\ref{app:extended}.
+We use three fact corpora throughout: the \textbf{base} 200-fact
 benchmark (100 USER + 100 ORG facts), the \textbf{XL} corpus of
 1{,}000 USER + 1{,}000 ORG templated facts
 (Section~\ref{sec:factscale}), and the \textbf{XXL} corpus of
-3{,}132 distinct trigger templates (used for high-density and
+3{,}132 distinct trigger templates (high-density and
 distinct-template stress tests).
 
 \subsection{Setup: the Mini-Engram models we insert into}
@@ -831,13 +824,13 @@ cost than training a full LoRA (Appendix~\ref{app:strategies}). The
 harder question is what happens when many facts are live at
 once: the rows in a single user's override table interfere during
 the forward pass. We sweep that density curve on Mini-Engram-d12
-(Figure~\ref{fig:density}).
+(Appendix Figure~\ref{fig:density}).
 
 \textbf{Joint OPT is the recommended default for $\geq$30
 facts/user}: it tracks multi-fact LoRA rank-64 to within a few
 top-5 points while keeping top-5 recall above 90\% out to
 $\sim$300 facts/user, all at up to $\sim$161$\times$ less
-per-user storage (Figure~\ref{fig:density}; per-$n$ recall and
+per-user storage (Appendix Figure~\ref{fig:density}; per-$n$ recall and
 storage in Appendix~\ref{app:extended}).
 
 \paragraph{What the density ceiling is---and what it is not.} Three
@@ -909,13 +902,18 @@ the fact's exact stored prompt (easy for retrieval---the words match),
 and with a paraphrase (``I love the spice'' for ``My favorite spice
 is''; 16 facts $\times$ 4 rewordings).
 
+On exact-trigger queries the words line up with what was stored, so
+nearest-neighbour retrieval is near-perfect and beats Engram's 68\%
+top-1---but it pays 16--63 context tokens for the answer, where Engram
+pays none (Appendix Figure~\ref{fig:memsystems}).
+
 \textbf{The story flips on paraphrased queries.} When the query
 is reworded, the sentence encoder confuses surface forms and
 retrieval slips, while a single-trigger Engram misses the
 reworded N-gram entirely. The fix is to write a row at every
 anticipated paraphrase: multi-trigger insertion then wins on
 paraphrase by a clear margin at zero context cost
-(Figure~\ref{fig:memsystems}), because the contract is
+(Appendix Figure~\ref{fig:memsystems}), because the contract is
 explicit---the trigger N-gram---rather than left to an encoder's
 notion of similarity. This verdict (\emph{retrieval wins on the
 verbatim prefix; multi-trigger Engram wins under paraphrase}) is
@@ -1045,7 +1043,7 @@ words, it does not reason across them. The recite-then-reason recipe
 The hash addresses a token-level suffix N-gram, so different
 surface forms map to different rows. The full comparison
 against retrieval baselines under paraphrase queries is in
-Figure~\ref{fig:memsystems}: multi-trigger insertion
+Appendix Figure~\ref{fig:memsystems}: multi-trigger insertion
 reaches 96.9\% top-1 vs.\ MEMMACHINE's 75.0\%, and the lead
 holds at every size (Section~\ref{sec:memory-systems}, ``Scale
 invariance'' paragraph). Per-paraphrase rank data are in
@@ -1091,7 +1089,7 @@ memorising any specific user's content. At inference, attach the
 shared LoRA + the test user's Engram-row override and ask the indirect
 question without facts in the prompt: the Engram provides content (via
 trigger N-gram lookup), the shared LoRA provides the skill
-(Figure~\ref{fig:layered-arch}).
+(Appendix Figure~\ref{fig:layered-arch}).
 
 \subsection{Six-condition head-to-head}
 
@@ -1234,12 +1232,12 @@ the forward pass dominates the rest (full breakdown in
 Appendix~\ref{app:cdf}).
 
 \paragraph{It scales flat in the number of users.}
-Figure~\ref{fig:serving-scale} reports throughput, latency,
+Appendix Figure~\ref{fig:serving-scale} reports throughput, latency,
 storage, and recall across four deployment scales.
 
 Per-request work does not depend on how many users share the server,
 so throughput and latency barely move as users triple
-(Figure~\ref{fig:serving-scale}); each extra user costs one small
+(Appendix Figure~\ref{fig:serving-scale}); each extra user costs one small
 row-swap and no shared state. Two users are never in the table at the
 same time, so one cannot read another's facts: cross-user leakage is
 zero by construction. (The only residual overlap is coincidence---two

@@ -62,10 +62,10 @@ def main():
 
     if mini and "agg" in mini:
         for cname, color, marker, name in [
-            ("G_rag1", ORANGE, "s", "Mini-Engram-d20 + RAG top-1"),
-            ("H_rag3", RED, "s", "Mini-Engram-d20 + RAG top-3"),
+            ("G_rag1", ORANGE, "s", "Engram-base + RAG@1"),
+            ("H_rag3", RED, "s", "Engram-base + RAG@3"),
             ("J_rag3_sharedLoRA", PURPLE, "D",
-             "Mini-Engram-d20 + RAG top-3 + shared LoRA (= J)"),
+             "+ shared LoRA (J)"),
         ]:
             pts = []
             for kb in mini["config"]["kb_sizes"]:
@@ -79,8 +79,8 @@ def main():
 
     if qwen and "agg" in qwen:
         for k_, color, marker, name in [
-            (1, GREEN, "^", "Qwen-3B + RAG top-1"),
-            (3, TEAL, "^", "Qwen-3B + RAG top-3"),
+            (1, GREEN, "^", "Qwen-3B + RAG@1"),
+            (3, TEAL, "^", "Qwen-3B + RAG@3"),
         ]:
             pts = []
             for kb in qwen["config"]["kb_sizes"]:
@@ -111,10 +111,10 @@ def main():
                 linestyle=s["linestyle"], label=s["label"], linewidth=2,
                 markersize=7)
     ax.axhline(f_indirect, color=BLUE, linestyle="-", linewidth=2.5,
-               label=f"F (layered, Engram + shared LoRA) = {f_indirect:.0f}%",
+               label=f"F (layered) = {f_indirect:.0f}%",
                alpha=0.9)
     ax.axhline(e_indirect, color=BLUE_LT, linestyle=":", linewidth=1.8,
-               alpha=0.9, label=f"E (shared LoRA only) = {e_indirect:.0f}%")
+               alpha=0.9, label=f"E (shared LoRA) = {e_indirect:.0f}%")
     ax.set_xscale("log")
     ax.set_xlabel("KB size = test user's 34 facts + distractors (log scale)")
     ax.set_ylabel("Indirect-reasoning accuracy (indirect_any, %)")
@@ -136,8 +136,7 @@ def main():
     ax.set_ylabel("Retrieval recall (%): required_fact_keys $\\subseteq$ retrieved")
     ax.set_title("(b) Retrieval recall vs KB size")
     ax.set_ylim(0, 100)
-    ax.grid(True, alpha=0.3, which="both")
-    ax.legend(loc="upper right", fontsize=7.5, framealpha=0.95)
+    ax.grid(True, alpha=0.3, which="both")  # legend shared with panel (a)
 
     plt.tight_layout()
     out_pdf = FIGS / "fig_rag_scale.pdf"
