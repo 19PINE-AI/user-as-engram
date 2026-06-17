@@ -116,7 +116,7 @@ def main():
     ax.axhline(e_indirect, color=BLUE_LT, linestyle=":", linewidth=1.8,
                alpha=0.9, label=f"E (shared LoRA) = {e_indirect:.0f}%")
     ax.set_xscale("log")
-    ax.set_ylabel("Indirect-reasoning accuracy (indirect_any, %)")
+    ax.set_ylabel("Indirect accuracy (%)")
     ax.set_title("(a) RAG accuracy vs KB size")
     ax.set_ylim(0, 70)
     ax.grid(True, alpha=0.3, which="both")
@@ -132,7 +132,7 @@ def main():
                 markersize=7)
     ax.set_xscale("log")
     ax.set_xlabel("KB size = test user's 34 facts + distractors (log scale)")
-    ax.set_ylabel("Retrieval recall (%): required_fact_keys $\\subseteq$ retrieved")
+    ax.set_ylabel("Retrieval recall (%)")
     ax.set_title("(b) Retrieval recall vs KB size")
     ax.set_ylim(0, 100)
     ax.grid(True, alpha=0.3, which="both")  # legend shared with panel (a)
