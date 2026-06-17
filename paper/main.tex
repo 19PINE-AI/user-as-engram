@@ -405,7 +405,13 @@ its own address and leaving the shared weights untouched.
 \label{sec:negative}
 
 Weights are an excellent place to keep knowledge---pretraining
-packs millions of facts into them accurately. They are a poor
+packs millions of facts into them accurately, at roughly $2$--$4$
+bits per parameter~\citep{allenzhu2025physics}. But that capacity is
+\emph{shared} and the facts are \emph{incompressible}: each one must
+be stored explicitly and ends up entangled with every other, a
+distinct factual share of the weights that does not shrink with
+better training~\citep{li2026ikp}. That is fine for the facts
+everyone queries. It is a poor
 place to keep \emph{one user's} facts written as a \emph{per-user
 weight edit}, and not for lack of capacity. A per-user LoRA edits
 $Q/K/V/O$ in every layer, so its edit is unconditioned (part of
@@ -1813,6 +1819,17 @@ E.~Mitchell, C.~Lin, A.~Bosselut, C.~D.~Manning, and C.~Finn.
 D.~Dai, L.~Dong, Y.~Hao, Z.~Sui, B.~Chang, and F.~Wei.
 \newblock Knowledge neurons in pretrained transformers.
 \newblock ACL 2022.
+
+\bibitem[Allen-Zhu \& Li(2025)]{allenzhu2025physics}
+Z.~Allen-Zhu and Y.~Li.
+\newblock Physics of language models: Part 3.3, knowledge capacity scaling laws.
+\newblock ICML 2025. arXiv:2404.05405.
+
+\bibitem[Li(2026b)]{li2026ikp}
+B.~Li.
+\newblock Incompressible knowledge probes: Estimating black-box {LLM} parameter
+  counts via factual capacity.
+\newblock arXiv:2604.24827, 2026.
 
 \bibitem[Wang et~al.(2024)]{wang2024wise}
 P.~Wang, Z.~Li, N.~Zhang, et~al.
