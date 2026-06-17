@@ -296,109 +296,31 @@ DistilledPRAG~\citep{distilledprag2025}), or via hypernetwork
 emission (T2L~\citep{t2l2024}). All variants \emph{edit the model
 weights globally}: every forward pass sees the LoRA's change.
 
-\paragraph{Memory architectures and adjacent work.}
-Engram~\citep{cheng2026engram} sits in a long line of trainable
-key--value memory modules~\citep{geva2021kv,lample2019pkm,he2024peer,berges2025memory,ultramem2025,overencoding2025,scone2025,pagnoni2025blt,superbpe2025},
-but none of them addresses writing a single user's fact in at
-inference time. Stacking edits without a combiner echoes LoRA
-stacking for Stable Diffusion~\citep{lora_diffusion}
-(LoRAHub~\citep{huang2023lorahub} instead trains one). A mirror-image
-line keeps memory \emph{outside} the weights but executable---User as
-Code~\citep{li2026userascode} compiles a user's history into typed
-state and rules---which we contrast with our in-weights edits in
-Section~\ref{sec:experiments}.
+\paragraph{Where User as Engram sits.}
+These two---the Engram store and the per-user LoRA---anchor the
+landscape of personal-memory methods, which sorts along two axes
+(Figure~\ref{fig:landscape}): whether a method pays context tokens at
+query time, and whether storing a fact leaves the rest of the model
+untouched. In-context learning, retrieval, and external memory systems
+keep the model local but pay context on every query; per-user LoRA and
+knowledge editing pay no context but change the weights globally. User
+as Engram is the only one in the remaining corner---a local edit at
+zero context cost---and the rest of the paper earns that placement. We
+defer the broader literature to Section~\ref{sec:related-work}.
 
-\paragraph{Memory systems for LLM agents.}
-A large body of work gives an agent long-term memory by keeping
-facts \emph{outside} the weights and retrieving them at query
-time: paging systems~\citep{packer2023memgpt}; extraction- and
-graph-based stores~\citep{chhikara2025mem0,xu2025amem,rasmussen2025zep,li2025memos,hu2026evermemos,wang2026memmachine};
-and a line that learns \emph{how} to read and write the
-store~\citep{yan2025memoryr1,yu2026agemem,wang2025memalpha}, with
-surveys cataloguing the
-space~\citep{zhang2024memorysurvey,wu2025humantoai,du2026memorysurvey}.
-None writes a fact \emph{into} the model. (One concurrent system
-even shares our name~\citep{patel2025engram} while doing the
-opposite---it orchestrates memories in natural language.) We use
-Mem0- and MemMachine-style retrieval as our strongest baselines
-(Section~\ref{sec:memory-systems}) and ask a different question:
-\emph{when} does writing a fact into the weights beat keeping it in
-a retrievable store~\citep{pollertlam2026beyondcontext}?
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.82\linewidth]{figs/fig_landscape.pdf}
+  \caption{Where User as Engram sits among personal-memory methods.
+  Context-based methods (in-context learning, retrieval, memory
+  systems) leave the model untouched but pay context tokens at query
+  time (top-left); weight-based methods (per-user LoRA, knowledge
+  editing) pay no context but edit the model globally (bottom-right).
+  User as Engram occupies the remaining corner: a local edit at zero
+  context cost. Axes are qualitative.}
+  \label{fig:landscape}
+\end{figure}
 
-\paragraph{Personalizing language models.} Adapting a model to an
-individual user is an active area in its own
-right~\citep{zhang2024personalization,liu2025personalizedllm,xu2026personalizedagents},
-with benchmarks such as LaMP~\citep{salemi2024lamp} measuring
-personalized generation. Most methods personalize through the
-prompt or a retrieval store; the per-user LoRA line above is the
-parametric alternative, and User as Engram is our attempt to win
-the locality of a prompt at the zero-context cost of a weight
-edit.
-
-\paragraph{Retrieval and non-parametric memory.}
-Retrieval-augmented generation~\citep{lewis2020rag,gao2023ragsurvey}
-is the dominant non-parametric route, spanning retrieve-then-read
-pretraining, large-scale retrieval pretraining, and self-reflective
-retrieval~\citep{guu2020realm,khandelwal2020knnlm,borgeaud2022retro,izacard2023atlas,asai2024selfrag}.
-Its quality is bounded by the encoder's ability to surface the right
-evidence among many candidates---exactly the failure mode we measure
-as the knowledge base grows (Section~\ref{sec:rag-scale}).
-
-\paragraph{Personal memory benchmarks.} Long-term personal memory
-is evaluated by LOCOMO~\citep{maharana2024locomo},
-LongMemEval~\citep{wu2024longmemeval},
-BEAM~\citep{liu2025beam} (multi-turn evolving beliefs), and
-PersonaMem-v2~\citep{personamem2025}. We use synthetic per-user
-fact corpora for the within-user fact-density sweeps (tighter
-control over the parameter we vary), and LOCOMO
-(Section~\ref{sec:locomo}) for end-to-end evaluation against
-retrieval baselines. We chose LOCOMO over LongMemEval and BEAM
-because its per-question evidence pointers let us train a
-per-fact Engram row and a retrieval entry against the same gold
-sentence---an apples-to-apples ``same gold, different
-method'' comparison. LongMemEval and BEAM remain open for
-future work.
-
-\paragraph{Knowledge editing and recitation.}
-Knowledge editing changes a fact the model already
-holds---locating and rewriting weights~\citep{meng2022rome,meng2023memit,dai2022knowledge,yao2023editing},
-or routing around them~\citep{mitchell2022mend,mitchell2022serac,wang2024wise}---with
-ripple-effect benchmarks measuring the
-fallout~\citep{mquake2023,rippleedits2023,counterfact2022}. We do the
-opposite: we \emph{add} facts the model never saw and want everything
-else left alone. Recitation methods, which surface a stored fact
-before reasoning over it~\citep{srrag2024,sun2023recitation}, we reuse
-in Section~\ref{sec:negative}.
-
-\paragraph{Complementary learning systems and continual learning.}
-The extra loss a per-user LoRA imposes on unrelated text is a modern
-instance of \emph{catastrophic interference}: training on
-something new overwrites what was there
-before~\citep{mccloskey1989catastrophic}, which decades of
-continual-learning work fight by protecting important
-weights~\citep{kirkpatrick2017ewc} or replaying old data, with
-the problem persisting for large language
-models~\citep{shi2024continual}. The brain avoids it with a
-different architecture, and the word \emph{engram} points to how:
-an engram is the physical trace a memory leaves in neural
-tissue~\citep{semon1921mneme}, and \emph{engram cells}---sparse
-neuron populations whose reactivation triggers recall---sit
-largely in the hippocampus~\citep{tonegawa2015engram}, while
-general skills live in the slow, distributed neocortex.
-Complementary learning systems
-theory~\citep{mcclelland1995cls,kumaran2016cls} argues this split
-is what lets a new episode be written without overwriting old
-skills. User as Engram is the same division made architectural:
-the per-user Engram row is the fast, sparse, local trace (the
-hippocampal engram); the shared LoRA and frozen backbone are the
-slow, distributed skill (the neocortex); the gated
-trigger-N-gram lookup completes a memory from a partial cue; and
-our measured locality ($\Delta$bpb $+0.00005$ on unrelated text,
-Section~\ref{sec:negative}) is the engineering form of the
-pattern separation that keeps the two from interfering. Where
-continual learning asks one set of weights to absorb new facts
-gracefully, we sidestep the interference by writing each fact to
-its own address and leaving the shared weights untouched.
 
 \section{Per-user LoRA contaminates globally}
 \label{sec:negative}
@@ -1395,6 +1317,113 @@ to be designed together---you cannot mix and match them. Remaining
 layered follow-ups: a larger shared-skill training set, training the
 per-user table and the shared skill together, and starting from a
 chat-tuned base.
+
+\section{Related Work}
+\label{sec:related-work}
+
+\paragraph{Memory architectures and adjacent work.}
+Engram~\citep{cheng2026engram} sits in a long line of trainable
+key--value memory modules~\citep{geva2021kv,lample2019pkm,he2024peer,berges2025memory,ultramem2025,overencoding2025,scone2025,pagnoni2025blt,superbpe2025},
+but none of them addresses writing a single user's fact in at
+inference time. Stacking edits without a combiner echoes LoRA
+stacking for Stable Diffusion~\citep{lora_diffusion}
+(LoRAHub~\citep{huang2023lorahub} instead trains one). A mirror-image
+line keeps memory \emph{outside} the weights but executable---User as
+Code~\citep{li2026userascode} compiles a user's history into typed
+state and rules---which we contrast with our in-weights edits in
+Section~\ref{sec:experiments}.
+
+\paragraph{Memory systems for LLM agents.}
+A large body of work gives an agent long-term memory by keeping
+facts \emph{outside} the weights and retrieving them at query
+time: paging systems~\citep{packer2023memgpt}; extraction- and
+graph-based stores~\citep{chhikara2025mem0,xu2025amem,rasmussen2025zep,li2025memos,hu2026evermemos,wang2026memmachine};
+and a line that learns \emph{how} to read and write the
+store~\citep{yan2025memoryr1,yu2026agemem,wang2025memalpha}, with
+surveys cataloguing the
+space~\citep{zhang2024memorysurvey,wu2025humantoai,du2026memorysurvey}.
+None writes a fact \emph{into} the model. (One concurrent system
+even shares our name~\citep{patel2025engram} while doing the
+opposite---it orchestrates memories in natural language.) We use
+Mem0- and MemMachine-style retrieval as our strongest baselines
+(Section~\ref{sec:memory-systems}) and ask a different question:
+\emph{when} does writing a fact into the weights beat keeping it in
+a retrievable store~\citep{pollertlam2026beyondcontext}?
+
+\paragraph{Personalizing language models.} Adapting a model to an
+individual user is an active area in its own
+right~\citep{zhang2024personalization,liu2025personalizedllm,xu2026personalizedagents},
+with benchmarks such as LaMP~\citep{salemi2024lamp} measuring
+personalized generation. Most methods personalize through the
+prompt or a retrieval store; the per-user LoRA line above is the
+parametric alternative, and User as Engram is our attempt to win
+the locality of a prompt at the zero-context cost of a weight
+edit.
+
+\paragraph{Retrieval and non-parametric memory.}
+Retrieval-augmented generation~\citep{lewis2020rag,gao2023ragsurvey}
+is the dominant non-parametric route, spanning retrieve-then-read
+pretraining, large-scale retrieval pretraining, and self-reflective
+retrieval~\citep{guu2020realm,khandelwal2020knnlm,borgeaud2022retro,izacard2023atlas,asai2024selfrag}.
+Its quality is bounded by the encoder's ability to surface the right
+evidence among many candidates---exactly the failure mode we measure
+as the knowledge base grows (Section~\ref{sec:rag-scale}).
+
+\paragraph{Personal memory benchmarks.} Long-term personal memory
+is evaluated by LOCOMO~\citep{maharana2024locomo},
+LongMemEval~\citep{wu2024longmemeval},
+BEAM~\citep{liu2025beam} (multi-turn evolving beliefs), and
+PersonaMem-v2~\citep{personamem2025}. We use synthetic per-user
+fact corpora for the within-user fact-density sweeps (tighter
+control over the parameter we vary), and LOCOMO
+(Section~\ref{sec:locomo}) for end-to-end evaluation against
+retrieval baselines. We chose LOCOMO over LongMemEval and BEAM
+because its per-question evidence pointers let us train a
+per-fact Engram row and a retrieval entry against the same gold
+sentence---an apples-to-apples ``same gold, different
+method'' comparison. LongMemEval and BEAM remain open for
+future work.
+
+\paragraph{Knowledge editing and recitation.}
+Knowledge editing changes a fact the model already
+holds---locating and rewriting weights~\citep{meng2022rome,meng2023memit,dai2022knowledge,yao2023editing},
+or routing around them~\citep{mitchell2022mend,mitchell2022serac,wang2024wise}---with
+ripple-effect benchmarks measuring the
+fallout~\citep{mquake2023,rippleedits2023,counterfact2022}. We do the
+opposite: we \emph{add} facts the model never saw and want everything
+else left alone. Recitation methods, which surface a stored fact
+before reasoning over it~\citep{srrag2024,sun2023recitation}, we reuse
+in Section~\ref{sec:negative}.
+
+\paragraph{Complementary learning systems and continual learning.}
+The extra loss a per-user LoRA imposes on unrelated text is a modern
+instance of \emph{catastrophic interference}: training on
+something new overwrites what was there
+before~\citep{mccloskey1989catastrophic}, which decades of
+continual-learning work fight by protecting important
+weights~\citep{kirkpatrick2017ewc} or replaying old data, with
+the problem persisting for large language
+models~\citep{shi2024continual}. The brain avoids it with a
+different architecture, and the word \emph{engram} points to how:
+an engram is the physical trace a memory leaves in neural
+tissue~\citep{semon1921mneme}, and \emph{engram cells}---sparse
+neuron populations whose reactivation triggers recall---sit
+largely in the hippocampus~\citep{tonegawa2015engram}, while
+general skills live in the slow, distributed neocortex.
+Complementary learning systems
+theory~\citep{mcclelland1995cls,kumaran2016cls} argues this split
+is what lets a new episode be written without overwriting old
+skills. User as Engram is the same division made architectural:
+the per-user Engram row is the fast, sparse, local trace (the
+hippocampal engram); the shared LoRA and frozen backbone are the
+slow, distributed skill (the neocortex); the gated
+trigger-N-gram lookup completes a memory from a partial cue; and
+our measured locality ($\Delta$bpb $+0.00005$ on unrelated text,
+Section~\ref{sec:negative}) is the engineering form of the
+pattern separation that keeps the two from interfering. Where
+continual learning asks one set of weights to absorb new facts
+gracefully, we sidestep the interference by writing each fact to
+its own address and leaving the shared weights untouched.
 
 \section{Conclusion}
 \label{sec:conclusion}
