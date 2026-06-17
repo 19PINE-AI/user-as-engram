@@ -100,7 +100,7 @@ def main():
     if layered and "agg" in layered:
         e_indirect = layered["agg"]["E_shared_lora_only_indirect_any"] * 100
 
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4.6), sharex=True)
+    fig, axes = plt.subplots(2, 1, figsize=(7.0, 6.2), sharex=True)
 
     # Panel A: indirect_any (log-x for KB)
     ax = axes[0]
@@ -116,12 +116,11 @@ def main():
     ax.axhline(e_indirect, color=BLUE_LT, linestyle=":", linewidth=1.8,
                alpha=0.9, label=f"E (shared LoRA) = {e_indirect:.0f}%")
     ax.set_xscale("log")
-    ax.set_xlabel("KB size = test user's 34 facts + distractors (log scale)")
     ax.set_ylabel("Indirect-reasoning accuracy (indirect_any, %)")
     ax.set_title("(a) RAG accuracy vs KB size")
     ax.set_ylim(0, 70)
     ax.grid(True, alpha=0.3, which="both")
-    ax.legend(loc="lower left", fontsize=7.5, framealpha=0.95)
+    ax.legend(loc="lower left", fontsize=8.5, framealpha=0.95)
 
     # Panel B: retrieval recall (log-x)
     ax = axes[1]
