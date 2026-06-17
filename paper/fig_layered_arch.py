@@ -33,7 +33,7 @@ gs = fig.add_gridspec(1, 3, width_ratios=[1.0, 1.0, 1.0],
 # -----------------------------------------------------------------------------
 ax = fig.add_subplot(gs[0, 0])
 ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis("off")
-ax.set_title("(a)  Per-user content\n(Engram override, 88\,KB/user)",
+ax.set_title("(a)  Per-user content\n(Engram override, 88 KB/user)",
              fontsize=9.5, color=C_TEXT)
 
 user_colors = [C_CONTENT, "#5599cc", "#88bbe0"]
@@ -60,7 +60,7 @@ ax.text(5.0, 0.0, "(fires only on trigger N-gram)",
 # -----------------------------------------------------------------------------
 ax = fig.add_subplot(gs[0, 1])
 ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis("off")
-ax.set_title("(b)  Shared reasoning skill\n(one LoRA, 12\,MB, amortised)",
+ax.set_title("(b)  Shared reasoning skill\n(one LoRA, 12 MB, amortised)",
              fontsize=9.5, color=C_TEXT)
 
 box = FancyBboxPatch((1.4, 4.4), 7.2, 3.4,
@@ -70,8 +70,8 @@ ax.add_patch(box)
 ax.text(5.0, 7.2, "shared LoRA", fontsize=10, color=C_SKILL, ha="center", fontweight="bold")
 ax.text(5.0, 6.4, "rank-16,  Q/K/V projections", fontsize=8, color="#444", ha="center")
 ax.text(5.0, 5.5, r"trained on cross-user samples", fontsize=8.5, color="#222", ha="center")
-ax.text(5.0, 4.8, r"\textit{``Facts: $\cdots$ \;\;Q: $\cdots$\;\; A: $\cdots$''}",
-        fontsize=8, ha="center", color="#444")
+ax.text(5.0, 4.8, r'"Facts: $\cdots$   Q: $\cdots$   A: $\cdots$"',
+        fontsize=8, ha="center", color="#444", style="italic")
 
 for x0 in (2.0, 8.0):
     ax.annotate("", xy=(5, 4.5), xytext=(x0, 2.8),
@@ -102,7 +102,7 @@ ovr = FancyBboxPatch((1.6, 5.8), 6.8, 1.2,
                      boxstyle="round,pad=0.08,rounding_size=0.15",
                      linewidth=1.0, edgecolor=C_CONTENT, facecolor=C_CONTENT, alpha=0.25)
 ax.add_patch(ovr)
-ax.text(5.0, 6.4, "per-user Engram override (88\,KB)",
+ax.text(5.0, 6.4, "per-user Engram override (88 KB)",
         fontsize=8, ha="center", color=C_CONTENT, fontweight="bold")
 
 sho = FancyBboxPatch((1.6, 2.4), 6.8, 1.2,
@@ -116,7 +116,7 @@ ax.annotate("forward", xy=(8.6, 4.7), xytext=(8.6, 4.7), fontsize=7, color="#444
 ax.annotate("", xy=(8.7, 8.4), xytext=(8.7, 1.4),
             arrowprops=dict(arrowstyle="<->", color="#888", lw=1.0))
 
-ax.text(5.0, 0.3, "total per-user storage: 88\,KB",
+ax.text(5.0, 0.3, "total per-user storage: 88 KB",
         fontsize=8.5, ha="center", color=C_TEXT, fontweight="bold")
 
 fig.savefig(OUT / "fig_layered_arch.pdf", bbox_inches="tight")

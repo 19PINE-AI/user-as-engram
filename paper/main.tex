@@ -151,7 +151,7 @@ LM does not. Reading only the second signal on robust bases is
 what let prior work call the recipe harmless; the first shows the
 edit was never local (Section~\ref{sec:negative}).
 
-\paragraph{The fix: put each fact where storage belongs.}
+\paragraph{The principle: put each fact where storage belongs.}
 We move the content back onto a storage substrate.
 \textbf{User as Engram} writes each of Maya's facts as a surgical
 edit to the hash-keyed memory table of an Engram-pretrained
@@ -839,7 +839,7 @@ scaling---is the promising path to breaking it.
   (88\,KB vs.\ 14.2\,MB) and the gap widens to $\sim$1700$\times$ at
   10 facts/user (LoRA's parameter count is fact-count-independent
   while Engram grows linearly). At 1\,M users $\times$ 100
-  facts/user, Engram storage is 100\,GB vs.\ per-user LoRA's 40\,TB.}
+  facts/user, Engram storage is 100\,GB vs.\ per-user LoRA's 14.2\,TB.}
   \label{fig:scaling}
 \end{figure}
 
@@ -1172,7 +1172,7 @@ Appendix~\ref{app:paraphrase-detail}.
 So far: per-user LoRA contaminates (Section~\ref{sec:negative})
 and per-user Engram preserves direct recall but lacks in-context
 reasoning skill (23\% indirect\_any alone at $n{=}20$,
-Section~\ref{sec:experiments}). Can the two be \emph{composed}
+condition C in Figure~\ref{fig:layered-conditions}). Can the two be \emph{composed}
 without inheriting LoRA's damage? Our thesis: personal memory
 splits into \emph{content} (per-user, trigger-keyable,
 low-cost) and \emph{reasoning skill} (shared patterns,
@@ -1711,6 +1711,12 @@ the memory and the mind, and instead give each user a small
 private trace beside a skill everyone shares, personalization
 stops fighting the model it runs on. That, more than any single
 number, is what \emph{User as Engram} is for.
+
+\section*{Acknowledgements}
+
+Pine Copilot, Claude Code, and Claude Opus~4.8 were used during
+this research. We thank BSQL Networking for hosting the NVIDIA
+RTX Pro~6000 GPU on which these experiments were run.
 
 \bibliographystyle{plainnat}
 \begin{thebibliography}{50}
@@ -2487,10 +2493,10 @@ Appendix~\ref{app:paraphrase-detail}.
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.75\linewidth]{figs/fig_paraphrase.pdf}
-  \caption{Paraphrase generalisation across 4 facts × 5 paraphrases
+  \caption{Paraphrase generalisation across 4 facts $\times$ 5 paraphrases
   each. Single-trigger insertion gets 50\% top-1 for free (suffix
   N-gram overlap); multi-trigger insertion (insert at all 5
-  paraphrases) gets 100\% at 5× the per-fact OPT cost.}
+  paraphrases) gets 100\% at 5$\times$ the per-fact OPT cost.}
   \label{fig:paraphrase}
 \end{figure}
 
@@ -2901,7 +2907,7 @@ dense sizes (Figure~\ref{fig:capacity-heatmap}).
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figs/fig_capacity_heatmap.pdf}
-  \caption{Engram capacity × token-budget response surface, at
+  \caption{Engram capacity $\times$ token-budget response surface, at
   Mini-Engram-d8 v2 (left) and d12 v2 (right). Top row:
   E1 USER OPT top-1 (100-fact recall). Bottom row: LOCOMO Joint
   OPT F1. The same \texttt{large} (50\,K $\times$ 256) Engram

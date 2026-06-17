@@ -184,13 +184,13 @@ def fig4_storage_scaling():
     # Per-fact / per-user costs
     engram_per_fact_kb = 1.0       # 256 floats × 4B = 1KB
     sft_lora_per_fact_kb = 1728.0  # 442368 floats × 4B
-    polar_lora_per_user_mb = 40.5  # full POLAR LoRA per user (single LoRA per user)
+    rank64_lora_per_user_mb = 14.2 # rank-64 per-user LoRA (fact-count-independent)
 
     facts_per_user = 100
     user_counts = [10, 100, 1000, 10000, 100000, 1000000]
     engram_total = [u * facts_per_user * engram_per_fact_kb / 1024 for u in user_counts]   # MB
     sft_total = [u * facts_per_user * sft_lora_per_fact_kb / 1024 for u in user_counts]    # MB
-    polar_total = [u * polar_lora_per_user_mb for u in user_counts]                          # MB
+    polar_total = [u * rank64_lora_per_user_mb for u in user_counts]                         # MB
 
     fig, ax = plt.subplots(figsize=(5.5, 3.3))
     ax.loglog(user_counts, engram_total, "s-", color=BLUE, lw=2, label="Engram override (ours)")
@@ -200,8 +200,8 @@ def fig4_storage_scaling():
     ax.annotate("100 GB", xy=(1e6, engram_total[-1]),
                 xytext=(2e5, 1e2), fontsize=8, color=BLUE,
                 arrowprops=dict(arrowstyle="-", color=BLUE, lw=0.6))
-    ax.annotate("40 TB", xy=(1e6, polar_total[-1]),
-                xytext=(2e5, 1e6), fontsize=8, color=RED,
+    ax.annotate("14.2 TB", xy=(1e6, polar_total[-1]),
+                xytext=(1.5e5, 8e5), fontsize=8, color=RED,
                 arrowprops=dict(arrowstyle="-", color=RED, lw=0.6))
     ax.set_xlabel("Number of users (each with 100 facts)")
     ax.set_ylabel("Total storage (MB)")
