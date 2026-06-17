@@ -47,42 +47,39 @@
 
 \begin{abstract}
 Personal memory in a language model is two problems, not one:
-\emph{content}---the specific facts about a user---and
-\emph{reasoning skill}---the general ability that turns those
-facts into answers. The brain keeps the two apart---a sparse, local trace
-(an \emph{engram}) in the hippocampus for each new episode, a
-slow neocortex for the shared skills that interpret it---so a new
-fact need not overwrite everything else. The dominant recipe for
-LLM personalization, the per-user LoRA adapter, does the
-opposite: it folds content and skill into one global weight
-delta, and pays for it. Writing a user's facts as a per-user LoRA
-contaminates text that has nothing to do with the user; writing
-the same facts as local \emph{Engram rows} leaves it
-mathematically untouched---a roughly $33{,}000\times$ smaller
+\emph{content} (the specific facts about a user) and
+\emph{reasoning skill} (the ability to turn those facts into
+answers). The brain keeps the two apart (a sparse, local
+\emph{engram} in the hippocampus for each episode, a slow neocortex
+for the shared skills that interpret it), so a new fact need not
+overwrite everything else. Most personalization today keeps a
+user's facts \emph{outside} the weights, in a natural-language
+memory file or a retrieval index. When facts are written
+\emph{into} the model instead, the standard recipe is the per-user
+LoRA adapter, which does the opposite of the brain, folding
+content and skill into one global weight delta.
+Writing a user's facts as a LoRA contaminates text unrelated to them;
+writing the same facts as local \emph{Engram rows} leaves it
+mathematically untouched: a roughly $33{,}000\times$ smaller
 footprint on unrelated text (mean over three seeds), by design.
 
 We therefore propose \textbf{User as Engram}: store a user's
 content as surgical edits to the hash-keyed memory table of an
 Engram model, and carry the reasoning skill in one \emph{shared}
-adapter that everyone uses---an artificial analogue
-of the brain's complementary learning systems. This layered
+adapter, an artificial complementary learning system. This layered
 design matches per-user LoRA's direct recall while delivering
-$5.6\times$ higher indirect-reasoning accuracy on average (up to
-$7.4\times$), and never makes a single user worse at reasoning
-than the untouched base. We can also open the edit
-up and watch it work on the trained model. Writing a fact switches
-on the memory lookup at exactly its trigger and adds the value that
-drives the answer---leaving every other position
-unchanged down to the last bit---and it stops working if written
-into the wrong layer. Each step is measured, not assumed. Against
-retrieval, which method wins is decided by deployment, not benchmark
-size: a per-user Engram table does not grow with
-the number of users, so past $\sim$100 facts it overtakes a retrieval
-pipeline running on a $2.5\times$ larger model. The thread tying this
-together is simple: every method that reaches near-perfect recall
-pays for it in weaker reasoning, and they differ only in \emph{where}
-that price is paid---in the shared weights (LoRA), at one address
-(Engram), or in a search index (RAG).
+$5.6\times$ higher indirect-reasoning accuracy on average,
+and never makes a single user worse at reasoning than
+the untouched base. The edit is a glass box: writing a fact switches
+on its lookup at exactly the trigger, adds the value the answer needs,
+leaves every other position unchanged to the last bit, and fails if
+written into the wrong layer.
+Against retrieval, a per-user Engram table does not grow with the
+population the retriever must search, so past $\sim$100 facts it overtakes a retrieval pipeline on a
+$2.5\times$ larger model. Every method that reaches near-perfect
+recall pays for it in weaker reasoning; they differ only in
+\emph{where} that price is paid: the shared weights (LoRA), one
+address (Engram), or a search index (RAG).
 \end{abstract}
 
 \begin{center}
@@ -103,7 +100,7 @@ that she went vegetarian in 2024. A useful assistant must do
 three things with this \emph{personal memory}: recall a fact on
 demand (\emph{``who is my cardiologist?''}), reason over it when
 the question is indirect (\emph{``I'm visiting my daughter in
-California next month---where should I go for a heart
+California next month, where should I go for a heart
 check-up?''}), and never let one user's facts leak into
 another's. Serving millions of such users from a single
 transformer~\citep{vaswani2017transformer} backbone is an open
@@ -111,7 +108,7 @@ architectural problem.
 
 Human memory already solves a version of it. The brain does not
 record a new fact by nudging every synapse a little; it writes
-the episode as a sparse, local trace---an \emph{engram}---in the
+the episode as a sparse, local trace (an \emph{engram}) in the
 hippocampus, while the slow, distributed neocortex supplies the
 general skills that interpret
 it~\citep{semon1921mneme,tonegawa2015engram,mcclelland1995cls}.
@@ -119,120 +116,91 @@ Keeping the fast, local store apart from the slow, shared one is
 exactly what lets us learn that Maya is allergic to penicillin
 without disturbing how we reason about allergies in general.
 
-Personal memory in a language model, we argue, has the same
-two-part structure---\emph{content} (the user's specific facts)
-and \emph{reasoning skill} (turning facts into answers)---and
-each wants a different kind of memory.
-
-Three families of methods address personal memory, and the
-dominant parametric one conflates these two parts. In-context
-learning (ICL,~\citealt{brown2020gpt3,min2022rethinking})
-prefixes the facts; retrieval-augmented generation
-(RAG,~\citealt{lewis2020rag,gao2023ragsurvey}) fetches them at
-query time; per-user adapters bake them into the model's weights.
-
-This parametric family has converged on one recipe---a per-user
-LoRA~\citep{hu2022lora} on a frozen base's attention projections,
-fit on each user's facts (Section~\ref{sec:background})---which we
-adopt as our reference \textbf{per-user-LoRA} baseline. A LoRA is
-one change layered over the whole model: it keeps a user's facts
-and the reasoning skill in the same parameters and, like nudging
-every synapse, changes the model everywhere, not just where the
-user's facts are relevant.
-
-\paragraph{Why a per-user LoRA's edit is global.}
-This is not a side-effect of how we trained it. It is the price of
-keeping a fact inside a function the whole model shares. A LoRA has
-no address: to make one fact more likely, gradient descent has to
-bend $Q/K/V/O$ in whatever directions fit it most cheaply, and those
-same directions are also in use on unrelated text---so every forward
-pass feels the change.
-
-This shows up as two separate costs. The first is extra loss on
-unrelated text: it is large, and we see it on every base we tried.
-The second is what the user notices---worse reasoning---and it
-depends on the base. A heavily instruction-tuned model shrugs the
-change off; a weaker base LM does not. Earlier work looked only at
-the second cost on strong bases and concluded the recipe was
-harmless. The first cost shows the edit was never local
-(Section~\ref{sec:negative}).
-
-\paragraph{The principle: put each fact where storage belongs.}
-The right place for a fact is a memory table, not the shared
-weights.
-\textbf{User as Engram} writes each of Maya's facts as a surgical
-edit to the hash-keyed memory table of an Engram-pretrained
-model~\citep{cheng2026engram}, whose gated lookups fire only on
-suffix N-grams via deterministic multiplicative-XOR hashing,
-while the reasoning skill that interprets the facts lives in one
-\emph{shared} adapter trained across other users.
-
-\emph{Why it works}: the table is content-addressable and inert off its key,
-so writing a fact changes the model's output only at the
-positions whose trigger N-gram addresses it---and we can verify
-the change is \emph{exactly} 0.000 everywhere else, through every
-subsequent attention and MLP layer, not merely small in the limit
-(Section~\ref{sec:locality}, Figure~\ref{fig:locality}).
-
-\emph{Why the table is the right place} for personal memory, in
-three ways the weights cannot offer: writes are isolated, so
-per-user facts compose and never leak across tenants by
-construction; the index matches the access pattern, since
-personal facts are queried by their surface form and a
-suffix-N-gram hash is a natural key for exactly that; and a row
-is a fixed $\sim$88\,KB independent of the model, with a
-deterministic address that can be swapped in per request, so
-storage grows with the number of users, not the size of the
-model.
-
-\paragraph{The same price, paid in different places.}
-The three families are not really competing on quality. Each one
-reaches near-perfect direct recall, and each one pays for it with
-weaker reasoning over the stored facts. What differs is \emph{where}
-the price shows up, and how fast it grows as you add facts and users.
-A per-user LoRA pays in the shared weights, so the cost is there on
-every query and adds up as users are stacked together. An Engram row
-pays at the one place its fact is stored, so the cost grows only with
-how many facts a single user has. Retrieval pays in the search step,
-where the cost grows with the size of the pool the encoder must
-search. Asking \emph{where the price is paid} is what turns ``which
-method is better'' into a question about how the system will be
-deployed---the view Figure~\ref{fig:pareto} previews and the rest of
-the paper makes concrete.
+Personal memory in a language model has the same two-part structure,
+\emph{content} (the user's specific facts) and \emph{reasoning skill}
+(turning facts into answers), and the two pull in opposite directions.
+Content is private and differs from user to user, so it wants its own
+local store; the reasoning skill is common to everyone, so it should
+be learned once and shared (Figure~\ref{fig:layered-arch}).
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.78\linewidth]{figs/fig_pareto.pdf}
-  \caption{Cost-quality trade-off across personal-memory methods
-  at the same answering LM (Mini-Engram-d20@1536). User-as-Engram
-  Joint OPT matches a per-user LoRA's LOCOMO F1 at
-  161$\times$ smaller per-user storage (88\,KB vs.\ 14.2\,MB at
-  100 facts). Retrieval baselines store each fact at a higher
-  per-fact cost than an Engram row and still cap out below Engram
-  on quality.}
-  \label{fig:pareto}
+  \includegraphics[width=\linewidth]{figs/fig_layered_arch.pdf}
+  \captionsetup{skip=4pt}
+  \caption{\textbf{User as Engram} splits personal memory into two
+  layers, mirroring the brain's complementary learning systems.
+  \textbf{Top (content).} Each user's facts are written as a few local
+  row overrides (colored) in the Engram model's one hash-keyed memory
+  table; the table's other rows hold the general knowledge learned at
+  pretraining (grey). A write touches only that user's rows
+  ($\Delta$bpb${}=+0.0001$ on all other text), and different users hash
+  to different addresses, so they never overlap: the fast, sparse,
+  local trace of a hippocampal engram.
+  \textbf{Bottom (reasoning skill).} A single shared LoRA on the frozen
+  Mini-Engram backbone, trained once across other users and amortized
+  over everyone: the slow, shared neocortex. The only per-user state is
+  the handful of colored rows; everything below is shared.}
+  \label{fig:layered-arch}
 \end{figure}
+
+Three families of methods address personal memory. In deployed
+systems the two that dominate are both non-parametric: in-context
+learning (ICL,~\citealt{brown2020gpt3,min2022rethinking}), most often
+an automatically-extracted natural-language memory file, keeps the
+facts in the prompt, and
+retrieval-augmented generation
+(RAG,~\citealt{lewis2020rag,gao2023ragsurvey}) fetches them at
+query time. Both leave the model's weights untouched, and we
+compare against retrieval head-to-head throughout
+(Sections~\ref{sec:layered-rag}--\ref{sec:rag-scale}). The third
+family writes the facts \emph{into} the weights, and only this one
+conflates content and reasoning skill, storing both in the
+\emph{same} parameters.
+
+Among in-weights methods the standard recipe is a per-user
+LoRA~\citep{hu2022lora} fit on each user's facts
+(Section~\ref{sec:background}); we adopt it as our reference
+\textbf{per-user-LoRA} baseline because it is the in-weights method
+closest to ours, the sharpest test of \emph{where} a fact should live
+once you store it parametrically at all. A LoRA has no address: to
+make one fact more likely, gradient descent bends the $Q/K/V/O$
+directions that fit it most cheaply, and those same directions fire on
+unrelated text, so the edit is global by construction, not a
+side-effect of training. This costs extra loss on \emph{every} base we
+tried; the damage a user actually notices, worse reasoning, appears
+only on a weak base, because a strong instruction-tuned base answers
+the question on its own and hides it (Section~\ref{sec:negative}).
+
+\paragraph{The fix: content in a memory table, skill in a shared adapter.}
+\textbf{User as Engram} writes each of Maya's facts as a surgical edit
+to the hash-keyed memory table of an Engram-pretrained
+model~\citep{cheng2026engram}, whose gated lookups fire only on suffix
+N-grams via deterministic hashing; the reasoning skill is one
+\emph{shared} LoRA trained once across a held-out population, so the
+only per-user state is the memory rows, swapped in per request. The
+table is content-addressable and inert off its key, so writing a fact
+changes the output only where its trigger N-gram is read: \emph{exactly}
+0.000 everywhere else, through every later layer, not merely small
+(Section~\ref{sec:locality}, Figure~\ref{fig:locality}). That is why
+the table, not the weights, is the right home for a user's facts:
+writes are isolated (facts compose and never leak across tenants), the
+suffix-N-gram index matches how personal facts are queried (by their
+surface form), and each row is a fixed $\sim$88\,KB whose address swaps
+in per request, so storage grows with users, not model size.
 
 \paragraph{Organization of the paper.}
 The rest of the paper develops four core claims:
 \begin{enumerate}[leftmargin=*,topsep=2pt,itemsep=2pt]
-  \item \textbf{The cost of storing facts in shared weights---and
-        why earlier work missed it} (Section~\ref{sec:negative}).
-        A per-user LoRA has no
-        address: to fit even one fact, gradient descent must bend
-        the same $Q/K/V/O$ directions that are active on unrelated
-        text, so the edit changes every forward pass---it
-        contaminates globally. An Engram row, by contrast, fires
-        only on its trigger N-gram. On a controlled base this is a
-        $\sim$33{,}000$\times$ difference in extra loss on unrelated
-        text (3-seed mean)---a property of how a LoRA stores a fact,
-        not of how we tuned it. This extra loss is always there; what a user
-        actually notices---worse reasoning---only shows up on a weak
-        base. A strong, instruction-tuned base answers the question
-        on its own and hides the damage, which is exactly why earlier
-        work judged the recipe harmless. We show you can turn the
-        visible damage on and off just by changing how strong the
-        base is.
+  \item \textbf{The cost of storing facts in shared weights}
+        (Section~\ref{sec:negative}).
+        On a controlled base, writing a fact as a LoRA rather than as
+        an Engram row is a $\sim$33{,}000$\times$ difference in extra
+        loss on unrelated text (3-seed mean), a property of how a
+        LoRA stores a fact, not of how we tuned it. The extra loss is
+        always there; the visible damage (worse reasoning) appears
+        only on weak bases, and vanishes on a strong instruction-tuned
+        base that answers the question on its own. We turn that damage
+        on and off by changing base strength.
   \item \textbf{User as Engram, with the mechanism opened up}
         (Section~\ref{sec:method}):
         a way to write a user's facts as small, local edits to an
@@ -249,8 +217,8 @@ The rest of the paper develops four core claims:
         server with zero cross-user leakage.
   \item \textbf{A layered design} (Section~\ref{sec:layered})
         that pairs per-user Engram content with one shared
-        reasoning adapter---an artificial complementary learning
-        system---and beats every all-in-one baseline on direct
+        reasoning adapter (an artificial complementary learning
+        system) and beats every all-in-one baseline on direct
         recall, indirect reasoning ($5.6\times$ over per-user
         LoRA on average), contamination, and per-user reasoning regressions.
         The lead survives a personal $\to$ medical schema shift.
@@ -259,9 +227,18 @@ The rest of the paper develops four core claims:
         which method wins is set by facts-per-user and population
         size, not benchmark size. Because a per-user Engram table
         does not grow with the population, it overtakes a strong
-        retrieval pipeline---running on a $2.5\times$ larger
-        model---once the knowledge base passes $\sim$100 facts.
+        retrieval pipeline (running on a $2.5\times$ larger
+        model) once the knowledge base passes $\sim$100 facts.
 \end{enumerate}
+
+\paragraph{The same price, paid in different places.}
+The three families are not really competing on quality: each reaches
+near-perfect direct recall and each pays for it in weaker reasoning
+over the stored facts. What differs is \emph{where} the price lands and
+how fast it grows: a per-user LoRA pays in the shared weights, on
+every query and stacking across users; an Engram row pays at the one
+address its fact occupies, growing only with a single user's facts;
+retrieval pays in a search index that degrades with the pool size.
 
 \section{Background}
 \label{sec:background}
@@ -430,22 +407,12 @@ The split is clean (Figure~\ref{fig:crossbase}). On a base LM the
 global perturbation also disrupts fragile completion behavior,
 so indirect recall drops outright; on an instruction-tuned base
 the base's own reasoning carries the indirect question and masks
-the adapter's inability to provide it.
-
-\paragraph{Why earlier work thought this was harmless.} This is
-worth saying plainly, because it changes how the whole per-user-adapter
-line should be read. \textbf{If you test a per-user LoRA on a strong,
-instruction-tuned model, you see neither problem: not the extra loss on
-unrelated text, and not the fact that the adapter never learned to
-reason over what it stored.} The extra loss is always there, on every
-base. The thing a user would actually notice---weaker
-reasoning---disappears exactly when the base is strong enough to answer
-the question by itself. So the recipe looks fine precisely on the
-models people usually test it on. We can make the damage appear or
-vanish just by changing how strong the base is
+the adapter's inability to provide it. The strength of the base thus
+controls whether the damage is visible at all: we can make it appear
+or vanish by changing how strong the base is
 (Appendix~\ref{sec:layered-sft}). The reasoning has to come from
-somewhere---and Section~\ref{sec:layered} supplies it from one shared
-skill, instead of asking every per-user edit to learn it again.
+somewhere, and Section~\ref{sec:layered} supplies it from one shared
+skill instead of asking every per-user edit to learn it again.
 
 \section{Method: User as Engram}
 \label{sec:method}
@@ -849,7 +816,20 @@ Figure~\ref{fig:pareto} places all the methods on one cost--quality
 plot: a single fact matches the in-context ceiling at a fraction of
 LoRA's cost, and at high density Joint OPT keeps pace with even
 rank-64 LoRA at tens of times less storage, with the gap turning in
-Engram's favour by 1\,000 facts.
+Engram's favor by 1\,000 facts.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.78\linewidth]{figs/fig_pareto.pdf}
+  \caption{Cost-quality trade-off across personal-memory methods
+  at the same answering LM (Mini-Engram-d20@1536). User-as-Engram
+  Joint OPT matches a per-user LoRA's LOCOMO F1 at
+  161$\times$ smaller per-user storage (88\,KB vs.\ 14.2\,MB at
+  100 facts). Retrieval baselines store each fact at a higher
+  per-fact cost than an Engram row and still cap out below Engram
+  on quality.}
+  \label{fig:pareto}
+\end{figure}
 
 \textbf{Composition.} Two users' tables, or a user's facts and a
 company's, occupy different addresses, so they simply add up---no
@@ -1142,21 +1122,6 @@ hypotheses make this concrete:
 
 \subsection{Design}
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig_layered_arch.pdf}
-  \caption{The layered architecture splits personal memory by who owns
-  it and how often it changes. \textbf{(a)} Per-user \emph{content} is a
-  small Engram-row override (88\,KB/user) that fires only on its trigger
-  N-gram, so it perturbs unrelated text by $\Delta$bpb${}=+0.0001$.
-  \textbf{(b)} The shared \emph{reasoning skill} is a single rank-16 LoRA
-  trained on cross-user indirect-QA samples; its $\Delta$bpb${}=+0.39$
-  contamination is paid once and amortized across all users.
-  \textbf{(c)} At inference both layers are live on the frozen
-  Mini-Engram base.}
-  \label{fig:layered-arch}
-\end{figure}
-
 Train a single shared LoRA on cross-user in-context-reasoning data:
 for each held-out training user (here, u020–u029), render each
 indirect QA as a completion-format sample
@@ -1171,9 +1136,8 @@ trigger N-gram lookup), the shared LoRA provides the skill
 
 \subsection{Six-condition head-to-head}
 
-We compare six parametric conditions, which we refer to by both a
-shown as the six bars (in this order) in
-Figure~\ref{fig:layered-conditions}:
+We compare six parametric conditions, shown as the six bars (in this
+order) in Figure~\ref{fig:layered-conditions}:
 \textbf{the untouched base},
 \textbf{per-user LoRA},
 \textbf{the per-user Engram alone} (content, no shared skill),
@@ -1328,9 +1292,13 @@ around an Engram-pretrained model. The base and global tables stay
 on the GPU; each user's small override map lives in CPU memory. A
 request resolves the user, writes their rows, runs the forward pass,
 and restores the originals---no router, no custom kernel, no graph
-rewrite. Writing and restoring the rows cost about 2.3\,ms each, and
-the forward pass dominates the rest (full breakdown in
-Appendix~\ref{app:cdf}).
+rewrite. Writing and restoring the rows are cheap relative to the
+forward pass in every configuration we measured---a sub-millisecond
+array write on the ablation-optimal \texttt{d12@1280}
+(Figure~\ref{fig:serving-scale}), and at most $\approx$2.2\,ms each in
+the earlier per-component breakdown on the smaller \texttt{d12}~v2
+checkpoint (Appendix~\ref{app:cdf})---and the frozen forward pass
+dominates the rest.
 
 \paragraph{It scales flat in the number of users.}
 Figure~\ref{fig:serving-scale} reports throughput, latency,
@@ -1343,9 +1311,10 @@ storage, and recall across four deployment scales.
   on one idle Blackwell GPU. On the ablation-optimal d12@1280 the
   server reaches 232\,req/s (30\,u/50\,f) and holds 226\,req/s at
   100\,u/100\,f---within 3\% as tenants triple---at 4.4\,ms p50
-  latency, a sub-millisecond override apply (full per-component
-  breakdown in Appendix~\ref{app:cdf}), 88\,KB/user, and 62\%/96\%
-  top-1/top-5 own-fact recall.}
+  latency, and a sub-millisecond override apply (0.03\,ms p50; the
+  larger per-component figures in Appendix~\ref{app:cdf} are from an
+  earlier, slower benchmark on the smaller \texttt{d12}~v2 checkpoint),
+  88\,KB/user, and 62\%/96\% top-1/top-5 own-fact recall.}
   \label{fig:serving-scale}
 \end{figure}
 
@@ -1575,10 +1544,10 @@ its own address and leaving the shared weights untouched.
 \section{Conclusion}
 \label{sec:conclusion}
 
-\textbf{Personal memory is two jobs, not one: remembering a
+ersonal memory is two jobs, not one: remembering a
 user's specific facts, and the general skill of reasoning with
-them.} The dominant recipe asks one per-user adapter to do both,
-and that is the root of the trouble: an adapter that must
+them. The standard in-weights recipe asks one per-user adapter to
+do both, and that is the root of the trouble: an adapter that must
 \emph{hold} the facts cannot help also reshaping how the model
 thinks, so remembering and reasoning end up pulling on the same
 weights and the user pays for it in damaged knowledge and weaker
@@ -1594,16 +1563,6 @@ weights, on every query and stacking with every user; retrieval
 pays it in a search index that degrades as the candidate pool
 grows; User as Engram pays it at the one address its fact occupies,
 so the cost grows with a single user's facts and nothing else.
-Choosing a personal-memory method is therefore not about which one
-avoids the price---none does---but about relocating it to the place
-where, for a given deployment, it is cheapest.
-
-The sharpest open problem is the one our mechanism makes vivid:
-it can match its stored facts but cannot truly chain them. A
-memory that could combine its own traces, rather than only look
-them up, would close the last case where retrieval still wins on
-meaning; teaching the shared skill to keep learning as a user's
-questions evolve is the natural companion step.
 
 A century ago Richard Semon coined \emph{engram} for the trace
 an experience etches into living tissue---a mark local enough
@@ -2454,15 +2413,23 @@ corp+user composition measured directly in Section~\ref{sec:additive}.
 \label{app:cdf}
 
 Figure~\ref{fig:cdf} shows the per-request latency distribution under
-multi-tenant serving (Mini-Engram-d12, 30 users $\times$ 50 facts,
-600 requests). Applying a user's override map and restoring the base
+multi-tenant serving (the earlier \texttt{d12}~v2 checkpoint, 339\,M,
+30 users $\times$ 50 facts, 600 single-token recall probes), and
+Figure~\ref{fig:serving} breaks the median request into its three
+components. Applying a user's override map and restoring the base
 table afterwards are both cheap and tightly bounded---median
 2.2\,ms, p99 2.3\,ms each---so the swap adds no latency tail. The
 forward pass dominates: a median of 16.5\,ms out of a 23.2\,ms
 end-to-end total (p99 27.8\,ms), so per-user memory adds under 20\%
-overhead on top of a request the model would run anyway. The
-corresponding throughput across serving configurations is reported in
-Figure~\ref{fig:serving-scale}.
+overhead on top of a request the model would run anyway. These
+absolute numbers are higher than the ablation-optimal
+\texttt{d12@1280} serving run reported in
+Figure~\ref{fig:serving-scale} (0.03\,ms apply, 4.4\,ms p50,
+226\,req/s on an idle GPU)---both the apply cost and the forward pass
+are faster on that newer benchmark---but the qualitative conclusion is
+the same in both: the apply/restore swap is a small fraction of
+per-request latency, and per-request work is independent of how many
+tenants share the server.
 
 \begin{figure}[t]
   \centering
@@ -2563,7 +2530,8 @@ before settling on per-user override tables.
 \paragraph{Shared table with per-user hash salt (deprecated).}
 In this design, every user's facts coexist in one physical table;
 their hashes are XOR-salted by user-id so identical surface
-triggers map to disjoint rows. We benchmark on Mini-Engram-d12:
+triggers map to disjoint rows. We benchmark on Mini-Engram-d12
+(Table~\ref{tab:salt-design}):
 
 \begin{table}[t]
   \centering
@@ -2612,7 +2580,8 @@ once.
 \section{Insertion strategies (full)}
 \label{app:strategies-full}
 
-The first comparison of insertion strategies on Mini-Engram-d8 with
+Table~\ref{tab:strategies-full} reports the first comparison of
+insertion strategies on Mini-Engram-d8 with
 the original 16-fact USER+ORG benchmark (single-fact-at-a-time):
 
 \begin{table}[t]
@@ -2643,7 +2612,8 @@ We dropped DUAL.
 \section{Per-paraphrase rank table}
 \label{app:paraphrase-detail}
 
-The full per-paraphrase rank data behind Section~\ref{sec:paraphrase}
+Table~\ref{tab:paraphrase} gives the full per-paraphrase rank data
+behind Section~\ref{sec:paraphrase}
 and Figure~\ref{fig:paraphrase}, single-trigger insertion on
 Mini-Engram-d8:
 
@@ -2744,7 +2714,8 @@ cost \emph{decreases} with more facts: 0.44 s/fact at $N{=}100$,
 The headline layered-design vs.\ per-user-LoRA numbers in
 Figure~\ref{fig:layered-conditions} are
 from a single LoRA training run; for transparency, we re-ran the same
-configuration with a different RNG state and compared. Because the
+configuration with two further RNG states and compared
+(Table~\ref{tab:layered-seeds}). Because the
 training-data ordering, LoRA-weight initialization, and Adam-state
 warmup are stochastic, per-user val\_bpb $\Delta$ varies across seeds
 even with identical hyperparameters.
@@ -2847,7 +2818,8 @@ answer token.
 How does Engram-table size interact with token budget at a fixed
 dense backbone? We probe this as a $5 \times 3 \times 2$
 matrix: five capacity levels ($v$ slots per
-N-gram, $e$ total embed-dim per N-gram), three token budgets, two
+N-gram, $e$ total embed-dim per N-gram; Table~\ref{tab:capacity-levels}),
+three token budgets, two
 dense sizes (Figure~\ref{fig:capacity-heatmap}).
 
 \begin{figure}[t]

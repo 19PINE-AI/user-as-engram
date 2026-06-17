@@ -1,124 +1,144 @@
-"""Architecture schematic for the layered-architecture section: a three-panel
-diagram of the shared-reasoning-skill / per-user-content decomposition.
-(a) per-user content via Engram-row override, (b) the shared meta-skill LoRA,
-(c) the two stacked live at inference. The six-condition Pareto lives
-separately in fig_pareto_layered.pdf, so it is intentionally omitted here."""
+"""Figure 1: the layered design as a single, truly-layered schematic.
+
+Top layer  -- the Engram memory table drawn as one long strip of slots:
+mostly grey (general knowledge written at pretraining), a few coloured
+slots per user (their personal facts), scattered by trigger-N-gram hash
+address so users never overlap.
+Bottom layer -- the frozen Mini-Engram backbone carrying one shared LoRA
+(the reasoning skill), drawn full-width to signal "shared by everyone above".
+
+This replaces the old three-panel (a)/(b)/(c) version: one image, one idea.
+The six-condition Pareto lives separately in fig_pareto_layered.pdf.
+"""
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
+from matplotlib.patches import FancyBboxPatch, Rectangle, FancyArrowPatch
 from pathlib import Path
 
 OUT = Path("/home/ubuntu/user-as-engram/paper/figs")
 OUT.mkdir(parents=True, exist_ok=True)
 
-# Tight NeurIPS-friendly colour palette
-C_CONTENT = "#1f77b4"  # blue: per-user Engram (content)
-C_SKILL   = "#117733"  # green: shared LoRA (meta-skill)
-C_TEXT    = "#222222"
+# Colour-blind-friendly palette (ColorBrewer Dark2 for users; green for skill)
+C_GREY   = "#d9d9d9"   # pretrained general knowledge
+C_GREY_E = "#9a9a9a"
+C_A      = "#1f77b4"   # User A
+C_B      = "#d95f02"   # User B
+C_C      = "#7570b3"   # User C
+C_SKILL  = "#117733"   # shared LoRA
+C_TEXT   = "#222222"
 
 plt.rcParams.update({
     "font.family": "serif",
-    "axes.labelsize": 9,
-    "axes.titlesize": 10,
-    "xtick.labelsize": 8,
-    "ytick.labelsize": 8,
-    "legend.fontsize": 8,
+    "font.size": 12,
+    "axes.titlesize": 14,
+    "legend.fontsize": 11,
 })
 
-fig = plt.figure(figsize=(10.5, 4.2))
-gs = fig.add_gridspec(1, 3, width_ratios=[1.0, 1.0, 1.0],
-                      wspace=0.18, left=0.02, right=0.98, top=0.88, bottom=0.06)
+fig = plt.figure(figsize=(11.0, 4.3))
+ax = fig.add_axes([0.0, 0.0, 1.0, 1.0])
+ax.set_xlim(0, 112); ax.set_ylim(0, 43); ax.axis("off")
 
-# -----------------------------------------------------------------------------
-# Panel (a): per-user content via Engram-row insertion
-# -----------------------------------------------------------------------------
-ax = fig.add_subplot(gs[0, 0])
-ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis("off")
-ax.set_title("(a)  Per-user content\n(Engram override, 88 KB/user)",
-             fontsize=9.5, color=C_TEXT)
+# ---------------------------------------------------------------------------
+# TOP LAYER: the Engram memory table as one long strip of slots
+# ---------------------------------------------------------------------------
+N = 40
+x0, pitch, slot_w = 4.0, 2.55, 2.15
+y_tab, h_tab = 28.5, 6.2
 
-user_colors = [C_CONTENT, "#5599cc", "#88bbe0"]
-for i, (uid, c) in enumerate(zip(["user A", "user B", "user C"], user_colors)):
-    y = 8.2 - i*2.4
-    box = FancyBboxPatch((0.5, y - 0.7), 7.0, 1.5,
-                         boxstyle="round,pad=0.1,rounding_size=0.15",
-                         linewidth=1.1, edgecolor="#333", facecolor=c, alpha=0.18)
-    ax.add_patch(box)
-    ax.text(0.85, y, uid, fontsize=8.5, color=C_TEXT, va="center")
-    for k in range(5):
-        rx = 3.0 + k*0.9
-        ax.add_patch(plt.Rectangle((rx, y - 0.55), 0.7, 1.1, facecolor=c,
-                                   edgecolor="#333", lw=0.6))
-    ax.text(8.1, y, "...", fontsize=10, color=C_TEXT, va="center")
+users = {C_A: {3, 21, 31}, C_B: {9, 27}, C_C: {15, 37}}
+slot_owner = {}
+for col, idxs in users.items():
+    for i in idxs:
+        slot_owner[i] = col
 
-ax.text(5.0, 0.7, r"$\Delta$bpb on unrelated text $=\;+0.0001$",
-        fontsize=8.5, ha="center", color=C_CONTENT, fontweight="bold")
-ax.text(5.0, 0.0, "(fires only on trigger N-gram)",
-        fontsize=7.5, ha="center", color="#555", style="italic")
+for i in range(N):
+    col = slot_owner.get(i, C_GREY)
+    edge = C_GREY_E if i not in slot_owner else "#333333"
+    lw = 0.6 if i not in slot_owner else 1.1
+    x = x0 + i * pitch
+    ax.add_patch(Rectangle((x, y_tab), slot_w, h_tab,
+                           facecolor=col, edgecolor=edge, lw=lw,
+                           alpha=0.95 if i in slot_owner else 1.0))
+# "continues" marker
+xend = x0 + N * pitch
+ax.text(xend + 1.0, y_tab + h_tab / 2, r"$\cdots$", fontsize=17,
+        va="center", color="#555")
+ax.text(xend + 4.6, y_tab + h_tab / 2, "millions\nof rows", fontsize=10,
+        va="center", ha="left", color="#777", style="italic")
 
-# -----------------------------------------------------------------------------
-# Panel (b): shared meta-skill LoRA
-# -----------------------------------------------------------------------------
-ax = fig.add_subplot(gs[0, 1])
-ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis("off")
-ax.set_title("(b)  Shared reasoning skill\n(one LoRA, 12 MB, amortised)",
-             fontsize=9.5, color=C_TEXT)
+# Top-layer heading
+ax.text(x0, y_tab + h_tab + 3.4, "1.  Content",
+        fontsize=15.5, color=C_TEXT, fontweight="bold", va="bottom")
+ax.text(x0 + 14.5, y_tab + h_tab + 3.4,
+        "— each user's facts as local Engram-row overrides",
+        fontsize=12, color="#444", va="bottom")
+ax.text(x0, y_tab + h_tab + 1.0,
+        "Engram memory table  (addressed by trigger N-gram)",
+        fontsize=11, color="#666", va="bottom", style="italic")
 
-box = FancyBboxPatch((1.4, 4.4), 7.2, 3.4,
-                     boxstyle="round,pad=0.15,rounding_size=0.25",
-                     linewidth=1.6, edgecolor=C_SKILL, facecolor=C_SKILL, alpha=0.18)
-ax.add_patch(box)
-ax.text(5.0, 7.2, "shared LoRA", fontsize=10, color=C_SKILL, ha="center", fontweight="bold")
-ax.text(5.0, 6.4, "rank-16,  Q/K/V projections", fontsize=8, color="#444", ha="center")
-ax.text(5.0, 5.5, r"trained on cross-user samples", fontsize=8.5, color="#222", ha="center")
-ax.text(5.0, 4.8, r'"Facts: $\cdots$   Q: $\cdots$   A: $\cdots$"',
-        fontsize=8, ha="center", color="#444", style="italic")
+# Locality callout pinned to a right-side User-A slot (clears the heading)
+xa = x0 + 31 * pitch + slot_w / 2
+ax.annotate("write a user's fact = override only its rows\n"
+            r"($\Delta$bpb on all other text $= +0.0001$)",
+            xy=(xa, y_tab + h_tab), xytext=(xa - 4, y_tab + h_tab + 8.0),
+            fontsize=11, color=C_A, ha="center",
+            arrowprops=dict(arrowstyle="->", color=C_A, lw=1.2))
 
-for x0 in (2.0, 8.0):
-    ax.annotate("", xy=(5, 4.5), xytext=(x0, 2.8),
-                arrowprops=dict(arrowstyle="->", color=C_SKILL, lw=1.2))
-ax.text(2.0, 2.4, "training\nusers u020–u029", fontsize=7.5, ha="center", color="#444")
-ax.text(8.0, 2.4, "indirect Q+A\nsupervision", fontsize=7.5, ha="center", color="#444")
+# ---------------------------------------------------------------------------
+# Legend row
+# ---------------------------------------------------------------------------
+leg_y = 23.2
+items = [(C_GREY, C_GREY_E, "pretrained general knowledge"),
+         (C_A, "#333", "User A facts"),
+         (C_B, "#333", "User B facts"),
+         (C_C, "#333", "User C facts")]
+lx = x0
+for fc, ec, label in items:
+    ax.add_patch(Rectangle((lx, leg_y - 0.2), 2.2, 2.2, facecolor=fc,
+                           edgecolor=ec, lw=0.8))
+    ax.text(lx + 2.9, leg_y + 0.9, label, fontsize=11, va="center",
+            color=C_TEXT)
+    lx += 5.0 + len(label) * 1.42
+ax.text(xend + 4.6, leg_y + 0.9, "distinct addresses\n⇒ users never overlap",
+        fontsize=10, va="center", ha="left", color="#777", style="italic")
 
-ax.text(5.0, 1.0, r"$\Delta$bpb on unrelated text $=\;+0.39$",
-        fontsize=8.5, ha="center", color=C_SKILL, fontweight="bold")
-ax.text(5.0, 0.3, "(amortised across 1 M+ users)",
-        fontsize=7.5, ha="center", color="#555", style="italic")
-
-# -----------------------------------------------------------------------------
-# Panel (c): inference combines them
-# -----------------------------------------------------------------------------
-ax = fig.add_subplot(gs[0, 2])
-ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis("off")
-ax.set_title("(c)  At inference\n(stacked, both layers live)",
-             fontsize=9.5, color=C_TEXT)
-
-base = FancyBboxPatch((1.0, 1.0), 8.0, 7.6,
-                      boxstyle="round,pad=0.15,rounding_size=0.25",
-                      linewidth=1.2, edgecolor="#444", facecolor="#f7f7f7")
+# ---------------------------------------------------------------------------
+# BOTTOM LAYER: frozen backbone + one shared LoRA, full width
+# ---------------------------------------------------------------------------
+y_base, h_base = 5.5, 13.0
+base = FancyBboxPatch((x0, y_base), xend - x0 + 6.5, h_base,
+                      boxstyle="round,pad=0.2,rounding_size=0.4",
+                      linewidth=1.3, edgecolor="#555", facecolor="#f4f4f4")
 ax.add_patch(base)
-ax.text(5.0, 8.1, "Mini-Engram base", fontsize=8.5, ha="center", color="#444")
 
-ovr = FancyBboxPatch((1.6, 5.8), 6.8, 1.2,
-                     boxstyle="round,pad=0.08,rounding_size=0.15",
-                     linewidth=1.0, edgecolor=C_CONTENT, facecolor=C_CONTENT, alpha=0.25)
-ax.add_patch(ovr)
-ax.text(5.0, 6.4, "per-user Engram override (88 KB)",
-        fontsize=8, ha="center", color=C_CONTENT, fontweight="bold")
+lora = FancyBboxPatch((x0 + 4, y_base + 4.3), xend - x0 - 1.5, 5.0,
+                      boxstyle="round,pad=0.2,rounding_size=0.3",
+                      linewidth=1.4, edgecolor=C_SKILL, facecolor=C_SKILL,
+                      alpha=0.16)
+ax.add_patch(lora)
 
-sho = FancyBboxPatch((1.6, 2.4), 6.8, 1.2,
-                     boxstyle="round,pad=0.08,rounding_size=0.15",
-                     linewidth=1.0, edgecolor=C_SKILL, facecolor=C_SKILL, alpha=0.25)
-ax.add_patch(sho)
-ax.text(5.0, 3.0, "shared LoRA delta on $Q/K/V$",
-        fontsize=8, ha="center", color=C_SKILL, fontweight="bold")
+cx = (x0 + xend) / 2
+ax.text(x0 + 1.2, y_base + h_base - 1.6, "frozen Mini-Engram backbone",
+        fontsize=10, color="#777", va="center", style="italic")
+ax.text(cx, y_base + 7.0, "2.  Reasoning skill",
+        fontsize=15.5, color=C_SKILL, ha="center", fontweight="bold")
+ax.text(cx, y_base + 4.4,
+        "one shared LoRA  —  trained once across other users, amortized over everyone",
+        fontsize=12, color="#225522", ha="center")
 
-ax.annotate("forward", xy=(8.6, 4.7), xytext=(8.6, 4.7), fontsize=7, color="#444")
-ax.annotate("", xy=(8.7, 8.4), xytext=(8.7, 1.4),
-            arrowprops=dict(arrowstyle="<->", color="#888", lw=1.0))
+# Spanning bracket beneath the LoRA to stress "shared by all users above"
+ax.annotate("", xy=(x0 + 5, y_base + 2.2), xytext=(xend, y_base + 2.2),
+            arrowprops=dict(arrowstyle="<->", color="#999", lw=1.0))
+ax.text(cx, y_base + 1.0, "the same skill serves every user above",
+        fontsize=10, color="#888", ha="center", style="italic")
 
-ax.text(5.0, 0.3, "total per-user storage: 88 KB",
-        fontsize=8.5, ha="center", color=C_TEXT, fontweight="bold")
+# ---------------------------------------------------------------------------
+# Connector between the two layers (content sits on the shared substrate)
+# ---------------------------------------------------------------------------
+for fx in (x0 + 6, cx, xend - 4):
+    ax.add_patch(FancyArrowPatch((fx, y_tab - 0.3), (fx, y_base + h_base + 0.3),
+                                 arrowstyle="-", color="#bbb", lw=0.8,
+                                 linestyle=(0, (2, 2))))
 
-fig.savefig(OUT / "fig_layered_arch.pdf", bbox_inches="tight")
+fig.savefig(OUT / "fig_layered_arch.pdf", bbox_inches="tight", pad_inches=0.02)
 print(f"wrote {OUT / 'fig_layered_arch.pdf'}")
 plt.close(fig)
