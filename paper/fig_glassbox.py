@@ -100,7 +100,9 @@ def fig_glassbox(model_tag="d20"):
     ax.set_xticks(x); ax.set_xticklabels(strat_names)
     ax.set_ylabel(r"$\|\Delta$ residual$\|$ (final layer)")
     ax.set_title("(c)", loc="left", fontweight="bold")
-    ax.legend(loc="upper right")
+    ax.legend(loc="lower right", bbox_to_anchor=(1.0, 1.0), ncol=2,
+              frameon=True, fontsize=7.5, handlelength=1.0,
+              columnspacing=0.9, borderaxespad=0.0)
     for xi, m in zip(x + w/2, maxnt):
         ax.text(xi, floor*1.3, f"{m:.0e}", ha="center", fontsize=7, rotation=0)
 
