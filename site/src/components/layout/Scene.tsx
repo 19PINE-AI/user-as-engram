@@ -36,7 +36,7 @@ export function Scene({
           </div>
         </Reveal>
         <Reveal delay={0.05}>
-          <h2 className="display text-[clamp(2.1rem,5.2vw,4rem)] text-ink max-w-[18ch]">
+          <h2 className="display text-[clamp(1.5rem,3vw,2.3rem)] text-ink max-w-[20ch]">
             {title}
           </h2>
         </Reveal>

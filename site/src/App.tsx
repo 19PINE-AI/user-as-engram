@@ -100,7 +100,7 @@ export default function App() {
           index="08"
           kicker="When it wins"
           title={<>Who wins depends on <span className="display-italic text-engram">deployment</span>.</>}
-          lede={<>A per-user table never grows with the population. Drag the knowledge base: retrieval decays as the pool grows, while the layered design holds flat — and overtakes it past ~100 facts.</>}
+          lede={<>A per-user table never grows with the population. As the knowledge base grows, retrieval decays while the layered design holds flat — and overtakes it past ~100 facts.</>}
           wide
         >
           <KBCrossover />

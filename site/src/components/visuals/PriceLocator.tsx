@@ -1,138 +1,78 @@
-import { useState } from "react";
-import { motion } from "motion/react";
 import { C } from "../../theme";
 
-// Schematic: where each method's accuracy cost lands, and what axis it grows on.
-// - per-user LoRA: in the shared weights — paid on every query, stacks with users.
-// - Engram row:    at the one address — grows only with a user's own facts.
-// - retrieval:     in the search index — grows with the candidate pool (users × facts).
+// Static: three methods, each showing WHERE the cost lands and the axis it
+// grows on — as a small fixed cost curve. No sliders.
+const methods = [
+  {
+    method: "Per-user LoRA",
+    where: "in the shared weights",
+    grows: "paid on every query · stacks with users",
+    axis: "users →",
+    curve: [0.34, 0.52, 0.72, 0.88, 1.0],
+    color: C.rust,
+  },
+  {
+    method: "Engram row",
+    where: "at the one address",
+    grows: "grows only with a user's own facts",
+    axis: "facts / user →",
+    curve: [0.1, 0.16, 0.24, 0.32, 0.4],
+    color: C.engram,
+    ours: true,
+  },
+  {
+    method: "Retrieval",
+    where: "in the search index",
+    grows: "grows with the candidate pool",
+    axis: "pool size →",
+    curve: [0.1, 0.32, 0.56, 0.8, 0.95],
+    color: C.ochre,
+  },
+];
 
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t;
-}
-
-export function PriceLocator() {
-  const [facts, setFacts] = useState(0.45); // 0..1 (log facts/user)
-  const [users, setUsers] = useState(0.4); // 0..1 (log users)
-
-  const factCount = Math.round(lerp(1, 1000, facts ** 1.6));
-  const userCount = Math.round(10 ** lerp(0, 6, users));
-
-  const loraCost = Math.min(100, 34 + 66 * users);
-  const engramCost = Math.min(100, 12 + 80 * facts);
-  const ragCost = Math.min(100, 8 + 92 * (0.5 * facts + 0.5 * users));
-
-  const cards = [
-    {
-      key: "lora",
-      method: "Per-user LoRA",
-      where: "in the shared weights",
-      grows: "every query · stacks with users",
-      cost: loraCost,
-      color: C.rust,
-    },
-    {
-      key: "engram",
-      method: "Engram row",
-      where: "at the one address",
-      grows: "grows only with a user's own facts",
-      cost: engramCost,
-      color: C.engram,
-      ours: true,
-    },
-    {
-      key: "rag",
-      method: "Retrieval",
-      where: "in the search index",
-      grows: "grows with the candidate pool",
-      cost: ragCost,
-      color: C.ochre,
-    },
-  ];
-
+function Spark({ curve, color }: { curve: number[]; color: string }) {
+  const W = 100,
+    H = 44;
+  const pts = curve.map((v, i) => [(i / (curve.length - 1)) * W, H - v * H]);
+  const line = pts.map((p) => p.join(",")).join(" ");
+  const area = `0,${H} ${line} ${W},${H}`;
   return (
-    <div className="rounded-xl border hairline bg-paper-50 p-5 md:p-7">
-      <div className="grid sm:grid-cols-3 gap-5">
-        {cards.map((c) => (
-          <div
-            key={c.key}
-            className={`rounded-lg border p-4 ${c.ours ? "border-engram/40 bg-engram-wash" : "border-rule bg-paper"}`}
-          >
-            <div className="font-body text-lg text-ink leading-tight">{c.method}</div>
-            <div className="font-mono text-[0.66rem] uppercase tracking-[0.12em] mt-0.5" style={{ color: c.color }}>
-              {c.where}
-            </div>
-            {/* cost vessel */}
-            <div className="mt-4 flex items-end gap-3">
-              <div className="relative w-full h-28 rounded-md bg-paper-200 overflow-hidden">
-                <motion.div
-                  className="absolute bottom-0 left-0 right-0"
-                  style={{ background: c.color }}
-                  animate={{ height: `${c.cost}%` }}
-                  transition={{ type: "spring", stiffness: 120, damping: 20 }}
-                />
-                <div className="absolute inset-0 grid grid-rows-4">
-                  {[0, 1, 2, 3].map((i) => (
-                    <div key={i} className="border-t border-paper-50/40" />
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="font-body text-xs text-ink-50 leading-snug mt-3 h-8">{c.grows}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* controls */}
-      <div className="grid sm:grid-cols-2 gap-6 mt-7">
-        <Slider
-          label="facts per user"
-          value={facts}
-          onChange={setFacts}
-          readout={factCount.toLocaleString()}
-        />
-        <Slider
-          label="number of users"
-          value={users}
-          onChange={setUsers}
-          readout={userCount >= 1000 ? `${(userCount / 1000).toFixed(userCount >= 1e6 ? 1 : 0)}${userCount >= 1e6 ? "M" : "K"}` : `${userCount}`}
-        />
-      </div>
-      <p className="font-body text-sm text-ink-50 leading-snug mt-5 max-w-prose">
-        No method avoids the price. Drag the dimensions and watch <i>where</i> it lands —
-        and how fast it grows on each method's own axis. That is the whole question.
-      </p>
-    </div>
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" preserveAspectRatio="none">
+      <polygon points={area} fill={color} opacity={0.12} />
+      <polyline points={line} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx={W} cy={H - curve[curve.length - 1] * H} r={2.4} fill={color} />
+    </svg>
   );
 }
 
-function Slider({
-  label,
-  value,
-  onChange,
-  readout,
-}: {
-  label: string;
-  value: number;
-  onChange: (v: number) => void;
-  readout: string;
-}) {
+export function PriceLocator() {
   return (
-    <div>
-      <div className="flex justify-between font-mono text-[0.68rem] uppercase tracking-[0.14em] text-ink-50 mb-1">
-        <span>{label}</span>
-        <span className="text-ink">{readout}</span>
+    <div className="rounded-xl border hairline bg-paper-50 p-5 md:p-7">
+      <div className="grid sm:grid-cols-3 gap-4">
+        {methods.map((m) => (
+          <div
+            key={m.method}
+            className={`rounded-lg border p-4 ${m.ours ? "border-engram/40 bg-engram-wash" : "border-rule bg-paper"}`}
+          >
+            <div className="font-body text-base text-ink leading-tight">{m.method}</div>
+            <div className="font-mono text-[0.62rem] uppercase tracking-[0.12em] mt-0.5" style={{ color: m.color }}>
+              {m.where}
+            </div>
+            <div className="mt-4">
+              <Spark curve={m.curve} color={m.color} />
+              <div className="flex justify-between font-mono text-[0.56rem] text-ink-50 mt-1">
+                <span>cost ↑</span>
+                <span>{m.axis}</span>
+              </div>
+            </div>
+            <div className="font-body text-[0.8rem] text-ink-50 leading-snug mt-3">{m.grows}</div>
+          </div>
+        ))}
       </div>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step={0.01}
-        value={value}
-        onChange={(e) => onChange(+e.target.value)}
-        className="w-full accent-engram"
-        aria-label={label}
-      />
+      <p className="font-body text-[0.82rem] text-ink-50 leading-snug mt-5 max-w-prose">
+        No method avoids the price. They differ only in <i>where</i> it lands — and on which axis it
+        grows. The Engram row keeps it lowest, and tied to a single user's own facts.
+      </p>
     </div>
   );
 }

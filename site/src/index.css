@@ -10,6 +10,7 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     background: theme("colors.paper.DEFAULT");
+    font-size: 15px; /* calmer base; everything scales from here */
   }
   body {
     @apply bg-paper text-ink font-body;
@@ -40,18 +41,18 @@
   }
   .kicker {
     @apply font-mono uppercase text-engram;
-    font-size: 0.72rem;
-    letter-spacing: 0.28em;
+    font-size: 0.66rem;
+    letter-spacing: 0.26em;
   }
   .eyebrow-num {
     @apply font-mono text-ink-50;
-    font-size: 0.7rem;
+    font-size: 0.64rem;
     letter-spacing: 0.18em;
   }
   .lede {
     @apply font-body text-ink-100;
-    font-size: clamp(1.05rem, 1.7vw, 1.4rem);
-    line-height: 1.5;
+    font-size: clamp(0.98rem, 1.15vw, 1.12rem);
+    line-height: 1.55;
   }
   .hairline {
     border-color: theme("colors.rule");
