@@ -776,19 +776,30 @@ Figure~\ref{fig:logitlens}).
 \label{sec:density}
 \label{sec:single-fact}
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig3_density_curves.pdf}
+  \caption{Within-user fact-density: top-1 (left) and top-5 (right)
+  recall vs.\ number of facts inserted simultaneously into one user's
+  override map. Joint OPT (blue) closes most of the gap to LoRA
+  rank-64 (red dashed) at 161$\times$ less storage (88\,KB vs.\
+  14.2\,MB at 100 facts).}
+  \label{fig:density}
+\end{figure}
+
 A single inserted fact surfaces within $\sim$8 points of the
 in-context ceiling, at three orders of magnitude lower per-user
 cost than training a full LoRA (Appendix~\ref{app:strategies}). The
 harder question is what happens when many facts are live at
 once: the rows in a single user's override table interfere during
 the forward pass. We sweep that density curve on Mini-Engram-d12
-(Appendix Figure~\ref{fig:density}).
+(Figure~\ref{fig:density}).
 
 \textbf{Joint OPT is the recommended default for $\geq$30
 facts/user}: it tracks multi-fact LoRA rank-64 to within a few
 top-5 points while keeping top-5 recall above 90\% out to
 $\sim$300 facts/user, all at up to $\sim$161$\times$ less
-per-user storage (Appendix Figure~\ref{fig:density}; per-$n$ recall and
+per-user storage (Figure~\ref{fig:density}; per-$n$ recall and
 storage in Appendix~\ref{app:extended}).
 
 \paragraph{What the density ceiling is---and what it is not.} Three
@@ -837,6 +848,33 @@ to keep separate per-user tables when they do not
 \subsection{Comparison against memory systems}
 \label{sec:memory-systems}
 
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}{0.49\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figs/fig_memsystems_a.pdf}
+    \caption{Retrieval wins on exact-trigger queries---but Engram
+    pays \emph{zero} context tokens (0 vs.\ 16--63) for its 68\%.}
+    \label{fig:memsystems-a}
+  \end{subfigure}\hfill
+  \begin{subfigure}{0.49\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figs/fig_memsystems_b.pdf}
+    \caption{Engram multi-trigger insertion wins on paraphrases by
+    22 points, again at zero context.}
+    \label{fig:memsystems-b}
+  \end{subfigure}
+  \caption{Direct recall vs.\ memory systems, all sharing the same
+  Mini-Engram-d12 answering LM (100 USER facts, XXL corpus).
+  \subref{fig:memsystems-a}~When the query is the fact's stored
+  prefix, nearest-neighbour retrieval is near-perfect and beats
+  Engram's 68\% top-1---but at a context-token cost Engram does not
+  pay. \subref{fig:memsystems-b}~When the query is a paraphrase,
+  retrieval drops to 60--75\% while multi-trigger Engram insertion
+  reaches 96.9\% top-1.}
+  \label{fig:memsystems}
+\end{figure}
+
 We compare User-as-Engram against state-of-the-art memory
 systems that target the same use case (per-user / personal
 memory). All systems use the \emph{same} Mini-Engram-d12 as the
@@ -863,7 +901,7 @@ is''; 16 facts $\times$ 4 rewordings).
 On exact-trigger queries the words line up with what was stored, so
 nearest-neighbour retrieval is near-perfect and beats Engram's 68\%
 top-1---but it pays 16--63 context tokens for the answer, where Engram
-pays none (Appendix Figure~\ref{fig:memsystems}).
+pays none (Figure~\ref{fig:memsystems}).
 
 \textbf{The story flips on paraphrased queries.} When the query
 is reworded, the sentence encoder confuses surface forms and
@@ -871,7 +909,7 @@ retrieval slips, while a single-trigger Engram misses the
 reworded N-gram entirely. The fix is to write a row at every
 anticipated paraphrase: multi-trigger insertion then wins on
 paraphrase by a clear margin at zero context cost
-(Appendix Figure~\ref{fig:memsystems}), because the contract is
+(Figure~\ref{fig:memsystems}), because the contract is
 explicit---the trigger N-gram---rather than left to an encoder's
 notion of similarity. This verdict (\emph{retrieval wins on the
 verbatim prefix; multi-trigger Engram wins under paraphrase}) is
@@ -1001,7 +1039,7 @@ words, it does not reason across them. The recite-then-reason recipe
 The hash addresses a token-level suffix N-gram, so different
 surface forms map to different rows. The full comparison
 against retrieval baselines under paraphrase queries is in
-Appendix Figure~\ref{fig:memsystems}: multi-trigger insertion
+Figure~\ref{fig:memsystems}: multi-trigger insertion
 reaches 96.9\% top-1 vs.\ MEMMACHINE's 75.0\%, and the lead
 holds at every size (Section~\ref{sec:memory-systems}, ``Scale
 invariance'' paragraph). Per-paraphrase rank data are in
@@ -1205,12 +1243,24 @@ the forward pass dominates the rest (full breakdown in
 Appendix~\ref{app:cdf}).
 
 \paragraph{It scales flat in the number of users.}
-Appendix Figure~\ref{fig:serving-scale} reports throughput, latency,
+Figure~\ref{fig:serving-scale} reports throughput, latency,
 storage, and recall across four deployment scales.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.74\linewidth]{figs/fig_serving_scale.pdf}
+  \caption{EngramServer throughput across four deployment scales
+  on one idle Blackwell GPU. On the ablation-optimal d12@1280 the
+  server reaches 232\,req/s (30\,u/50\,f) and holds 226\,req/s at
+  100\,u/100\,f---within 3\% as tenants triple---at 4.4\,ms p50
+  latency, a 0.03\,ms override apply, 88\,KB/user, and 62\%/96\%
+  top-1/top-5 own-fact recall.}
+  \label{fig:serving-scale}
+\end{figure}
 
 Per-request work does not depend on how many users share the server,
 so throughput and latency barely move as users triple
-(Appendix Figure~\ref{fig:serving-scale}); each extra user costs one small
+(Figure~\ref{fig:serving-scale}); each extra user costs one small
 row-swap and no shared state. Two users are never in the table at the
 same time, so one cannot read another's facts: cross-user leakage is
 zero by construction. (The only residual overlap is coincidence---two
@@ -2728,60 +2778,6 @@ which numbers depend on which seed.
 This appendix collects the capacity, fact-count, dense-size, and
 rank ablations, and the layered-architecture robustness studies,
 that the main text summarizes in figures.
-
-\subsection{Additional result figures}
-\label{app:morefigs}
-Supporting figures referenced from the body.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig3_density_curves.pdf}
-  \caption{Within-user fact-density: top-1 (left) and top-5 (right)
-  recall vs.\ number of facts inserted simultaneously into one user's
-  override map. Joint OPT (blue) closes most of the gap to LoRA
-  rank-64 (red dashed) at 161$\times$ less storage (88\,KB vs.\
-  14.2\,MB at 100 facts).}
-  \label{fig:density}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \begin{subfigure}{0.49\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figs/fig_memsystems_a.pdf}
-    \caption{Retrieval wins on exact-trigger queries---but Engram
-    pays \emph{zero} context tokens (0 vs.\ 16--63) for its 68\%.}
-    \label{fig:memsystems-a}
-  \end{subfigure}\hfill
-  \begin{subfigure}{0.49\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figs/fig_memsystems_b.pdf}
-    \caption{Engram multi-trigger insertion wins on paraphrases by
-    22 points, again at zero context.}
-    \label{fig:memsystems-b}
-  \end{subfigure}
-  \caption{Direct recall vs.\ memory systems, all sharing the same
-  Mini-Engram-d12 answering LM (100 USER facts, XXL corpus).
-  \subref{fig:memsystems-a}~When the query is the fact's stored
-  prefix, nearest-neighbour retrieval is near-perfect and beats
-  Engram's 68\% top-1---but at a context-token cost Engram does not
-  pay. \subref{fig:memsystems-b}~When the query is a paraphrase,
-  retrieval drops to 60--75\% while multi-trigger Engram insertion
-  reaches 96.9\% top-1.}
-  \label{fig:memsystems}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.74\linewidth]{figs/fig_serving_scale.pdf}
-  \caption{EngramServer throughput across four deployment scales
-  on one idle Blackwell GPU. On the ablation-optimal d12@1280 the
-  server reaches 232\,req/s (30\,u/50\,f) and holds 226\,req/s at
-  100\,u/100\,f---within 3\% as tenants triple---at 4.4\,ms p50
-  latency, a 0.03\,ms override apply, 88\,KB/user, and 62\%/96\%
-  top-1/top-5 own-fact recall.}
-  \label{fig:serving-scale}
-\end{figure}
 
 \subsection{Multi-fact-in-the-loss finetune, and the teacher-trace negative result}
 \label{sec:mf-finetune}
