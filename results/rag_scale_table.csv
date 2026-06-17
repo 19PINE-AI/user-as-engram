@@ -1,31 +1,31 @@
 series,kb_size,indirect_any_pct,retrieval_acc_pct
-Mini-Engram-d20 + RAG top-1,34,32.50,21.75
-Mini-Engram-d20 + RAG top-1,100,30.50,13.00
-Mini-Engram-d20 + RAG top-1,200,30.00,8.50
-Mini-Engram-d20 + RAG top-1,300,29.75,7.25
-Mini-Engram-d20 + RAG top-1,500,30.00,7.00
-Mini-Engram-d20 + RAG top-1,1000,29.25,6.25
-Mini-Engram-d20 + RAG top-3,34,38.75,62.00
-Mini-Engram-d20 + RAG top-3,100,34.50,39.25
-Mini-Engram-d20 + RAG top-3,200,32.00,27.50
-Mini-Engram-d20 + RAG top-3,300,29.75,19.50
-Mini-Engram-d20 + RAG top-3,500,29.75,11.50
-Mini-Engram-d20 + RAG top-3,1000,29.75,9.25
-Mini-Engram-d20 + RAG top-3 + shared LoRA (= J),34,54.25,62.00
-Mini-Engram-d20 + RAG top-3 + shared LoRA (= J),100,52.25,39.25
-Mini-Engram-d20 + RAG top-3 + shared LoRA (= J),200,51.25,27.50
-Mini-Engram-d20 + RAG top-3 + shared LoRA (= J),300,51.25,19.50
-Mini-Engram-d20 + RAG top-3 + shared LoRA (= J),500,48.25,11.50
-Mini-Engram-d20 + RAG top-3 + shared LoRA (= J),1000,47.00,9.25
-Qwen-3B + RAG top-1,34,55.25,21.75
-Qwen-3B + RAG top-1,100,41.25,13.00
-Qwen-3B + RAG top-1,200,34.75,8.50
-Qwen-3B + RAG top-1,300,33.25,7.25
-Qwen-3B + RAG top-1,500,31.50,7.00
-Qwen-3B + RAG top-1,1000,31.50,6.25
-Qwen-3B + RAG top-3,34,51.75,62.00
-Qwen-3B + RAG top-3,100,44.50,39.25
-Qwen-3B + RAG top-3,200,38.25,27.50
-Qwen-3B + RAG top-3,300,36.75,19.50
-Qwen-3B + RAG top-3,500,32.25,11.50
-Qwen-3B + RAG top-3,1000,30.00,9.25
+Engram-base + RAG@1,34,32.50,21.75
+Engram-base + RAG@1,100,30.50,13.00
+Engram-base + RAG@1,200,30.00,8.50
+Engram-base + RAG@1,300,29.75,7.25
+Engram-base + RAG@1,500,30.00,7.00
+Engram-base + RAG@1,1000,29.25,6.25
+Engram-base + RAG@3,34,38.75,62.00
+Engram-base + RAG@3,100,34.50,39.25
+Engram-base + RAG@3,200,32.00,27.50
+Engram-base + RAG@3,300,29.75,19.50
+Engram-base + RAG@3,500,29.75,11.50
+Engram-base + RAG@3,1000,29.75,9.25
++ shared LoRA (J),34,54.25,62.00
++ shared LoRA (J),100,52.25,39.25
++ shared LoRA (J),200,51.25,27.50
++ shared LoRA (J),300,51.25,19.50
++ shared LoRA (J),500,48.25,11.50
++ shared LoRA (J),1000,47.00,9.25
+Qwen-3B + RAG@1,34,55.25,21.75
+Qwen-3B + RAG@1,100,41.25,13.00
+Qwen-3B + RAG@1,200,34.75,8.50
+Qwen-3B + RAG@1,300,33.25,7.25
+Qwen-3B + RAG@1,500,31.50,7.00
+Qwen-3B + RAG@1,1000,31.50,6.25
+Qwen-3B + RAG@3,34,51.75,62.00
+Qwen-3B + RAG@3,100,44.50,39.25
+Qwen-3B + RAG@3,200,38.25,27.50
+Qwen-3B + RAG@3,300,36.75,19.50
+Qwen-3B + RAG@3,500,32.25,11.50
+Qwen-3B + RAG@3,1000,30.00,9.25
