@@ -1,12 +1,12 @@
-import { motion } from "motion/react";
 import type { ReactNode } from "react";
-import { EASE } from "../../theme";
 
-/** Staggered fade-up that triggers once when scrolled into view. */
+/**
+ * Static wrapper. The site is meant to be read top-to-bottom, so content is
+ * always visible — no scroll-triggered reveal that could leave a section blank.
+ * (Kept as a component so callers don't change; `delay` is ignored.)
+ */
 export function Reveal({
   children,
-  delay = 0,
-  y = 24,
   className = "",
 }: {
   children: ReactNode;
@@ -14,15 +14,5 @@ export function Reveal({
   y?: number;
   className?: string;
 }) {
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.9, ease: EASE, delay }}
-    >
-      {children}
-    </motion.div>
-  );
+  return <div className={className}>{children}</div>;
 }

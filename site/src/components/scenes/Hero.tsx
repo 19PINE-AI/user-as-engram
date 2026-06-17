@@ -18,7 +18,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="top" className="relative min-h-screen flex flex-col justify-center overflow-hidden px-6 md:px-12 lg:px-20">
+    <section id="top" className="relative min-h-[86vh] flex flex-col justify-center overflow-hidden px-6 md:px-12 pt-20 pb-12">
       {/* static memory table backdrop */}
       <div className="absolute inset-0 -z-10">
         <MemoryGrid lit={lit} cols={30} rows={20} className="w-full h-full" />
@@ -26,12 +26,12 @@ export function Hero() {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(120% 90% at 16% 42%, rgba(244,240,230,0.98) 0%, rgba(244,240,230,0.9) 40%, rgba(244,240,230,0.62) 100%)",
+              "radial-gradient(130% 95% at 50% 45%, rgba(244,240,230,0.97) 0%, rgba(244,240,230,0.9) 42%, rgba(244,240,230,0.66) 100%)",
           }}
         />
       </div>
 
-      <div className="max-w-4xl">
+      <div className="mx-auto w-full max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}

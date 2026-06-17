@@ -2,8 +2,9 @@ import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
 
 /**
- * A standard full-height scene: a kicker (mono, numbered), a serif display
- * headline, an optional one-line lede, and the visual. Minimal text by design.
+ * A section in the continuous, centered single-column reading flow: a kicker
+ * (mono, numbered), a serif display headline, an optional one-line lede, and
+ * the visual. One shared max-width so every section lines up down the middle.
  */
 export function Scene({
   id,
@@ -12,7 +13,6 @@ export function Scene({
   title,
   lede,
   children,
-  wide = false,
 }: {
   id: string;
   index: string;
@@ -23,13 +23,10 @@ export function Scene({
   wide?: boolean;
 }) {
   return (
-    <section
-      id={id}
-      className="relative min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-20 py-24"
-    >
-      <div className={wide ? "mx-auto w-full max-w-6xl" : "mx-auto w-full max-w-5xl"}>
+    <section id={id} className="relative px-6 md:px-12 py-12 md:py-14 scroll-mt-16">
+      <div className="mx-auto w-full max-w-4xl">
         <Reveal>
-          <div className="flex items-baseline gap-4 mb-5">
+          <div className="flex items-baseline gap-4 mb-4">
             <span className="kicker">{kicker}</span>
             <span className="flex-1 border-t hairline mt-2" />
             <span className="eyebrow-num">{index}</span>
@@ -41,12 +38,12 @@ export function Scene({
           </h2>
         </Reveal>
         {lede && (
-          <Reveal delay={0.12}>
-            <p className="lede mt-6 max-w-prose">{lede}</p>
+          <Reveal delay={0.1}>
+            <p className="lede mt-4 max-w-prose">{lede}</p>
           </Reveal>
         )}
         {children && (
-          <Reveal delay={0.18} className="mt-10 md:mt-14">
+          <Reveal delay={0.15} className="mt-7">
             {children}
           </Reveal>
         )}
