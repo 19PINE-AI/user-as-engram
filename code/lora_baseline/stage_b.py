@@ -21,12 +21,12 @@ Output: JSONL per user at data/traces/<uid>.jsonl. Each line:
 The programmatic path runs offline and is the one Stage C can rely on
 without any API budget. Teacher-distilled traces are an optional quality lift.
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
 
-from __future__ import annotations
 
 import argparse
 import json

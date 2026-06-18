@@ -30,11 +30,11 @@ Usage:
   python -m scripts.locomo_eval --ckpt-dir $NANOCHAT_BASE_DIR/engram_runs/engram_d12 \\
       --n-conv 2 --max-qa-per-conv 80 --out results/locomo_eval.json
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
-from __future__ import annotations
 import os, json, re, time, argparse
 from pathlib import Path
 from collections import Counter

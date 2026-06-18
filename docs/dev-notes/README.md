@@ -7,7 +7,8 @@ They are **not** needed to understand or use the method; for that, read the
 
 Expect rough edges: some notes are outdated relative to the final paper, and the
 scripts under `orchestration/` and `probes/` contain hardcoded local paths and
-reference the (now-external) nanochat harness, so they will not run as-is.
+reference an old pre-vendoring path to the nanochat harness (now vendored at
+`code/nanochat_harness/`), so they will not run as-is.
 
 - `*.md` — findings, results, outlines, and reframe drafts written during the work.
 - `orchestration/` — the `run_*.sh` / `chain_*.sh` queue scripts used to drive

@@ -16,11 +16,11 @@ Usage:
     --n-facts 16 \\
     --out results/cross_lm_transfer.json
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
-from __future__ import annotations
 import os, json, argparse
 from pathlib import Path
 import torch

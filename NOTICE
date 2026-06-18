@@ -10,7 +10,9 @@ Third-party components and references
 
 nanochat (Andrej Karpathy) — MIT License, Copyright (c) 2025 Andrej Karpathy
     A copy of the nanochat training/eval harness is vendored at
-    `code/nanochat_harness/` (its original MIT LICENSE is preserved there). Our
+    `code/nanochat_harness/` (its original MIT LICENSE is preserved there; we
+    omit only its `dev/` exploration notebooks, which are unrelated to this
+    work). Our
     Engram integration consists of `code/nanochat_harness/nanochat/engram_module.py`
     (new) and modifications to `code/nanochat_harness/nanochat/gpt.py`; those
     modified/added files are licensed under this repository's Apache-2.0 LICENSE.

@@ -5,12 +5,12 @@ Produces:
   - results/summary.md  : human-readable Markdown table
   - results/summary.json: structured for downstream plotting
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
 
-from __future__ import annotations
 
 import json
 from pathlib import Path
@@ -38,7 +38,7 @@ def load():
 
 def main():
     a, b, c = load()
-    lines = ["# User-as-LoRA pilot — results summary", ""]
+    lines = ["# Per-user-LoRA baseline — results summary", ""]
 
     # ---- Stage A ----
     lines.append("## Stage A: per-user POLAR LoRAs (Qwen2.5-3B-Instruct)")

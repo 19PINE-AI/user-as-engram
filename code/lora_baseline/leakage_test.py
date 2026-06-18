@@ -10,12 +10,12 @@ For every pair (u, v) with u != v:
 This should be ~0 under a correctly-scoped adapter. Non-zero would signal that
 adapters share weights in a way that bleeds one user's facts into another.
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
 
-from __future__ import annotations
 
 import argparse
 import json

@@ -16,11 +16,11 @@ Usage:
     --out-tag engram_d12_w1280_sft \\
     --num-iterations 1000
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
-from __future__ import annotations
 import os, json, argparse, time, random
 from pathlib import Path
 import torch

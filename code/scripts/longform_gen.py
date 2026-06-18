@@ -6,11 +6,11 @@ from each trigger and report:
 The "anywhere in 8 tokens" is the conversational-usage recall when the
 model doesn't immediately produce the gold but surfaces it shortly after.
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
-from __future__ import annotations
 import os, json, argparse, time
 import torch
 import torch.nn.functional as F

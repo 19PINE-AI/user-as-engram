@@ -69,8 +69,9 @@ harness, which provides `torch` and the tokenizer).
 - `data/users/`, `data/users_medical/` — the per-user synthetic fact sets
   (default `--user-dir $USER_AS_ENGRAM_ROOT/data/users`).
 - `data/corpora{,_xl,_xxl}.json` — fact corpora for the density / fact-count tests.
-- `data/locomo10.json` — the LOCOMO benchmark; **download separately** (see
-  [`../REPRODUCE.md`](../REPRODUCE.md)) and place it there.
+- `data/locomo10.json` — the LOCOMO benchmark (Maharana et al., 2024,
+  arXiv:2402.17753); third-party, obtain separately and place it here (only
+  needed to re-run the LOCOMO evals — see [`../REPRODUCE.md`](../REPRODUCE.md)).
 
 ## Script index
 

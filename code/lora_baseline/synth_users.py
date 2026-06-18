@@ -1,5 +1,5 @@
 """
-Synthetic user generator for User-as-LoRA.
+Synthetic per-user fact-set generator (produces data/users).
 
 A user is a typed attribute bundle plus derived lists:
 - `facts`: atomic natural-language statements (verbalizations of attributes)
@@ -18,12 +18,12 @@ Indirect question schemas (with programmatic ground truth):
 Facts are verbalized in multiple paraphrases (like POLAR's FACTUAL_STATEMENTS)
 so the LoRA sees the same fact in several surface forms.
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
 
-from __future__ import annotations
 
 import json
 import random

@@ -11,11 +11,11 @@ medical schema, isolating whether the meta-skill transfers (a positive
 result for the layered architecture) or is locked to schema surface forms
 (a negative result, like Stage A's cross-schema collapse).
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
-from __future__ import annotations
 import json, random
 from dataclasses import dataclass, field
 from pathlib import Path

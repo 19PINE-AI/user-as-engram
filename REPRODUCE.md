@@ -34,15 +34,22 @@ the exact figures in the paper. The map of figure → generator → data is belo
 ## Level 1 — Regenerate the synthetic data (no GPU)
 
 The per-user fact files (`data/users/`, `data/users_medical/`) and the fact
-corpora (`data/corpora*.json`) are committed. The corpora are also regenerable
-(pure Python, no torch):
+corpora (`data/corpora*.json`) are committed, and all are regenerable (pure
+Python, no torch):
 
 ```bash
 export USER_AS_ENGRAM_ROOT=$(pwd)
+
+# fact corpora
 python code/scripts/build_corpus.py        # -> data/corpora.json      (base 200-fact)
 python code/scripts/build_corpus_xl.py     # -> data/corpora_xl.json   (1k USER + 1k ORG)
 python code/scripts/build_corpus_xxl.py    # -> data/corpora_xxl.json  (3,132 templates)
+
+# per-user fact sets
+python -m synth_users          # -> data/users/         (run from code/lora_baseline)
+python -m synth_users_medical  # -> data/users_medical/
 ```
+(run the last two from `code/lora_baseline/`, e.g. `cd code/lora_baseline && python -m synth_users`.)
 
 ## Levels 2 & 3 — Run experiments / train from scratch (GPU)
 
@@ -89,7 +96,7 @@ script prints its full usage (with example flags) in its module docstring.
 | Per-user synthetic facts (`data/users/`, `data/users_medical/`) | ✅ yes | 30 + 30 fictional users, each with `facts`, `direct_qa`, `indirect_qa`. |
 | Fact corpora (`data/corpora{,_xl,_xxl}.json`) | ✅ yes | Synthetic; also regenerable (Level 1). |
 | All experiment outputs (`results/*.json`) | ✅ yes | What the figures read. |
-| **LOCOMO** (Maharana et al., 2024) | ⬇️ obtain | Third-party benchmark we don't redistribute. Only needed to *re-run* the LOCOMO evals (`locomo_eval.py` / `judge_locomo.py`) — the LOCOMO figures already rebuild from `results/`. Place its `locomo10.json` at `data/locomo10.json`. |
+| **LOCOMO** (Maharana et al., 2024, arXiv:2402.17753) | ⬇️ obtain | Third-party benchmark we don't redistribute. Only needed to *re-run* the LOCOMO evals (`locomo_eval.py` / `judge_locomo.py`) — the LOCOMO figures already rebuild from `results/`. Obtain its `locomo10.json` (10-conversation set) from the dataset's public release and place it at `data/locomo10.json`. |
 
 ---
 

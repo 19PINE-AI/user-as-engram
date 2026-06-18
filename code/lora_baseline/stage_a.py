@@ -8,12 +8,12 @@ Evaluates:
   - Indirect multi-hop accuracy with adapter (THIS is the gap the paper claims
     to close; expect ~0-5% at rank-64 LoRA alone)
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
 
-from __future__ import annotations
 
 import argparse
 import json

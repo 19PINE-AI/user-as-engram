@@ -16,12 +16,12 @@ the "pre" condition of our held-out evaluation. The delta we report is the
 Introspection Transfer signal. Even a few percentage points on a 36-layer
 3 B model is evidence for H1.
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
 
-from __future__ import annotations
 
 import argparse
 import json

@@ -2,18 +2,18 @@
 In-context baseline: give the base model all of the user's facts in the
 prompt, plus the indirect question, and measure indirect accuracy.
 
-This is the *ceiling* User-as-LoRA is chasing with weight-space conditioning.
+This is the *ceiling* the per-user-LoRA baseline is chasing with weight-space conditioning.
 Also runs a 'prompted CoT' variant for the adapter-attached model to control
 for "did we just need a prompt?"
 
 Outputs aggregate over the 10 synthetic users.
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
 
-from __future__ import annotations
 
 import argparse
 import json

@@ -4,11 +4,11 @@ Reads `results/<tag>__factscale_n<N>.json` for each model and N, prints
 USER OPT top-1/top-5 (and ORG OPT) at each fact count. Goal: identify
 the recall ceiling and the rate of decay as fact count grows.
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
-from __future__ import annotations
 import json
 from pathlib import Path
 

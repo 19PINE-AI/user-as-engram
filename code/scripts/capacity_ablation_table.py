@@ -5,11 +5,11 @@ Reads `results/<tag>__strategies.json`, `results/<tag>__scale.json`,
 
 Cells: { d8 / d12 } x { 5 capacities } x { up to 3 token budgets }.
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
-from __future__ import annotations
 import json
 from pathlib import Path
 from collections import defaultdict

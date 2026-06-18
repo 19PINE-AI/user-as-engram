@@ -18,12 +18,12 @@ functional on 10 users"). It does a short smoke run (few steps) and reports
 whether gradients flow to base and not to adapter, plus per-user trace-loss
 evolution. A full meta-train run would use the same loop at larger scale.
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
 
-from __future__ import annotations
 
 import argparse
 import json

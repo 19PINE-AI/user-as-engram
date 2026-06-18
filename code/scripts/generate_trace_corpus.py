@@ -11,11 +11,11 @@ Usage:
         --train-uids u020 u021 u022 u023 u024 u025 u026 u027 u028 u029 \\
         --out $USER_AS_ENGRAM_ROOT/nanochat_base/shared_lora_d20_trace/traces.jsonl
 """
+from __future__ import annotations
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
     os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
     else os.getcwd())
-from __future__ import annotations
 
 import argparse
 import json
