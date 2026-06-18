@@ -30,8 +30,8 @@ Headline results (vs. a per-user LoRA, on Mini-Engram-d20):
 |---|---|
 | [`paper/`](paper/) | LaTeX source (`main.tex`), figures, and figure-generation scripts. |
 | [`code/`](code/) | Everything to run the experiments: the training/eval **harness** (`nanochat_harness/`, vendored, with our Engram module + GPT edits), our **experiment scripts** (`scripts/`), and the **per-user-LoRA baseline** + data generators (`lora_baseline/`). See [`code/README.md`](code/README.md). |
-| [`data/`](data/) | Synthetic per-user fact sets (`users/`, `users_medical/`) and fact corpora — all included. |
-| [`results/`](results/) | Result JSONs the paper figures are built from. |
+| [`data/`](data/) | Synthetic per-user fact sets (`users/`, `users_medical/`) and fact corpora — all included. See [`data/README.md`](data/README.md). |
+| [`results/`](results/) | Result JSONs the paper figures are built from. See [`results/README.md`](results/README.md). |
 | [`site/`](site/) | The interactive site (React + Vite). See [`site/README.md`](site/README.md). |
 | [`docs/dev-notes/`](docs/dev-notes/) | Working research logs and historical scripts (provenance; not needed to use the method). |
 

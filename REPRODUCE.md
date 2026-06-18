@@ -91,11 +91,14 @@ script prints its full usage (with example flags) in its module docstring.
 
 ## Datasets
 
+Full inventory and schemas: [`data/README.md`](data/README.md).
+
 | Dataset | In repo? | Notes |
 |---|---|---|
 | Per-user synthetic facts (`data/users/`, `data/users_medical/`) | ✅ yes | 30 + 30 fictional users, each with `facts`, `direct_qa`, `indirect_qa`. |
 | Fact corpora (`data/corpora{,_xl,_xxl}.json`) | ✅ yes | Synthetic; also regenerable (Level 1). |
-| All experiment outputs (`results/*.json`) | ✅ yes | What the figures read. |
+| Multi-hop chains (`data/multihop_chains.json`) | ✅ yes | Chained-fact pairs for the multi-hop probe. |
+| All experiment outputs (`results/*.json`) | ✅ yes | What the figures read ([`results/README.md`](results/README.md)). |
 | **LOCOMO** (Maharana et al., 2024, arXiv:2402.17753) | ⬇️ obtain | Third-party benchmark we don't redistribute. Only needed to *re-run* the LOCOMO evals (`locomo_eval.py` / `judge_locomo.py`) — the LOCOMO figures already rebuild from `results/`. Obtain its `locomo10.json` (10-conversation set) from the dataset's public release and place it at `data/locomo10.json`. |
 
 ---
