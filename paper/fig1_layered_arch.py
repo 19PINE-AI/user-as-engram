@@ -1,6 +1,9 @@
 """Figure 1 of the layered-architecture paper: a four-panel architectural
 diagram showing the content/meta-skill decomposition plus the Pareto
 comparison."""
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
+                          os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,7 +11,7 @@ import matplotlib.patches as mpatches
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 from pathlib import Path
 
-OUT = Path("/home/ubuntu/user-as-engram/paper/figs")
+OUT = Path(f"{UAE_ROOT}/paper/figs")
 OUT.mkdir(parents=True, exist_ok=True)
 
 # Tight NeurIPS-friendly colour palette

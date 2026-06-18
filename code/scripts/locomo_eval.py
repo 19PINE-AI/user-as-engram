@@ -30,6 +30,10 @@ Usage:
   python -m scripts.locomo_eval --ckpt-dir $NANOCHAT_BASE_DIR/engram_runs/engram_d12 \\
       --n-conv 2 --max-qa-per-conv 80 --out results/locomo_eval.json
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 from __future__ import annotations
 import os, json, re, time, argparse
 from pathlib import Path
@@ -228,7 +232,7 @@ def main():
     p.add_argument("--ckpt-dir", required=True)
     p.add_argument("--n-conv", type=int, default=2)
     p.add_argument("--max-qa-per-conv", type=int, default=80)
-    p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/locomo_eval.json")
+    p.add_argument("--out", default=f"{UAE_ROOT}/results/locomo_eval.json")
     p.add_argument("--max-seq-len", type=int, default=1024)
     p.add_argument("--categories", default="1",
                     help="Comma-separated list of LOCOMO categories to include (1=single-hop, 2=multi-hop, 3=reasoning, 4=open-domain, 5=adversarial)")

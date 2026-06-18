@@ -1,6 +1,6 @@
 """Generate appendix figures (A2-A7) from existing data.
 
-Outputs to /home/ubuntu/user-as-engram/paper/figs/
+Outputs to $USER_AS_ENGRAM_ROOT/paper/figs/
   fig_arch.pdf            — system architecture diagram (consider for body)
   fig_pretrain_loss.pdf   — base d8 / engram d8 / engram d12 training curves
   fig_strategy_bars.pdf   — RANDOM/WTE/UNEMBED_P/OPT/Joint OPT comparison
@@ -9,6 +9,9 @@ Outputs to /home/ubuntu/user-as-engram/paper/figs/
   fig_serving_cdf.pdf     — per-request latency CDF
   fig_joint_opt_loss.pdf  — Joint OPT convergence (from logged values)
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
+                          os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json
 from pathlib import Path
 import matplotlib
@@ -125,9 +128,9 @@ def fig_arch():
 # -----------------------------------------------------------------------------
 def fig_pretrain_loss():
     runs = [
-        ("base d8", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/base_d8/train_log.jsonl", GRAY),
-        ("engram d8", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d8/train_log.jsonl", ORANGE),
-        ("engram d12", "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12/train_log.jsonl", BLUE),
+        ("base d8", f"{UAE_ROOT}/nanochat_base/engram_runs/base_d8/train_log.jsonl", GRAY),
+        ("engram d8", f"{UAE_ROOT}/nanochat_base/engram_runs/engram_d8/train_log.jsonl", ORANGE),
+        ("engram d12", f"{UAE_ROOT}/nanochat_base/engram_runs/engram_d12/train_log.jsonl", BLUE),
     ]
     fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.8))
     for label, path, color in runs:
@@ -215,7 +218,7 @@ def fig_paraphrase():
 # -----------------------------------------------------------------------------
 def fig_multidomain():
     # From scalability_benchmark.json B2
-    with open("/home/ubuntu/user-as-engram/results/scalability_benchmark.json") as f:
+    with open(f"{UAE_ROOT}/results/scalability_benchmark.json") as f:
         d = json.load(f)
     rows = d["B2"]
     Ds = [r["D"] for r in rows]
@@ -249,7 +252,7 @@ def fig_multidomain():
 # Serving latency CDF
 # -----------------------------------------------------------------------------
 def fig_serving_cdf():
-    with open("/home/ubuntu/user-as-engram/results/serving_eval_d12_30u_50f.json") as f:
+    with open(f"{UAE_ROOT}/results/serving_eval_d12_30u_50f.json") as f:
         d = json.load(f)
     requests = d["requests"]
     own = [r for r in requests if r["mode"] == "own_query"]

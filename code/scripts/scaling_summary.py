@@ -10,11 +10,15 @@ Reads:
 
 Produces a side-by-side scaling table for paper §6.
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 from __future__ import annotations
 import json
 from pathlib import Path
 
-RES = Path("/home/ubuntu/user-as-engram/results")
+RES = Path(f"{UAE_ROOT}/results")
 
 MODELS = [
     ("d8@512 v2",  178, "(150M, 0.50B tok)",

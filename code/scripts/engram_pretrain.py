@@ -1,7 +1,7 @@
 """
 Mini-Engram pretraining driver.
 
-Usage (from /home/ubuntu/user-as-engram/nanochat/, with NANOCHAT_BASE_DIR set):
+Usage (from $USER_AS_ENGRAM_ROOT/nanochat/, with NANOCHAT_BASE_DIR set):
   python -m scripts.engram_pretrain --depth 8 --num-iterations 500 --device-batch-size 8 --total-batch-size 65536 --engram off  --run base
   python -m scripts.engram_pretrain --depth 8 --num-iterations 500 --device-batch-size 8 --total-batch-size 65536 --engram on   --run engram
 

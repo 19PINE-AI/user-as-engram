@@ -10,11 +10,14 @@ Bottom layer -- the frozen Mini-Engram backbone carrying one shared LoRA
 This replaces the old three-panel (a)/(b)/(c) version: one image, one idea.
 The six-condition Pareto lives separately in fig_pareto_layered.pdf.
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
+                          os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, Rectangle, FancyArrowPatch
 from pathlib import Path
 
-OUT = Path("/home/ubuntu/user-as-engram/paper/figs")
+OUT = Path(f"{UAE_ROOT}/paper/figs")
 OUT.mkdir(parents=True, exist_ok=True)
 
 # Colour-blind-friendly palette (ColorBrewer Dark2 for users; green for skill)

@@ -11,6 +11,10 @@ hash addresses. To get paraphrase-robust retrieval we'd need either
 Result: confirms (a) is needed.
 """
 import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
+import os
 import json
 import argparse
 from pathlib import Path
@@ -48,7 +52,7 @@ PARAPHRASE_FACTS = [
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--ckpt-dir", required=True)
-    parser.add_argument("--out", default="/home/ubuntu/user-as-engram/results/paraphrase_test.json")
+    parser.add_argument("--out", default=f"{UAE_ROOT}/results/paraphrase_test.json")
     parser.add_argument("--scale", type=float, default=20.0)
     parser.add_argument("--opt-steps", type=int, default=15)
     parser.add_argument("--opt-lr", type=float, default=0.5)

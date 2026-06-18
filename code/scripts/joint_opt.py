@@ -13,9 +13,13 @@ match (or exceed) LoRA's recall at fixed N.
 
 Usage:
   python -m scripts.joint_opt --ckpt-dir $NANOCHAT_BASE_DIR/engram_runs/engram_d12 \\
-       --corpus /home/ubuntu/user-as-engram/data/corpora_xxl.json \\
+       --corpus $USER_AS_ENGRAM_ROOT/data/corpora_xxl.json \\
        --n-facts 100 --steps 2000 --lr 0.5 --init-scale 20.0
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 import os, json, argparse, time
 from pathlib import Path
 import torch
@@ -31,8 +35,8 @@ from scripts.insertion_strategies_v2 import (
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
-    p.add_argument("--corpus", default="/home/ubuntu/user-as-engram/data/corpora_xxl.json")
-    p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/joint_opt.json")
+    p.add_argument("--corpus", default=f"{UAE_ROOT}/data/corpora_xxl.json")
+    p.add_argument("--out", default=f"{UAE_ROOT}/results/joint_opt.json")
     p.add_argument("--n-facts", type=int, default=100)
     p.add_argument("--steps", type=int, default=2000)
     p.add_argument("--lr", type=float, default=0.5)

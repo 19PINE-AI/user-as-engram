@@ -8,6 +8,9 @@ Output (paper/figs/):
   fig_locomo_scaling.pdf      — LOCOMO Joint OPT vs MEMMACHINE across sizes
   fig_pareto.pdf              — cost-quality Pareto: storage vs LOCOMO F1
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
+                          os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json, math
 from pathlib import Path
 import matplotlib
@@ -49,8 +52,8 @@ BROWN = "#8C6D5C"    # RAG
 GRAY = "#8A8F9A"
 GRAY_LT = "#C2C6CE"
 
-RES = Path("/home/ubuntu/user-as-engram/results")
-OUT = Path("/home/ubuntu/user-as-engram/paper/figs")
+RES = Path(f"{UAE_ROOT}/results")
+OUT = Path(f"{UAE_ROOT}/paper/figs")
 OUT.mkdir(exist_ok=True, parents=True)
 
 

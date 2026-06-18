@@ -7,6 +7,10 @@ when the query surface form differs from the stored fact.
 
 Same 8 systems as memory_systems_comparison.py.
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 import os, json, time, argparse
 from pathlib import Path
 import torch
@@ -104,7 +108,7 @@ def eval_paraphrase_with_context(model, tokenizer, fact_data, context_builder, d
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
-    p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/memory_systems_paraphrase.json")
+    p.add_argument("--out", default=f"{UAE_ROOT}/results/memory_systems_paraphrase.json")
     p.add_argument("--max-seq-len", type=int, default=1024)
     args = p.parse_args()
 

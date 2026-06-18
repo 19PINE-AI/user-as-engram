@@ -1,13 +1,16 @@
 """Two NeurIPS-style figures for Section 7 (robustness) and Section 8
 (cross-base): cross-Engram-size + LLM-judge comparison, and cross-base
 val_bpb + cross-model user-level distribution."""
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
+                          os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from pathlib import Path
 
-OUT = Path("/home/ubuntu/user-as-engram/paper/figs")
+OUT = Path(f"{UAE_ROOT}/paper/figs")
 
 C_F      = "#117733"
 C_B      = "#aa4499"
@@ -178,7 +181,7 @@ def fig_cross_base():
         distros.append((label, color, ds))
     # Add Mini-Engram-d20 — from layered_d20_r16_full.json
     eng_ds = []
-    d = json.load(open("/home/ubuntu/user-as-engram/results/layered_d20_r16_full.json"))
+    d = json.load(open(f"{UAE_ROOT}/results/layered_d20_r16_full.json"))
     for u in d["per_user"]:
         eng_ds.append((u["B_per_user_lora"]["indirect_any"]
                          - u["A_no_edit"]["indirect_any"]) / u["n_probes"])

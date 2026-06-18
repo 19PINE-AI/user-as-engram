@@ -16,6 +16,10 @@ Usage:
     --out-tag engram_d12_w1280_sft \\
     --num-iterations 1000
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 from __future__ import annotations
 import os, json, argparse, time, random
 from pathlib import Path
@@ -30,7 +34,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
     p.add_argument("--out-tag", required=True)
-    p.add_argument("--corpus", default="/home/ubuntu/user-as-engram/data/corpora_xl.json")
+    p.add_argument("--corpus", default=f"{UAE_ROOT}/data/corpora_xl.json")
     p.add_argument("--num-iterations", type=int, default=1000)
     p.add_argument("--lr", type=float, default=1e-4)
     p.add_argument("--device-batch-size", type=int, default=8)
@@ -113,7 +117,7 @@ def main():
             print(f"step {step:>4d}/{args.num_iterations}  loss {loss.item():.3f}  avg(50) {avg:.3f}  elapsed {elapsed:.0f}s", flush=True)
 
     # Save
-    base_dir = os.environ.get("NANOCHAT_BASE_DIR", "/home/ubuntu/user-as-engram/nanochat_base")
+    base_dir = os.environ.get("NANOCHAT_BASE_DIR", f"{UAE_ROOT}/nanochat_base")
     out_dir = os.path.join(base_dir, "engram_runs", args.out_tag)
     os.makedirs(out_dir, exist_ok=True)
     torch.save(model.state_dict(), os.path.join(out_dir, "model.pt"))

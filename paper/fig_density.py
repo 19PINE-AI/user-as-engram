@@ -1,13 +1,16 @@
 """Density curve: User-as-Engram on the meta-skill foundational model
 scales gracefully from 30 to 1000 facts/user, AND adds zero additional
 contamination beyond the shared meta-skill base."""
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
+                          os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-OUT = Path("/home/ubuntu/user-as-engram/paper/figs")
-d = json.load(open("/home/ubuntu/user-as-engram/results/density_layered_d20.json"))
+OUT = Path(f"{UAE_ROOT}/paper/figs")
+d = json.load(open(f"{UAE_ROOT}/results/density_layered_d20.json"))
 ns = [e["n_facts"] for e in d["per_n"]]
 top1 = [e["top1_pct"]*100 for e in d["per_n"]]
 top5 = [e["top5_pct"]*100 for e in d["per_n"]]

@@ -18,6 +18,10 @@ degradation; we report the collision rate and recall.
 Usage:
   python -m scripts.additive_composition --ckpt-dir $NANOCHAT_BASE_DIR/engram_runs/engram_d12
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 import os, json, argparse
 from pathlib import Path
 import torch
@@ -130,7 +134,7 @@ def eval_overrides(model, overrides, device):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
-    p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/additive_composition.json")
+    p.add_argument("--out", default=f"{UAE_ROOT}/results/additive_composition.json")
     p.add_argument("--scale", type=float, default=20.0)
     p.add_argument("--opt-steps", type=int, default=15)
     p.add_argument("--opt-lr", type=float, default=0.5)

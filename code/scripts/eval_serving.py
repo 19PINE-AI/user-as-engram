@@ -19,9 +19,13 @@ Metrics:
 Usage:
   python -m scripts.eval_serving \\
       --ckpt-dir $NANOCHAT_BASE_DIR/engram_runs/engram_d12 \\
-      --corpus /home/ubuntu/user-as-engram/data/corpora_xxl.json \\
+      --corpus $USER_AS_ENGRAM_ROOT/data/corpora_xxl.json \\
       --n-users 30 --facts-per-user 50 --n-requests 600
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 import os, json, argparse, time, random
 from pathlib import Path
 import torch
@@ -32,8 +36,8 @@ from scripts.engram_server import EngramServer
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
-    p.add_argument("--corpus", default="/home/ubuntu/user-as-engram/data/corpora_xxl.json")
-    p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/serving_eval.json")
+    p.add_argument("--corpus", default=f"{UAE_ROOT}/data/corpora_xxl.json")
+    p.add_argument("--out", default=f"{UAE_ROOT}/results/serving_eval.json")
     p.add_argument("--n-users", type=int, default=30)
     p.add_argument("--facts-per-user", type=int, default=50)
     p.add_argument("--n-requests", type=int, default=600)

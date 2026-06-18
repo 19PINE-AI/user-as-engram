@@ -11,6 +11,9 @@ New mechanistic figures for the body §4 "glass box" section.
       Engram surgical insertion (exact 0 off-trigger) vs a per-user LoRA that
       learns the SAME fact (nonzero at every position and every layer).
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
+                          os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json
 from pathlib import Path
 import matplotlib
@@ -29,7 +32,7 @@ plt.rcParams.update({
 })
 BLUE = "#34507F"; BLUE_LT = "#7E97C4"; RED = "#C24A3F"; ORANGE = "#D98A3D"
 GREEN = "#3E7C5A"; GRAY = "#8A8F9A"; GRAY_LT = "#C2C6CE"
-RES = Path("/home/ubuntu/user-as-engram/results")
+RES = Path(f"{UAE_ROOT}/results")
 FIGS = Path(__file__).parent / "figs"
 
 

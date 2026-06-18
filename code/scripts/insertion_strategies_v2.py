@@ -22,7 +22,7 @@ Compared to user_facts_demo.py, this script:
 Usage:
   python -m scripts.insertion_strategies_v2 \\
     --ckpt-dir $NANOCHAT_BASE_DIR/engram_runs/engram_d8 \\
-    --out /home/ubuntu/user-as-engram/results/insertion_v2.json \\
+    --out $USER_AS_ENGRAM_ROOT/results/insertion_v2.json \\
     --scale 20.0
 """
 import os

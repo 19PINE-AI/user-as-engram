@@ -9,8 +9,12 @@ To support 100 unique trigger schemas per user, we expand to ~100
 distinct schemas (personal attributes, relationships, preferences,
 schedule, etc.) and large per-attribute pools (50–200 values each).
 
-Saved to /home/ubuntu/user-as-engram/data/corpora_xl.json
+Saved to $USER_AS_ENGRAM_ROOT/data/corpora_xl.json
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 import json
 import random
 from pathlib import Path
@@ -273,7 +277,7 @@ def gen_multi_users(n_users=100, facts_per_user=100):
 
 
 def main():
-    out_dir = Path("/home/ubuntu/user-as-engram/data")
+    out_dir = Path(f"{UAE_ROOT}/data")
     out_dir.mkdir(parents=True, exist_ok=True)
     user_facts = gen_user_facts(1000)
     org_facts = gen_org_facts(1000)

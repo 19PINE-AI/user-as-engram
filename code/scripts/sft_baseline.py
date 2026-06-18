@@ -15,11 +15,15 @@ SFT-LoRA does 15-30 fwd+bwd that touch many more parameters
 Usage:
   python -m scripts.sft_baseline \\
       --ckpt-dir $NANOCHAT_BASE_DIR/engram_runs/engram_d12 \\
-      --corpus /home/ubuntu/user-as-engram/data/corpora_xl.json \\
+      --corpus $USER_AS_ENGRAM_ROOT/data/corpora_xl.json \\
       --n-user-facts 100 --n-org-facts 100 \\
       --steps 30 --rank 8 --lr 1e-3 \\
-      --out /home/ubuntu/user-as-engram/results/sft_baseline_d12.json
+      --out $USER_AS_ENGRAM_ROOT/results/sft_baseline_d12.json
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 import os, json, argparse, time
 from pathlib import Path
 import torch
@@ -133,8 +137,8 @@ def lora_sft_one_fact(model, tokenizer, prompt, gold_text, device,
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
-    p.add_argument("--corpus", default="/home/ubuntu/user-as-engram/data/corpora_xl.json")
-    p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/sft_baseline.json")
+    p.add_argument("--corpus", default=f"{UAE_ROOT}/data/corpora_xl.json")
+    p.add_argument("--out", default=f"{UAE_ROOT}/results/sft_baseline.json")
     p.add_argument("--n-user-facts", type=int, default=100)
     p.add_argument("--n-org-facts", type=int, default=100)
     p.add_argument("--rank", type=int, default=8)

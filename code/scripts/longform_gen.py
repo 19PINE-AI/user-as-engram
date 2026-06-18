@@ -6,6 +6,10 @@ from each trigger and report:
 The "anywhere in 8 tokens" is the conversational-usage recall when the
 model doesn't immediately produce the gold but surfaces it shortly after.
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 from __future__ import annotations
 import os, json, argparse, time
 import torch
@@ -116,8 +120,8 @@ def generate_k(model, tokenizer, prompt, device, k=8):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
-    p.add_argument("--corpus", default="/home/ubuntu/user-as-engram/data/corpora_xxl.json")
-    p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/longform_gen.json")
+    p.add_argument("--corpus", default=f"{UAE_ROOT}/data/corpora_xxl.json")
+    p.add_argument("--out", default=f"{UAE_ROOT}/results/longform_gen.json")
     p.add_argument("--n-facts", type=int, default=30)
     p.add_argument("--gen-tokens", type=int, default=8)
     p.add_argument("--steps", type=int, default=1500)

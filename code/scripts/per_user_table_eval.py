@@ -22,9 +22,13 @@ We measure both, plus the wall-clock cost of swap+query+restore vs single-user.
 Usage:
   python -m scripts.per_user_table_eval \\
     --ckpt-dir $NANOCHAT_BASE_DIR/engram_runs/engram_d12 \\
-    --corpus /home/ubuntu/user-as-engram/data/corpora_xl.json \\
+    --corpus $USER_AS_ENGRAM_ROOT/data/corpora_xl.json \\
     --n-test-users 100
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 import os, json, time, argparse
 from pathlib import Path
 import torch
@@ -119,8 +123,8 @@ def eval_leak(model, tokenizer, leak_user_facts, my_facts):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
-    p.add_argument("--corpus", default="/home/ubuntu/user-as-engram/data/corpora_xl.json")
-    p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/per_user_table.json")
+    p.add_argument("--corpus", default=f"{UAE_ROOT}/data/corpora_xl.json")
+    p.add_argument("--out", default=f"{UAE_ROOT}/results/per_user_table.json")
     p.add_argument("--n-test-users", type=int, default=10)
     p.add_argument("--n-leak-users", type=int, default=5,
                    help="for each test user, this many other users contribute leak probes")

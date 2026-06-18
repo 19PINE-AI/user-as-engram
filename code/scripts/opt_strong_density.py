@@ -1,4 +1,8 @@
 """Test OPT at higher step count on 100-fact density regime."""
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 import os, json, argparse, time
 from pathlib import Path
 import torch
@@ -13,8 +17,8 @@ from scripts.insertion_strategies_v2 import (
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
-    p.add_argument("--corpus", default="/home/ubuntu/user-as-engram/data/corpora_xxl.json")
-    p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/opt_strong_density.json")
+    p.add_argument("--corpus", default=f"{UAE_ROOT}/data/corpora_xxl.json")
+    p.add_argument("--out", default=f"{UAE_ROOT}/results/opt_strong_density.json")
     p.add_argument("--n-facts", type=int, default=100)
     p.add_argument("--opt-steps", type=int, default=60)
     p.add_argument("--opt-lr", type=float, default=1.0)

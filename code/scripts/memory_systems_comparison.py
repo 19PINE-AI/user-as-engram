@@ -26,8 +26,12 @@ Setup:
 - Sentence encoder: all-MiniLM-L6-v2
 - Same 100-question probe set: each user fact's prompt is the question
 
-Outputs JSON to /home/ubuntu/user-as-engram/results/memory_systems_comparison.json
+Outputs JSON to $USER_AS_ENGRAM_ROOT/results/memory_systems_comparison.json
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 import os, json, time, argparse
 from pathlib import Path
 import numpy as np
@@ -97,8 +101,8 @@ def eval_facts_with_context(model, tokenizer, facts, context_builder, device, ma
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
-    p.add_argument("--corpus", default="/home/ubuntu/user-as-engram/data/corpora_xxl.json")
-    p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/memory_systems_comparison.json")
+    p.add_argument("--corpus", default=f"{UAE_ROOT}/data/corpora_xxl.json")
+    p.add_argument("--out", default=f"{UAE_ROOT}/results/memory_systems_comparison.json")
     p.add_argument("--n-facts", type=int, default=100)
     p.add_argument("--max-seq-len", type=int, default=1024)
     args = p.parse_args()
@@ -235,7 +239,7 @@ def main():
     # 8. USER_AS_ENGRAM_JOINT_OPT — reuse the existing joint_opt_100.json result if available
     # If not, re-run joint OPT
     print("\n[8/8] USER_AS_ENGRAM_JOINT_OPT (sparse-row joint training)...")
-    joint_path = "/home/ubuntu/user-as-engram/results/joint_opt_100.json"
+    joint_path = f"{UAE_ROOT}/results/joint_opt_100.json"
     if Path(joint_path).exists():
         with open(joint_path) as f:
             jd = json.load(f)

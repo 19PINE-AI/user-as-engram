@@ -19,8 +19,12 @@ is to measure HOW low.
 Usage:
   python -m scripts.multihop_probe \\
       --ckpt-dir $NANOCHAT_BASE_DIR/engram_runs/engram_d12 \\
-      --out /home/ubuntu/user-as-engram/results/multihop_probe.json
+      --out $USER_AS_ENGRAM_ROOT/results/multihop_probe.json
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 import os, json, argparse
 from pathlib import Path
 import torch
@@ -132,7 +136,7 @@ def query_top1_top5(model, tokenizer, prompt, device):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ckpt-dir", required=True)
-    p.add_argument("--out", default="/home/ubuntu/user-as-engram/results/multihop_probe.json")
+    p.add_argument("--out", default=f"{UAE_ROOT}/results/multihop_probe.json")
     p.add_argument("--scale", type=float, default=20.0)
     p.add_argument("--opt-steps", type=int, default=15)
     p.add_argument("--opt-lr", type=float, default=0.5)

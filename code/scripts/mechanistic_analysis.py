@@ -17,8 +17,12 @@ Usage:
   python -m scripts.mechanistic_analysis \\
     --engram-ckpt $NANOCHAT_BASE_DIR/engram_runs/engram_d8 \\
     --base-ckpt $NANOCHAT_BASE_DIR/engram_runs/base_d8 \\
-    --out /home/ubuntu/user-as-engram/results/mechanistic_d8.json
+    --out $USER_AS_ENGRAM_ROOT/results/mechanistic_d8.json
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 import os
 import json
 import argparse
@@ -143,7 +147,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--engram-ckpt", required=True)
     parser.add_argument("--base-ckpt", default=None)
-    parser.add_argument("--out", default="/home/ubuntu/user-as-engram/results/mechanistic.json")
+    parser.add_argument("--out", default=f"{UAE_ROOT}/results/mechanistic.json")
     args = parser.parse_args()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"

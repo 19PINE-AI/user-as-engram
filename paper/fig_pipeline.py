@@ -5,12 +5,15 @@ in-context-reasoning samples, producing a meta-skill-aware base; (b) per-user
 content stored as Engram-row overrides on top; (c) per-request serving with
 no per-user weight load.
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
+                          os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Rectangle
 from pathlib import Path
 
-OUT = Path("/home/ubuntu/user-as-engram/paper/figs")
+OUT = Path(f"{UAE_ROOT}/paper/figs")
 
 C_PRETRAIN  = "#5588cc"   # foundational pretraining (existing)
 C_POSTTRAIN = "#117733"   # meta-skill post-training (one-time, this paper)

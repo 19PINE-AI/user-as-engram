@@ -9,12 +9,16 @@ Outputs a `results/optimal_config.json` with fields:
 
 Composite ranking score = USER_OPT_t1 + 5 * LOCOMO_Joint_OPT_F1.
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 from __future__ import annotations
 import json, math
 from pathlib import Path
 from collections import defaultdict
 
-RES = Path("/home/ubuntu/user-as-engram/results")
+RES = Path(f"{UAE_ROOT}/results")
 
 # capacity → (vocab, n_embed_total, total_engram_params_d12_estimate)
 CAP_DEFS = {

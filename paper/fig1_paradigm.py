@@ -11,13 +11,16 @@ accuracy under LLM-judge, with the parametric/non-parametric grouping.
 Shows that User-as-Engram is the only approach that is simultaneously
 low-storage, low-contamination, AND reasoning-capable.
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
+                          os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from pathlib import Path
 
-OUT = Path("/home/ubuntu/user-as-engram/paper/figs")
+OUT = Path(f"{UAE_ROOT}/paper/figs")
 OUT.mkdir(parents=True, exist_ok=True)
 
 C_OURS    = "#117733"   # User as Engram

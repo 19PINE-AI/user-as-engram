@@ -16,6 +16,10 @@ Usage:
     --n-facts 16 \\
     --out results/cross_lm_transfer.json
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT") or (
+    os.path.dirname(os.environ["NANOCHAT_BASE_DIR"]) if os.environ.get("NANOCHAT_BASE_DIR")
+    else os.getcwd())
 from __future__ import annotations
 import os, json, argparse
 from pathlib import Path
@@ -44,7 +48,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--source-ckpt", required=True)
     p.add_argument("--target-ckpt", required=True)
-    p.add_argument("--corpus", default="/home/ubuntu/user-as-engram/data/corpora_xl.json")
+    p.add_argument("--corpus", default=f"{UAE_ROOT}/data/corpora_xl.json")
     p.add_argument("--n-facts", type=int, default=50)
     p.add_argument("--shared-layer", type=int, default=2,
                     help="Engram layer id that exists in both models (default: 2)")

@@ -37,7 +37,9 @@ Headline results (vs. a per-user LoRA, on Mini-Engram-d20):
 
 The Mini-Engram checkpoints (178 M – 1.22 B) and the full training harness are
 not in this repo. Reproduce them by training [Engram](https://arxiv.org/abs/2601.07372)
-into a nanochat clone with the code under [`code/`](code/).
+into a nanochat clone with the code under [`code/`](code/). Scripts locate inputs
+(`data/`) and outputs (`results/`) via `$USER_AS_ENGRAM_ROOT` (falling back to the
+parent of `$NANOCHAT_BASE_DIR`, then the cwd) — see [`code/README.md`](code/README.md).
 
 ## Build the paper
 

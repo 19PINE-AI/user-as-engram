@@ -1,6 +1,6 @@
 """Generate all paper figures from result JSONs.
 
-Output: /home/ubuntu/user-as-engram/paper/figs/*.pdf
+Output: $USER_AS_ENGRAM_ROOT/paper/figs/*.pdf
 
 Figures:
   fig1_lora_negative.pdf       — LoRA reasoning-negative bar chart (User-as-LoRA Stage A)
@@ -9,6 +9,9 @@ Figures:
   fig4_storage_scaling.pdf     — storage vs (users × facts) log-log
   fig5_serving_latency.pdf     — multi-tenant serving latency breakdown
 """
+import os
+UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
+                          os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json, math
 from pathlib import Path
 import matplotlib
@@ -107,7 +110,7 @@ def fig1_lora_negative():
 # Figure 2: Engram surgical locality (insertion attribution heatmap)
 # -----------------------------------------------------------------------------
 def fig2_locality():
-    with open("/home/ubuntu/user-as-engram/results/mechanistic_d12.json") as f:
+    with open(f"{UAE_ROOT}/results/mechanistic_d12.json") as f:
         d = json.load(f)
     attr = d["engram"]["insertion_attribution"]
     arr = np.array(attr["per_layer_per_pos"])  # [n_layers, n_pos]
@@ -218,7 +221,7 @@ def fig4_storage_scaling():
 # Figure 5: Multi-tenant serving latency breakdown
 # -----------------------------------------------------------------------------
 def fig5_serving_latency():
-    with open("/home/ubuntu/user-as-engram/results/serving_eval_d12_30u_50f.json") as f:
+    with open(f"{UAE_ROOT}/results/serving_eval_d12_30u_50f.json") as f:
         d = json.load(f)
     requests = d["requests"]
     # Filter own_query mode
@@ -262,7 +265,7 @@ def fig5_serving_latency():
 # Figure 6 (appendix): LogitLens KL — engram vs base
 # -----------------------------------------------------------------------------
 def fig6_logitlens():
-    with open("/home/ubuntu/user-as-engram/results/mechanistic_d8.json") as f:
+    with open(f"{UAE_ROOT}/results/mechanistic_d8.json") as f:
         d = json.load(f)
     eng = d["engram"]["logitlens_kl"]
     base = d["base"]["logitlens_kl"]
