@@ -2,11 +2,14 @@ import { useState } from "react";
 import { headline, PAPER_URL, CODE_URL } from "../../data/headline";
 
 const BIBTEX = `@article{li2026userasengram,
-  title  = {User as Engram: Internalizing Per-User Memory
-            as Local Parametric Edits},
-  author = {Li, Bojie},
-  year   = {2026},
-  note   = {Pine AI}
+  title         = {User as Engram: Internalizing Per-User Memory
+                   as Local Parametric Edits},
+  author        = {Li, Bojie},
+  year          = {2026},
+  eprint        = {2606.19172},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url           = {https://arxiv.org/abs/2606.19172}
 }`;
 
 export function Resources() {

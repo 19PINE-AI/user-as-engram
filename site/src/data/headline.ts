@@ -2,8 +2,8 @@
 // Transcribed from the current paper (post-2026-06-17 revisions) so the site
 // cannot drift from the paper. Canonical-seed (S0) and 3-seed-mean both kept.
 
-export const PAPER_URL =
-  "https://github.com/bojieli/user-as-engram/blob/master/paper/main.pdf";
+export const ARXIV_ID = "2606.19172";
+export const PAPER_URL = `https://arxiv.org/abs/${ARXIV_ID}`;
 export const CODE_URL = "https://github.com/bojieli/user-as-engram";
 
 export const headline = {
