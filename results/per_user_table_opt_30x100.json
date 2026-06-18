@@ -1,8 +1,8 @@
 {
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
-    "corpus": "/home/ubuntu/user-as-engram/data/corpora_xl.json",
-    "out": "/home/ubuntu/user-as-engram/results/per_user_table_opt_30x100.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d12",
+    "corpus": "data/corpora_xl.json",
+    "out": "results/per_user_table_opt_30x100.json",
     "n_test_users": 30,
     "n_leak_users": 5,
     "scale": 20.0,

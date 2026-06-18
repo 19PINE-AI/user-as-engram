@@ -6,7 +6,7 @@ at training time too, for fairness) and measure:
   - direct top-1 / top-5 recall (the n-fact own-recall curve)
   - val_bpb delta (locality should stay ≈ 0)
 
-Uses the XL/XXL corpora for high-fact-count tests since user-as-lora
+Uses the XL/XXL corpora for high-fact-count tests (the per-user fact files have only ~34 facts each)
 users only have ~34 facts each. We follow joint_opt.py's setup but with
 the shared LoRA attached during training and eval.
 

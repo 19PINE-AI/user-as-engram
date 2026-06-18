@@ -1,9 +1,9 @@
 {
   "config": {
-    "layered_json": "/home/ubuntu/user-as-engram/results/layered_cross_schema_full.json",
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
-    "shared_lora_dir": "/home/ubuntu/user-as-engram/nanochat_base/shared_lora_d20/r16",
-    "user_dir": "/home/ubuntu/user-as-lora/data/users_medical",
+    "layered_json": "results/layered_cross_schema_full.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "shared_lora_dir": "nanochat_base/shared_lora_d20/r16",
+    "user_dir": "data/users_medical",
     "judge_model": "Qwen/Qwen2.5-7B-Instruct",
     "conditions": [
       "A_no_edit",
@@ -19,7 +19,7 @@
     "lora_lr": 0.0005,
     "engram_steps": 1500,
     "engram_lr": 0.5,
-    "out": "/home/ubuntu/user-as-engram/results/layered_judge_cross_schema.json"
+    "out": "results/layered_judge_cross_schema.json"
   },
   "predictions": [
     {

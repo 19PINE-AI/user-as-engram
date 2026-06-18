@@ -2988,8 +2988,8 @@
     }
   },
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12_w1280_optimal",
-    "out": "/home/ubuntu/user-as-engram/results/engram_d12_w1280_optimal__locomo_proper.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d12_w1280_optimal",
+    "out": "results/engram_d12_w1280_optimal__locomo_proper.json",
     "n_conv": 10,
     "max_qa_per_conv": 80,
     "max_seq_len": 1024,

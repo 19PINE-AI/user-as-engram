@@ -1,8 +1,8 @@
 {
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
-    "shared_lora_dir": "/home/ubuntu/user-as-engram/nanochat_base/shared_lora_d20_trace_v2/r16",
-    "user_dir": "/home/ubuntu/user-as-lora/data/users",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "shared_lora_dir": "nanochat_base/shared_lora_d20_trace_v2/r16",
+    "user_dir": "data/users",
     "test_uids": [
       "u000",
       "u001",
@@ -34,11 +34,11 @@
     "eval_tokens": 262144,
     "device_bs": 8,
     "max_seq_len": 1024,
-    "out": "/home/ubuntu/user-as-engram/results/layered_d20_trace_v2_r16.json",
+    "out": "results/layered_d20_trace_v2_r16.json",
     "smoke": false
   },
   "shared_lora_meta": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d20_w1536_optimal",
     "train_uids": [
       "u020",
       "u021",
@@ -51,7 +51,7 @@
       "u028",
       "u029"
     ],
-    "trace_file": "/home/ubuntu/user-as-engram/nanochat_base/shared_lora_d20_trace/traces.jsonl",
+    "trace_file": "nanochat_base/shared_lora_d20_trace/traces.jsonl",
     "format_weights": [
       0.25,
       0.25,

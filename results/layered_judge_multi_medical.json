@@ -1,9 +1,9 @@
 {
   "config": {
-    "layered_json": "/home/ubuntu/user-as-engram/results/layered_multi_medical.json",
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
-    "shared_lora_dir": "/home/ubuntu/user-as-engram/nanochat_base/shared_lora_d20_multi/r16",
-    "user_dir": "/home/ubuntu/user-as-lora/data/users_medical",
+    "layered_json": "results/layered_multi_medical.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "shared_lora_dir": "nanochat_base/shared_lora_d20_multi/r16",
+    "user_dir": "data/users_medical",
     "judge_model": "Qwen/Qwen2.5-7B-Instruct",
     "conditions": [
       "A_no_edit",
@@ -19,12 +19,12 @@
     "lora_lr": 0.0005,
     "engram_steps": 1500,
     "engram_lr": 0.5,
-    "out": "/home/ubuntu/user-as-engram/results/layered_judge_multi_medical.json"
+    "out": "results/layered_judge_multi_medical.json"
   },
   "shared_lora_meta": {
     "config": {
-      "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
-      "user_dir": "/home/ubuntu/user-as-lora/data/users_combined",
+      "ckpt_dir": "nanochat_base/engram_runs/engram_d20_w1536_optimal",
+      "user_dir": "data/users_combined",
       "train_uids": [
         "u020",
         "u021",
@@ -53,7 +53,7 @@
       "max_len": 320,
       "max_indirect_per_user": 20,
       "seed": 42,
-      "out_dir": "/home/ubuntu/user-as-engram/nanochat_base/shared_lora_d20_multi/r16",
+      "out_dir": "nanochat_base/shared_lora_d20_multi/r16",
       "opd_corpus": null
     },
     "rank": 16,
@@ -85,7 +85,7 @@
       "m028",
       "m029"
     ],
-    "adapter_path": "/home/ubuntu/user-as-engram/nanochat_base/shared_lora_d20_multi/r16/lora_state.pt"
+    "adapter_path": "nanochat_base/shared_lora_d20_multi/r16/lora_state.pt"
   },
   "predictions": [
     {

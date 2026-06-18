@@ -1,8 +1,8 @@
 {
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
-    "corpus": "/home/ubuntu/user-as-engram/data/corpora_xxl.json",
-    "out": "/home/ubuntu/user-as-engram/results/multifact_lora_100.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d12",
+    "corpus": "data/corpora_xxl.json",
+    "out": "results/multifact_lora_100.json",
     "n_facts": 100,
     "rank": 16,
     "steps": 200,

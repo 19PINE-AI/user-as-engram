@@ -1,9 +1,9 @@
 {
   "summary": {
     "config": {
-      "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12_w1280_optimal",
-      "corpus": "/home/ubuntu/user-as-engram/data/corpora_xxl.json",
-      "out": "/home/ubuntu/user-as-engram/results/serving_eval_d12_w1280_100u_100f.json",
+      "ckpt_dir": "nanochat_base/engram_runs/engram_d12_w1280_optimal",
+      "corpus": "data/corpora_xxl.json",
+      "out": "results/serving_eval_d12_w1280_100u_100f.json",
       "n_users": 100,
       "facts_per_user": 100,
       "n_requests": 600,

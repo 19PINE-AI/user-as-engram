@@ -8,17 +8,16 @@ released under the Apache License, Version 2.0 (see LICENSE).
 Third-party components and references
 --------------------------------------------------------------------------------
 
-nanochat (Andrej Karpathy) — MIT License
-    The code under `code/` is a snapshot of modifications to Karpathy's
-    nanochat training/eval harness, intended to be applied onto a clone of the
-    upstream repository. nanochat is not redistributed here.
-    https://github.com/karpathy/nanochat
+nanochat (Andrej Karpathy) — MIT License, Copyright (c) 2025 Andrej Karpathy
+    A copy of the nanochat training/eval harness is vendored at
+    `code/nanochat_harness/` (its original MIT LICENSE is preserved there). Our
+    Engram integration consists of `code/nanochat_harness/nanochat/engram_module.py`
+    (new) and modifications to `code/nanochat_harness/nanochat/gpt.py`; those
+    modified/added files are licensed under this repository's Apache-2.0 LICENSE.
 
 Engram architecture (DeepSeek-AI; Cheng et al., 2026, arXiv:2601.07372)
-    Our method builds on the Engram "conditional memory" architecture. We do
-    not redistribute DeepSeek's reference implementation; see the paper and
-    the upstream release for it.
-    https://arxiv.org/abs/2601.07372
+    Our method builds on the Engram "conditional memory" architecture, described
+    in the cited paper. No DeepSeek code is redistributed here.
 
 --------------------------------------------------------------------------------
 Licensing of repository contents

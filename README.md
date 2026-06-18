@@ -29,17 +29,16 @@ Headline results (vs. a per-user LoRA, on Mini-Engram-d20):
 | Path | Contents |
 |---|---|
 | [`paper/`](paper/) | LaTeX source (`main.tex`), figures, and figure-generation scripts. |
-| [`code/`](code/) | The custom code: the Engram module, the modified GPT, and all experiment scripts (insertion, layered architecture, RAG baselines, serving). Apply onto a clone of [karpathy/nanochat](https://github.com/karpathy/nanochat) — see [`code/README.md`](code/README.md). |
-| [`site/`](site/) | The interactive site (React + Vite). See [`site/README.md`](site/README.md). |
-| [`data/`](data/) | Synthetic per-user fact corpora used in the experiments. |
+| [`code/`](code/) | Everything to run the experiments: the training/eval **harness** (`nanochat_harness/`, vendored, with our Engram module + GPT edits), our **experiment scripts** (`scripts/`), and the **per-user-LoRA baseline** + data generators (`lora_baseline/`). See [`code/README.md`](code/README.md). |
+| [`data/`](data/) | Synthetic per-user fact sets (`users/`, `users_medical/`) and fact corpora — all included. |
 | [`results/`](results/) | Result JSONs the paper figures are built from. |
-| [`docs/dev-notes/`](docs/dev-notes/) | Working research logs and historical orchestration scripts (provenance; not needed to use the method). |
+| [`site/`](site/) | The interactive site (React + Vite). See [`site/README.md`](site/README.md). |
+| [`docs/dev-notes/`](docs/dev-notes/) | Working research logs and historical scripts (provenance; not needed to use the method). |
 
-The Mini-Engram checkpoints (178 M – 1.22 B) and the full training harness are
-not in this repo. Reproduce them by training [Engram](https://arxiv.org/abs/2601.07372)
-into a nanochat clone with the code under [`code/`](code/). Scripts locate inputs
-(`data/`) and outputs (`results/`) via `$USER_AS_ENGRAM_ROOT` (falling back to the
-parent of `$NANOCHAT_BASE_DIR`, then the cwd) — see [`code/README.md`](code/README.md).
+The repo is self-contained: the harness, code, and synthetic data are all here,
+so reproduction needs no external checkouts. Only the trained Mini-Engram
+checkpoints (178 M – 1.22 B) are too large to ship — regenerate them by training
+[Engram](https://arxiv.org/abs/2601.07372) with `code/` (see [REPRODUCE.md](REPRODUCE.md)).
 
 ## Reproducing
 

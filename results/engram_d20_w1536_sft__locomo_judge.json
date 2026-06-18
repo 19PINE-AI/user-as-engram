@@ -432,5 +432,5 @@
       }
     }
   },
-  "source": "/home/ubuntu/user-as-engram/results/engram_d20_w1536_sft__locomo_full10.json"
+  "source": "results/engram_d20_w1536_sft__locomo_full10.json"
 }

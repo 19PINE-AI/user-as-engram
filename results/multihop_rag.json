@@ -1,8 +1,8 @@
 {
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
-    "shared_lora_dir": "/home/ubuntu/user-as-engram/nanochat_base/shared_lora_d20/r16",
-    "out": "/home/ubuntu/user-as-engram/results/multihop_rag.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "shared_lora_dir": "nanochat_base/shared_lora_d20/r16",
+    "out": "results/multihop_rag.json",
     "max_seq_len": 1024
   },
   "items": [

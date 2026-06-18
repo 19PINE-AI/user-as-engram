@@ -1,11 +1,15 @@
-# Vendored upstream fork — kept locally for runs, not part of the public repo.
-# The curated changes live in code/; apply them onto a karpathy/nanochat clone.
-nanochat/
+# Root-level dev workspace (full local checkout incl. .venv). The vendored,
+# tracked harness lives at code/nanochat_harness/ — root-anchored so it is
+# NOT ignored.
+/nanochat/
 
 # Large training artifacts — don't version these
-nanochat_base/
+/nanochat_base/
 *.parquet
 *.bin
+# vendored harness: ignore only its local virtualenv / run outputs
+code/nanochat_harness/.venv/
+code/nanochat_harness/runs/
 
 # Model checkpoints (can be many GB)
 **/model.pt

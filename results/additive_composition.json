@@ -20,8 +20,8 @@
     }
   },
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
-    "out": "/home/ubuntu/user-as-engram/results/additive_composition.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d12",
+    "out": "results/additive_composition.json",
     "scale": 20.0,
     "opt_steps": 15,
     "opt_lr": 0.5

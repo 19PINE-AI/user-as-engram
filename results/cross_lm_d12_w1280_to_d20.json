@@ -560,6 +560,6 @@
       "tgt_top1_after_xferred_opt": false
     }
   ],
-  "source": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12_w1280_optimal",
-  "target": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal"
+  "source": "nanochat_base/engram_runs/engram_d12_w1280_optimal",
+  "target": "nanochat_base/engram_runs/engram_d20_w1536_optimal"
 }

@@ -4162,10 +4162,10 @@
     }
   },
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d20_w1536_optimal",
     "n_conv": 10,
     "max_qa_per_conv": 80,
-    "out": "/home/ubuntu/user-as-engram/results/engram_d20_w1536_optimal__locomo_cat3_reasoning.json",
+    "out": "results/engram_d20_w1536_optimal__locomo_cat3_reasoning.json",
     "max_seq_len": 1024,
     "categories": "3",
     "multi_token": false

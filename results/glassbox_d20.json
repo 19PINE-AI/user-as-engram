@@ -1,5 +1,5 @@
 {
-  "ckpt": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
+  "ckpt": "nanochat_base/engram_runs/engram_d20_w1536_optimal",
   "engram_layer": 11,
   "n_facts": 16,
   "per_fact": [

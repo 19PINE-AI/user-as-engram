@@ -1,8 +1,8 @@
 {
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12_w1280_mf",
-    "corpus": "/home/ubuntu/user-as-engram/data/corpora_xxl.json",
-    "out": "/home/ubuntu/user-as-engram/results/joint_opt_mf_d12w1280_n100.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d12_w1280_mf",
+    "corpus": "data/corpora_xxl.json",
+    "out": "results/joint_opt_mf_d12w1280_n100.json",
     "n_facts": 100,
     "steps": 2000,
     "lr": 0.5,

@@ -1,9 +1,9 @@
 {
-  "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+  "ckpt_dir": "nanochat_base/engram_runs/engram_d12",
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
-    "corpus": "/home/ubuntu/user-as-engram/data/corpora.json",
-    "out": "/home/ubuntu/user-as-engram/results/scale_eval_d12.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d12",
+    "corpus": "data/corpora.json",
+    "out": "results/scale_eval_d12.json",
     "scale": 20.0,
     "opt_steps": 15,
     "opt_lr": 0.5,

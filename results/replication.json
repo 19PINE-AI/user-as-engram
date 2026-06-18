@@ -1,6 +1,6 @@
 {
   "engram": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d8",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d8",
     "factual_active": {
       "top1": 0.4,
       "top5": 0.5
@@ -385,7 +385,7 @@
     ]
   },
   "base": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/base_d8",
+    "ckpt_dir": "nanochat_base/engram_runs/base_d8",
     "factual": {
       "top1": 0.3333333333333333,
       "top5": 0.5333333333333333

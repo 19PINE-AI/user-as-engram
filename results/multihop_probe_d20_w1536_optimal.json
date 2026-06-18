@@ -1,7 +1,7 @@
 {
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
-    "out": "/home/ubuntu/user-as-engram/results/multihop_probe_d20_w1536_optimal.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "out": "results/multihop_probe_d20_w1536_optimal.json",
     "scale": 20.0,
     "opt_steps": 15,
     "opt_lr": 0.5

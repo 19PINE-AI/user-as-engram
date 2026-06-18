@@ -1,5 +1,5 @@
 {
-  "ckpt": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12_w1280_optimal",
+  "ckpt": "nanochat_base/engram_runs/engram_d12_w1280_optimal",
   "engram_layer": 7,
   "train_prompt": "Vandelay's customer support email starts with",
   "engram": {

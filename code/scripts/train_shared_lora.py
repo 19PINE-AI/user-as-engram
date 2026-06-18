@@ -49,7 +49,7 @@ from scripts.sft_baseline import attach_lora, detach_lora
 # -----------------------------------------------------------------------------
 
 def _normalize_answer(ans):
-    """Stringify user-as-lora answer (which may be list or scalar)."""
+    """Stringify a per-user answer (which may be list or scalar)."""
     if isinstance(ans, list):
         return ", ".join(str(x) for x in ans)
     return str(ans)

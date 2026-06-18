@@ -1,7 +1,7 @@
 {
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
-    "out": "/home/ubuntu/user-as-engram/results/multihop_probe.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d12",
+    "out": "results/multihop_probe.json",
     "scale": 20.0,
     "opt_steps": 15,
     "opt_lr": 0.5

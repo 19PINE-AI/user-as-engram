@@ -13,7 +13,7 @@
       "u008",
       "u009"
     ],
-    "user_dir": "/home/ubuntu/user-as-lora/data/users",
+    "user_dir": "data/users",
     "rank": 64,
     "alpha": 128,
     "lr": 0.0001,
@@ -23,7 +23,7 @@
     "max_len": 192,
     "eval_max_chunks": 64,
     "eval_max_len": 1024,
-    "out": "/home/ubuntu/user-as-engram/results/qwen3b_lora_bpb.json"
+    "out": "results/qwen3b_lora_bpb.json"
   },
   "baseline_bpb": 0.6789933322189058,
   "baseline_nats_per_token": 2.2010299436509384,

@@ -11814,10 +11814,10 @@
     }
   },
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12_w1280_sft",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d12_w1280_sft",
     "n_conv": 10,
     "max_qa_per_conv": 80,
-    "out": "/home/ubuntu/user-as-engram/results/engram_d12_w1280_sft__locomo_full10.json",
+    "out": "results/engram_d12_w1280_sft__locomo_full10.json",
     "max_seq_len": 1024,
     "categories": "1",
     "multi_token": false

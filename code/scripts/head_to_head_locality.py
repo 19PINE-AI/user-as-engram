@@ -52,7 +52,7 @@ from scripts.sft_baseline import attach_lora, detach_lora
 # -----------------------------------------------------------------------------
 
 def user_to_facts(user_json: dict, tokenizer):
-    """Convert one user-as-lora user into Engram-style (prompt, gold) facts.
+    """Convert one per-user fact file into Engram-style (prompt, gold) facts.
 
     For each fact we pick the canonical paraphrase that *ends with* the
     answer string, peel off the answer, and use the prefix as the trigger.

@@ -1,9 +1,9 @@
 {
-  "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d8_small_t2B",
+  "ckpt_dir": "nanochat_base/engram_runs/engram_d8_small_t2B",
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d8_small_t2B",
-    "corpus": "/home/ubuntu/user-as-engram/data/corpora.json",
-    "out": "/home/ubuntu/user-as-engram/results/engram_d8_small_t2B__scale.json",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d8_small_t2B",
+    "corpus": "data/corpora.json",
+    "out": "results/engram_d8_small_t2B__scale.json",
     "scale": 20.0,
     "opt_steps": 15,
     "opt_lr": 0.5,

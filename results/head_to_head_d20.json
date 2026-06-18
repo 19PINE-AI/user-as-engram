@@ -1,7 +1,7 @@
 {
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
-    "user_dir": "/home/ubuntu/user-as-lora/data/users",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d20_w1536_optimal",
+    "user_dir": "data/users",
     "n_users": 20,
     "eval_tokens": 524288,
     "device_bs": 8,
@@ -12,10 +12,10 @@
     "lora_lr": 0.0005,
     "engram_steps": 1500,
     "engram_lr": 0.5,
-    "out": "/home/ubuntu/user-as-engram/results/head_to_head_d20.json",
+    "out": "results/head_to_head_d20.json",
     "smoke": false
   },
-  "model_ckpt": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_optimal",
+  "model_ckpt": "nanochat_base/engram_runs/engram_d20_w1536_optimal",
   "baseline_bpb": 0.7299383657961029,
   "per_user": [
     {

@@ -80,10 +80,10 @@
     "USER_AS_ENGRAM_JOINT_OPT": 0.17081945592645054
   },
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d12",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d12",
     "n_conv": 2,
     "max_qa_per_conv": 80,
-    "out": "/home/ubuntu/user-as-engram/results/locomo_eval.json",
+    "out": "results/locomo_eval.json",
     "max_seq_len": 1024
   }
 }

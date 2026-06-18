@@ -46,11 +46,18 @@ python code/scripts/build_corpus_xxl.py    # -> data/corpora_xxl.json  (3,132 te
 
 ## Levels 2 & 3 — Run experiments / train from scratch (GPU)
 
-The experiment scripts run inside a clone of
-[karpathy/nanochat](https://github.com/karpathy/nanochat) — see
-[`code/README.md`](code/README.md) for the one-time setup (copy `code/` in,
-`pip install -r code/requirements.txt`, set `NANOCHAT_BASE_DIR` and
-`USER_AS_ENGRAM_ROOT`). Then, e.g.:
+The harness is vendored in `code/nanochat_harness/` — no external checkout.
+One-time setup (details in [`code/README.md`](code/README.md)):
+
+```bash
+pip install -e code/nanochat_harness        # the `nanochat` package + torch
+pip install -r code/requirements.txt
+export USER_AS_ENGRAM_ROOT=$(pwd)
+export NANOCHAT_BASE_DIR=$USER_AS_ENGRAM_ROOT/nanochat_base
+cd code                                     # so `scripts` is importable
+```
+
+Then, e.g.:
 
 ```bash
 # Level 3a — pretrain a Mini-Engram (one dense size)
@@ -67,10 +74,11 @@ python -m scripts.layered_architecture \
   --out $USER_AS_ENGRAM_ROOT/results/layered_d20_r16_full.json
 
 # then rebuild the figure that uses it
-python paper/make_new_figures.py
+python ../paper/make_new_figures.py
 ```
 
-Each script prints its full usage (with example flags) in its module docstring.
+The per-user-LoRA baseline runs standalone (`cd code/lora_baseline`). Each
+script prints its full usage (with example flags) in its module docstring.
 
 ---
 
@@ -81,7 +89,7 @@ Each script prints its full usage (with example flags) in its module docstring.
 | Per-user synthetic facts (`data/users/`, `data/users_medical/`) | ✅ yes | 30 + 30 fictional users, each with `facts`, `direct_qa`, `indirect_qa`. |
 | Fact corpora (`data/corpora{,_xl,_xxl}.json`) | ✅ yes | Synthetic; also regenerable (Level 1). |
 | All experiment outputs (`results/*.json`) | ✅ yes | What the figures read. |
-| **LOCOMO** (Maharana et al., 2024) | ⬇️ download | Third-party benchmark. Put `locomo10.json` at `data/locomo10.json`; used by `locomo_eval.py` / `judge_locomo.py`. https://github.com/snap-research/locomo |
+| **LOCOMO** (Maharana et al., 2024) | ⬇️ obtain | Third-party benchmark we don't redistribute. Only needed to *re-run* the LOCOMO evals (`locomo_eval.py` / `judge_locomo.py`) — the LOCOMO figures already rebuild from `results/`. Place its `locomo10.json` at `data/locomo10.json`. |
 
 ---
 

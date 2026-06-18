@@ -1,7 +1,7 @@
 {
   "config": {
     "qwen": "Qwen/Qwen2.5-3B-Instruct",
-    "user_dir": "/home/ubuntu/user-as-lora/data/users",
+    "user_dir": "data/users",
     "test_uids": [
       "u000",
       "u001",
@@ -47,7 +47,7 @@
       3
     ],
     "n_probes": 20,
-    "out": "/home/ubuntu/user-as-engram/results/qwen_rag_scale.json",
+    "out": "results/qwen_rag_scale.json",
     "seed": 0
   },
   "per_run": [

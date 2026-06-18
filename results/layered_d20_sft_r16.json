@@ -1,8 +1,8 @@
 {
   "config": {
-    "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_sft",
-    "shared_lora_dir": "/home/ubuntu/user-as-engram/nanochat_base/shared_lora_d20_sft/r16",
-    "user_dir": "/home/ubuntu/user-as-lora/data/users",
+    "ckpt_dir": "nanochat_base/engram_runs/engram_d20_w1536_sft",
+    "shared_lora_dir": "nanochat_base/shared_lora_d20_sft/r16",
+    "user_dir": "data/users",
     "test_uids": [
       "u000",
       "u001",
@@ -34,13 +34,13 @@
     "eval_tokens": 262144,
     "device_bs": 8,
     "max_seq_len": 1024,
-    "out": "/home/ubuntu/user-as-engram/results/layered_d20_sft_r16.json",
+    "out": "results/layered_d20_sft_r16.json",
     "smoke": false
   },
   "shared_lora_meta": {
     "config": {
-      "ckpt_dir": "/home/ubuntu/user-as-engram/nanochat_base/engram_runs/engram_d20_w1536_sft",
-      "user_dir": "/home/ubuntu/user-as-lora/data/users",
+      "ckpt_dir": "nanochat_base/engram_runs/engram_d20_w1536_sft",
+      "user_dir": "data/users",
       "train_uids": [
         "u020",
         "u021",
@@ -59,7 +59,7 @@
       "max_len": 320,
       "max_indirect_per_user": 20,
       "seed": 42,
-      "out_dir": "/home/ubuntu/user-as-engram/nanochat_base/shared_lora_d20_sft/r16",
+      "out_dir": "nanochat_base/shared_lora_d20_sft/r16",
       "opd_corpus": null
     },
     "rank": 16,
@@ -81,7 +81,7 @@
       "u028",
       "u029"
     ],
-    "adapter_path": "/home/ubuntu/user-as-engram/nanochat_base/shared_lora_d20_sft/r16/lora_state.pt"
+    "adapter_path": "nanochat_base/shared_lora_d20_sft/r16/lora_state.pt"
   },
   "baseline_bpb": 4.419463950048899,
   "shared_only_bpb": 2.9926950125857013,
