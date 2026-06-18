@@ -1,3 +1,7 @@
+# Vendored upstream fork — kept locally for runs, not part of the public repo.
+# The curated changes live in code/; apply them onto a karpathy/nanochat clone.
+nanochat/
+
 # Large training artifacts — don't version these
 nanochat_base/
 *.parquet
@@ -10,16 +14,7 @@ nanochat_base/
 # Generated console logs
 results/*.console.log
 results/*.log
-results/shard_download.log
-results/supervisor.log
-results/phaseH.log
-results/factscale_bench.log
-results/capacity_ablation.log
-results/chinchilla_chain.log
-
-# Nanochat upstream (its own repo)
-nanochat/.venv/
-nanochat/.git/
+logs/
 
 # Python + LaTeX byproducts
 __pycache__/
@@ -27,6 +22,10 @@ __pycache__/
 *.aux
 *.log
 *.out
+texput.log
+
+# Local agent / session scratch
+.claude/
 
 # Editor / OS
 .DS_Store

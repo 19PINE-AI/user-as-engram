@@ -1,0 +1,26 @@
+Personal memory in a language model is two problems, not one: content (the
+specific facts about a user) and reasoning skill (the ability to turn those
+facts into answers). The brain keeps the two apart (a sparse, local engram in
+the hippocampus for each episode, a slow neocortex for the shared skills that
+interpret it), so a new fact need not overwrite everything else. Most
+personalization today keeps a user's facts outside the weights, in a
+natural-language memory file or a retrieval index. When facts are written into
+the model instead, the standard recipe is the per-user LoRA adapter, which does
+the opposite of the brain, folding content and skill into one global weight
+delta. Writing a user's facts as a LoRA contaminates text unrelated to them;
+writing the same facts as local Engram rows leaves it mathematically untouched,
+resulting in a roughly 33,000x smaller memory footprint.
+
+We therefore propose User as Engram: store a user's content as surgical edits
+to the hash-keyed memory table of an Engram model, and carry the reasoning skill
+in one shared adapter. This layered design matches per-user LoRA's direct recall
+while delivering 5.6x higher indirect-reasoning accuracy on average, and never
+makes a single user worse at reasoning than the untouched base. The edit is a
+glass box: writing a fact switches on its lookup at exactly the trigger, adds
+the value the answer needs, leaves every other position unchanged to the last
+bit, and fails if written into the wrong layer. Because different users' facts
+land in disjoint hash slots, their edits compose: many users live in one shared
+table at once, stacking additively and losslessly, where a per-user LoRA, a
+single global weight delta, admits only one. Upon retrieval, a per-user Engram
+table does not grow with the population the retriever must search, so past ~100
+facts it overtakes a retrieval pipeline on a 2.5x larger model.

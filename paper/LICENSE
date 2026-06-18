@@ -1,0 +1,14 @@
+The manuscript in this directory — "User as Engram: Internalizing Per-User
+Memory as Local Parametric Edits" (arXiv:2606.19172), its text and figures —
+is licensed under the
+
+    Creative Commons Attribution 4.0 International License (CC BY 4.0)
+
+matching the arXiv posting. You are free to share and adapt the material for
+any purpose, including commercially, provided you give appropriate credit.
+
+Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+Summary:           https://creativecommons.org/licenses/by/4.0/
+
+Note: the figure-generation *scripts* (paper/*.py) are code and are covered by
+the repository's Apache-2.0 LICENSE, not CC BY 4.0.

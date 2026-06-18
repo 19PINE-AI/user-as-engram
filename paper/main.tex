@@ -60,13 +60,13 @@ LoRA adapter, which does the opposite of the brain, folding
 content and skill into one global weight delta.
 Writing a user's facts as a LoRA contaminates text unrelated to them;
 writing the same facts as local \emph{Engram rows} leaves it
-mathematically untouched: a roughly $33{,}000\times$ smaller
-footprint on unrelated text (mean over three seeds), by design.
+mathematically untouched, resulting in a roughly $33{,}000\times$ smaller
+memory footprint.
 
 We therefore propose \textbf{User as Engram}: store a user's
 content as surgical edits to the hash-keyed memory table of an
 Engram model, and carry the reasoning skill in one \emph{shared}
-adapter, an artificial complementary learning system. This layered
+adapter. This layered
 design matches per-user LoRA's direct recall while delivering
 $5.6\times$ higher indirect-reasoning accuracy on average,
 and never makes a single user worse at reasoning than
@@ -74,18 +74,19 @@ the untouched base. The edit is a glass box: writing a fact switches
 on its lookup at exactly the trigger, adds the value the answer needs,
 leaves every other position unchanged to the last bit, and fails if
 written into the wrong layer.
-Against retrieval, a per-user Engram table does not grow with the
+Because different users' facts land in disjoint hash slots, their edits
+\emph{compose}: many users live in one shared table at once, stacking
+additively and losslessly, where a per-user LoRA, a single global
+weight delta, admits only one.
+Upon retrieval, a per-user Engram table does not grow with the
 population the retriever must search, so past $\sim$100 facts it overtakes a retrieval pipeline on a
-$2.5\times$ larger model. Every method that reaches near-perfect
-recall pays for it in weaker reasoning; they differ only in
-\emph{where} that price is paid: the shared weights (LoRA), one
-address (Engram), or a search index (RAG).
+$2.5\times$ larger model.
 \end{abstract}
 
 \begin{center}
 \small
 Code: \url{https://github.com/19PINE-AI/user-as-engram} \\[2pt]
-Website: \url{https://ring0.me/research/user-as-engram}
+Website: \url{https://01.me/research/user-as-engram}
 \end{center}
 \vspace{-0.4em}
 
@@ -158,35 +159,36 @@ conflates content and reasoning skill, storing both in the
 \emph{same} parameters.
 
 Among in-weights methods the standard recipe is a per-user
-LoRA~\citep{hu2022lora} fit on each user's facts
-(Section~\ref{sec:background}); we adopt it as our reference
-\textbf{per-user-LoRA} baseline because it is the in-weights method
-closest to ours, the sharpest test of \emph{where} a fact should live
-once you store it parametrically at all. A LoRA has no address: to
+LoRA~\citep{hu2022lora} trained on each user's facts
+(Section~\ref{sec:background}). A LoRA has no address: to
 make one fact more likely, gradient descent bends the $Q/K/V/O$
 directions that fit it most cheaply, and those same directions fire on
 unrelated text, so the edit is global by construction, not a
-side-effect of training. This costs extra loss on \emph{every} base we
-tried; the damage a user actually notices, worse reasoning, appears
-only on a weak base, because a strong instruction-tuned base answers
-the question on its own and hides it (Section~\ref{sec:negative}).
+side-effect of training. A global delta is also a single-tenant one:
+two users' LoRAs cannot share a model without merging into a combined
+delta that interferes, so each user needs their own copy of the
+weights.
 
-\paragraph{The fix: content in a memory table, skill in a shared adapter.}
+\paragraph{Our approach: content in a memory table, skill in a shared adapter.}
 \textbf{User as Engram} writes each of Maya's facts as a surgical edit
 to the hash-keyed memory table of an Engram-pretrained
 model~\citep{cheng2026engram}, whose gated lookups fire only on suffix
 N-grams via deterministic hashing; the reasoning skill is one
 \emph{shared} LoRA trained once across a held-out population, so the
 only per-user state is the memory rows, swapped in per request. The
-table is content-addressable and inert off its key, so writing a fact
-changes the output only where its trigger N-gram is read: \emph{exactly}
-0.000 everywhere else, through every later layer, not merely small
+table is \emph{content-addressable} and inert off its key, so writing a fact
+changes the output only where its trigger N-gram is read
 (Section~\ref{sec:locality}, Figure~\ref{fig:locality}). That is why
 the table, not the weights, is the right home for a user's facts:
-writes are isolated (facts compose and never leak across tenants), the
+writes are isolated, the
 suffix-N-gram index matches how personal facts are queried (by their
 surface form), and each row is a fixed $\sim$88\,KB whose address swaps
 in per request, so storage grows with users, not model size.
+Isolation buys composability for free: because different users occupy
+disjoint addresses, their override maps commute and stack additively
+into one shared table, putting many users (or a corporate store layered
+under a personal one) in the same model at once (Figure~\ref{fig:layered-arch},
+Section~\ref{sec:additive}).
 
 \paragraph{Organization of the paper.}
 The rest of the paper develops four core claims:
@@ -230,15 +232,6 @@ The rest of the paper develops four core claims:
         retrieval pipeline (running on a $2.5\times$ larger
         model) once the knowledge base passes $\sim$100 facts.
 \end{enumerate}
-
-\paragraph{The same price, paid in different places.}
-The three families are not really competing on quality: each reaches
-near-perfect direct recall and each pays for it in weaker reasoning
-over the stored facts. What differs is \emph{where} the price lands and
-how fast it grows: a per-user LoRA pays in the shared weights, on
-every query and stacking across users; an Engram row pays at the one
-address its fact occupies, growing only with a single user's facts;
-retrieval pays in a search index that degrades with the pool size.
 
 \section{Background}
 \label{sec:background}

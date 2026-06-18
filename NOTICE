@@ -1,0 +1,31 @@
+User as Engram
+Copyright 2026 Pine AI
+
+This product includes software developed at Pine AI (author: Bojie Li),
+released under the Apache License, Version 2.0 (see LICENSE).
+
+--------------------------------------------------------------------------------
+Third-party components and references
+--------------------------------------------------------------------------------
+
+nanochat (Andrej Karpathy) — MIT License
+    The code under `code/` is a snapshot of modifications to Karpathy's
+    nanochat training/eval harness, intended to be applied onto a clone of the
+    upstream repository. nanochat is not redistributed here.
+    https://github.com/karpathy/nanochat
+
+Engram architecture (DeepSeek-AI; Cheng et al., 2026, arXiv:2601.07372)
+    Our method builds on the Engram "conditional memory" architecture. We do
+    not redistribute DeepSeek's reference implementation; see the paper and
+    the upstream release for it.
+    https://arxiv.org/abs/2601.07372
+
+--------------------------------------------------------------------------------
+Licensing of repository contents
+--------------------------------------------------------------------------------
+
+- Code (this repository, including `code/`, `site/`, `paper/` figure scripts,
+  and `data/`): Apache License 2.0 (see LICENSE).
+- The paper text and figures under `paper/` (the manuscript itself):
+  Creative Commons Attribution 4.0 International (CC BY 4.0),
+  matching the arXiv posting (arXiv:2606.19172). See paper/LICENSE.

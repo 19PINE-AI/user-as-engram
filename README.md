@@ -29,10 +29,15 @@ Headline results (vs. a per-user LoRA, on Mini-Engram-d20):
 | Path | Contents |
 |---|---|
 | [`paper/`](paper/) | LaTeX source (`main.tex`), figures, and figure-generation scripts. |
+| [`code/`](code/) | The custom code: the Engram module, the modified GPT, and all experiment scripts (insertion, layered architecture, RAG baselines, serving). Apply onto a clone of [karpathy/nanochat](https://github.com/karpathy/nanochat) — see [`code/README.md`](code/README.md). |
 | [`site/`](site/) | The interactive site (React + Vite). See [`site/README.md`](site/README.md). |
-| `nanochat/`, `nanochat_base/` | Mini-Engram training/eval harness and checkpoints (178 M – 1.22 B). |
-| `scripts/`, `run_*.sh` | Experiment drivers (insertion, layered architecture, RAG baselines, serving). |
-| `results/` | Result JSONs the paper figures are built from. |
+| [`data/`](data/) | Synthetic per-user fact corpora used in the experiments. |
+| [`results/`](results/) | Result JSONs the paper figures are built from. |
+| [`docs/dev-notes/`](docs/dev-notes/) | Working research logs and historical orchestration scripts (provenance; not needed to use the method). |
+
+The Mini-Engram checkpoints (178 M – 1.22 B) and the full training harness are
+not in this repo. Reproduce them by training [Engram](https://arxiv.org/abs/2601.07372)
+into a nanochat clone with the code under [`code/`](code/).
 
 ## Build the paper
 
@@ -64,4 +69,13 @@ npm run build    # static build → dist/
 }
 ```
 
-Released under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+## License
+
+- **Code** (this repository — `code/`, `site/`, `paper/` figure scripts, `data/`):
+  [Apache License 2.0](LICENSE).
+- **Paper** (the manuscript text and figures under `paper/`):
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), matching the arXiv
+  posting (see [`paper/LICENSE`](paper/LICENSE)).
+
+Third-party attribution (nanochat, Engram) is in [`NOTICE`](NOTICE).
+Copyright © 2026 Pine AI.

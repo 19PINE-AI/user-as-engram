@@ -60,7 +60,7 @@ export function Resources() {
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mt-12 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink-50">
-          <span>© 2026 Bojie Li · Pine AI</span>
+          <span>© 2026 Pine AI</span>
           <span>A century after Semon named the engram.</span>
         </div>
       </div>
