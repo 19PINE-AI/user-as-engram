@@ -1,0 +1,836 @@
+{
+  "uid": "u024",
+  "attrs": {
+    "uid": "u024",
+    "first_name": "Alex",
+    "last_name": "Kim",
+    "full_name": "Alex Kim",
+    "birth_year": 1992,
+    "city": "Portland",
+    "timezone": "PST",
+    "job": "data analyst",
+    "employer": "Summit Paper Co",
+    "workdays": [
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "work_start": "09:30",
+    "commute_min": 45,
+    "pet_species": "parrot",
+    "pet_name": "Tango",
+    "car_desc": "2022 Ford Maverick",
+    "car_year": 2022,
+    "hobby1": "oil painting",
+    "hobby2": "pottery",
+    "cuisine": "Japanese",
+    "allergy": "shellfish",
+    "spouse_name": "Harper",
+    "spouse_year": 1989,
+    "child_name": "Logan",
+    "child_year": 2018,
+    "sibling_name": "Noa",
+    "sibling_year": 1996,
+    "activity": "yoga",
+    "activity_days": [
+      "Sunday"
+    ],
+    "rent": 3100,
+    "emergency_contact": "Skyler",
+    "ec_phone_last": "2446",
+    "phone_model": "iPhone 15",
+    "doctor": "Dr. Mendez",
+    "dentist": "Dr. Akeredolu",
+    "coffee": "oat-milk latte",
+    "running_pace": 8,
+    "shoe_size": 9,
+    "color": "burnt orange"
+  },
+  "facts": [
+    {
+      "key": "name",
+      "answer": "Alex Kim",
+      "paraphrases": [
+        "My name is Alex Kim.",
+        "I go by Alex Kim.",
+        "The user's full name is Alex Kim."
+      ]
+    },
+    {
+      "key": "birth_year",
+      "answer": 1992,
+      "paraphrases": [
+        "Alex Kim was born in 1992.",
+        "I was born in 1992.",
+        "My birth year is 1992."
+      ]
+    },
+    {
+      "key": "city",
+      "answer": "Portland",
+      "paraphrases": [
+        "Alex Kim lives in Portland.",
+        "I live in Portland.",
+        "Home city: Portland."
+      ]
+    },
+    {
+      "key": "timezone",
+      "answer": "PST",
+      "paraphrases": [
+        "Alex Kim's timezone is PST.",
+        "I'm in PST."
+      ]
+    },
+    {
+      "key": "job",
+      "answer": "data analyst",
+      "paraphrases": [
+        "Alex Kim works as a data analyst.",
+        "My job is data analyst."
+      ]
+    },
+    {
+      "key": "employer",
+      "answer": "Summit Paper Co",
+      "paraphrases": [
+        "Alex Kim is employed by Summit Paper Co.",
+        "I work at Summit Paper Co."
+      ]
+    },
+    {
+      "key": "workdays",
+      "answer": [
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "paraphrases": [
+        "My working days are Tuesday, Wednesday, Thursday, Friday, Saturday.",
+        "Alex Kim's in-office days: Tuesday, Wednesday, Thursday, Friday, Saturday.",
+        "I work Tuesday, Wednesday, Thursday, Friday, Saturday."
+      ]
+    },
+    {
+      "key": "work_start",
+      "answer": "09:30",
+      "paraphrases": [
+        "My workday starts at 09:30.",
+        "Work start time: 09:30."
+      ]
+    },
+    {
+      "key": "commute_min",
+      "answer": 45,
+      "paraphrases": [
+        "My commute is 45 minutes each way.",
+        "It takes 45 minutes to get to work."
+      ]
+    },
+    {
+      "key": "pet",
+      "answer": "parrot named Tango",
+      "paraphrases": [
+        "I have a parrot named Tango.",
+        "Alex Kim's pet is a parrot named Tango."
+      ]
+    },
+    {
+      "key": "car",
+      "answer": "2022 Ford Maverick",
+      "paraphrases": [
+        "I drive a 2022 Ford Maverick.",
+        "Alex Kim's car is a 2022 Ford Maverick."
+      ]
+    },
+    {
+      "key": "car_year",
+      "answer": 2022,
+      "paraphrases": [
+        "My car is a 2022 model.",
+        "The model year of my car is 2022."
+      ]
+    },
+    {
+      "key": "hobby1",
+      "answer": "oil painting",
+      "paraphrases": [
+        "Alex Kim enjoys oil painting.",
+        "My main hobby is oil painting."
+      ]
+    },
+    {
+      "key": "hobby2",
+      "answer": "pottery",
+      "paraphrases": [
+        "I also enjoy pottery.",
+        "Another hobby of mine is pottery."
+      ]
+    },
+    {
+      "key": "cuisine",
+      "answer": "Japanese",
+      "paraphrases": [
+        "My favorite cuisine is Japanese food.",
+        "Alex Kim loves Japanese food."
+      ]
+    },
+    {
+      "key": "allergy",
+      "answer": "shellfish",
+      "paraphrases": [
+        "I have a shellfish allergy.",
+        "Alex Kim is allergic to shellfish.",
+        "Allergy on file: shellfish."
+      ]
+    },
+    {
+      "key": "spouse_name",
+      "answer": "Harper",
+      "paraphrases": [
+        "My spouse is Harper.",
+        "Alex Kim's partner is named Harper."
+      ]
+    },
+    {
+      "key": "spouse_year",
+      "answer": 1989,
+      "paraphrases": [
+        "Harper was born in 1989.",
+        "My spouse's birth year is 1989."
+      ]
+    },
+    {
+      "key": "child_name",
+      "answer": "Logan",
+      "paraphrases": [
+        "My child is named Logan.",
+        "Alex Kim's child is Logan."
+      ]
+    },
+    {
+      "key": "child_year",
+      "answer": 2018,
+      "paraphrases": [
+        "Logan was born in 2018.",
+        "My child's birth year is 2018."
+      ]
+    },
+    {
+      "key": "sibling_name",
+      "answer": "Noa",
+      "paraphrases": [
+        "My sibling is Noa.",
+        "Alex Kim's sibling is named Noa."
+      ]
+    },
+    {
+      "key": "sibling_year",
+      "answer": 1996,
+      "paraphrases": [
+        "Noa was born in 1996.",
+        "My sibling's birth year is 1996."
+      ]
+    },
+    {
+      "key": "activity",
+      "answer": "yoga",
+      "paraphrases": [
+        "My weekly activity is yoga.",
+        "Alex Kim does yoga each week."
+      ]
+    },
+    {
+      "key": "activity_days",
+      "answer": [
+        "Sunday"
+      ],
+      "paraphrases": [
+        "I do yoga on Sunday.",
+        "Yoga days: Sunday."
+      ]
+    },
+    {
+      "key": "rent",
+      "answer": 3100,
+      "paraphrases": [
+        "My monthly rent is $3100.",
+        "Alex Kim's rent is $3100 per month."
+      ]
+    },
+    {
+      "key": "emergency_contact",
+      "answer": "Skyler",
+      "paraphrases": [
+        "My emergency contact is Skyler.",
+        "Alex Kim's emergency contact is named Skyler."
+      ]
+    },
+    {
+      "key": "ec_phone_last",
+      "answer": "2446",
+      "paraphrases": [
+        "Skyler's phone ends in 2446.",
+        "Emergency contact phone (last 4): 2446."
+      ]
+    },
+    {
+      "key": "phone_model",
+      "answer": "iPhone 15",
+      "paraphrases": [
+        "I use a iPhone 15.",
+        "Alex Kim's phone is a iPhone 15."
+      ]
+    },
+    {
+      "key": "doctor",
+      "answer": "Dr. Mendez",
+      "paraphrases": [
+        "My primary doctor is Dr. Mendez.",
+        "Alex Kim's doctor is Dr. Mendez."
+      ]
+    },
+    {
+      "key": "dentist",
+      "answer": "Dr. Akeredolu",
+      "paraphrases": [
+        "My dentist is Dr. Akeredolu.",
+        "Alex Kim sees Dr. Akeredolu for dental care."
+      ]
+    },
+    {
+      "key": "coffee",
+      "answer": "oat-milk latte",
+      "paraphrases": [
+        "My usual coffee order is a oat-milk latte.",
+        "Alex Kim's go-to coffee is a oat-milk latte."
+      ]
+    },
+    {
+      "key": "running_pace",
+      "answer": 8,
+      "paraphrases": [
+        "My running pace is about 8 minutes per mile.",
+        "Alex Kim runs at ~8 min/mile."
+      ]
+    },
+    {
+      "key": "shoe_size",
+      "answer": 9,
+      "paraphrases": [
+        "My shoe size is 9.",
+        "Alex Kim wears a size 9."
+      ]
+    },
+    {
+      "key": "color",
+      "answer": "burnt orange",
+      "paraphrases": [
+        "My favorite color is burnt orange.",
+        "Alex Kim's favorite color is burnt orange."
+      ]
+    }
+  ],
+  "direct_qa": [
+    {
+      "key": "name",
+      "question": "What is my full name?",
+      "answer": "Alex Kim"
+    },
+    {
+      "key": "birth_year",
+      "question": "What year was I born?",
+      "answer": "1992"
+    },
+    {
+      "key": "city",
+      "question": "What city do I live in?",
+      "answer": "Portland"
+    },
+    {
+      "key": "timezone",
+      "question": "What timezone am I in?",
+      "answer": "PST"
+    },
+    {
+      "key": "job",
+      "question": "What is my job?",
+      "answer": "data analyst"
+    },
+    {
+      "key": "employer",
+      "question": "Who is my employer?",
+      "answer": "Summit Paper Co"
+    },
+    {
+      "key": "workdays",
+      "question": "Which days of the week do I work?",
+      "answer": "Tuesday, Wednesday, Thursday, Friday, Saturday"
+    },
+    {
+      "key": "work_start",
+      "question": "What time do I start work?",
+      "answer": "09:30"
+    },
+    {
+      "key": "commute_min",
+      "question": "How many minutes is my commute each way?",
+      "answer": "45"
+    },
+    {
+      "key": "pet",
+      "question": "What pet do I have and what is its name?",
+      "answer": "a parrot named Tango"
+    },
+    {
+      "key": "car",
+      "question": "What car do I drive?",
+      "answer": "2022 Ford Maverick"
+    },
+    {
+      "key": "car_year",
+      "question": "What is the model year of my car?",
+      "answer": "2022"
+    },
+    {
+      "key": "hobby1",
+      "question": "What is my main hobby?",
+      "answer": "oil painting"
+    },
+    {
+      "key": "hobby2",
+      "question": "What other hobby do I have?",
+      "answer": "pottery"
+    },
+    {
+      "key": "cuisine",
+      "question": "What is my favorite cuisine?",
+      "answer": "Japanese"
+    },
+    {
+      "key": "allergy",
+      "question": "What am I allergic to?",
+      "answer": "shellfish"
+    },
+    {
+      "key": "spouse_name",
+      "question": "What is my spouse's name?",
+      "answer": "Harper"
+    },
+    {
+      "key": "spouse_year",
+      "question": "What year was my spouse born?",
+      "answer": "1989"
+    },
+    {
+      "key": "child_name",
+      "question": "What is my child's name?",
+      "answer": "Logan"
+    },
+    {
+      "key": "child_year",
+      "question": "What year was my child born?",
+      "answer": "2018"
+    },
+    {
+      "key": "sibling_name",
+      "question": "What is my sibling's name?",
+      "answer": "Noa"
+    },
+    {
+      "key": "sibling_year",
+      "question": "What year was my sibling born?",
+      "answer": "1996"
+    },
+    {
+      "key": "activity",
+      "question": "What weekly activity do I do?",
+      "answer": "yoga"
+    },
+    {
+      "key": "activity_days",
+      "question": "Which days of the week do I do yoga?",
+      "answer": "Sunday"
+    },
+    {
+      "key": "rent",
+      "question": "What is my monthly rent (in dollars)?",
+      "answer": "3100"
+    },
+    {
+      "key": "emergency_contact",
+      "question": "Who is my emergency contact?",
+      "answer": "Skyler"
+    },
+    {
+      "key": "ec_phone_last",
+      "question": "What are the last four digits of my emergency contact's phone number?",
+      "answer": "2446"
+    },
+    {
+      "key": "phone_model",
+      "question": "What phone do I use?",
+      "answer": "iPhone 15"
+    },
+    {
+      "key": "doctor",
+      "question": "Who is my primary doctor?",
+      "answer": "Dr. Mendez"
+    },
+    {
+      "key": "dentist",
+      "question": "Who is my dentist?",
+      "answer": "Dr. Akeredolu"
+    },
+    {
+      "key": "coffee",
+      "question": "What is my usual coffee order?",
+      "answer": "oat-milk latte"
+    },
+    {
+      "key": "running_pace",
+      "question": "What is my running pace (min/mile)?",
+      "answer": "8"
+    },
+    {
+      "key": "shoe_size",
+      "question": "What is my shoe size?",
+      "answer": "9"
+    },
+    {
+      "key": "color",
+      "question": "What is my favorite color?",
+      "answer": "burnt orange"
+    }
+  ],
+  "indirect_qa": [
+    {
+      "schema": "AGE",
+      "variant": "self",
+      "question": "How old am I right now (it's 2026)?",
+      "answer": "34",
+      "required_fact_keys": [
+        "birth_year"
+      ]
+    },
+    {
+      "schema": "AGE",
+      "variant": "spouse",
+      "question": "How old is my spouse right now (it's 2026)?",
+      "answer": "37",
+      "required_fact_keys": [
+        "spouse_name",
+        "spouse_year"
+      ]
+    },
+    {
+      "schema": "AGE",
+      "variant": "child",
+      "question": "How old is my child right now (it's 2026)?",
+      "answer": "8",
+      "required_fact_keys": [
+        "child_name",
+        "child_year"
+      ]
+    },
+    {
+      "schema": "AGE",
+      "variant": "sibling",
+      "question": "How old is my sibling right now (it's 2026)?",
+      "answer": "30",
+      "required_fact_keys": [
+        "sibling_name",
+        "sibling_year"
+      ]
+    },
+    {
+      "schema": "AGE",
+      "variant": "car",
+      "question": "How old is my car right now (it's 2026)?",
+      "answer": "4",
+      "required_fact_keys": [
+        "car",
+        "car_year"
+      ]
+    },
+    {
+      "schema": "COMPARE",
+      "variant": "me_vs_spouse",
+      "question": "Who is older, me or my spouse?",
+      "answer": "Harper (my spouse)",
+      "required_fact_keys": [
+        "birth_year",
+        "spouse_name",
+        "spouse_year"
+      ]
+    },
+    {
+      "schema": "COMPARE",
+      "variant": "me_vs_sibling",
+      "question": "Who is older, me or my sibling?",
+      "answer": "me",
+      "required_fact_keys": [
+        "birth_year",
+        "sibling_name",
+        "sibling_year"
+      ]
+    },
+    {
+      "schema": "COMPARE",
+      "variant": "oldest_of_three",
+      "question": "Among me, my spouse, and my sibling, who was born earliest?",
+      "answer": "Harper (my spouse)",
+      "required_fact_keys": [
+        "birth_year",
+        "spouse_name",
+        "spouse_year",
+        "sibling_name",
+        "sibling_year"
+      ]
+    },
+    {
+      "schema": "COMPARE",
+      "variant": "spouse_vs_sibling",
+      "question": "Who is older, my spouse or my sibling?",
+      "answer": "Harper (spouse)",
+      "required_fact_keys": [
+        "spouse_name",
+        "spouse_year",
+        "sibling_name",
+        "sibling_year"
+      ]
+    },
+    {
+      "schema": "DAY_SET",
+      "variant": "work_sun",
+      "question": "Do I work on Sundays?",
+      "answer": "No",
+      "required_fact_keys": [
+        "workdays"
+      ]
+    },
+    {
+      "schema": "DAY_SET",
+      "variant": "work_sat",
+      "question": "Do I work on Saturdays?",
+      "answer": "Yes",
+      "required_fact_keys": [
+        "workdays"
+      ]
+    },
+    {
+      "schema": "DAY_SET",
+      "variant": "activity_off_day",
+      "question": "Do I have yoga on Monday?",
+      "answer": "No",
+      "required_fact_keys": [
+        "activity",
+        "activity_days"
+      ]
+    },
+    {
+      "schema": "DAY_SET",
+      "variant": "activity_on_day",
+      "question": "Do I have yoga on Sunday?",
+      "answer": "Yes",
+      "required_fact_keys": [
+        "activity",
+        "activity_days"
+      ]
+    },
+    {
+      "schema": "ROUTINE",
+      "variant": "activity_on_day",
+      "question": "What scheduled weekly activity do I have on Sunday?",
+      "answer": "yoga",
+      "required_fact_keys": [
+        "activity",
+        "activity_days"
+      ]
+    },
+    {
+      "schema": "ROUTINE",
+      "variant": "days_of_activity",
+      "question": "Which day(s) of the week do I do yoga?",
+      "answer": "Sunday",
+      "required_fact_keys": [
+        "activity",
+        "activity_days"
+      ]
+    },
+    {
+      "schema": "ROUTINE",
+      "variant": "count_days",
+      "question": "How many days per week do I do yoga?",
+      "answer": "1",
+      "required_fact_keys": [
+        "activity",
+        "activity_days"
+      ]
+    },
+    {
+      "schema": "ROUTINE",
+      "variant": "name_activity",
+      "question": "What is my recurring weekly activity?",
+      "answer": "yoga",
+      "required_fact_keys": [
+        "activity"
+      ]
+    },
+    {
+      "schema": "ALLERGY",
+      "variant": "unsafe_0",
+      "question": "Is it safe for me to eat shrimp pad thai?",
+      "answer": "No",
+      "required_fact_keys": [
+        "allergy"
+      ]
+    },
+    {
+      "schema": "ALLERGY",
+      "variant": "safe_0",
+      "question": "From the standpoint of my allergy alone, is pad thai safe for me?",
+      "answer": "Yes",
+      "required_fact_keys": [
+        "allergy"
+      ]
+    },
+    {
+      "schema": "ALLERGY",
+      "variant": "unsafe_1",
+      "question": "Is it safe for me to eat lobster roll?",
+      "answer": "No",
+      "required_fact_keys": [
+        "allergy"
+      ]
+    },
+    {
+      "schema": "ALLERGY",
+      "variant": "safe_1",
+      "question": "From the standpoint of my allergy alone, is kung pao chicken safe for me?",
+      "answer": "Yes",
+      "required_fact_keys": [
+        "allergy"
+      ]
+    },
+    {
+      "schema": "COMMUTE",
+      "variant": "leave_time",
+      "question": "If I want to arrive exactly at work start time, what time should I leave home?",
+      "answer": "08:45",
+      "required_fact_keys": [
+        "work_start",
+        "commute_min"
+      ]
+    },
+    {
+      "schema": "COMMUTE",
+      "variant": "round_trip",
+      "question": "What is my round-trip commute time in minutes?",
+      "answer": "90",
+      "required_fact_keys": [
+        "commute_min"
+      ]
+    },
+    {
+      "schema": "COMMUTE",
+      "variant": "weekly_minutes",
+      "question": "How many minutes per week do I spend commuting (round-trip on work days only)?",
+      "answer": "450",
+      "required_fact_keys": [
+        "commute_min",
+        "workdays"
+      ]
+    },
+    {
+      "schema": "COMMUTE",
+      "variant": "arrive_if_leave_at_start",
+      "question": "If I leave home exactly at my usual work start time, when will I arrive at work?",
+      "answer": "10:15",
+      "required_fact_keys": [
+        "work_start",
+        "commute_min"
+      ]
+    },
+    {
+      "schema": "POLICY",
+      "variant": "emergency_contact",
+      "question": "If I'm unreachable, who should a caller contact instead?",
+      "answer": "Skyler",
+      "required_fact_keys": [
+        "emergency_contact"
+      ]
+    },
+    {
+      "schema": "POLICY",
+      "variant": "doctor",
+      "question": "Who should I call about a medical issue?",
+      "answer": "Dr. Mendez",
+      "required_fact_keys": [
+        "doctor"
+      ]
+    },
+    {
+      "schema": "POLICY",
+      "variant": "dentist",
+      "question": "Who should I call about a dental issue?",
+      "answer": "Dr. Akeredolu",
+      "required_fact_keys": [
+        "dentist"
+      ]
+    },
+    {
+      "schema": "POLICY",
+      "variant": "ec_phone",
+      "question": "What are the last four digits of my emergency contact's phone number?",
+      "answer": "2446",
+      "required_fact_keys": [
+        "emergency_contact",
+        "ec_phone_last"
+      ]
+    },
+    {
+      "schema": "MULTI",
+      "variant": "sibling_delta",
+      "question": "Is my sibling older or younger than me, and by how many years?",
+      "answer": "4 year(s) younger than me",
+      "required_fact_keys": [
+        "birth_year",
+        "sibling_year"
+      ]
+    },
+    {
+      "schema": "MULTI",
+      "variant": "spouse_delta",
+      "question": "Is my spouse older or younger than me, and by how many years?",
+      "answer": "3 year(s) older than me",
+      "required_fact_keys": [
+        "birth_year",
+        "spouse_year"
+      ]
+    },
+    {
+      "schema": "MULTI",
+      "variant": "spouse_vs_sibling_delta",
+      "question": "By how many years is my spouse older or younger than my sibling?",
+      "answer": "my sibling is 7 year(s) younger than my spouse",
+      "required_fact_keys": [
+        "spouse_year",
+        "sibling_year"
+      ]
+    },
+    {
+      "schema": "MULTI",
+      "variant": "future_age",
+      "question": "How old will I be 10 years from now (it's 2026)?",
+      "answer": "44",
+      "required_fact_keys": [
+        "birth_year"
+      ]
+    }
+  ]
+}

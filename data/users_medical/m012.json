@@ -1,0 +1,617 @@
+{
+  "uid": "m012",
+  "attrs": {
+    "mrn": "MRN-F7823",
+    "first_name": "Jordan",
+    "last_name": "Dubois",
+    "full_name": "Jordan Dubois",
+    "birth_year": 1973,
+    "diagnosis_year": 1999,
+    "primary_condition": "hypothyroidism",
+    "secondary_condition": "hypertension",
+    "primary_med": [
+      "amlodipine",
+      10
+    ],
+    "secondary_med": [
+      "atorvastatin",
+      40
+    ],
+    "drug_allergy": "statins",
+    "primary_physician": "Dr. Krause",
+    "specialist": "Dr. Vasquez",
+    "specialty": "pulmonology",
+    "clinic": "Lakeshore Family Practice",
+    "blood_type": "AB+",
+    "weight_kg": 92,
+    "height_cm": 160,
+    "systolic": 136,
+    "diastolic": 85,
+    "lab_day": "Friday",
+    "pharmacy": "Cedar Drug",
+    "follow_up_months": 12,
+    "emergency_contact": "Riley",
+    "emergency_phone_last": "5787",
+    "spouse_name": "Rowan",
+    "spouse_year": 1968,
+    "child_name": "Harper",
+    "child_year": 1999,
+    "uid": "m012"
+  },
+  "facts": [
+    {
+      "key": "name",
+      "answer": "Jordan Dubois",
+      "paraphrases": [
+        "The patient's name is Jordan Dubois.",
+        "Patient: Jordan Dubois.",
+        "Name on file: Jordan Dubois."
+      ]
+    },
+    {
+      "key": "mrn",
+      "answer": "MRN-F7823",
+      "paraphrases": [
+        "The medical record number is MRN-F7823.",
+        "MRN: MRN-F7823.",
+        "Patient MRN is MRN-F7823."
+      ]
+    },
+    {
+      "key": "birth_year",
+      "answer": 1973,
+      "paraphrases": [
+        "The patient was born in 1973.",
+        "Date of birth (year): 1973.",
+        "Birth year: 1973."
+      ]
+    },
+    {
+      "key": "diagnosis_year",
+      "answer": 1999,
+      "paraphrases": [
+        "The primary condition was diagnosed in 1999.",
+        "Diagnosis year: 1999."
+      ]
+    },
+    {
+      "key": "primary_condition",
+      "answer": "hypothyroidism",
+      "paraphrases": [
+        "The patient's primary condition is hypothyroidism.",
+        "Primary diagnosis: hypothyroidism.",
+        "Main condition on chart: hypothyroidism."
+      ]
+    },
+    {
+      "key": "secondary_condition",
+      "answer": "hypertension",
+      "paraphrases": [
+        "A secondary condition is hypertension.",
+        "Secondary diagnosis: hypertension."
+      ]
+    },
+    {
+      "key": "primary_med",
+      "answer": "amlodipine 10 mg",
+      "paraphrases": [
+        "The patient takes amlodipine 10 mg.",
+        "Primary medication: amlodipine 10 mg.",
+        "Daily prescription is amlodipine 10 mg."
+      ]
+    },
+    {
+      "key": "primary_med_name",
+      "answer": "amlodipine",
+      "paraphrases": [
+        "The patient's primary medication is amlodipine.",
+        "Main drug on the chart: amlodipine."
+      ]
+    },
+    {
+      "key": "primary_med_dose",
+      "answer": 10,
+      "paraphrases": [
+        "The primary med is dosed at 10 mg.",
+        "Daily dose of primary medication: 10 mg."
+      ]
+    },
+    {
+      "key": "secondary_med_name",
+      "answer": "atorvastatin",
+      "paraphrases": [
+        "A second medication on file is atorvastatin.",
+        "Secondary med: atorvastatin."
+      ]
+    },
+    {
+      "key": "drug_allergy",
+      "answer": "statins",
+      "paraphrases": [
+        "The patient is allergic to statins.",
+        "Drug allergy on file: statins.",
+        "Allergy: statins."
+      ]
+    },
+    {
+      "key": "primary_physician",
+      "answer": "Dr. Krause",
+      "paraphrases": [
+        "The primary care physician is Dr. Krause.",
+        "PCP: Dr. Krause."
+      ]
+    },
+    {
+      "key": "specialist",
+      "answer": "Dr. Vasquez",
+      "paraphrases": [
+        "The patient's specialist is Dr. Vasquez.",
+        "Specialist on chart: Dr. Vasquez."
+      ]
+    },
+    {
+      "key": "specialty",
+      "answer": "pulmonology",
+      "paraphrases": [
+        "The specialty involved is pulmonology.",
+        "Specialty: pulmonology."
+      ]
+    },
+    {
+      "key": "clinic",
+      "answer": "Lakeshore Family Practice",
+      "paraphrases": [
+        "The clinic is Lakeshore Family Practice.",
+        "Care location: Lakeshore Family Practice."
+      ]
+    },
+    {
+      "key": "blood_type",
+      "answer": "AB+",
+      "paraphrases": [
+        "The patient's blood type is AB+.",
+        "Blood type: AB+."
+      ]
+    },
+    {
+      "key": "weight_kg",
+      "answer": 92,
+      "paraphrases": [
+        "The patient's weight is 92 kg.",
+        "Body weight: 92 kg."
+      ]
+    },
+    {
+      "key": "height_cm",
+      "answer": 160,
+      "paraphrases": [
+        "The patient is 160 cm tall.",
+        "Height on file: 160 cm."
+      ]
+    },
+    {
+      "key": "systolic",
+      "answer": 136,
+      "paraphrases": [
+        "Systolic blood pressure: 136 mmHg.",
+        "The systolic reading is 136."
+      ]
+    },
+    {
+      "key": "diastolic",
+      "answer": 85,
+      "paraphrases": [
+        "Diastolic blood pressure: 85 mmHg.",
+        "The diastolic reading is 85."
+      ]
+    },
+    {
+      "key": "lab_day",
+      "answer": "Friday",
+      "paraphrases": [
+        "Lab work is scheduled on Friday.",
+        "The patient does lab work on Friday."
+      ]
+    },
+    {
+      "key": "pharmacy",
+      "answer": "Cedar Drug",
+      "paraphrases": [
+        "Prescriptions are filled at Cedar Drug.",
+        "Pharmacy of record: Cedar Drug."
+      ]
+    },
+    {
+      "key": "follow_up_months",
+      "answer": 12,
+      "paraphrases": [
+        "Follow-up interval: 12 months.",
+        "The patient returns every 12 months."
+      ]
+    },
+    {
+      "key": "emergency_contact",
+      "answer": "Riley",
+      "paraphrases": [
+        "Emergency contact name: Riley.",
+        "In case of emergency, call Riley."
+      ]
+    },
+    {
+      "key": "emergency_phone_last",
+      "answer": "5787",
+      "paraphrases": [
+        "Emergency contact phone ends in 5787.",
+        "Last four digits of emergency phone: 5787."
+      ]
+    },
+    {
+      "key": "spouse_name",
+      "answer": "Rowan",
+      "paraphrases": [
+        "The patient's spouse is Rowan.",
+        "Spouse on record: Rowan."
+      ]
+    },
+    {
+      "key": "spouse_year",
+      "answer": 1968,
+      "paraphrases": [
+        "The spouse was born in 1968.",
+        "Spouse's birth year is 1968."
+      ]
+    },
+    {
+      "key": "child_name",
+      "answer": "Harper",
+      "paraphrases": [
+        "The patient's child is Harper.",
+        "Child on record: Harper."
+      ]
+    },
+    {
+      "key": "child_year",
+      "answer": 1999,
+      "paraphrases": [
+        "The child was born in 1999.",
+        "Child's birth year is 1999."
+      ]
+    }
+  ],
+  "direct_qa": [
+    {
+      "key": "name",
+      "question": "What is the patient's full name?",
+      "answer": "Jordan Dubois"
+    },
+    {
+      "key": "mrn",
+      "question": "What is the patient's MRN?",
+      "answer": "MRN-F7823"
+    },
+    {
+      "key": "birth_year",
+      "question": "In what year was the patient born?",
+      "answer": "1973"
+    },
+    {
+      "key": "diagnosis_year",
+      "question": "When was the patient's primary condition diagnosed (year)?",
+      "answer": "1999"
+    },
+    {
+      "key": "primary_condition",
+      "question": "What is the patient's primary condition?",
+      "answer": "hypothyroidism"
+    },
+    {
+      "key": "secondary_condition",
+      "question": "What is a secondary condition?",
+      "answer": "hypertension"
+    },
+    {
+      "key": "primary_med",
+      "question": "What is the patient's primary medication and dose?",
+      "answer": "amlodipine 10 mg"
+    },
+    {
+      "key": "primary_med_name",
+      "question": "What is the name of the patient's primary medication?",
+      "answer": "amlodipine"
+    },
+    {
+      "key": "primary_med_dose",
+      "question": "What is the dose of the primary medication (mg)?",
+      "answer": "10"
+    },
+    {
+      "key": "secondary_med_name",
+      "question": "What is a secondary medication name?",
+      "answer": "atorvastatin"
+    },
+    {
+      "key": "drug_allergy",
+      "question": "What drug class is the patient allergic to?",
+      "answer": "statins"
+    },
+    {
+      "key": "primary_physician",
+      "question": "Who is the primary care physician?",
+      "answer": "Dr. Krause"
+    },
+    {
+      "key": "specialist",
+      "question": "Who is the specialist?",
+      "answer": "Dr. Vasquez"
+    },
+    {
+      "key": "specialty",
+      "question": "What specialty is involved in this patient's care?",
+      "answer": "pulmonology"
+    },
+    {
+      "key": "clinic",
+      "question": "What clinic does the patient attend?",
+      "answer": "Lakeshore Family Practice"
+    },
+    {
+      "key": "blood_type",
+      "question": "What is the patient's blood type?",
+      "answer": "AB+"
+    },
+    {
+      "key": "weight_kg",
+      "question": "What is the patient's weight in kilograms?",
+      "answer": "92"
+    },
+    {
+      "key": "height_cm",
+      "question": "What is the patient's height in centimetres?",
+      "answer": "160"
+    },
+    {
+      "key": "systolic",
+      "question": "What is the patient's systolic blood pressure?",
+      "answer": "136"
+    },
+    {
+      "key": "diastolic",
+      "question": "What is the patient's diastolic blood pressure?",
+      "answer": "85"
+    },
+    {
+      "key": "lab_day",
+      "question": "What day of the week does the patient do lab work?",
+      "answer": "Friday"
+    },
+    {
+      "key": "pharmacy",
+      "question": "Which pharmacy fills the prescriptions?",
+      "answer": "Cedar Drug"
+    },
+    {
+      "key": "follow_up_months",
+      "question": "How many months apart are follow-up visits?",
+      "answer": "12"
+    },
+    {
+      "key": "emergency_contact",
+      "question": "Who is the patient's emergency contact?",
+      "answer": "Riley"
+    },
+    {
+      "key": "emergency_phone_last",
+      "question": "What are the last four digits of the emergency contact phone?",
+      "answer": "5787"
+    },
+    {
+      "key": "spouse_name",
+      "question": "What is the spouse's name?",
+      "answer": "Rowan"
+    },
+    {
+      "key": "spouse_year",
+      "question": "In what year was the spouse born?",
+      "answer": "1968"
+    },
+    {
+      "key": "child_name",
+      "question": "What is the child's name?",
+      "answer": "Harper"
+    },
+    {
+      "key": "child_year",
+      "question": "In what year was the child born?",
+      "answer": "1999"
+    }
+  ],
+  "indirect_qa": [
+    {
+      "schema": "AGE",
+      "variant": "patient",
+      "question": "How old is the patient right now (it's 2026)?",
+      "answer": "53",
+      "required_fact_keys": [
+        "birth_year"
+      ]
+    },
+    {
+      "schema": "AGE",
+      "variant": "spouse",
+      "question": "How old is the spouse right now (it's 2026)?",
+      "answer": "58",
+      "required_fact_keys": [
+        "spouse_year"
+      ]
+    },
+    {
+      "schema": "AGE",
+      "variant": "child",
+      "question": "How old is the child right now (it's 2026)?",
+      "answer": "27",
+      "required_fact_keys": [
+        "child_year"
+      ]
+    },
+    {
+      "schema": "AGE",
+      "variant": "years_since_dx",
+      "question": "How many years ago was the primary condition diagnosed (it's 2026)?",
+      "answer": "27",
+      "required_fact_keys": [
+        "diagnosis_year"
+      ]
+    },
+    {
+      "schema": "AGE",
+      "variant": "age_at_diagnosis",
+      "question": "How old was the patient at diagnosis?",
+      "answer": "26",
+      "required_fact_keys": [
+        "birth_year",
+        "diagnosis_year"
+      ]
+    },
+    {
+      "schema": "COMPARE",
+      "variant": "patient_vs_spouse",
+      "question": "Is the patient older or younger than the spouse?",
+      "answer": "younger",
+      "required_fact_keys": [
+        "birth_year",
+        "spouse_year"
+      ]
+    },
+    {
+      "schema": "COMPARE",
+      "variant": "patient_vs_child",
+      "question": "Is the patient older or younger than the child?",
+      "answer": "older",
+      "required_fact_keys": [
+        "birth_year",
+        "child_year"
+      ]
+    },
+    {
+      "schema": "SET",
+      "variant": "lab_today",
+      "question": "Is today a lab day for the patient (today is Wednesday)?",
+      "answer": "No",
+      "required_fact_keys": [
+        "lab_day"
+      ]
+    },
+    {
+      "schema": "SET",
+      "variant": "lab_weekend",
+      "question": "Is the patient's lab day a weekend day?",
+      "answer": "No",
+      "required_fact_keys": [
+        "lab_day"
+      ]
+    },
+    {
+      "schema": "ROUTINE",
+      "variant": "next_visit_months",
+      "question": "How many months until the next follow-up visit?",
+      "answer": "12",
+      "required_fact_keys": [
+        "follow_up_months"
+      ]
+    },
+    {
+      "schema": "ROUTINE",
+      "variant": "visits_per_year",
+      "question": "How many follow-up visits does the patient have per year?",
+      "answer": "1",
+      "required_fact_keys": [
+        "follow_up_months"
+      ]
+    },
+    {
+      "schema": "ALLERGY",
+      "variant": "avoid_0",
+      "question": "Is atorvastatin safe to prescribe for this patient?",
+      "answer": "No",
+      "required_fact_keys": [
+        "drug_allergy"
+      ]
+    },
+    {
+      "schema": "ALLERGY",
+      "variant": "avoid_1",
+      "question": "Is simvastatin safe to prescribe for this patient?",
+      "answer": "No",
+      "required_fact_keys": [
+        "drug_allergy"
+      ]
+    },
+    {
+      "schema": "ALLERGY",
+      "variant": "safe_acetaminophen",
+      "question": "Is acetaminophen safe to prescribe for this patient (assuming no other allergies)?",
+      "answer": "Yes",
+      "required_fact_keys": [
+        "drug_allergy"
+      ]
+    },
+    {
+      "schema": "ALLERGY",
+      "variant": "safe_amoxicillin",
+      "question": "Is amoxicillin safe to prescribe for this patient (assuming no other allergies)?",
+      "answer": "Yes",
+      "required_fact_keys": [
+        "drug_allergy"
+      ]
+    },
+    {
+      "schema": "MULTI",
+      "variant": "annual_dose",
+      "question": "Total milligrams of primary medication taken per year (365 days)?",
+      "answer": "3650",
+      "required_fact_keys": [
+        "primary_med_dose"
+      ]
+    },
+    {
+      "schema": "MULTI",
+      "variant": "bmi",
+      "question": "What is the patient's BMI (rounded to one decimal)?",
+      "answer": "35.9",
+      "required_fact_keys": [
+        "weight_kg",
+        "height_cm"
+      ]
+    },
+    {
+      "schema": "MULTI",
+      "variant": "hypertensive",
+      "question": "Based on systolic and diastolic, is the patient hypertensive (systolic >=140 OR diastolic >=90)?",
+      "answer": "No",
+      "required_fact_keys": [
+        "systolic",
+        "diastolic"
+      ]
+    },
+    {
+      "schema": "MULTI",
+      "variant": "spouse_delta",
+      "question": "Is the spouse older or younger than the patient, and by how many years?",
+      "answer": "5 year(s) older",
+      "required_fact_keys": [
+        "birth_year",
+        "spouse_year"
+      ]
+    },
+    {
+      "schema": "MULTI",
+      "variant": "ec_phone_last",
+      "question": "What are the last four digits of the emergency contact's phone?",
+      "answer": "5787",
+      "required_fact_keys": [
+        "emergency_contact",
+        "emergency_phone_last"
+      ]
+    }
+  ]
+}

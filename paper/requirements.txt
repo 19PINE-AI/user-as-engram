@@ -1,0 +1,3 @@
+# Dependencies for regenerating the paper figures from results/ (no GPU needed).
+matplotlib>=3.7
+numpy>=1.24

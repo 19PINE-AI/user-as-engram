@@ -41,6 +41,22 @@ into a nanochat clone with the code under [`code/`](code/). Scripts locate input
 (`data/`) and outputs (`results/`) via `$USER_AS_ENGRAM_ROOT` (falling back to the
 parent of `$NANOCHAT_BASE_DIR`, then the cwd) — see [`code/README.md`](code/README.md).
 
+## Reproducing
+
+Full guide: **[REPRODUCE.md](REPRODUCE.md)** (four levels, from laptop to full
+training run). The fastest path rebuilds **every paper figure from the committed
+`results/`, no GPU**:
+
+```bash
+cd paper
+pip install -r requirements.txt
+bash make_all_figures.sh        # 11 scripts → figs/*.pdf (all 38 figures)
+```
+
+The synthetic data (`data/`), all result JSONs (`results/`), and the full
+experiment + system code (`code/`) are in the repo; the GPU-only steps (training,
+re-running evals) are documented with exact commands in REPRODUCE.md.
+
 ## Build the paper
 
 ```bash

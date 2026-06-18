@@ -47,7 +47,7 @@ from scripts.insertion_strategies_v2 import (
 from scripts.memory_systems_comparison import retrieve_topk
 
 
-LOCOMO_PATH = Path("/home/ubuntu/UserAsCode/benchmarks/locomo/data/locomo10.json")
+LOCOMO_PATH = Path(f"{UAE_ROOT}/data/locomo10.json")
 
 
 def get_sessions(conv):

@@ -13,3 +13,5 @@ reference the (now-external) nanochat harness, so they will not run as-is.
 - `orchestration/` — the `run_*.sh` / `chain_*.sh` queue scripts used to drive
   experiments on the author's machine.
 - `probes/` — early random-init feasibility probes (the Tier-1 checks).
+- `superseded-scripts/` — old/one-off figure scripts and the `relocate.py`
+  paper-restructuring tool, replaced by the active generators in `paper/`.

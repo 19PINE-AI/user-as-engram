@@ -1,0 +1,23 @@
+# Python dependencies for the experiment scripts in code/scripts/.
+#
+# These run *inside* a clone of karpathy/nanochat (see code/README.md), which
+# already provides torch and the tokenizer via its own pyproject/uv.lock. The
+# packages below are the ADDITIONAL dependencies our scripts pull in on top of
+# nanochat — install them into the same environment.
+#
+#   pip install -r code/requirements.txt
+#
+# (Pin torch to whatever your nanochat clone uses; we do not pin it here so it
+#  stays consistent with the harness.)
+
+numpy>=1.24
+matplotlib>=3.7
+
+# Retrieval / instruction-tuned baselines (Mem0/MemMachine-style retrieval,
+# Qwen-3B + RAG, cross-base LoRA). Used by memory_systems_*.py, eval_at_scale.py,
+# cross_lm_transfer.py, judge_locomo.py, multifact_lora.py, sft_*.py.
+transformers>=4.40
+sentence-transformers>=2.6
+
+# Exact arithmetic in a couple of analyses.
+sympy>=1.12
