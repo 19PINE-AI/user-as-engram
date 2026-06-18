@@ -4,7 +4,7 @@
 
 export const ARXIV_ID = "2606.19172";
 export const PAPER_URL = `https://arxiv.org/abs/${ARXIV_ID}`;
-export const CODE_URL = "https://github.com/bojieli/user-as-engram";
+export const CODE_URL = "https://github.com/19PINE-AI/user-as-engram";
 
 export const headline = {
   // Layered design vs per-user LoRA, indirect reasoning.
