@@ -1,7 +1,11 @@
 # nanochat
 
-![nanochat logo](dev/nanochat.png)
-![scaling laws](dev/scaling_laws_jan26.png)
+> **Vendored, trimmed copy.** This is a fork of [karpathy/nanochat](https://github.com/karpathy/nanochat)
+> with our Engram modifications (see [UPSTREAM.md](UPSTREAM.md) and [`../README.md`](../README.md)).
+> To keep the harness lean we omit upstream's `dev/` (notebooks, logo and leaderboard
+> images) and `runs/` (example launch scripts) directories, so the logo/leaderboard
+> images and a few links below point to files that live only in the upstream repo.
+> The original README text is preserved verbatim for reference.
 
 nanochat is the simplest experimental harness for training LLMs. It is designed to run on a single GPU node, the code is minimal/hackable, and it covers all major LLM stages including tokenization, pretraining, finetuning, evaluation, inference, and a chat UI. For example, you can train your own GPT-2 capability LLM (which cost ~$43,000 to train in 2019) for only $48 (~2 hours of 8XH100 GPU node) and then talk to it in a familiar ChatGPT-like web UI. On a spot instance, the total cost can be closer to ~$15. More generally, nanochat is configured out of the box to train an entire miniseries of compute-optimal models by setting one single complexity dial: `--depth`, the number of layers in the GPT transformer model (GPT-2 capability happens to be approximately depth 26). All other hyperparameters (the width of the transformer, number of heads, learning rate adjustments, training horizons, weight decays, ...) are calculated automatically in an optimal way.
 
