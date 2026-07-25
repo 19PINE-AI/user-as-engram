@@ -131,7 +131,8 @@ memory systems~\citep{semon1921mneme,tonegawa2015engram,mcclelland1995cls}.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.92\textwidth]{figs/fig_layered_arch.pdf}
+  \includegraphics[width=0.80\textwidth,trim=0 34bp 0 0,clip]{figs/fig_layered_arch.pdf}
+  \captionsetup{skip=3pt}
   \caption{Local Engram content with a shared Transformer and reasoning adapter.}
   \label{fig:layered-arch}
 \end{figure*}
@@ -179,7 +180,7 @@ do not alter its addressing rule or backbone. Our contribution is a write and
 composition protocol for per-user overrides, plus the separation of those
 overrides from a shared adapter that learns population-level reasoning.
 
-\section{Why Facts Should Not Be Per-User Weight Deltas}
+\section{Why Facts Should Not Be Per-User LoRA}
 \label{sec:negative}
 
 Weights are appropriate for shared abstractions but problematic for mutable,
@@ -292,11 +293,14 @@ triggers overlap should therefore remain separate.
 \section{Experiments}
 \label{sec:experiments}
 
-We evaluate Mini-Engrams derived from nanochat/GPT-2
-\citep{karpathy2026nanochat,radford2019gpt2} against per-user LoRA, in-context
-facts, and retrieval, matching backbone, tokenizer, generation, and facts
-unless noted. Metrics cover direct and paraphrase recall, held-out LM loss,
-per-user storage, and indirect questions that transform stored facts.
+No pretrained Mini-Engram checkpoints are publicly available. We therefore
+integrate Engram lookup layers into Karpathy's nanochat GPT-2-style backbone
+\citep{karpathy2026nanochat,radford2019gpt2} and pretrain all four Mini-Engram
+checkpoints ourselves from scratch with a nanochat-style recipe. We evaluate
+them against per-user LoRA, in-context facts, and retrieval, matching backbone,
+tokenizer, generation, and facts unless noted. Metrics cover direct and
+paraphrase recall, held-out LM loss, per-user storage, and indirect questions
+that transform stored facts.
 
 Controlled bases vary depth and width but share the lookup. We report accuracy
 and held-out next-token loss because strong models can mask contamination once
@@ -313,16 +317,17 @@ trainable state rather than duplicated checkpoints.
 \subsection{Protocol and comparison controls}
 
 All Mini-Engrams use one lookup rule and a 50K$\times$256 (51.2M-parameter)
-table; Table~\ref{tab:protocol} lists their scales. We train in bf16 at 12
-tokens per scaling parameter. Base, XL, and XXL corpora contain 100 USER + 100
-ORG facts, 1,000 of each, and 3,132 trigger templates, respectively. At 100
-facts, Joint OPT uses 2,000 Adam steps at rate 0.5. The three-seed test matches
-rank-64 LoRA (1,500 steps, $5\times10^{-4}$, $\alpha=128$) against Joint OPT
-(1,500 steps, rate 0.5).
+table; Table~\ref{tab:protocol} lists their scales. For pretraining, we use
+bf16 and the nanochat budget of 12 tokens per scaling parameter. Base, XL, and
+XXL corpora contain 100 USER + 100 ORG facts, 1,000 of each, and 3,132 trigger
+templates, respectively. At 100 facts, Joint OPT uses 2,000 Adam steps at rate
+0.5. The three-seed test matches rank-64 LoRA (1,500 steps,
+$5\times10^{-4}$, $\alpha=128$) against Joint OPT (1,500 steps, rate 0.5).
 
 \begin{table}[t]
   \centering
-  \caption{Mini-Engram backbones. All share the 51.2M-parameter memory table.}
+  \caption{Mini-Engram backbones pretrained by us from scratch. All share the
+  51.2M-parameter memory table.}
   \label{tab:protocol}
   \resizebox{\linewidth}{!}{\begin{tabular}{lrrrr}
     \toprule
@@ -554,14 +559,19 @@ personal state with stable triggers (Figure~\ref{fig:pareto-rag}).
 
 To isolate knowledge-base size, we add held-out schema-family distractors to
 each user's 34 facts, reaching $N\in\{34,100,200,300,500,1000\}$ with the same
-20 users and probes. Retrieval coverage falls with distractors, whereas
-addressed Engram lookup is corpus-size independent
+20 users and probes. All conditions use the same Mini-Engram-d20 answering
+backbone. Retrieval coverage falls with distractors, whereas addressed Engram
+lookup is corpus-size independent
 (Figure~\ref{fig:rag-scale}).
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figs/fig_rag_scale.pdf}
-  \caption{Indirect accuracy and retrieval recall versus knowledge-base size.}
+  \caption{Knowledge-base scaling on the same Mini-Engram-d20 backbone.
+  RAG top-$k$ places the $k$ highest-ranked facts in context; the shared
+  reasoning LoRA is the fixed rank-16 cross-user adapter also used by the
+  layered model. Because the adapter does not change retrieval, panel (b)
+  shows only one top-3 recall curve.}
   \label{fig:rag-scale}
 \end{figure}
 
@@ -585,18 +595,14 @@ the existing layer. Production requires untested caching, authorization,
 encryption, collision telemetry, and rate limits. The prototype demonstrates
 composition and scaling, not security.
 
-\begin{figure}[!b]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig_serving_scale.pdf}
-  \caption{Prototype throughput across model, user-count, and fact-count
-  configurations.}
-  \label{fig:serving-scale}
-\end{figure}
-
 The prototype uses sequential row swaps, not an optimized batched kernel.
-Per-request work is user-count independent, so throughput barely changes as
-users triple; latency still depends on cache residency and hardware
-(Figure~\ref{fig:serving-scale}).
+On one idle Blackwell GPU, d12@1280 processed 232 requests/s with 30 users and
+50 facts/user (4.2\,ms p50 latency), and 226 requests/s with 100 users and 100
+facts/user (4.4\,ms p50). These measurements are consistent with per-request
+work depending on the active override rather than the registered-user
+population, but they are not a controlled user-count scaling study because
+the fact count also changes. Absolute latency depends on cache residency,
+hardware, and the serving implementation.
 
 \section{Discussion, Limitations, and Related Work}
 \label{sec:discussion}

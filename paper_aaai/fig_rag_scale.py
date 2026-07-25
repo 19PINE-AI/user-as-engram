@@ -2,7 +2,6 @@
 
 Inputs:
   - results/layered_rag_scale.json   (Mini-Engram-d20 + RAG G/H/J)
-  - results/qwen_rag_scale.json      (Qwen-3B + RAG top-1, top-3)
   - results/layered_d20_r16_full.json (for F = 44% reference)
 
 Saves figs/fig_rag_scale.pdf and a small CSV.
@@ -54,7 +53,6 @@ def load(p):
 def main():
     # Prefer the v2 files (KB up to 1000, wider distractor pool) when present
     mini = load(RES / "layered_rag_scale_v2.json") or load(RES / "layered_rag_scale.json")
-    qwen = load(RES / "qwen_rag_scale_v2.json") or load(RES / "qwen_rag_scale.json")
     layered = load(RES / "layered_d20_r16_full.json")
 
     # Series: (label, color, marker, [(kb, indirect_any, ret_acc)])
@@ -62,10 +60,10 @@ def main():
 
     if mini and "agg" in mini:
         for cname, color, marker, name in [
-            ("G_rag1", ORANGE, "s", "Engram-base + RAG@1"),
-            ("H_rag3", RED, "s", "Engram-base + RAG@3"),
+            ("G_rag1", ORANGE, "s", "Mini-Engram + RAG top-1"),
+            ("H_rag3", RED, "s", "Mini-Engram + RAG top-3"),
             ("J_rag3_sharedLoRA", PURPLE, "D",
-             "RAG@3 + shared LoRA"),
+             "RAG top-3 + shared reasoning LoRA"),
         ]:
             pts = []
             for kb in mini["config"]["kb_sizes"]:
@@ -76,21 +74,6 @@ def main():
                                 a["retrieval_acc"] * 100))
             series.append({"label": name, "color": color, "marker": marker,
                            "linestyle": "-", "pts": pts})
-
-    if qwen and "agg" in qwen:
-        for k_, color, marker, name in [
-            (1, GREEN, "^", "Qwen-3B + RAG@1"),
-            (3, TEAL, "^", "Qwen-3B + RAG@3"),
-        ]:
-            pts = []
-            for kb in qwen["config"]["kb_sizes"]:
-                key = f"qwen_rag{k_}_kb{kb}"
-                if key in qwen["agg"]:
-                    a = qwen["agg"][key]
-                    pts.append((kb, a["indirect_any"] * 100,
-                                a["retrieval_acc"] * 100))
-            series.append({"label": name, "color": color, "marker": marker,
-                           "linestyle": "--", "pts": pts})
 
     # F reference horizontal lines
     f_indirect = 44.5
@@ -117,7 +100,7 @@ def main():
     # indirect and are KB-invariant (no retrieval); draw a single reference
     # line to avoid a confusing overlapping band.
     ax.axhline(f_indirect, color=BLUE, linestyle="-", linewidth=2.6,
-               label=f"Layered (Engram + shared LoRA), no retrieval = {f_indirect:.0f}%",
+               label=f"Engram rows + shared reasoning LoRA (no retrieval) = {f_indirect:.0f}%",
                alpha=0.95, zorder=1)
     ax.set_xscale("log")
     ax.set_ylabel("Indirect accuracy (%)")
@@ -128,6 +111,11 @@ def main():
     # Panel B: retrieval recall (log-x)
     ax = axes[1]
     for s in series:
+        # The shared reasoning adapter changes answer generation, not the
+        # retriever. Its top-3 recall is therefore identical to the plain
+        # top-3 series, so plotting both would create a redundant overlap.
+        if s["label"] == "RAG top-3 + shared reasoning LoRA":
+            continue
         xs = [p[0] for p in s["pts"]]
         ys = [p[2] for p in s["pts"]]
         ax.plot(xs, ys, color=s["color"], marker=s["marker"],

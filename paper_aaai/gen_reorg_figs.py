@@ -30,9 +30,9 @@ def save(fig, name):
 # ---------------------------------------------------------------- A. contamination gap
 def fig_contamination():
     fig, ax = plt.subplots(figsize=(5.4, 2.4))
-    labels = ["no edit", "per-user\nEngram row", "per-user\nLoRA r=64"]
-    vals = [1e-6, 0.00005, 1.784]  # tiny floor for log display of "no edit"
-    colors = [GRAY, BLUE, RED]
+    labels = ["per-user\nEngram row", "per-user\nLoRA r=64"]
+    vals = [0.00005, 1.784]
+    colors = [BLUE, RED]
     y = np.arange(len(labels))
     ax.barh(y, vals, color=colors, height=0.6)
     ax.set_yticks(y)
@@ -41,9 +41,9 @@ def fig_contamination():
     ax.set_xlabel(r"$\Delta$ val bits/byte on text UNRELATED to the user (log scale)", fontsize=9)
     ax.set_xlim(1e-6, 5)
     for yi, v in zip(y, vals):
-        txt = "0.0000" if v < 1e-5 else f"+{v:.5f}".rstrip("0").rstrip(".") if v < 1 else f"+{v:.3f}"
+        txt = f"+{v:.5f}".rstrip("0").rstrip(".") if v < 1 else f"+{v:.3f}"
         ax.text(min(v, 3) * 1.3, yi, txt, va="center", fontsize=8.5)
-    ax.annotate(r"$\sim$34,000$\times$", xy=(0.00005, 1), xytext=(0.02, 1.0),
+    ax.annotate(r"$\sim$34,000$\times$", xy=(0.00005, 0), xytext=(0.02, 0.0),
                 fontsize=11, fontweight="bold", color=BLUE, va="center")
     clean(ax)
     ax.grid(axis="x", ls=":", lw=0.6, alpha=0.6)
