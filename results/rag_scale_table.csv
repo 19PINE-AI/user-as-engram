@@ -17,3 +17,9 @@ RAG top-3 + shared reasoning LoRA,200,51.25,27.50
 RAG top-3 + shared reasoning LoRA,300,51.25,19.50
 RAG top-3 + shared reasoning LoRA,500,48.25,11.50
 RAG top-3 + shared reasoning LoRA,1000,47.00,9.25
+Qwen-3B + RAG top-3,34,51.75,62.00
+Qwen-3B + RAG top-3,100,44.50,39.25
+Qwen-3B + RAG top-3,200,38.25,27.50
+Qwen-3B + RAG top-3,300,36.75,19.50
+Qwen-3B + RAG top-3,500,32.25,11.50
+Qwen-3B + RAG top-3,1000,30.00,9.25

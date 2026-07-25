@@ -1,4 +1,4 @@
-"""Pareto frontier: indirect-reasoning accuracy vs. avg context tokens.
+"""Pareto frontier: indirect-reasoning accuracy vs. extra memory tokens.
 
 Combines:
   - Existing layered conditions (A-F) from results/layered_d20_r16_full.json
@@ -74,7 +74,11 @@ def main():
                     "ms": a.get(f"{code}_ms_per_indirect", None),
                 })
 
-    # RAG conditions G/H/I/J on Mini-Engram-d20
+    # RAG conditions G/H/I/J on Mini-Engram-d20. For indirect queries the
+    # stored JSON records total prompt length. The direct-query diagnostic also
+    # records the retrieved fact block alone; use its per-user mean so the
+    # x-axis compares serialized memory tokens rather than model-specific chat
+    # templates.
     if rag and "agg" in rag:
         a = rag["agg"]
         for code, label in [
@@ -87,7 +91,9 @@ def main():
             y = a.get(f"{code}_indirect_any")
             if y is None:
                 continue
-            x = a.get(f"{code}_indirect_ctx_tokens_avg", 0)
+            xvals = [u[code]["direct_ctx_tokens_avg"] for u in rag.get("per_user", [])
+                     if code in u]
+            x = sum(xvals) / len(xvals) if xvals else 0
             x = max(x, 0.5)
             points.append({
                 "label": label, "x": x, "y": y * 100,
@@ -95,9 +101,11 @@ def main():
                 "ms": a.get(f"{code}_ms_per_indirect", None),
             })
 
-    # Qwen-3B + RAG (different backbone)
+    # Qwen-3B + RAG (different backbone). Subtract the no-context chat prompt
+    # length to isolate only the memory text added by retrieval.
     if qwen and "agg" in qwen:
         a = qwen["agg"]
+        qwen_base_tokens = a.get("NO_CONTEXT_ctx_tokens_avg", 0)
         for code, label in [
             ("NO_CONTEXT",  "Qwen-3B: no context"),
             ("RAG_TOP1",    "Qwen-3B + RAG top-1"),
@@ -108,7 +116,7 @@ def main():
             y = a.get(f"{code}_indirect_any")
             if y is None:
                 continue
-            x = a.get(f"{code}_ctx_tokens_avg", 0)
+            x = a.get(f"{code}_ctx_tokens_avg", 0) - qwen_base_tokens
             x = max(x, 0.5)
             points.append({
                 "label": label, "x": x, "y": y * 100,
@@ -155,10 +163,10 @@ def main():
         "H: RAG top-3": (7, 3),
         "I: RAG all": (7, 3),
         "G': oracle top-1": (6, -12),
-        "J: RAG top-3 + shared LoRA": (-7, 8),
+        "J: RAG top-3 + shared LoRA": (0, 11),
         "Qwen-3B: no context": (8, -3),
-        "Qwen-3B + RAG top-1": (7, 4),
-        "Qwen-3B + RAG top-3": (7, 4),
+        "Qwen-3B + RAG top-1": (-7, -10),
+        "Qwen-3B + RAG top-3": (7, -7),
         "Qwen-3B + RAG all": (7, 4),
         "Qwen-3B + oracle top-1": (6, -12),
     }
@@ -179,7 +187,11 @@ def main():
         if text == "E: shared LoRA only":
             align = {"ha": "center", "va": "top"}
         elif text == "J: RAG top-3 + shared LoRA":
-            align = {"ha": "right", "va": "bottom"}
+            align = {"ha": "center", "va": "bottom"}
+        elif text == "Qwen-3B + RAG top-1":
+            align = {"ha": "right", "va": "top"}
+        elif text == "Qwen-3B + RAG top-3":
+            align = {"ha": "left", "va": "top"}
         ax.annotate(short.get(text, text), (x, pt["y"]), xytext=(dx, dy),
                     textcoords="offset points", fontsize=11.5, **align)
 
@@ -188,7 +200,7 @@ def main():
     # its leftmost point without crossing the y-axis.
     ax.set_xlim(0.23, 900)
     ax.set_ylim(0, 65)
-    ax.set_xlabel("Avg context tokens per query (log)")
+    ax.set_xlabel("Extra serialized memory tokens per query (log; zero at left)")
     ax.set_ylabel("Indirect-reasoning accuracy (indirect_any, %)")
     ax.grid(True, alpha=0.3)
     ax.legend(loc="lower right", fontsize=11.5)
@@ -203,7 +215,7 @@ def main():
     # Also write a small latency CSV for the paper table
     out_csv = RES / "latency_table.csv"
     with open(out_csv, "w") as f:
-        f.write("condition,backbone,context_tokens_avg,indirect_any_pct,ms_per_query\n")
+        f.write("condition,backbone,extra_memory_tokens_avg,indirect_any_pct,ms_per_query\n")
         for pt in points:
             ms = pt["ms"] if pt["ms"] is not None else float("nan")
             f.write(f"{pt['label']},{pt['group']},{pt['x']:.1f},{pt['y']:.2f},{ms:.1f}\n")

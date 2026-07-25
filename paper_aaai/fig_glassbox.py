@@ -136,11 +136,6 @@ def fig_lora_vs_engram(model_tag="d12_1280"):
         ax.set_xlabel("Token position")
         ax.set_title(title)
     axes[0].set_ylabel("Layer index")
-    axes[0].text(0.5, -0.34, "$\\Delta=0.000$ at every non-trigger position\nand every pre-Engram layer",
-                 transform=axes[0].transAxes, ha="center", fontsize=7.5, color=BLUE)
-    axes[1].text(0.5, -0.34, f"nonzero at every position, every layer\n(unrelated text moves by mean "
-                 f"{d['summary']['lora_unrelated_mean_diff']:.0f})",
-                 transform=axes[1].transAxes, ha="center", fontsize=7.5, color=RED)
     cb = fig.colorbar(im, ax=axes, label="residual stream change $\\|\\Delta\\|$", fraction=0.046, pad=0.02)
     out = FIGS / "fig_lora_vs_engram.pdf"
     plt.savefig(out); plt.close()

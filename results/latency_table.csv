@@ -1,16 +1,16 @@
-condition,backbone,context_tokens_avg,indirect_any_pct,ms_per_query
+condition,backbone,extra_memory_tokens_avg,indirect_any_pct,ms_per_query
 A: no edit,layered,0.5,19.25,nan
 B: per-user LoRA,layered,0.5,6.00,nan
 C: per-user Engram,layered,0.5,23.25,nan
 E: shared LoRA only,layered,0.5,44.00,nan
 F: layered (Engram + shared LoRA),layered,0.5,44.50,nan
-G: RAG top-1,rag-mini,27.0,32.50,361.6
-H: RAG top-3,rag-mini,44.4,39.00,393.9
-I: RAG all,rag-mini,301.7,35.25,431.6
-G': oracle top-1,rag-mini,27.6,26.25,356.7
-J: RAG top-3 + shared LoRA,rag-mini,44.4,54.25,442.3
-Qwen-3B: no context,qwen,67.3,15.75,78.4
-Qwen-3B + RAG top-1,qwen,82.3,55.25,87.7
-Qwen-3B + RAG top-3,qwen,102.3,52.75,91.8
-Qwen-3B + RAG all,qwen,389.9,57.25,91.9
-Qwen-3B + oracle top-1,qwen,82.7,45.75,80.9
+G: RAG top-1,rag-mini,12.3,32.50,361.6
+H: RAG top-3,rag-mini,28.7,39.00,393.9
+I: RAG all,rag-mini,286.5,35.25,431.6
+G': oracle top-1,rag-mini,12.3,26.25,356.7
+J: RAG top-3 + shared LoRA,rag-mini,28.7,54.25,442.3
+Qwen-3B: no context,qwen,0.5,15.75,78.4
+Qwen-3B + RAG top-1,qwen,15.0,55.25,87.7
+Qwen-3B + RAG top-3,qwen,35.0,52.75,91.8
+Qwen-3B + RAG all,qwen,322.6,57.25,91.9
+Qwen-3B + oracle top-1,qwen,15.5,45.75,80.9

@@ -2,6 +2,7 @@
 
 Inputs:
   - results/layered_rag_scale.json   (Mini-Engram-d20 + RAG G/H/J)
+  - results/qwen_rag_scale_v2.json   (Qwen2.5-3B + RAG)
   - results/layered_d20_r16_full.json (for F = 44% reference)
 
 Saves figs/fig_rag_scale.pdf and a small CSV.
@@ -53,6 +54,7 @@ def load(p):
 def main():
     # Prefer the v2 files (KB up to 1000, wider distractor pool) when present
     mini = load(RES / "layered_rag_scale_v2.json") or load(RES / "layered_rag_scale.json")
+    qwen = load(RES / "qwen_rag_scale_v2.json") or load(RES / "qwen_rag_scale.json")
     layered = load(RES / "layered_d20_r16_full.json")
 
     # Series: (label, color, marker, [(kb, indirect_any, ret_acc)])
@@ -75,6 +77,17 @@ def main():
             series.append({"label": name, "color": color, "marker": marker,
                            "linestyle": "-", "pts": pts})
 
+    if qwen and "agg" in qwen:
+        pts = []
+        for kb in qwen["config"]["kb_sizes"]:
+            key = f"qwen_rag3_kb{kb}"
+            if key in qwen["agg"]:
+                a = qwen["agg"][key]
+                pts.append((kb, a["indirect_any"] * 100,
+                            a["retrieval_acc"] * 100))
+        series.append({"label": "Qwen-3B + RAG top-3", "color": GREEN,
+                       "marker": "^", "linestyle": "--", "pts": pts})
+
     # F reference horizontal lines
     f_indirect = 44.5
     if layered and "agg" in layered:
@@ -83,29 +96,35 @@ def main():
     if layered and "agg" in layered:
         e_indirect = layered["agg"]["E_shared_lora_only_indirect_any"] * 100
 
-    # Vertically stacked panels (a) indirect accuracy, (b) retrieval recall, with a
-    # single shared legend placed outside the plot area (below).
-    fig, axes = plt.subplots(2, 1, figsize=(5.4, 5.2), constrained_layout=True,
-                             sharex=True)
+    # Compact, side-by-side panels sized for one paper column.
+    fig, axes = plt.subplots(1, 2, figsize=(6.8, 2.7), sharex=True)
 
     # Panel A: indirect_any (log-x for KB)
     ax = axes[0]
+    display_labels = {
+        "Mini-Engram + RAG top-1": "RAG top-1",
+        "Mini-Engram + RAG top-3": "RAG top-3",
+        "RAG top-3 + shared reasoning LoRA": "RAG top-3 + shared LoRA",
+        "Qwen-3B + RAG top-3": "Qwen-3B RAG top-3",
+    }
     for s in series:
         xs = [p[0] for p in s["pts"]]
         ys = [p[1] for p in s["pts"]]
         ax.plot(xs, ys, color=s["color"], marker=s["marker"],
-                linestyle=s["linestyle"], label=s["label"], linewidth=2,
+                linestyle=s["linestyle"],
+                label=display_labels.get(s["label"], s["label"]), linewidth=2,
                 markersize=7)
     # The layered design and the shared-LoRA-only condition both sit at ~44%
     # indirect and are KB-invariant (no retrieval); draw a single reference
     # line to avoid a confusing overlapping band.
     ax.axhline(f_indirect, color=BLUE, linestyle="-", linewidth=2.6,
-               label=f"Engram rows + shared reasoning LoRA (no retrieval) = {f_indirect:.0f}%",
+               label=f"Engram + shared LoRA = {f_indirect:.1f}%",
                alpha=0.95, zorder=1)
     ax.set_xscale("log")
-    ax.set_ylabel("Indirect accuracy (%)")
-    ax.set_title("(a)", loc="left", fontweight="bold")
+    ax.set_ylabel("Indirect accuracy (%)", fontsize=12)
+    ax.set_title("(a)", loc="left", fontweight="bold", fontsize=12)
     ax.set_ylim(0, 70)
+    ax.tick_params(labelsize=10)
     ax.grid(True, alpha=0.3, which="both")
 
     # Panel B: retrieval recall (log-x)
@@ -114,7 +133,8 @@ def main():
         # The shared reasoning adapter changes answer generation, not the
         # retriever. Its top-3 recall is therefore identical to the plain
         # top-3 series, so plotting both would create a redundant overlap.
-        if s["label"] == "RAG top-3 + shared reasoning LoRA":
+        if s["label"] in {"RAG top-3 + shared reasoning LoRA",
+                           "Qwen-3B + RAG top-3"}:
             continue
         xs = [p[0] for p in s["pts"]]
         ys = [p[2] for p in s["pts"]]
@@ -122,15 +142,19 @@ def main():
                 linestyle=s["linestyle"], label=s["label"], linewidth=2,
                 markersize=7)
     ax.set_xscale("log")
-    ax.set_xlabel("KB size (facts + distractors, log scale)")
-    ax.set_ylabel("Retrieval recall (%)")
-    ax.set_title("(b)", loc="left", fontweight="bold")
+    ax.set_ylabel("Retrieval recall (%)", fontsize=12)
+    ax.set_title("(b)", loc="left", fontweight="bold", fontsize=12)
     ax.set_ylim(0, 100)
+    ax.tick_params(labelsize=10)
     ax.grid(True, alpha=0.3, which="both")
 
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="outside lower center", ncol=2,
-               fontsize=8.5, framealpha=0.95)
+    fig.supxlabel("KB size (facts + distractors, log scale)", fontsize=12,
+                  y=0.25)
+    fig.legend(handles, labels, loc="lower center", ncol=3,
+               fontsize=10, framealpha=0.95, bbox_to_anchor=(0.5, -0.03))
+    fig.subplots_adjust(left=0.10, right=0.99, top=0.92, bottom=0.42,
+                        wspace=0.35)
     out_pdf = FIGS / "fig_rag_scale.pdf"
     out_png = FIGS / "fig_rag_scale.png"
     plt.savefig(out_pdf)

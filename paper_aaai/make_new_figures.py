@@ -8,9 +8,6 @@ Output (paper/figs/):
   fig_locomo_scaling.pdf      — LOCOMO Joint OPT vs MEMMACHINE across sizes
   fig_pareto.pdf              — cost-quality Pareto: storage vs LOCOMO F1
 """
-import os
-UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
-                          os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json, math
 from pathlib import Path
 import matplotlib
@@ -52,8 +49,9 @@ BROWN = "#8C6D5C"    # RAG
 GRAY = "#8A8F9A"
 GRAY_LT = "#C2C6CE"
 
-RES = Path(f"{UAE_ROOT}/results")
-OUT = Path(f"{UAE_ROOT}/paper/figs")
+PAPER = Path(__file__).resolve().parent
+RES = PAPER.parent / "results"
+OUT = PAPER / "figs"
 OUT.mkdir(exist_ok=True, parents=True)
 
 
@@ -390,8 +388,8 @@ def fig_pareto():
 # Figure: LOCOMO scaling (J-OPT vs baselines by dense)
 # ============================================================
 def fig_locomo_scaling():
-    """Updated for full 10-conv data."""
-    fig, axes = plt.subplots(2, 1, figsize=(5.4, 5.6), sharex=True)
+    """LOCOMO token-F1 on the full 10-conversation evaluation."""
+    fig, ax = plt.subplots(figsize=(5.4, 2.9))
 
     sizes = [178, 339, 625, 1224]
     size_labels = ["d8\n178M", "d12\n339M", "d12@1280\n625M", "d20@1536\n1.22B"]
@@ -403,41 +401,20 @@ def fig_locomo_scaling():
     jopt_tf   = [0.134, 0.169, 0.176, 0.233]
     memmach_tf = [0.088, 0.116, 0.152, 0.169]
     mem0_tf    = [0.088, 0.131, 0.160, 0.161]
-    rag3_tf    = [0.087, 0.118, 0.142, 0.147]  # approx (estimate)
     nomem_tf   = [0.038, 0.036, 0.049, 0.046]
 
-    ax = axes[0]
     ax.plot(xs, jopt_tf,   "o-",  color=BLUE, lw=2, ms=7, label="Engram Joint OPT")
     ax.plot(xs, mem0_tf,   "s--", color=RED, lw=1.5, ms=5, label="MEM0_LIKE")
     ax.plot(xs, memmach_tf,"^--", color=PURPLE, lw=1.5, ms=5, label="MEMMACHINE_LIKE")
     ax.plot(xs, nomem_tf,  "x--", color=GRAY, lw=1.0, ms=4, label="NO_MEMORY")
-    ax.set_xticks(xs); ax.tick_params(labelbottom=False)
-    ax.set_xlim(-0.3, len(sizes) - 0.7)
-    ax.set_ylabel("LOCOMO token F1", fontsize=8.5)
-    ax.set_ylim(0.0, 0.27)
-    ax.set_title("(a)", loc="left", fontweight="bold", fontsize=9)
-    ax.legend(loc="upper left", fontsize=7)
-
-    # LLM-judge accuracy (Qwen2.5-14B)
-    jopt_jg    = [0.044, 0.059, 0.095, 0.140]
-    memmach_jg = [0.106, 0.158, 0.158, 0.177]
-    mem0_jg    = [0.116, 0.156, 0.169, 0.190]
-    rag3_jg    = [0.110, 0.158, 0.155, 0.169]
-    nomem_jg   = [0.005, 0.010, 0.025, 0.030]
-
-    ax = axes[1]
-    ax.plot(xs, jopt_jg,   "o-",  color=BLUE, lw=2, ms=7, label="Engram Joint OPT")
-    ax.plot(xs, mem0_jg,   "s--", color=RED, lw=1.5, ms=5, label="MEM0_LIKE")
-    ax.plot(xs, memmach_jg,"^--", color=PURPLE, lw=1.5, ms=5, label="MEMMACHINE_LIKE")
-    ax.plot(xs, nomem_jg,  "x--", color=GRAY, lw=1.0, ms=4, label="NO_MEMORY")
     ax.set_xticks(xs); ax.set_xticklabels(size_labels, fontsize=7.5)
     ax.set_xlim(-0.3, len(sizes) - 0.7)
     ax.set_xlabel("Mini-Engram dense parameters", fontsize=8.5)
-    ax.set_ylabel("LLM-judge accuracy", fontsize=8.5)
-    ax.set_ylim(0.0, 0.23)
-    ax.set_title("(b)", loc="left", fontweight="bold", fontsize=9)
+    ax.set_ylabel("LOCOMO token F1", fontsize=8.5)
+    ax.set_ylim(0.0, 0.27)
+    ax.legend(loc="upper left", fontsize=7)
 
-    fig.tight_layout(h_pad=1.0)
+    fig.tight_layout()
     fig.savefig(OUT / "fig_locomo_scaling.pdf")
     print(f"  wrote {OUT / 'fig_locomo_scaling.pdf'}")
     plt.close(fig)
