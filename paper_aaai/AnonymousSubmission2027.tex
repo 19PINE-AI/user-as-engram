@@ -19,6 +19,10 @@
 \usepackage{multirow}
 \usepackage{subcaption}
 
+% Reduce the gap between top-of-page figures and the following body text.
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{10pt plus 2pt minus 2pt}
+
 %
 % Keep the \pdfinfo as shown here. There's no need
 % for you to add the /Title and /Author tags.
@@ -93,8 +97,11 @@ Personal memory requires both mutable user facts and reusable reasoning.
 Retrieval-augmented generation (RAG) keeps facts external but pays a search or
 tool hop and serializes retrieved text at query time; per-user LoRA removes that
 path but stores each user as a global model update. We propose \textbf{User as
-Engram}: write content into hash-addressed memory rows and learn reasoning once
-in a shared adapter. Against per-user LoRA, the design provides three benefits.
+Engram}: encode each user fact as embedding values and write them directly into
+deterministically addressed rows of a pretrained Engram memory table. These
+surgical weight edits carry the user knowledge; changing them does not retrain
+the backbone or its shared reasoning capability. Against per-user LoRA, the
+design provides three benefits.
 At 100 facts it uses 88\,KB rather than 14.2\,MB ($161\times$ less state);
 closed-form writes and addressed deletion avoid per-user retraining; and it
 matches direct recall while improving mean indirect reasoning by $5.6\times$,
@@ -113,74 +120,80 @@ complementary for provenance and open-domain evidence.
 \section{Introduction}
 \label{sec:intro}
 
-Personalization requires both remembering a user's facts and using them to
-reason. Retrieval-augmented generation (RAG) keeps those facts editable, but
-recall takes an external systems path: retrieve from a store, serialize the
-result as text, and pay the resulting context and prefill cost
-\citep{lewis2020rag,gao2023ragsurvey}. In an agentic implementation, retrieval
-also entails generating and executing a tool call. Repeated memory access thus
-means repeated search or tool round trips. A per-user LoRA
-\citep{hu2022lora} removes that external path, but turns records into a
-model-shaped global update: it requires per-user optimization, provides no
-address for updating or deleting one fact, consumes 14.2\,MB at rank 64 even
-for a small record set, and can perturb unrelated behavior.
+Personalization requires a model to acquire mutable user facts without turning
+every recall into an external retrieval or every update into global model
+adaptation. Retrieval-augmented generation (RAG) keeps facts editable, but each
+recall searches a store, serializes retrieved text, and pays the resulting
+context and prefill cost \citep{lewis2020rag,gao2023ragsurvey}; an agentic
+implementation also generates and executes a tool call. Per-user LoRA
+\citep{hu2022lora} removes that external path, but represents a user's records
+as a model-wide low-rank update. It requires per-user optimization, provides no
+explicit address for replacing or deleting one fact, consumes 14.2\,MB at rank
+64 even for a small record set, and can perturb unrelated behavior. Neither
+approach provides an internal fact store whose individual writes are explicit
+and structurally local.
 
-We propose \emph{User as Engram}, a middle ground between external retrieval
-and undifferentiated model weights. We store user content as local edits to the
-hash-addressed memory table of an Engram-pretrained Transformer
-\citep{cheng2026engram}, while learning reasoning skill once in a shared LoRA.
-At every token position in prefill or decoding, suffix $N$-grams can address
-memory rows whose gated values enter the residual stream in the same forward
-pass. Memory can therefore supply an in-network signal throughout generation,
-without semantic search, a tool round trip, or retrieved context tokens. This
-is a higher-bandwidth interface to frequently accessed user state than passing
-a few retrieved text snippets through the prompt; it complements rather than
-replaces RAG's strengths in provenance and open-domain evidence.
+We propose \emph{User as Engram}: write facts directly into the model as
+surgical edits to an Engram memory table \citep{cheng2026engram}. For each
+fact, deterministic hashes of its trigger suffixes select a small set of memory
+rows; we encode the fact as value embeddings and override only those addressed
+parameters. The rows are part of the pretrained model, and their gated values
+enter the residual stream during the same forward pass as ordinary Transformer
+computation. Every changed address is therefore enumerable, while the backbone
+and all unaddressed rows remain bit-identical. Unlike LoRA, the fact is not
+distributed through a model-wide update; unlike RAG, it is not fetched and
+serialized as text at query time.
 
-Three properties make this interface attractive as a new form of user memory.
-\emph{Storage:} a 100-fact override map is 88\,KB, $161\times$ smaller than a
-rank-64 per-user LoRA. \emph{Lifecycle:} the representation does not
-intrinsically require training a per-user adapter---closed-form insertion costs
-${<}1$\,ms, and deletion removes addressed rows with no gradient steps;
-optional row-only refinement can improve recall when facts interact.
-\emph{Use:} local facts remain available as inputs to one transferable
-reasoning skill: across three
-seeds, Engram plus shared skill reaches 41.2\% indirect accuracy versus 7.3\%
-for per-user LoRA, and Engram's largest LOCOMO gains occur on multi-hop
-questions. Figure~\ref{fig:benefits} summarizes these three benefits. A fact
-activates only the rows selected by its suffixes; all other
-rows and backbone weights remain bit-identical. Small override maps can be
-swapped per request or combined additively, separating rapidly changing,
-private content from slowly learned, population-level skill, as in
-complementary biological memory systems
-\citep{semon1921mneme,tonegawa2015engram,mcclelland1995cls}.
+The Engram embeddings---not a per-user adapter---carry the user-specific
+knowledge. Engram pretraining establishes the address-and-gate pathway that
+indexes these rows, while the model's pretrained or post-trained general
+capability determines how their values are used. In our experiments, one
+shared LoRA strengthens this general reasoning capability, but it is only a
+complementary reader: it contains no test-user facts and remains fixed when an
+Engram fact is inserted, replaced, or deleted. Changing user knowledge thus
+changes only the addressed Engram rows and never requires retraining the
+backbone or reasoning skill.
+
+This representation makes internal memory directly manageable. A 100-fact
+override map is 88\,KB, $161\times$ smaller than a rank-64 per-user LoRA;
+closed-form insertion costs ${<}1$\,ms, addressed deletion requires no gradient
+steps, and optional row-only refinement can repair interactions among facts.
+At inference, suffix $N$-grams can activate these embeddings at every prefill
+or decode position without semantic search, a tool round trip, or retrieved
+context tokens. Across three seeds, Engram facts read by the shared capability
+reach 41.2\% indirect accuracy versus 7.3\% for per-user LoRA, and their largest
+LOCOMO gains occur on multi-hop questions. Figure~\ref{fig:benefits} summarizes
+the storage, lifecycle, and use benefits.
 
 \begin{figure*}[t]
   \centering
   \includegraphics[width=0.80\textwidth,trim=0 34bp 0 0,clip]{figs/fig_layered_arch.pdf}
   \captionsetup{skip=3pt}
-  \caption{Local Engram content with a shared Transformer and reasoning adapter.}
+  \caption{User facts reside in surgical Engram-row weight edits. A shared
+  pretrained or post-trained capability reads them and remains fixed when the
+  facts are inserted, replaced, or deleted.}
   \label{fig:layered-arch}
 \end{figure*}
 
-Figure~\ref{fig:layered-arch} illustrates this separation. A user's doctor or
-preference may change and require individual deletion; inferring that a
-cardiologist is relevant to a heart check-up is stable and transferable. A
-per-user adapter conflates these lifecycles, repeatedly relearning the relation
-and making individual records difficult to locate or delete. Our design keeps
-content explicit and reasoning reusable.
+Figure~\ref{fig:layered-arch} illustrates the roles. A user's doctor is stored
+in the highlighted Engram embeddings; if that doctor changes, only those rows
+are replaced. Inferring that a cardiologist is relevant to a heart check-up is
+a general capability that may be learned during pretraining or post-training
+and reused unchanged. The reader enables use of the memory, but the fact itself
+resides entirely in the surgical Engram edit.
 
 \paragraph{Contributions.}
-We make three contributions. First, we formulate per-user memory as explicit
-overrides to an Engram model's hash-addressed rows, with closed-form insertion,
-addressed deletion, and composable maps. Second, we separate this mutable
-content from one shared reasoning adapter and verify the interface
-mechanistically and behaviorally, including indirect and multi-hop use. Third,
-we provide controlled comparisons with both per-user LoRA and RAG across state,
-update cost, locality, reasoning, retrieved-memory tokens, and knowledge-base
-scaling: Engram uses $161\times$ less per-user state than LoRA and no external
-memory hop, while the $2.5\times$ larger Qwen-RAG baseline falls below it beyond
-100 facts (Figures~\ref{fig:benefits}, \ref{fig:pareto-rag}, and
+We make three contributions. First, we introduce a protocol that writes a new
+user fact as embedding-valued, deterministically addressed edits to an
+Engram-pretrained model's memory parameters. Second, we develop closed-form,
+per-fact, and joint writes together with addressed deletion, composable
+per-user maps, and mechanistic audits of the exact edit footprint. Third, we
+compare this internal memory with per-user LoRA and RAG across storage, update
+cost, locality, reasoning, context tokens, and knowledge-base scaling, and test
+whether a user-independent capability can operate on facts stored only in
+Engram rows. Engram uses $161\times$ less per-user state than LoRA and no
+external memory hop, while the $2.5\times$ larger Qwen-RAG baseline falls below
+it beyond 100 facts (Figures~\ref{fig:benefits}, \ref{fig:pareto-rag}, and
 \ref{fig:rag-scale}).
 
 \section{Background and Design Requirements}
@@ -208,9 +221,11 @@ per-user storage, and query cost alongside accuracy.
 The term \emph{Engram} here denotes the model's pretrained hashed memory table,
 not an arbitrary cache added after training. Its gates have learned when table
 values should enter the residual stream. We exploit that learned interface but
-do not alter its addressing rule or backbone. Our contribution is a write and
-composition protocol for per-user overrides, plus the separation of those
-overrides from a shared adapter that learns population-level reasoning.
+do not alter its addressing rule or backbone. Our primary contribution is the
+write and composition protocol that turns selected Engram parameters into an
+editable store for new user facts. The shared adapter is not part of that
+store; it is a controlled way to test whether a user-independent reasoning
+capability can consume the writes, and it remains unchanged when facts change.
 
 \section{Why Facts Should Not Be Per-User LoRA}
 \label{sec:negative}
@@ -525,7 +540,7 @@ The source retains insertion-strategy, rank, capacity, per-seed, pretraining,
 latency, judge-prompt, and alternative-architecture details for a planned
 supplement; the main paper retains the results needed for the causal chain.
 
-\section{Shared Skill, Local Content}
+\section{Reasoning over Engram-Stored Facts}
 \label{sec:layered}
 
 \begin{figure}[t]
@@ -536,12 +551,14 @@ supplement; the main paper retains the results needed for the causal chain.
   \label{fig:layered-conditions}
 \end{figure}
 
-We train the rank-16 shared LoRA on 10 users with each indirect question's
-needed facts in context, then test 20 disjoint users whose facts arrive only
-through Engram rows. Six conditions cross content placement (none, per-user
-LoRA, or Engram) with shared skill while holding direct recall nearly constant.
-Across three seeds, layered Engram reaches 100\% versus 98.8\% direct recall
-and 41.2\% versus 7.3\% indirect accuracy for per-user LoRA.
+We use a rank-16 shared LoRA as a controlled reader of Engram-stored facts, not
+as the user-memory store. We train it on 10 users with each indirect question's
+needed facts in context, freeze it, then test 20 disjoint users whose facts
+arrive only through Engram rows. Replacing a test-user fact changes only that
+user's row map. Six conditions cross content placement (none, per-user LoRA, or
+Engram) with shared skill while holding direct recall nearly constant. Across
+three seeds, layered Engram reaches 100\% versus 98.8\% direct recall and 41.2\%
+versus 7.3\% indirect accuracy for per-user LoRA.
 
 The layered system pays $+0.385$ $\Delta$bpb once for the shared adapter;
 each user's rows add only $\approx0.00005$, versus $+1.698$ for a separate
@@ -648,59 +665,67 @@ hardware, and the serving implementation.
 \section{Discussion, Limitations, and Related Work}
 \label{sec:discussion}
 
-At 1,000 facts Joint OPT reaches 35\% top-1; with ${<}1\%$ slot occupancy, the
-ceiling is forward-pass interference among co-active rows, not collisions.
-Paraphrase coverage depends on triggers, and optimization is slower than
-appending a document.
+\paragraph{Limitations.}
+Within-user capacity remains limited: at 1,000 facts Joint OPT reaches 35\%
+top-1 despite ${<}1\%$ occupancy, indicating forward-pass interference rather
+than collisions. Recall depends on trigger and paraphrase coverage, and
+insertion is slower than appending a document. LOCOMO mixes memory with base
+knowledge; storage and latency are implementation-dependent. We have not tested
+batched serving, adversarial exfiltration, or production access controls. Most
+controlled tests use templated, short-answer facts; LOCOMO adds conversational
+evidence, but does not establish long-form generation, temporally conflicting
+memories, or semantic access without a matching trigger.
 
-Our work connects parameter-efficient personalization and per-user adapters
+Our work connects per-user adapters
 \citep{houlsby2019adapters,hu2022lora,zhang2024personalization,
 su2024prag,tan2024oppu,zhuang2024hydra}, retrieval-augmented generation
 \citep{lewis2020rag,gao2023ragsurvey,borgeaud2022retro}, model editing
 \citep{meng2022rome,meng2023memit,mitchell2022mend,mitchell2022serac,
 wang2024wise}, and external or semi-parametric memory
-\citep{lample2019pkm,packer2023memgpt,cheng2026engram}. These methods provide non-parametric
-access or global weight changes. User as Engram occupies a distinct middle
-point: records remain explicit and mutable like an external store, but their
-values are consumed inside the network without retrieval calls or context
-tokens. Our content/skill boundary places those mutable facts in addressed rows
-and reusable reasoning in shared weights, yielding locality, high-frequency
-memory access, and multi-tenancy rather than dense per-user models.
-The dense-adapter interference we measure is related to catastrophic
-forgetting in continual learning \citep{mccloskey1989catastrophic,kirkpatrick2017ewc}.
+\citep{lample2019pkm,packer2023memgpt,cheng2026engram}. Unlike external access
+or global weight changes, User as Engram stores explicit, mutable records as
+surgical edits to addressed model parameters and consumes them in-network.
+This supports local, high-frequency, multi-tenant memory. The measured
+dense-adapter interference relates to catastrophic forgetting
+\citep{mccloskey1989catastrophic,kirkpatrick2017ewc}.
+Compared with conventional model editing, the inserted fact need not already
+exist in dense weights, and locality follows from address-conditioned activation
+rather than a learned regularizer. Compared with per-user adapters, storage
+grows with the written rows rather than model dimensions. These structural
+advantages make updates inspectable and reversible, but constrain recall to the
+trigger contract.
 
-\paragraph{Validity and societal considerations.}
-Controlled models expose changed rows and small loss deltas, strengthening
-causal claims but limiting frontier-scale conclusions. LOCOMO mixes memory and
-base knowledge, so we report category reversals. Storage and latency constants
-are implementation-dependent, though their scaling forms are robust.
-Addressability aids inspection and erasure but can expose records; untested
-exfiltration, access control, output auditing, and shared-skill fairness remain.
-Generative AI tools provided editorial assistance; the authors reviewed and
-verified all text, claims, citations, figures, and reported results.
+\paragraph{Societal considerations.}
+Addressability aids inspection and erasure but can expose records; output
+auditing and shared-skill fairness also remain open concerns.
 
-\paragraph{What should improve next.}
-Three recipe changes target these limits: multi-fact training, random per-user
-hash offsets for unseen rows, and ``recall, then reason'' chaining examples
-\citep{sun2023recitation}.
-Preliminary multi-fact finetuning reached the same recall faster without
-raising its ceiling. Teacher traces lowered accuracy, showing that training
-and evaluation formats must align.
+\paragraph{Future work.}
+Future recipes should test multi-fact training, random per-user hash offsets,
+and ``recall, then reason'' examples \citep{sun2023recitation}. Preliminary
+multi-fact finetuning sped convergence without raising the ceiling; teacher
+traces lowered accuracy when training and evaluation formats diverged.
 
-The strongest next comparison is a frontier-scale model pretrained with this
-interface. Small bases expose locality and failures but leave larger-scale
-utility untested. We expect hybrid routing: addressed memory for frequent
-records, retrieval for long-tail evidence and provenance, and shared weights
-for stable transformations.
+Because our current pretraining reaches only 1.22B parameters, future work
+should scale the architecture and training recipe to substantially larger
+models. This will test whether its locality, recall, and multi-user efficiency
+persist at frontier-relevant scales.
 
 \section{Conclusion}
 
-User as Engram separates per-user content from shared reasoning by writing
-facts to hash-addressed rows and learning one adapter. Across experiments, it
-matches direct recall, improves indirect reasoning $5.6\times$ over per-user
-LoRA, and uses $161\times$ less state at 100 facts while enabling training-free
-insertion and deletion. Its token-granular lookup removes external memory hops
-and remains robust as retrieval recall declines.
+User as Engram writes user facts directly into a model as embedding-valued,
+surgical edits to deterministically addressed Engram rows. Only those
+parameters change, and their gated values are read in the ordinary forward
+pass. At 100 facts, it matches per-user LoRA recall with $161\times$ less state
+and about $33{,}000\times$ less held-out loss increase, while requiring neither
+RAG's retrieval call nor serialized memory text. A shared reader improves
+indirect reasoning by $5.6\times$ over per-user LoRA but contains no user facts:
+knowledge remains in the Engram edits, so facts can be inserted, replaced, or
+deleted without retraining that capability. This gives model-internal personal
+memory the lifecycle of an editable store.
+
+\paragraph{Use of generative AI tools.}
+Generative AI tools provided editorial assistance; the authors reviewed and
+verified all text, claims, citations, figures, and reported results.
 
 % The complete uncompressed narrative is retained below for preparing a
 % supplementary version, but is excluded from the nine-page submission PDF.

@@ -1,10 +1,10 @@
-"""Figure 1: the layered design as a single, truly-layered schematic.
+"""Figure 1: surgical Engram fact writes and their complementary reader.
 
 Top layer  -- the Engram memory table drawn as one long strip of slots:
-mostly grey (general knowledge written at pretraining), a few coloured
-slots per user (their personal facts), scattered by trigger-N-gram hash.
-Bottom layer -- the frozen Mini-Engram backbone carrying one shared LoRA
-(the reasoning skill), drawn full-width to signal "shared by everyone above".
+mostly grey pretrained rows, with a few coloured fact embeddings written
+as surgical per-user edits at trigger-N-gram addresses. Bottom layer -- a
+shared pretrained/post-trained reader that contains no user facts and does
+not change when facts are inserted, replaced, or deleted.
 
 This replaces the old three-panel (a)/(b)/(c) version: one image, one idea.
 The six-condition Pareto lives separately in fig_pareto_layered.pdf.
@@ -25,7 +25,7 @@ C_GREY_E = "#9a9a9a"
 C_A      = "#1f77b4"   # User A
 C_B      = "#d95f02"   # User B
 C_C      = "#7570b3"   # User C
-C_SKILL  = "#117733"   # shared LoRA
+C_SKILL  = "#117733"   # complementary shared reader
 C_TEXT   = "#222222"
 
 plt.rcParams.update({
@@ -68,19 +68,16 @@ ax.text(xend + 4.6, y_tab + h_tab / 2, "millions\nof rows", fontsize=10,
         va="center", ha="left", color="#777", style="italic")
 
 # Top-layer heading
-ax.text(x0, y_tab + h_tab + 3.4, "1.  Content",
+ax.text(x0, y_tab + h_tab + 3.4, "User facts: surgical Engram weight edits",
         fontsize=15.5, color=C_TEXT, fontweight="bold", va="bottom")
-ax.text(x0 + 14.5, y_tab + h_tab + 3.4,
-        "— each user's facts as local Engram-row overrides",
-        fontsize=12, color="#444", va="bottom")
 ax.text(x0, y_tab + h_tab + 1.0,
-        "Engram memory table  (addressed by trigger N-gram)",
+        "value embeddings in deterministically addressed model parameters",
         fontsize=11, color="#666", va="bottom", style="italic")
 
 # Locality callout pinned to a right-side User-A slot (clears the heading)
 xa = x0 + 31 * pitch + slot_w / 2
-ax.annotate("write a user's fact = override only its rows\n"
-            r"($\Delta$bpb on held-out unrelated text $= +0.0001$)",
+ax.annotate("write or replace a fact = change only its rows\n"
+            "(no retraining of the shared reader)",
             xy=(xa, y_tab + h_tab), xytext=(xa - 4, y_tab + h_tab + 8.0),
             fontsize=11, color=C_A, ha="center",
             arrowprops=dict(arrowstyle="->", color=C_A, lw=1.2))
@@ -89,7 +86,7 @@ ax.annotate("write a user's fact = override only its rows\n"
 # Legend row
 # ---------------------------------------------------------------------------
 leg_y = 23.2
-items = [(C_GREY, C_GREY_E, "pretrained general knowledge"),
+items = [(C_GREY, C_GREY_E, "pretrained Engram rows"),
          (C_A, "#333", "User A facts"),
          (C_B, "#333", "User B facts"),
          (C_C, "#333", "User C facts")]
@@ -106,7 +103,7 @@ ax.text(xend + 4.6, leg_y + 0.9, "distinct addresses\n⇒ users never overlap",
 # ---------------------------------------------------------------------------
 ax.texts[-1].remove()  # Remove the unsupported claim that users never overlap.
 
-# BOTTOM LAYER: frozen backbone + one shared LoRA, full width
+# BOTTOM LAYER: shared pretrained/post-trained reader, full width
 # ---------------------------------------------------------------------------
 y_base, h_base = 5.5, 13.0
 base = FancyBboxPatch((x0, y_base), xend - x0 + 6.5, h_base,
@@ -123,16 +120,16 @@ ax.add_patch(lora)
 cx = (x0 + xend) / 2
 ax.text(x0 + 1.2, y_base + h_base - 1.6, "frozen Mini-Engram backbone",
         fontsize=10, color="#777", va="center", style="italic")
-ax.text(cx, y_base + 7.0, "2.  Reasoning skill",
+ax.text(cx, y_base + 7.0, "Complementary shared reader",
         fontsize=15.5, color=C_SKILL, ha="center", fontweight="bold")
 ax.text(cx, y_base + 4.4,
-        "one shared LoRA  —  trained once across other users, amortized over everyone",
+        "pretrained or post-trained general capability (one shared LoRA in our experiments)",
         fontsize=12, color="#225522", ha="center")
 
 # Spanning bracket beneath the LoRA to stress "shared by all users above"
 ax.annotate("", xy=(x0 + 5, y_base + 2.2), xytext=(xend, y_base + 2.2),
             arrowprops=dict(arrowstyle="<->", color="#999", lw=1.0))
-ax.text(cx, y_base + 1.0, "the same skill serves every user above",
+ax.text(cx, y_base + 1.0, "contains no user facts; unchanged when facts change",
         fontsize=10, color="#888", ha="center", style="italic")
 
 # ---------------------------------------------------------------------------
