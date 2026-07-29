@@ -392,7 +392,7 @@ def fig_pareto():
 def fig_locomo_scaling():
     """LOCOMO token-F1 on the full 10-conversation evaluation."""
     # Generate at column width so labels retain their specified point sizes.
-    fig, ax = plt.subplots(figsize=(3.25, 1.60))
+    fig, ax = plt.subplots(figsize=(3.25, 2.20))
 
     sizes = [178, 339, 625, 1224]
     size_labels = ["d8\n178M", "d12\n339M", "d12@1280\n625M", "d20@1536\n1.22B"]
@@ -415,7 +415,8 @@ def fig_locomo_scaling():
     ax.set_xlabel("Mini-Engram dense parameters", fontsize=9)
     ax.set_ylabel("LOCOMO token F1", fontsize=9)
     ax.set_ylim(0.0, 0.27)
-    ax.legend(loc="upper left", fontsize=9, ncol=2)
+    ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.02),
+              fontsize=9, ncol=2)
 
     fig.tight_layout()
     fig.savefig(OUT / "fig_locomo_scaling.pdf")

@@ -7,8 +7,10 @@ Inputs:
 
 Saves figs/fig_rag_scale.pdf and a small CSV.
 """
-import json, math
+import json, math, os
 from pathlib import Path
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 # Shared paper style: serif type, despined axes, light dotted grid, and the
@@ -19,7 +21,7 @@ plt.rcParams.update({
     "font.family": "serif",
     "font.serif": ["Palatino", "Palatino Linotype", "Times New Roman", "DejaVu Serif"],
     "font.size": 9,
-    "axes.titlesize": 10,
+    "axes.titlesize": 9,
     "axes.labelsize": 9,
     "axes.spines.top": False,
     "axes.spines.right": False,
@@ -27,7 +29,7 @@ plt.rcParams.update({
     "grid.linestyle": ":",
     "grid.linewidth": 0.6,
     "grid.alpha": 0.7,
-    "savefig.bbox": "tight",
+    "savefig.bbox": None,
     "savefig.pad_inches": 0.03,
 })
 BLUE = "#34507F"     # ours (Engram / layered)
@@ -98,16 +100,16 @@ def main():
     if layered and "agg" in layered:
         e_indirect = layered["agg"]["E_shared_lora_only_indirect_any"] * 100
 
-    # Compact, side-by-side panels sized for one paper column.
-    fig, axes = plt.subplots(1, 2, figsize=(6.8, 2.7), sharex=True)
+    # Stack the panels so each plot receives the full paper-column width.
+    fig, axes = plt.subplots(2, 1, figsize=(3.25, 4.30), sharex=True)
 
     # Panel A: indirect_any (log-x for KB)
     ax = axes[0]
     display_labels = {
-        "Mini-Engram + RAG top-1": "RAG top-1",
-        "Mini-Engram + RAG top-3": "RAG top-3",
-        "RAG top-3 + shared reasoning LoRA": "RAG top-3 + shared LoRA",
-        "Qwen-3B + RAG top-3": "Qwen-3B RAG top-3",
+        "Mini-Engram + RAG top-1": "RAG@1",
+        "Mini-Engram + RAG top-3": "RAG@3",
+        "RAG top-3 + shared reasoning LoRA": "RAG@3 + shared LoRA",
+        "Qwen-3B + RAG top-3": "Qwen-3B RAG@3",
     }
     for s in series:
         xs = [p[0] for p in s["pts"]]
@@ -120,13 +122,13 @@ def main():
     # indirect and are KB-invariant (no retrieval); draw a single reference
     # line to avoid a confusing overlapping band.
     ax.axhline(f_indirect, color=BLUE, linestyle="-", linewidth=2.6,
-               label=f"Engram + shared LoRA = {f_indirect:.1f}%",
+               label="Engram + shared LoRA",
                alpha=0.95, zorder=1)
     ax.set_xscale("log")
-    ax.set_ylabel("Indirect accuracy (%)", fontsize=12)
-    ax.set_title("(a)", loc="left", fontweight="bold", fontsize=12)
+    ax.set_ylabel("Indirect accuracy (%)", fontsize=9)
+    ax.set_title("(a)", loc="left", fontweight="bold", fontsize=9)
     ax.set_ylim(0, 70)
-    ax.tick_params(labelsize=10)
+    ax.tick_params(labelsize=9)
     ax.grid(True, alpha=0.3, which="both")
 
     # Panel B: retrieval recall (log-x)
@@ -144,25 +146,33 @@ def main():
                 linestyle=s["linestyle"], label=s["label"], linewidth=2,
                 markersize=7)
     ax.set_xscale("log")
-    ax.set_ylabel("Retrieval recall (%)", fontsize=12)
-    ax.set_title("(b)", loc="left", fontweight="bold", fontsize=12)
+    ax.set_ylabel("Retrieval recall (%)", fontsize=9)
+    ax.set_title("(b)", loc="left", fontweight="bold", fontsize=9)
     ax.set_ylim(0, 100)
-    ax.tick_params(labelsize=10)
+    ax.tick_params(labelsize=9)
     ax.grid(True, alpha=0.3, which="both")
 
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.supxlabel("KB size (facts + distractors, log scale)", fontsize=12,
-                  y=0.25)
-    fig.legend(handles, labels, loc="lower center", ncol=3,
-               fontsize=10, framealpha=0.95, bbox_to_anchor=(0.5, -0.03))
-    fig.subplots_adjust(left=0.10, right=0.99, top=0.92, bottom=0.42,
-                        wspace=0.35)
+    # Put both long shared-LoRA entries in the same legend column so their
+    # widths do not add across the two-column legend.
+    legend_order = [0, 1, 3, 2, 4]
+    handles = [handles[i] for i in legend_order]
+    labels = [labels[i] for i in legend_order]
+    fig.supxlabel("KB size (facts + distractors, log scale)", fontsize=9,
+                  x=(0.20 + 0.98) / 2, y=0.17)
+    fig.legend(handles, labels, loc="lower center", ncol=2,
+               fontsize=9, framealpha=0.95, bbox_to_anchor=(0.5, 0.0))
+    fig.subplots_adjust(left=0.20, right=0.98, top=0.98, bottom=0.26,
+                        hspace=0.25)
     out_pdf = FIGS / "fig_rag_scale.pdf"
     out_png = FIGS / "fig_rag_scale.png"
     plt.savefig(out_pdf)
     plt.savefig(out_png, dpi=160)
     print(f"Wrote {out_pdf}")
     print(f"Wrote {out_png}")
+
+    if os.environ.get("PAPER_FIGURES_ONLY") == "1":
+        return
 
     # CSV
     rows = ["series,kb_size,indirect_any_pct,retrieval_acc_pct"]

@@ -11,6 +11,8 @@ Saves figs/fig_pareto_rag.pdf
 """
 import json, os, math
 from pathlib import Path
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 # Shared paper style: serif type, despined axes, light dotted grid, canonical palette.
@@ -19,16 +21,21 @@ plt.rcParams.update({
     "ps.fonttype": 42,
     "font.family": "serif",
     "font.serif": ["Palatino", "Palatino Linotype", "Times New Roman", "DejaVu Serif"],
-    "font.size": 14,
-    "axes.titlesize": 15,
-    "axes.labelsize": 14,
-    "xtick.labelsize": 12,
-    "ytick.labelsize": 12,
+    # The plot is reduced to one paper column. Keep the labels modestly larger
+    # than the original while retaining room for the dense annotations.
+    "font.size": 21,
+    "axes.titlesize": 21,
+    "axes.labelsize": 21,
+    "xtick.labelsize": 20.5,
+    "ytick.labelsize": 20.5,
+    "axes.linewidth": 1.2,
+    "xtick.major.width": 1.2,
+    "ytick.major.width": 1.2,
     "axes.spines.top": False,
     "axes.spines.right": False,
     "grid.color": "#b3b3b3",
     "grid.linestyle": ":",
-    "grid.linewidth": 0.6,
+    "grid.linewidth": 1.2,
     "grid.alpha": 0.7,
     "savefig.bbox": "tight",
     "savefig.pad_inches": 0.03,
@@ -140,14 +147,14 @@ def main():
     }
 
     # ---- Plot ----
-    fig, ax = plt.subplots(figsize=(8.0, 5.0))
+    fig, ax = plt.subplots(figsize=(8.0, 5.6))
     style = {
         "layered":  {"color": BLUE,   "marker": "o", "s": 95,
-                      "label": "Mini-Engram-d20 substrate (no retrieval)"},
+                      "label": "Engram"},
         "rag-mini": {"color": ORANGE, "marker": "s", "s": 95,
-                      "label": "Mini-Engram-d20 + RAG"},
+                      "label": "Mini-Engram RAG"},
         "qwen":     {"color": GREEN,  "marker": "^", "s": 95,
-                      "label": "Qwen2.5-3B-Instruct + RAG"},
+                      "label": "Qwen-3B RAG"},
     }
     # Jitter overlapping zero-context labels so they don't pile up.
     zero_jitter = {"A: no edit": 0.45,
@@ -156,28 +163,28 @@ def main():
                    "E: shared LoRA only": 0.38,
                    "F: layered (Engram + shared LoRA)": 0.55}
     label_offsets = {  # (dx, dy) in display pts; tune the short codes case by case
-        "A: no edit": (7, -11),
+        "A: no edit": (7, -3),
         "B: per-user LoRA": (7, -3),
         "C: per-user Engram": (7, 3),
-        "E: shared LoRA only": (0, -10),
+        "E: shared LoRA only": (6, -10),
         "F: layered (Engram + shared LoRA)": (7, 4),
         "G: RAG top-1": (6, -12),
         "H: RAG top-3": (7, 3),
         "I: RAG all": (7, 3),
         "G': oracle top-1": (6, -12),
-        "J: RAG top-3 + shared LoRA": (0, 11),
-        "Qwen-3B: no context": (8, -3),
-        "Qwen-3B + RAG top-1": (-7, -10),
+        "J: RAG top-3 + shared LoRA": (2, 11),
+        "Qwen-3B: no context": (8, -6),
+        "Qwen-3B + RAG top-1": (-7, -7),
         "Qwen-3B + RAG top-3": (7, -7),
-        "Qwen-3B + RAG all": (7, 4),
-        "Qwen-3B + oracle top-1": (6, -12),
+        "Qwen-3B + RAG all": (7, -5),
+        "Qwen-3B + oracle top-1": (-7, -12),
     }
     plotted_groups = set()
     for pt in points:
         gs = style[pt["group"]]
         x = zero_jitter.get(pt["label"], pt["x"])
         kwargs = dict(color=gs["color"], marker=gs["marker"], s=gs["s"],
-                      edgecolor="black", linewidth=0.8, zorder=3)
+                      edgecolor="black", linewidth=1.2, zorder=3)
         if pt["group"] not in plotted_groups:
             kwargs["label"] = gs["label"]
             plotted_groups.add(pt["group"])
@@ -189,30 +196,42 @@ def main():
         if text == "E: shared LoRA only":
             align = {"ha": "center", "va": "top"}
         elif text == "J: RAG top-3 + shared LoRA":
-            align = {"ha": "center", "va": "bottom"}
+            align = {"ha": "left", "va": "bottom"}
         elif text == "Qwen-3B + RAG top-1":
             align = {"ha": "right", "va": "top"}
         elif text == "Qwen-3B + RAG top-3":
             align = {"ha": "left", "va": "top"}
+        elif text == "Qwen-3B + RAG all":
+            align = {"ha": "left", "va": "top"}
+        elif text == "Qwen-3B + oracle top-1":
+            align = {"ha": "right", "va": "top"}
         ax.annotate(short.get(text, text), (x, pt["y"]), xytext=(dx, dy),
-                    textcoords="offset points", fontsize=11.5, **align)
+                    textcoords="offset points", fontsize=20.5, **align)
 
     ax.set_xscale("log")
+    # Plain-number ticks avoid Matplotlib reducing superscript digits below
+    # the minimum figure-text size.
+    ax.set_xticks([1, 10, 100], ["1", "10", "100"])
     # Leave enough room to center the enlarged two-line shared-LoRA label under
     # its leftmost point without crossing the y-axis.
     ax.set_xlim(0.23, 900)
     ax.set_ylim(0, 65)
-    ax.set_xlabel("Extra serialized memory tokens per query (log; zero at left)")
-    ax.set_ylabel("Indirect-reasoning accuracy (indirect_any, %)")
+    ax.set_xlabel("Extra memory tokens/query (log)")
+    ax.set_ylabel("Indirect accuracy (%)")
     ax.grid(True, alpha=0.3)
-    ax.legend(loc="lower right", fontsize=11.5)
+    ax.legend(loc="lower right", bbox_to_anchor=(1.04, 0.0),
+              fontsize=20.5, ncol=1)
     plt.tight_layout()
     out_pdf = FIGS / "fig_pareto_rag.pdf"
     out_png = FIGS / "fig_pareto_rag.png"
-    plt.savefig(out_pdf)
-    plt.savefig(out_png, dpi=160)
+    # Retain the compact one-column aspect used in the paper.
+    plt.savefig(out_pdf, bbox_inches=None)
+    plt.savefig(out_png, dpi=160, bbox_inches=None)
     print(f"Wrote {out_pdf}")
     print(f"Wrote {out_png}")
+
+    if os.environ.get("PAPER_FIGURES_ONLY") == "1":
+        return
 
     # Also write a small latency CSV for the paper table
     out_csv = RES / "latency_table.csv"

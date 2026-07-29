@@ -31,7 +31,7 @@ def clean(ax, axis="x"):
         ax.spines[spine].set_visible(False)
     ax.grid(axis=axis, ls=":", lw=0.6, alpha=0.55)
     ax.set_axisbelow(True)
-    ax.tick_params(axis="y", length=0)
+    ax.tick_params(axis="both", labelsize=9, length=0)
 
 
 def lifecycle_box(ax, x, color, fill, title, rows):
@@ -39,12 +39,12 @@ def lifecycle_box(ax, x, color, fill, title, rows):
         (x, 0.04), 0.455, 0.77,
         boxstyle="round,pad=0.018,rounding_size=0.025",
         linewidth=1.0, edgecolor=color, facecolor=fill,
-        transform=ax.transAxes,
+        transform=ax.transAxes, clip_on=False,
     )
     ax.add_patch(box)
     ax.text(
         x + 0.2275, 0.72, title, ha="center", va="center",
-        fontsize=9.5, fontweight="bold", color=color, transform=ax.transAxes,
+        fontsize=9.0, fontweight="bold", color=color, transform=ax.transAxes,
     )
     for heading_y, body_y, heading, body in rows:
         ax.text(
@@ -59,22 +59,28 @@ def lifecycle_box(ax, x, color, fill, title, rows):
 
 
 def main():
-    # Generate at column width so labels retain their specified point sizes.
-    fig = plt.figure(figsize=(3.25, 3.5))
-    gs = fig.add_gridspec(3, 1, height_ratios=[0.85, 2.10, 0.85], hspace=0.62)
+    # Generate at the final column width: the font sizes below are therefore
+    # the sizes readers see in the manuscript, rather than values later
+    # reduced by LaTeX. Wrapped labels leave more width for the graphs.
+    fig = plt.figure(figsize=(3.25, 4.0))
+    fig.subplots_adjust(left=0.29, right=0.98, bottom=0.17)
+    gs = fig.add_gridspec(3, 1, height_ratios=[0.85, 2.10, 0.85], hspace=0.85)
 
     # (a) The inserted facts are sparse state, not a model-shaped adapter.
     ax = fig.add_subplot(gs[0])
-    labels = ["Engram override", "rank-64 per-user LoRA"]
+    labels = ["Engram\noverride", "per-user LoRA\n(rank 64)"]
     storage_kb = [88, 14_200]
     y = np.arange(2)
     ax.barh(y, storage_kb, color=[BLUE, RED], height=0.48)
     ax.set_xscale("log")
     ax.set_xlim(30, 35_000)
+    ax.set_xticks([100, 1_000, 10_000], ["100", "1,000", "10,000"])
     ax.set_yticks(y, labels, fontsize=9)
     ax.invert_yaxis()
-    ax.set_title("(a)  State for 100 inserted facts (KB, log scale)", loc="left",
-                 fontsize=9.5, fontweight="bold", pad=3)
+    pos = ax.get_position()
+    fig.text(0.02, pos.y1 + 0.008,
+             "(a)  State for 100 inserted facts\n      (KB, log scale)",
+             ha="left", va="bottom", fontsize=9.0, fontweight="bold")
     ax.text(105, 0, "88 KB", va="center", fontsize=9, fontweight="bold", color=BLUE)
     ax.text(12_900, 1, "14.2 MB", va="center", ha="right", fontsize=9,
             fontweight="bold", color="white")
@@ -86,8 +92,13 @@ def main():
     # no individual fact address.  Avoid inventing update/deletion timings.
     ax = fig.add_subplot(gs[1])
     ax.set_axis_off()
-    ax.set_title("(b)  Fact lifecycle avoids adapter retraining", loc="left",
-                 fontsize=9.5, fontweight="bold", pad=3)
+    # Reserve canvas space for the rounded box padding. Keeping the boxes at
+    # their natural panel coordinates avoids clipping their outer borders.
+    pos = ax.get_position()
+    ax.set_position([0.025, pos.y0, 0.95, pos.height])
+    fig.text(0.02, pos.y1 + 0.008,
+             "(b)  Fact lifecycle avoids\n      adapter retraining",
+             ha="left", va="bottom", fontsize=9.0, fontweight="bold")
     lifecycle_box(
         ax, 0.0, BLUE, BLUE_LT, "ENGRAM",
         [
@@ -106,23 +117,25 @@ def main():
     # (c) Facts stored in rows can be consumed by one reusable reasoning skill.
     # Three-seed means from Table 3: layered Engram 41.2, per-user LoRA 7.3.
     ax = fig.add_subplot(gs[2])
-    labels = ["Engram + shared skill", "per-user LoRA"]
+    labels = ["Engram +\nshared skill", "per-user\nLoRA"]
     reasoning = [41.2, 7.3]
     y = np.arange(2)
     ax.barh(y, reasoning, color=[BLUE, RED], height=0.48)
-    ax.set_xlim(0, 50)
+    ax.set_xlim(0, 58)
     ax.set_yticks(y, labels, fontsize=9)
     ax.invert_yaxis()
-    ax.set_xlabel("indirect reasoning over held-out user facts (%)", fontsize=9)
-    ax.set_title("(c)  Local facts support indirect and multi-hop use", loc="left",
-                 fontsize=9.5, fontweight="bold", pad=3)
+    ax.set_xlabel("indirect reasoning over\nheld-out user facts (%)", fontsize=9)
+    pos = ax.get_position()
+    fig.text(0.02, pos.y1 + 0.008,
+             "(c)  Local facts support indirect\n      and multi-hop use",
+             ha="left", va="bottom", fontsize=9.0, fontweight="bold")
     for yi, value in zip(y, reasoning):
         ax.text(value + 0.9, yi, f"{value:.1f}%", va="center", fontsize=9,
                 fontweight="bold", color=BLUE if yi == 0 else RED)
     clean(ax)
 
-    fig.savefig("figs/fig_user_memory_benefits.pdf", bbox_inches="tight")
-    fig.savefig("figs/fig_user_memory_benefits.png", dpi=200, bbox_inches="tight")
+    fig.savefig("figs/fig_user_memory_benefits.pdf")
+    fig.savefig("figs/fig_user_memory_benefits.png", dpi=200)
     plt.close(fig)
     print("wrote figs/fig_user_memory_benefits.pdf")
 

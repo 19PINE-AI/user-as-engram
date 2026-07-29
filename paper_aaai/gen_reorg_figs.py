@@ -141,7 +141,10 @@ def fig_multihop():
 # ---------------------------------------------------------------- M. layered conditions
 def fig_layered_conditions():
     # Generate at column width so labels retain their specified point sizes.
-    fig, (a1, a2) = plt.subplots(2, 1, figsize=(3.25, 2.65), sharex=True)
+    fig, (a1, a2) = plt.subplots(
+        2, 1, figsize=(3.25, 3.20), sharex=True,
+        gridspec_kw={"height_ratios": [1.15, 0.85]},
+    )
     # Stacked, single-word-per-line tick labels avoid the horizontal collisions
     # of the old "A: per-user LoRA" labels; the framing text moves to the caption.
     conds = ["base", "user LoRA", "user Engram",
@@ -154,22 +157,35 @@ def fig_layered_conditions():
     a1.bar(x - w/2, direct, w, label="direct top-1", color=GRAY)
     a1.bar(x + w/2, indirect_any, w, label="indirect_any", color=BLUE)
     a1.set_xticks(x); a1.tick_params(labelbottom=False)
-    a1.set_ylabel("recall (%)", fontsize=9)
-    a1.set_ylim(0, 116)
+    a1.tick_params(axis="y", labelsize=9)
+    a1.set_title("(a) Recall (%)", loc="left", fontsize=9, pad=3)
+    a1.set_ylim(0, 110)
+    a1.set_yticks([0, 25, 50, 75, 100])
     # Legend sits above the axes so it never overlaps the tall direct-recall bars.
     a1.legend(frameon=False, fontsize=9, ncol=2, loc="lower center",
-              bbox_to_anchor=(0.5, 1.0))
+              bbox_to_anchor=(0.66, 1.08))
     clean(a1)
     # contamination
     colors = [RED if d > 0.5 else BLUE for d in dbpb]
     a2.bar(x, dbpb, color=colors, width=0.6)
-    a2.set_xticks(x); a2.set_xticklabels(conds, fontsize=9, rotation=35,
-                                        ha="right", rotation_mode="anchor")
-    a2.set_ylabel(r"$\Delta$bpb on unrelated text", fontsize=9)
+    a2.set_xticks(x); a2.set_xticklabels(
+        conds, fontsize=9, rotation=35, ha="right", rotation_mode="anchor"
+    )
+    a2.tick_params(axis="y", labelsize=9)
+    a2.set_title(r"(b) Unrelated-text $\Delta$bpb", loc="left", fontsize=9, pad=3)
     a2.set_ylim(0, 2.05)
+    a2.set_yticks([0, 0.5, 1.0, 1.5, 2.0])
+    a2.text(x[0], 0.06, "0", ha="center", va="bottom", fontsize=9,
+            color=BLUE)
+    a2.text(x[2], 0.06, r"$5\times10^{-5}$", ha="center", va="bottom", fontsize=9,
+            color=BLUE)
     clean(a2)
     fig.tight_layout()
-    save(fig, "fig_layered_conditions.pdf")
+    # Keep the fixed column-width canvas so LaTeX does not enlarge the labels
+    # after a tight crop.
+    fig.savefig("figs/fig_layered_conditions.pdf")
+    plt.close(fig)
+    print("wrote figs/fig_layered_conditions.pdf")
 
 
 # ---------------------------------------------------------------- N. shared-LoRA rank

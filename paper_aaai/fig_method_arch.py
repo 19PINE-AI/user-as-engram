@@ -137,21 +137,22 @@ def fig_user_insertion():
 
     # ---- top pipeline: fact -> trigger tokens -> hash -> addresses ----
     yt = 3.2
-    _box(ax, 0.2, yt, 2.55, 0.82,
-         "user fact:  'My cardiologist is'\n$\\to$ 'Dr. Vasquez'", fc="#f3f3f3", fs=14,
+    # Center the taller three-line fact box on the neighboring pipeline boxes.
+    _box(ax, 0.2, yt - (1.0 - 0.82) / 2, 2.55, 1.0,
+         "user fact:\n'My cardiologist is'\n$\\to$ 'Dr. Vasquez'", fc="#f3f3f3", fs=17,
          style=box_style)
     _box(ax, 3.05, yt, 2.1, 0.82,
-         "tokenise trigger\n$x_1\\dots x_T$,  $t^\\star\\!=\\!T\\!-\\!1$", fc="#f3f3f3", fs=13,
+         "tokenise trigger\n$x_1\\dots x_T$,  $t^\\star\\!=\\!T\\!-\\!1$", fc="#f3f3f3", fs=16,
          style=box_style)
     _box(ax, 5.45, yt, 2.4, 0.82,
          "deterministic hash\n$\\to$ rows $R_f\\!\\subset\\![|E|]$\n($\\sim$16 rows)",
-         fc="#f3f3f3", ec=OUR, lw=1.2, fs=13, style=box_style)
+         fc="#f3f3f3", ec=OUR, lw=1.2, fs=16, style=box_style)
     _arrow(ax, 2.75, yt + 0.41, 3.05, yt + 0.41)
     _arrow(ax, 5.15, yt + 0.41, 5.45, yt + 0.41)
 
     # ---- the Engram table: most rows grey, R_f highlighted ----
     tx, tw, trows = 8.35, 2.7, 12
-    ax.text(tx + tw / 2, yt + 0.98, "Engram table $E$", ha="center", fontsize=14, color=OUR)
+    ax.text(tx + tw / 2, yt + 0.98, "Engram table $E$", ha="center", fontsize=17, color=OUR)
     rh = 1.35 / trows
     hot = {3, 4, 8}
     tbot = (yt + 0.78) - trows * rh
@@ -159,24 +160,24 @@ def fig_user_insertion():
         ry = (yt + 0.78) - (i + 1) * rh
         fc = ACC if i in hot else "#e9e9e9"
         ax.add_patch(Rectangle((tx, ry), tw, rh * 0.9, facecolor=fc,
-                               edgecolor="white", linewidth=0.5))
+                               edgecolor="white", linewidth=0.8))
     ax.add_patch(Rectangle((tx, tbot), tw, trows * rh, fill=False,
                            edgecolor=OUR, linewidth=1.0))
     _arrow(ax, 7.85, yt + 0.41, 8.35, yt + 0.41, color=OUR, lw=1.1)
     ax.text(tx + tw + 0.1, yt + 0.4, "write rows $R_f$", ha="left", va="center",
-            fontsize=12, color=ACC)
+            fontsize=15, color=ACC)
 
     # ---- middle: the three insertion strategies write the value e* ----
     ax.text(0.2, 2.48,
             "write a value $e^\\star$ into rows $R_f$  (three strategies, increasing cost / quality):",
-            fontsize=14, ha="left", va="center")
+            fontsize=17, ha="left", va="center")
     sy, sh, sw2 = 1.05, 1.15, 3.65
 
     def strat(x, name, detail, fc, ec, lw, w=sw2):
         _box(ax, x, sy, w, sh, "", fc=fc, ec=ec, lw=lw, style=box_style)
         ax.text(x + w / 2, sy + sh - 0.27, name, ha="center", va="center",
-                fontsize=14, fontweight="bold")
-        ax.text(x + w / 2, sy + (sh - 0.34) / 2, detail, ha="center", va="center", fontsize=12.5)
+                fontsize=16.5, fontweight="bold")
+        ax.text(x + w / 2, sy + (sh - 0.34) / 2, detail, ha="center", va="center", fontsize=15)
 
     strat(0.2, "UNEMBED_P  (closed form)",
           "$e^\\star = W_V^{\\dagger} U_y$\none mat-vec, ${<}1$ ms", "#f3f3f3", "black", 0.8)
@@ -190,10 +191,10 @@ def fig_user_insertion():
     _arrow(ax, 9.9, sy + sh, 9.7, tbot - 0.02, color=OUR, lw=1.0, rad=0.0)
 
     # ---- bottom: result, the per-user override map ----
-    _box(ax, 2.0, -0.02, 8.2, 0.68,
+    _box(ax, 0.2, -0.02, 11.6, 0.68,
          "per-user override map $\\{r_i \\mapsto v_i\\}$  ($\\sim$88 KB at 100 facts) - only these rows differ from the base;\n"
          "everything else is bit-identical",
-         fc="#eef7ee", ec="#3a7d3a", lw=1.0, fs=12.5, style=box_style)
+         fc="#eef7ee", ec="#3a7d3a", lw=1.0, fs=15, style=box_style)
     _arrow(ax, 6.0, sy, 6.0, 0.67, color="#3a7d3a", lw=1.1)
 
     plt.tight_layout()

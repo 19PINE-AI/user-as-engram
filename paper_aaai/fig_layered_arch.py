@@ -34,9 +34,9 @@ plt.rcParams.update({
     "pdf.fonttype": 42,
     "ps.fonttype": 42,
     "font.family": "serif",
-    "font.size": 12,
-    "axes.titlesize": 14,
-    "legend.fontsize": 11,
+    "font.size": 16,
+    "axes.titlesize": 18,
+    "legend.fontsize": 15,
 })
 
 fig = plt.figure(figsize=(11.0, 4.3))
@@ -59,34 +59,35 @@ for col, idxs in users.items():
 for i in range(N):
     col = slot_owner.get(i, C_GREY)
     edge = C_GREY_E if i not in slot_owner else "#333333"
-    lw = 0.6 if i not in slot_owner else 1.1
+    lw = 0.85 if i not in slot_owner else 1.1
     x = x0 + i * pitch
     ax.add_patch(Rectangle((x, y_tab), slot_w, h_tab,
                            facecolor=col, edgecolor=edge, lw=lw,
                            alpha=0.95 if i in slot_owner else 1.0))
 # "continues" marker
 xend = x0 + N * pitch
-ax.text(xend + 1.0, y_tab + h_tab / 2, r"$\cdots$", fontsize=17,
+ax.text(xend + 1.0, y_tab + h_tab / 2, r"$\cdots$", fontsize=18,
         va="center", color="#555")
-ax.text(xend + 4.6, y_tab + h_tab / 2, "millions\nof rows", fontsize=10,
-        va="center", ha="left", color="#777", style="italic")
+ax.text(xend + 4.6, y_tab + h_tab / 2, "millions\nof rows", fontsize=15.2,
+        va="center", ha="left", color="#666", style="italic")
 
 # Top-layer heading
 ax.text(x0, y_tab + h_tab + 3.4, "1.  Content",
-        fontsize=15.5, color=C_TEXT, fontweight="bold", va="bottom")
+        fontsize=18, color=C_TEXT, fontweight="bold", va="bottom")
 ax.text(x0 + 14.5, y_tab + h_tab + 3.4,
         "— each user's facts as local Engram-row overrides",
-        fontsize=12, color="#444", va="bottom")
+        fontsize=16, color="#444", va="bottom")
+ax.texts[-1].remove()
 ax.text(x0, y_tab + h_tab + 1.0,
         "Engram memory table  (addressed by trigger N-gram)",
-        fontsize=11, color="#666", va="bottom", style="italic")
+        fontsize=15.2, color="#666", va="bottom", style="italic")
 
 # Locality callout pinned to a right-side User-A slot (clears the heading)
 xa = x0 + 31 * pitch + slot_w / 2
 ax.annotate("write a user's fact = override only its rows\n"
             r"($\Delta$bpb on held-out unrelated text $= +0.0001$)",
-            xy=(xa, y_tab + h_tab), xytext=(xa - 4, y_tab + h_tab + 8.0),
-            fontsize=11, color=C_A, ha="center",
+            xy=(xa, y_tab + h_tab), xytext=(xa + 5, y_tab + h_tab + 3.0),
+            fontsize=15.2, color=C_A, ha="center",
             arrowprops=dict(arrowstyle="->", color=C_A, lw=1.2))
 
 # ---------------------------------------------------------------------------
@@ -100,19 +101,19 @@ items = [(C_GREY, C_GREY_E, "pretrained general knowledge"),
 lx = x0
 for fc, ec, label in items:
     ax.add_patch(Rectangle((lx, leg_y - 0.2), 2.2, 2.2, facecolor=fc,
-                           edgecolor=ec, lw=0.8))
-    ax.text(lx + 2.9, leg_y + 0.9, label, fontsize=11, va="center",
+                           edgecolor=ec, lw=0.85))
+    ax.text(lx + 2.9, leg_y + 0.9, label, fontsize=15.2, va="center",
             color=C_TEXT)
     lx += 5.0 + len(label) * 1.42
 ax.text(xend + 4.6, leg_y + 0.9, "distinct addresses\n⇒ users never overlap",
-        fontsize=10, va="center", ha="left", color="#777", style="italic")
+        fontsize=15.2, va="center", ha="left", color="#777", style="italic")
 
 # ---------------------------------------------------------------------------
 ax.texts[-1].remove()  # Remove the unsupported claim that users never overlap.
 
 # BOTTOM LAYER: frozen backbone + one shared LoRA, full width
 # ---------------------------------------------------------------------------
-y_base, h_base = 5.5, 13.0
+y_base, h_base = 7.0, 13.0
 base = FancyBboxPatch((x0, y_base), xend - x0 + 6.5, h_base,
                       boxstyle="round,pad=0.2,rounding_size=0.4",
                       linewidth=1.3, edgecolor="#555", facecolor="#f4f4f4")
@@ -126,25 +127,25 @@ ax.add_patch(lora)
 
 cx = (x0 + xend) / 2
 ax.text(x0 + 1.2, y_base + h_base - 1.6, "frozen Mini-Engram backbone",
-        fontsize=10, color="#777", va="center", style="italic")
+        fontsize=15.2, color="#666", va="center", style="italic")
 ax.text(cx, y_base + 7.0, "2.  Reasoning skill",
-        fontsize=15.5, color=C_SKILL, ha="center", fontweight="bold")
+        fontsize=18, color=C_SKILL, ha="center", fontweight="bold")
 ax.text(cx, y_base + 4.4,
         "one shared LoRA  —  trained once across other users, amortized over everyone",
-        fontsize=12, color="#225522", ha="center")
+        fontsize=16, color="#225522", ha="center")
 
 # Spanning bracket beneath the LoRA to stress "shared by all users above"
 ax.annotate("", xy=(x0 + 5, y_base + 2.2), xytext=(xend, y_base + 2.2),
             arrowprops=dict(arrowstyle="<->", color="#999", lw=1.0))
-ax.text(cx, y_base + 1.0, "the same skill serves every user above",
-        fontsize=10, color="#888", ha="center", style="italic")
+ax.text(cx, y_base + 0.3, "the same skill serves every user above",
+        fontsize=15.2, color="#666", ha="center", style="italic")
 
 # ---------------------------------------------------------------------------
 # Connector between the two layers (content sits on the shared substrate)
 # ---------------------------------------------------------------------------
 for fx in (x0 + 6, cx, xend - 4):
     ax.add_patch(FancyArrowPatch((fx, y_tab - 0.3), (fx, y_base + h_base + 0.3),
-                                 arrowstyle="-", color="#bbb", lw=0.8,
+                                 arrowstyle="-", color="#bbb", lw=0.85,
                                  linestyle=(0, (2, 2))))
 
 fig.savefig(OUT / "fig_layered_arch.pdf", bbox_inches="tight", pad_inches=0.02)
