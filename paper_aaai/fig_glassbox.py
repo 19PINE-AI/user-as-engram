@@ -23,10 +23,12 @@ import numpy as np
 from matplotlib.colors import LogNorm
 
 plt.rcParams.update({
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42,
     "font.family": "serif",
     "font.serif": ["Palatino", "Palatino Linotype", "Times New Roman", "DejaVu Serif"],
     "font.size": 9, "axes.titlesize": 10, "axes.labelsize": 9,
-    "xtick.labelsize": 8, "ytick.labelsize": 8, "legend.fontsize": 8,
+    "xtick.labelsize": 9, "ytick.labelsize": 9, "legend.fontsize": 9,
     "axes.spines.top": False, "axes.spines.right": False,
     "figure.dpi": 150, "savefig.bbox": "tight", "savefig.pad_inches": 0.02,
 })
@@ -121,8 +123,8 @@ def fig_lora_vs_engram(model_tag="d12_1280"):
     trig = d["engram"]["trig_pos"]
     lora = np.array(d["lora"]["trigger_map"])              # [layers, pos]
 
-    # Side-by-side panels for a full-page-width figure.
-    fig, axes = plt.subplots(1, 2, figsize=(8.6, 2.7), sharey=True)
+    # Generate at its printed width so 9-point labels remain 9 point in LaTeX.
+    fig, axes = plt.subplots(1, 2, figsize=(5.2, 1.65), sharey=True)
     floor = 1e-3
     vmax = max(eng.max(), lora.max())
 

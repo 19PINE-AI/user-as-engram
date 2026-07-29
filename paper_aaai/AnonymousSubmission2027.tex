@@ -158,8 +158,7 @@ complementary biological memory systems
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.80\textwidth,trim=0 34bp 0 0,clip]{figs/fig_layered_arch.pdf}
-  \captionsetup{skip=3pt}
+  \includegraphics[width=0.80\textwidth]{figs/fig_layered_arch.pdf}
   \caption{Local Engram content with a shared Transformer and reasoning adapter.}
   \label{fig:layered-arch}
 \end{figure*}
@@ -359,10 +358,8 @@ $5\times10^{-4}$, $\alpha=128$) against Joint OPT (1,500 steps, rate 0.5).
 
 \begin{table}[t]
   \centering
-  \caption{Mini-Engram backbones pretrained by us from scratch. All share the
-  51.2M-parameter memory table.}
-  \label{tab:protocol}
-  \resizebox{\linewidth}{!}{\begin{tabular}{lrrrr}
+  \small
+  \begin{tabular}{@{}l@{\hspace{7pt}}r@{\hspace{7pt}}r@{\hspace{7pt}}r@{\hspace{7pt}}r@{}}
     \toprule
       & d8 v2 & d12 v2 & d12@1280 & d20@1536 \\
     \midrule
@@ -372,7 +369,10 @@ $5\times10^{-4}$, $\alpha=128$) against Joint OPT (1,500 steps, rate 0.5).
     ClimbMix tokens & 0.50B & 1.32B & 3.34B & 7.40B \\
     validation bpb & .912 & .827 & .770 & .730 \\
     \bottomrule
-  \end{tabular}}
+  \end{tabular}
+  \caption{Mini-Engram backbones pretrained by us from scratch. All share the
+  51.2M-parameter memory table.}
+  \label{tab:protocol}
 \end{table}
 
 \textbf{Metrics.} We rank the gold first BPE token at the trigger: top-1 is
@@ -460,9 +460,6 @@ local facts instead of relearning content and skill in every user's adapter.
 \begin{table*}[t]
   \centering
   \small
-  \caption{LOCOMO token-F1 by category and model. Joint OPT is compared with
-  the stronger retrieval baseline in each cell.}
-  \label{tab:locomo-categories}
   \begin{tabular}{llcccc}
     \toprule
     category & answering LM & MEM0 & MemMachine & \textbf{Engram Joint OPT} & lead vs.\ best retr. \\
@@ -484,6 +481,9 @@ local facts instead of relearning content and skill in every user's adapter.
       & d20 & 0.314 & \textbf{0.338} & 0.159 & \textbf{$-$53\%} \\
     \bottomrule
   \end{tabular}
+  \caption{LOCOMO token-F1 by category and model. Joint OPT is compared with
+  the stronger retrieval baseline in each cell.}
+  \label{tab:locomo-categories}
 \end{table*}
 
 The paraphrase result separates address coverage from answer quality.
@@ -503,8 +503,6 @@ multi-hop questions.
 \begin{table*}[t]
   \centering
   \small
-  \caption{Three-seed robustness on Mini-Engram-d20 ($n=20$ users per seed).}
-  \label{tab:seed-robustness}
   \begin{tabular}{lrrrr}
     \toprule
     Quantity & S0 & S1 & S2 & Mean (range) \\
@@ -517,6 +515,8 @@ multi-hop questions.
     worse than base (layered / LoRA) & 0/20 / 17/20 & 0/20 / 16/20 & 0/20 / 16/20 & 0/60 / 49/60 \\
     \bottomrule
   \end{tabular}
+  \caption{Three-seed robustness on Mini-Engram-d20 ($n=20$ users per seed).}
+  \label{tab:seed-robustness}
 \end{table*}
 
 \paragraph{Interpreting the comparisons.}
@@ -745,7 +745,6 @@ be learned once and shared (Figure~\ref{fig:layered-arch}).
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figs/fig_layered_arch.pdf}
-  \captionsetup{skip=4pt}
   \caption{\textbf{User as Engram} splits personal memory into two
   layers, mirroring the brain's complementary learning systems.
   \textbf{Top (content).} Each user's facts are written as a few local

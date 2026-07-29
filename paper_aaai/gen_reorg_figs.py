@@ -7,6 +7,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+plt.rcParams.update({"pdf.fonttype": 42, "ps.fonttype": 42})
+
 BLUE = "#34507F"    # ours (Engram / layered)
 RED = "#C24A3F"     # LoRA / retrieval baseline
 GRAY = "#8A8F9A"
@@ -138,11 +140,12 @@ def fig_multihop():
 
 # ---------------------------------------------------------------- M. layered conditions
 def fig_layered_conditions():
-    fig, (a1, a2) = plt.subplots(2, 1, figsize=(5.4, 4.6), sharex=True)
+    # Generate at column width so labels retain their specified point sizes.
+    fig, (a1, a2) = plt.subplots(2, 1, figsize=(3.25, 2.65), sharex=True)
     # Stacked, single-word-per-line tick labels avoid the horizontal collisions
     # of the old "A: per-user LoRA" labels; the framing text moves to the caption.
-    conds = ["base", "per-user\nLoRA", "per-user\nEngram",
-             "LoRA+\nEngram", "shared\nLoRA", "Engram+\nshared LoRA"]
+    conds = ["base", "user LoRA", "user Engram",
+             "LoRA+Engram", "shared LoRA", "Engram+shared"]
     direct = [29, 99, 100, 100, 54, 100]
     indirect_any = [19, 6, 23, 8, 44, 44]
     dbpb = [0.000, 1.784, 0.00005, 1.819, 0.386, 0.386]
@@ -154,13 +157,14 @@ def fig_layered_conditions():
     a1.set_ylabel("recall (%)", fontsize=9)
     a1.set_ylim(0, 116)
     # Legend sits above the axes so it never overlaps the tall direct-recall bars.
-    a1.legend(frameon=False, fontsize=8.5, ncol=2, loc="lower center",
+    a1.legend(frameon=False, fontsize=9, ncol=2, loc="lower center",
               bbox_to_anchor=(0.5, 1.0))
     clean(a1)
     # contamination
     colors = [RED if d > 0.5 else BLUE for d in dbpb]
     a2.bar(x, dbpb, color=colors, width=0.6)
-    a2.set_xticks(x); a2.set_xticklabels(conds, fontsize=7.6)
+    a2.set_xticks(x); a2.set_xticklabels(conds, fontsize=9, rotation=35,
+                                        ha="right", rotation_mode="anchor")
     a2.set_ylabel(r"$\Delta$bpb on unrelated text", fontsize=9)
     a2.set_ylim(0, 2.05)
     clean(a2)

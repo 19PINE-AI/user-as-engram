@@ -17,14 +17,16 @@ import numpy as np
 
 # NeurIPS-style figure setup
 plt.rcParams.update({
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42,
     "font.family": "serif",
     "font.serif": ["Palatino", "Palatino Linotype", "Times New Roman", "DejaVu Serif"],
     "font.size": 9,
     "axes.titlesize": 10,
     "axes.labelsize": 9,
-    "xtick.labelsize": 8,
-    "ytick.labelsize": 8,
-    "legend.fontsize": 8,
+    "xtick.labelsize": 9,
+    "ytick.labelsize": 9,
+    "legend.fontsize": 9,
     "figure.dpi": 150,
     "savefig.bbox": "tight",
     "savefig.pad_inches": 0.02,
@@ -389,7 +391,8 @@ def fig_pareto():
 # ============================================================
 def fig_locomo_scaling():
     """LOCOMO token-F1 on the full 10-conversation evaluation."""
-    fig, ax = plt.subplots(figsize=(5.4, 2.9))
+    # Generate at column width so labels retain their specified point sizes.
+    fig, ax = plt.subplots(figsize=(3.25, 1.60))
 
     sizes = [178, 339, 625, 1224]
     size_labels = ["d8\n178M", "d12\n339M", "d12@1280\n625M", "d20@1536\n1.22B"]
@@ -403,16 +406,16 @@ def fig_locomo_scaling():
     mem0_tf    = [0.088, 0.131, 0.160, 0.161]
     nomem_tf   = [0.038, 0.036, 0.049, 0.046]
 
-    ax.plot(xs, jopt_tf,   "o-",  color=BLUE, lw=2, ms=7, label="Engram Joint OPT")
-    ax.plot(xs, mem0_tf,   "s--", color=RED, lw=1.5, ms=5, label="MEM0_LIKE")
-    ax.plot(xs, memmach_tf,"^--", color=PURPLE, lw=1.5, ms=5, label="MEMMACHINE_LIKE")
-    ax.plot(xs, nomem_tf,  "x--", color=GRAY, lw=1.0, ms=4, label="NO_MEMORY")
-    ax.set_xticks(xs); ax.set_xticklabels(size_labels, fontsize=7.5)
+    ax.plot(xs, jopt_tf,   "o-",  color=BLUE, lw=2, ms=7, label="Engram")
+    ax.plot(xs, mem0_tf,   "s--", color=RED, lw=1.5, ms=5, label="MEM0")
+    ax.plot(xs, memmach_tf,"^--", color=PURPLE, lw=1.5, ms=5, label="MemMachine")
+    ax.plot(xs, nomem_tf,  "x--", color=GRAY, lw=1.0, ms=4, label="No memory")
+    ax.set_xticks(xs); ax.set_xticklabels(size_labels, fontsize=9)
     ax.set_xlim(-0.3, len(sizes) - 0.7)
-    ax.set_xlabel("Mini-Engram dense parameters", fontsize=8.5)
-    ax.set_ylabel("LOCOMO token F1", fontsize=8.5)
+    ax.set_xlabel("Mini-Engram dense parameters", fontsize=9)
+    ax.set_ylabel("LOCOMO token F1", fontsize=9)
     ax.set_ylim(0.0, 0.27)
-    ax.legend(loc="upper left", fontsize=7)
+    ax.legend(loc="upper left", fontsize=9, ncol=2)
 
     fig.tight_layout()
     fig.savefig(OUT / "fig_locomo_scaling.pdf")

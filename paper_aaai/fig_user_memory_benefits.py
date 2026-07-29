@@ -14,6 +14,8 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 import numpy as np
 
+plt.rcParams.update({"pdf.fonttype": 42, "ps.fonttype": 42})
+
 
 BLUE = "#34507F"
 BLUE_LT = "#DDE5F2"
@@ -42,23 +44,24 @@ def lifecycle_box(ax, x, color, fill, title, rows):
     ax.add_patch(box)
     ax.text(
         x + 0.2275, 0.72, title, ha="center", va="center",
-        fontsize=8.3, fontweight="bold", color=color, transform=ax.transAxes,
+        fontsize=9.5, fontweight="bold", color=color, transform=ax.transAxes,
     )
     for heading_y, body_y, heading, body in rows:
         ax.text(
             x + 0.025, heading_y, heading, ha="left", va="center",
-            fontsize=7.0, fontweight="bold", color="#252932",
+            fontsize=9.0, fontweight="bold", color="#252932",
             transform=ax.transAxes,
         )
         ax.text(
             x + 0.025, body_y, body, ha="left", va="center",
-            fontsize=6.8, color="#252932", transform=ax.transAxes,
+            fontsize=9.0, color="#252932", transform=ax.transAxes,
         )
 
 
 def main():
-    fig = plt.figure(figsize=(4.8, 4.45))
-    gs = fig.add_gridspec(3, 1, height_ratios=[1.0, 1.32, 1.05], hspace=0.46)
+    # Generate at column width so labels retain their specified point sizes.
+    fig = plt.figure(figsize=(3.25, 3.5))
+    gs = fig.add_gridspec(3, 1, height_ratios=[0.85, 2.10, 0.85], hspace=0.62)
 
     # (a) The inserted facts are sparse state, not a model-shaped adapter.
     ax = fig.add_subplot(gs[0])
@@ -68,15 +71,15 @@ def main():
     ax.barh(y, storage_kb, color=[BLUE, RED], height=0.48)
     ax.set_xscale("log")
     ax.set_xlim(30, 35_000)
-    ax.set_yticks(y, labels, fontsize=7.8)
+    ax.set_yticks(y, labels, fontsize=9)
     ax.invert_yaxis()
     ax.set_title("(a)  State for 100 inserted facts (KB, log scale)", loc="left",
-                 fontsize=8.8, fontweight="bold", pad=3)
-    ax.text(105, 0, "88 KB", va="center", fontsize=7.8, fontweight="bold", color=BLUE)
-    ax.text(12_900, 1, "14.2 MB", va="center", ha="right", fontsize=7.8,
+                 fontsize=9.5, fontweight="bold", pad=3)
+    ax.text(105, 0, "88 KB", va="center", fontsize=9, fontweight="bold", color=BLUE)
+    ax.text(12_900, 1, "14.2 MB", va="center", ha="right", fontsize=9,
             fontweight="bold", color="white")
     ax.text(600, 0.51, r"$161\times$ smaller", ha="center", va="center",
-            fontsize=8.2, fontweight="bold", color=BLUE)
+            fontsize=9, fontweight="bold", color=BLUE)
     clean(ax)
 
     # (b) Lifecycle is an operation on addressed records for Engram; a LoRA has
@@ -84,19 +87,19 @@ def main():
     ax = fig.add_subplot(gs[1])
     ax.set_axis_off()
     ax.set_title("(b)  Fact lifecycle avoids adapter retraining", loc="left",
-                 fontsize=8.8, fontweight="bold", pad=3)
+                 fontsize=9.5, fontweight="bold", pad=3)
     lifecycle_box(
-        ax, 0.0, BLUE, BLUE_LT, "USER-AS-ENGRAM",
+        ax, 0.0, BLUE, BLUE_LT, "ENGRAM",
         [
-            (0.55, 0.43, "WRITE / UPDATE", "closed form; OPT optional"),
-            (0.28, 0.16, "DELETE USER MAP", "drop overrides; zero gradient steps"),
+            (0.54, 0.40, "WRITE", "closed form; OPT"),
+            (0.22, 0.09, "DELETE MAP", "drop map"),
         ],
     )
     lifecycle_box(
-        ax, 0.545, RED, RED_LT, "USER-AS-LoRA",
+        ax, 0.545, RED, RED_LT, "PER-USER LoRA",
         [
-            (0.55, 0.43, "WRITE / UPDATE", "per-user adapter optimization"),
-            (0.28, 0.16, "DELETE ONE FACT", "no address; retrain or unlearn"),
+            (0.54, 0.40, "WRITE", "train adapter"),
+            (0.22, 0.09, "DELETE FACT", "retrain / unlearn"),
         ],
     )
 
@@ -108,18 +111,14 @@ def main():
     y = np.arange(2)
     ax.barh(y, reasoning, color=[BLUE, RED], height=0.48)
     ax.set_xlim(0, 50)
-    ax.set_yticks(y, labels, fontsize=7.8)
+    ax.set_yticks(y, labels, fontsize=9)
     ax.invert_yaxis()
-    ax.set_xlabel("indirect reasoning over held-out user facts (%)", fontsize=7.8)
+    ax.set_xlabel("indirect reasoning over held-out user facts (%)", fontsize=9)
     ax.set_title("(c)  Local facts support indirect and multi-hop use", loc="left",
-                 fontsize=8.8, fontweight="bold", pad=3)
+                 fontsize=9.5, fontweight="bold", pad=3)
     for yi, value in zip(y, reasoning):
-        ax.text(value + 0.9, yi, f"{value:.1f}%", va="center", fontsize=7.8,
+        ax.text(value + 0.9, yi, f"{value:.1f}%", va="center", fontsize=9,
                 fontweight="bold", color=BLUE if yi == 0 else RED)
-    ax.text(25.0, 0.64,
-            "$5.6\\times$ vs LoRA;  LOCOMO multi-hop:\n+120--178% vs retrieval",
-            ha="center", va="center", fontsize=6.9, fontweight="bold",
-            color=GREEN, linespacing=1.05)
     clean(ax)
 
     fig.savefig("figs/fig_user_memory_benefits.pdf", bbox_inches="tight")

@@ -12,6 +12,8 @@ The six-condition Pareto lives separately in fig_pareto_layered.pdf.
 import os
 UAE_ROOT = os.environ.get("USER_AS_ENGRAM_ROOT",
                           os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, Rectangle, FancyArrowPatch
 from pathlib import Path
@@ -29,6 +31,8 @@ C_SKILL  = "#117733"   # shared LoRA
 C_TEXT   = "#222222"
 
 plt.rcParams.update({
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42,
     "font.family": "serif",
     "font.size": 12,
     "axes.titlesize": 14,

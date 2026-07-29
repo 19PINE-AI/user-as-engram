@@ -14,6 +14,8 @@ import matplotlib.pyplot as plt
 # Shared paper style: serif type, despined axes, light dotted grid, and the
 # canonical palette (slate blue = ours, muted red = primary baseline).
 plt.rcParams.update({
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42,
     "font.family": "serif",
     "font.serif": ["Palatino", "Palatino Linotype", "Times New Roman", "DejaVu Serif"],
     "font.size": 9,
