@@ -8,7 +8,7 @@ Reads:
   results/scale_eval.json (or results/{tag}__scale.json) — original d12@768 + new sizes
   results/locomo_eval.json (or results/{tag}__locomo.json) — original d12@768 + new sizes
 
-Produces a side-by-side scaling table for paper §6.
+Produces the paper's side-by-side dense-scaling summary.
 """
 from __future__ import annotations
 import os

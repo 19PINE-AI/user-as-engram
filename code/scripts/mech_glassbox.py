@@ -1,5 +1,6 @@
 """
-Glass-box mechanistic probes on the TRAINED Mini-Engram (paper §4 Mechanism).
+Glass-box mechanistic probes on the trained Mini-Engram, corresponding to the
+paper's named mechanism analysis.
 
 Consolidates four measurements that the original appendix only had on the
 random-init demo (read probe) or on a single fact (locality):

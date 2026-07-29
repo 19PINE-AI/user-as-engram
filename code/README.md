@@ -1,6 +1,8 @@
 # Code
 
-Everything needed to run the experiments lives here — no external checkouts.
+The experiment entry points and vendored nanochat harness live here. Runs also
+require the checkpoints named below and, for LOCOMO evaluations, the benchmark
+data described under “Data the scripts read.”
 
 ```
 code/
@@ -8,7 +10,7 @@ code/
                       Engram integration: nanochat/engram_module.py (new) and edits
                       to nanochat/gpt.py (Engram hooks in Block.forward,
                       GPT.attach_engram, optimizer wiring).
-  scripts/            our experiment scripts — every paper result (index below).
+  scripts/            experiment scripts used for the paper (index below).
   lora_baseline/      the per-user-LoRA (POLAR) baseline and the synthetic-data /
                       teacher-trace generators (Hugging Face / PEFT, standalone).
   requirements.txt

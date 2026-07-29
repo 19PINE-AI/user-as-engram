@@ -1,5 +1,5 @@
 """
-P10 — Mechanistic analysis of Engram (paper §6.1).
+P10 — Mechanistic analysis of Engram (the paper's named mechanism analysis).
 
 Two analyses on a trained Mini-Engram checkpoint:
 

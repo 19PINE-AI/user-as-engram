@@ -13,7 +13,7 @@ For questions about the repo, I recommend either using [DeepWiki](https://deepwi
 
 ## Time-to-GPT-2 Leaderboard
 
-Presently, the main focus of development is on tuning the pretraining stage, which takes the most amount of compute. Inspired by the modded-nanogpt repo and to incentivise progress and community collaboration, nanochat maintains a leaderboard for a "GPT-2 speedrun", which is the wall-clock time required to train a nanochat model to GPT-2 grade capability, as measured by the DCLM CORE score. The [runs/speedrun.sh](runs/speedrun.sh) script always reflects the reference way to train GPT-2 grade model and talk to it. The current leaderboard looks as follows:
+Presently, the main focus of development is on tuning the pretraining stage, which takes the most amount of compute. Inspired by the modded-nanogpt repo and to incentivise progress and community collaboration, nanochat maintains a leaderboard for a "GPT-2 speedrun", which is the wall-clock time required to train a nanochat model to GPT-2 grade capability, as measured by the DCLM CORE score. The [runs/speedrun.sh](https://github.com/karpathy/nanochat/blob/master/runs/speedrun.sh) script always reflects the reference way to train GPT-2 grade model and talk to it. The current leaderboard looks as follows:
 
 | # | time | val_bpb | CORE | Description | Date | Commit | Contributors |
 |---|-------------|---------|------|-------------|------|--------|--------------|
@@ -27,7 +27,7 @@ Presently, the main focus of development is on tuning the pretraining stage, whi
 
 The primary metric we care about is "time to GPT-2" - the wall clock time needed to outperform the GPT-2 (1.6B) CORE metric on an 8XH100 GPU node. The GPT-2 CORE score is 0.256525. In 2019, the training of GPT-2 cost approximately $43,000 so it is incredible that due to many advances over 7 years across the stack, we can now do so much faster and for well below $100 (e.g. at the current ~$3/GPU/hr, an 8XH100 node is ~$24/hr, so 2 hours is ~$48).
 
-See [dev/LEADERBOARD.md](dev/LEADERBOARD.md) for more docs on how to interpret and contribute to the leaderboard.
+See [dev/LEADERBOARD.md](https://github.com/karpathy/nanochat/blob/master/dev/LEADERBOARD.md) for more docs on how to interpret and contribute to the leaderboard.
 
 ## Getting started
 
@@ -49,7 +49,7 @@ uv sync --extra gpu --group dev
 
 ### Reproduce and talk to GPT-2
 
-The most fun you can have is to train your own GPT-2 and talk to it. The entire pipeline to do so is contained in the single file [runs/speedrun.sh](runs/speedrun.sh), which is designed to be run on an 8XH100 GPU node. Boot up a new 8XH100 GPU box from your favorite provider (e.g. I use and like [Lambda](https://lambda.ai/service/gpu-cloud)), and kick off the training script:
+The most fun you can have is to train your own GPT-2 and talk to it. The entire pipeline to do so is contained in the upstream file [runs/speedrun.sh](https://github.com/karpathy/nanochat/blob/master/runs/speedrun.sh), which is designed to be run on an 8XH100 GPU node. Boot up a new 8XH100 GPU box from your favorite provider (e.g. I use and like [Lambda](https://lambda.ai/service/gpu-cloud)), and kick off the training script from a full upstream checkout:
 
 ```bash
 bash runs/speedrun.sh
@@ -78,7 +78,7 @@ A few more notes:
 
 ## Research
 
-If you are a researcher and wish to help improve nanochat, two scripts of interest are [runs/scaling_laws.sh](runs/scaling_laws.sh) and [runs/miniseries.sh](runs/miniseries.sh). See [Jan 7 miniseries v1](https://github.com/karpathy/nanochat/discussions/420) for related documentation. For quick experimentation (~5 min pretraining runs) my favorite scale is to train a 12-layer model (GPT-1 sized), e.g. like this:
+If you are a researcher and wish to help improve nanochat, two scripts of interest are [runs/scaling_laws.sh](https://github.com/karpathy/nanochat/blob/master/runs/scaling_laws.sh) and [runs/miniseries.sh](https://github.com/karpathy/nanochat/blob/master/runs/miniseries.sh). See [Jan 7 miniseries v1](https://github.com/karpathy/nanochat/discussions/420) for related documentation. For quick experimentation (~5 min pretraining runs) my favorite scale is to train a 12-layer model (GPT-1 sized), e.g. like this:
 
 ```
 OMP_NUM_THREADS=1 torchrun --standalone --nproc_per_node=8 -m scripts.base_train -- \
@@ -102,7 +102,7 @@ The important thing to note is that nanochat is written and configured around on
 
 ## Running on CPU / MPS
 
-The script [runs/runcpu.sh](runs/runcpu.sh) shows a very simple example of running on CPU or Apple Silicon. It dramatically shrinks the LLM that is being trained to make things fit into a reasonable time interval of a few ten minutes of training. You will not get strong results in this way.
+The upstream script [runs/runcpu.sh](https://github.com/karpathy/nanochat/blob/master/runs/runcpu.sh) shows a very simple example of running on CPU or Apple Silicon. It dramatically shrinks the LLM that is being trained to make things fit into a reasonable time interval of a few ten minutes of training. You will not get strong results in this way.
 
 ## Precision / dtype
 

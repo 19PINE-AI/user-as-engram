@@ -1,5 +1,7 @@
 """
 SFT-LoRA baseline for User-as-Engram comparison.
+Implements the comparison in “Why Facts Should Not Be Per-User LoRA”
+(sec:negative).
 
 For each fact, we attach a *fresh* small LoRA adapter to the attention
 projections (c_q, c_k, c_v) of the model and train it for N steps on

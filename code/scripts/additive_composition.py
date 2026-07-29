@@ -15,6 +15,9 @@ If addresses are disjoint, recall on each override should match the
 recall when applied alone. If addresses collide, we observe per-fact
 degradation; we report the collision rate and recall.
 
+This tests user/domain composition from “Multi-Tenant Serving” (sec:serving) by
+evaluating each override map alone and together while recording collisions.
+
 Usage:
   python -m scripts.additive_composition --ckpt-dir $NANOCHAT_BASE_DIR/engram_runs/engram_d12
 """

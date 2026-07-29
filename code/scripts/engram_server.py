@@ -1,7 +1,10 @@
 """
 Multi-user Engram serving system.
 
-Architecture:
+Architecture for the sparse per-user and per-domain state in
+“Multi-Tenant Serving” (sec:serving)
+(organization rows precede user rows at colliding addresses):
+
   - One server holds the frozen base + global Engram tables.
   - Per user, an OverrideMap: List[(global_row_idx, row_vector)].
   - Per organisation/domain, the same OverrideMap structure.

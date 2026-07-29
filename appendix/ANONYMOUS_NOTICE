@@ -1,0 +1,18 @@
+Anonymous Code and Data Appendix
+
+Original code and data in this archive are provided under the Apache License,
+Version 2.0, included as LICENSE.
+
+Third-party component:
+
+- nanochat training/evaluation harness: MIT License, Copyright (c) 2025 Andrej
+  Karpathy. The retained license is located at
+  code/nanochat_harness/LICENSE. The archive includes modifications that add
+  the Engram integration used in the submitted experiments.
+
+The Engram architecture is described by Cheng et al. (2026),
+arXiv:2601.07372. No DeepSeek source code is redistributed.
+
+LOCOMO is a third-party benchmark and is not redistributed. Its public release
+is required only to rerun LOCOMO evaluation; committed numerical results are
+included for inspection.

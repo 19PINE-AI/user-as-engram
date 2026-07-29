@@ -6,6 +6,9 @@ captures the *meta-skill* (how to reason about facts in context) without
 memorising any specific user's content. The per-user Engram override is what
 will provide the content at inference time (in layered_architecture.py).
 
+This is the shared-skill training stage in “Shared Skill, Local Content”
+(sec:layered).
+
 Training corpus: for each held-out training user (u020–u029):
   - "completion fact" samples:    "<prompt prefix> <gold>"
   - "in-context reasoning" samples: "Facts: <fact1>. <fact2>. ...

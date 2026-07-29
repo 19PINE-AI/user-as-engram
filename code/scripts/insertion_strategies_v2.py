@@ -2,6 +2,7 @@
 P6 — Improved insertion strategies for User-as-Engram.
 
 Adds two strategies on top of RANDOM/WTE/UNEMBED_P:
+
   - DUAL: jointly choose K and V to (i) make the gate fire (K aligns with
           h_t at the trigger position), (ii) push the residual toward
           unembed[gold] (V = W_V_pinv @ unembed[gold]). To do both with one
@@ -12,6 +13,9 @@ Adds two strategies on top of RANDOM/WTE/UNEMBED_P:
          logit(gold) while staying L2-close to a UNEMBED_P initial guess.
          No backprop through the rest of the model is needed; we just
          differentiate the LM head against the row.
+
+The helpers below implement the addressed-row calculation, UNEMBED_P and OPT
+writes, and temporary apply/restore evaluation in “User as Engram” (sec:method).
 
 Compared to user_facts_demo.py, this script:
   - takes a wider repertoire of strategies via --strategies

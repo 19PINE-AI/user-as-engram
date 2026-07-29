@@ -1,5 +1,6 @@
 """
 Engram module ported to nanochat.
+Implements the lookup, gate, and residual in “User as Engram” (sec:method).
 
 Adapted from deepseek-ai/Engram's engram_demo_v1.py to:
   - drop the multi-branch (hc_mult=4) integration; nanochat is single-branch
@@ -275,7 +276,7 @@ class _ShortConv(nn.Module):
 class EngramLayer(nn.Module):
     """
     A single Engram module attached at a given layer.
-    Mirrors the paper's §2.3 single-branch fusion:
+    Implements the addressed lookup in “User as Engram” (sec:method):
         e_t = concat over (n, h) of E_{n,h}[hash(...)]
         k_t = W_K e_t,  v_t = W_V e_t
         alpha_t = sigmoid(RMS(h_t) . RMS(k_t) / sqrt(d))
@@ -301,7 +302,9 @@ class EngramLayer(nn.Module):
         # dilation = max_ngram so the conv kernel doesn't smear adjacent N-grams together too hard
         self.short_conv = _ShortConv(hidden_size, kernel_size=kernel_size, dilation=max_ngram_size)
         self.short_conv_norm = nn.RMSNorm(hidden_size, elementwise_affine=False)
-        # Conv params init zero so Engram starts as identity (paper's recipe).
+        # Zero-initialize the convolutional branch so the addressed Engram
+        # lookup begins as an identity-preserving addition, as described in
+        # “User as Engram” (sec:method).
         nn.init.zeros_(self.short_conv.conv.weight)
 
     def forward(self, hidden_states: torch.Tensor, embeddings: torch.Tensor) -> torch.Tensor:

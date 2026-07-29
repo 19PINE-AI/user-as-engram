@@ -10,6 +10,9 @@ Uses the XL/XXL corpora for high-fact-count tests (the per-user fact files have 
 users only have ~34 facts each. We follow joint_opt.py's setup but with
 the shared LoRA attached during training and eval.
 
+This produces the density and locality curves in “Shared Skill, Local Content”
+(sec:layered).
+
 Usage:
   python -m scripts.density_layered \\
        --ckpt-dir $NANOCHAT_BASE_DIR/engram_runs/engram_d20_w1536_optimal \\

@@ -1,5 +1,5 @@
 """
-E6 — Depth-of-insertion causal test (paper §4, "the edit lands where the model
+E6 — Depth-of-insertion causal test (the paper's mechanism claim that "the edit lands where the model
 has already deepened").
 
 An Engram model has Engram tables at an EARLY layer and a LATE layer

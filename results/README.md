@@ -1,6 +1,7 @@
 # Results
 
-Every JSON here is an experiment output that the paper figures are built from.
+This directory contains saved experiment outputs used to build the paper's
+figures and tables.
 Rebuild all 38 figures from these with no GPU:
 
 ```bash

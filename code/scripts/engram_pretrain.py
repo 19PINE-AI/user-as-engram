@@ -1,5 +1,6 @@
 """
 Mini-Engram pretraining driver.
+Implements the matched pretraining runs in “Experiments” (sec:experiments).
 
 Usage (from $USER_AS_ENGRAM_ROOT/nanochat/, with NANOCHAT_BASE_DIR set):
   python -m scripts.engram_pretrain --depth 8 --num-iterations 500 --device-batch-size 8 --total-batch-size 65536 --engram off  --run base

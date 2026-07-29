@@ -88,8 +88,8 @@ def main():
     lifecycle_box(
         ax, 0.0, BLUE, BLUE_LT, "USER-AS-ENGRAM",
         [
-            (0.55, 0.43, "WRITE / UPDATE", "closed form <1 ms (OPT optional)"),
-            (0.28, 0.16, "DELETE ONE FACT", r"drop $R_f$; zero gradient steps"),
+            (0.55, 0.43, "WRITE / UPDATE", "closed form; OPT optional"),
+            (0.28, 0.16, "DELETE USER MAP", "drop overrides; zero gradient steps"),
         ],
     )
     lifecycle_box(

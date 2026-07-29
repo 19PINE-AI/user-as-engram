@@ -7,6 +7,10 @@ of the others. Joint OPT shares the forward pass: each step samples a
 random fact, computes the gold-token loss, and backprops through ALL row
 leaves so they coordinate.
 
+This implements joint row optimization from “User as Engram” (sec:method):
+with UNEMBED_P, average collisions, freeze the model, optimize only those rows,
+evaluate them together, and restore the original table.
+
 Cost: O(steps * 1 fwd+bwd) per training run, comparable to one independent
 OPT run for one fact, but trains all N rows together. The result should
 match (or exceed) LoRA's recall at fixed N.

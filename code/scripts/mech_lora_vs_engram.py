@@ -1,5 +1,5 @@
 """
-E5 — LoRA vs Engram per-position effect map (paper §4, the side-by-side figure).
+E5 — LoRA vs Engram per-position effect map (the paper's named locality probe).
 
 Produces the two heatmaps that make "addressed write vs. global function-bend"
 visceral, on the SAME trigger sentence and the SAME model:

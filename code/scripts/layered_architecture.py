@@ -2,6 +2,7 @@
 Phases 2 + 3 of the layered architecture experiment.
 
 For each test user, evaluate 6 conditions on Mini-Engram-d20:
+These are the six conditions in “Shared Skill, Local Content” (sec:layered).
   A) NO_EDIT                 — baseline
   B) per-user LoRA (rank-64) — POLAR-class on Mini-Engram (global edit)
   C) per-user Engram J-OPT   — local edit baseline

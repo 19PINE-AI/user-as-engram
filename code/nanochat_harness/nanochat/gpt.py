@@ -156,7 +156,7 @@ class Block(nn.Module):
         self.mlp = MLP(config)
 
     def forward(self, x, ve, cos_sin, window_size, kv_cache, engram_set=None, input_ids=None, engram_suppress=False):
-        # Engram residual contribution (paper §2.3): inserted before attention,
+        # Addressed Engram residual contribution: inserted before attention,
         # at configured `layer_ids`. `engram_suppress=True` zeroes the contribution
         # for the §6.3 sensitivity ablation.
         if engram_set is not None and not engram_suppress:
@@ -207,7 +207,8 @@ class GPT(nn.Module):
         self.value_embeds = nn.ModuleDict({str(i): nn.Embedding(padded_vocab_size, kv_dim) for i in range(config.n_layer) if has_ve(i, config.n_layer)})
         # Engram (conditional memory) — instantiated only if engram_layer_ids is non-empty.
         # We hold it as an attribute so it does not show up in setup_optimizer's matrix_params
-        # (it gets its own optimizer group with the paper's 5x LR + no weight decay recipe).
+        # (it gets the Engram-pretraining optimizer group: 5x embedding LR and
+        # no weight decay, matching the paper's pretraining configuration).
         self.engram = None
         # Engram suppression flag (§6.3 sensitivity ablation): when True, forward zeroes
         # the Engram residual contribution. Default False.
@@ -455,7 +456,7 @@ class GPT(nn.Module):
         resid_params = [self.resid_lambdas]
         x0_params = [self.x0_lambdas]
         smear_params = [self.smear_gate.weight, self.smear_lambda, self.backout_lambda]
-        # Engram params: tables (sparse-lookup embeddings, paper's 5x LR no-WD) +
+        # Engram params: tables (sparse-lookup embeddings, 5x LR and no WD) +
         # Engram per-layer modules (W_K, W_V, RMSNorms, conv). Only rank-2 params
         # go to Muon (W_K, W_V); the depthwise conv (rank-3) goes to AdamW.
         engram_table_params = []
@@ -491,7 +492,7 @@ class GPT(nn.Module):
             dict(kind='adamw', params=x0_params, lr=scalar_lr, betas=(0.96, 0.95), eps=1e-10, weight_decay=0.0),  # higher beta1 for x0
             dict(kind='adamw', params=smear_params, lr=0.2, betas=(0.8, 0.95), eps=1e-10, weight_decay=0.0),
         ]
-        # Engram groups (paper §4.1: embedding tables get 5x LR with no weight decay)
+        # Engram pretraining groups: embedding tables get 5x LR with no weight decay.
         if engram_table_params:
             param_groups.append(dict(
                 kind='adamw', params=engram_table_params,

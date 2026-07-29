@@ -8,6 +8,9 @@ representing their personal facts written via OPT. At inference time:
      trigger-N-gram retrievals hit U's overrides
   3) Restore the originals (or swap to next user's overrides)
 
+This implements the apply/query/restore procedure and switching measurement in
+“Multi-Tenant Serving” (sec:serving).
+
 This is what real multi-tenant serving looks like — users do not share
 "live" hash slots. The shared address space across users (no override
 swapping) is a stress test of the worst-case scheduling, not a deployment

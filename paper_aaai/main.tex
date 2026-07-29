@@ -1,713 +1,95 @@
-\documentclass[letterpaper]{article} % DO NOT CHANGE THIS
-\usepackage[submission]{aaai2027}  % DO NOT CHANGE THIS
-% The serif, sans-serif, and monospaced fonts are loaded automatically by
-% aaai2027.sty (newtxtext, helvet, courier). DO NOT add \usepackage{times},
-% \usepackage{helvet}, \usepackage{courier}, or any other font package.
-\usepackage[hyphens]{url}  % DO NOT CHANGE THIS
-\usepackage{graphicx} % DO NOT CHANGE THIS
-\urlstyle{rm} % DO NOT CHANGE THIS
-\def\UrlFont{\rm}  % DO NOT CHANGE THIS
-\usepackage{natbib}  % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
-\usepackage{caption} % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
-\frenchspacing  % DO NOT CHANGE THIS
-%
-% Recommended for better-looking tables
-\usepackage{booktabs}
+\documentclass[11pt]{article}
+
+% Encoding
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Professional preprint style: fonts, geometry, headings, title, header.
+\usepackage{arxiv}
+
+% Content packages
+\usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{enumitem}
+\usepackage{nicefrac}
+\usepackage{booktabs}
 \usepackage{multirow}
+\usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{natbib}
 
-%
-% Keep the \pdfinfo as shown here. There's no need
-% for you to add the /Title and /Author tags.
-\pdfinfo{
-/TemplateVersion (2027.1)
+% hyperref loaded late, then colored to match the palette.
+\usepackage{hyperref}
+\usepackage{url}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=arxivaccent,
+  citecolor=arxivaccent,
+  urlcolor=arxivaccent,
+  filecolor=arxivaccent,
+  breaklinks=true,
 }
 
-% DISALLOWED PACKAGES
-% \usepackage{authblk} -- This package is specifically forbidden
-% \usepackage{balance} -- This package is specifically forbidden
-% \usepackage{CJK} -- This package is specifically forbidden
-% \usepackage{float} -- This package is specifically forbidden
-% \usepackage{flushend} -- This package is specifically forbidden
-% \usepackage{fullpage} -- This package is specifically forbidden
-% \usepackage{geometry} -- This package is specifically forbidden
-% \usepackage{hyperref} -- This package is specifically forbidden
-% \usepackage{navigator} -- This package is specifically forbidden
-% (or any other package that embeds links such as navigator or hyperref)
-% \usepackage{indentfirst} -- This package is specifically forbidden
-% \usepackage{layout} -- This package is specifically forbidden
-% \usepackage{multicol} -- This package is specifically forbidden
-% \usepackage{nameref} -- This package is specifically forbidden
-% \usepackage{savetrees} -- This package is specifically forbidden
-% \usepackage{setspace} -- This package is specifically forbidden
-% \usepackage{stfloats} -- This package is specifically forbidden
-% \usepackage{tabu} -- This package is specifically forbidden
-% \usepackage{titlesec} -- This package is specifically forbidden
-% \usepackage{tocbibind} -- This package is specifically forbidden
-% \usepackage{ulem} -- This package is specifically forbidden
-% \usepackage{wrapfig} -- This package is specifically forbidden
-% DISALLOWED COMMANDS
-% \nocopyright -- Your paper will not be published if you use this command
-% \addtolength -- This command may not be used
-% \balance -- This command may not be used
-% \baselinestretch -- Your paper will not be published if you use this command
-% \clearpage -- No page breaks of any kind may be used for the final version of your paper
-% \columnsep -- This command may not be used
-% \newpage -- No page breaks of any kind may be used for the final version of your paper
-% \pagebreak -- No page breaks of any kind may be used for the final version of your paper
-% \pagestyle -- This command may not be used
-% \tiny -- This is not an acceptable font size.
-% \vspace{- -- No negative value may be used in proximity of a caption, figure, table, section, subsection, subsubsection, or reference
-% \vskip{- -- No negative value may be used to alter spacing above or below a caption, figure, table, section, subsection, subsubsection, or reference
-
-\setcounter{secnumdepth}{0} %May be changed to 1 or 2 if section numbers are desired.
-
-% The file aaai2027.sty is the style file for AAAI Press
-% proceedings, working notes, and technical reports.
-%
-
-% Title
-
-% Your title must be in mixed case, not sentence case.
-% That means all verbs (including short verbs like be, is, using,and go),
-% nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
-% articles, conjunctions, and prepositions are lower case unless they
-% directly follow a colon or long dash
 \title{User as Engram: Internalizing Per-User Memory as Local Parametric Edits}
-\author{
-    Anonymous Submission
+
+\author{%
+	Bojie Li \\
+	Pine AI
 }
-\affiliations{
-    
-}
+
+\date{}
+\runningtitle{User as Engram: Internalizing Per-User Memory as Local Parametric Edits}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-Personal memory requires both mutable user facts and reusable reasoning.
-Retrieval-augmented generation (RAG) keeps facts external but pays a search or
-tool hop and serializes retrieved text at query time; per-user LoRA removes that
-path but stores each user as a global model update. We propose \textbf{User as
-Engram}: write content into hash-addressed memory rows and learn reasoning once
-in a shared adapter. Against per-user LoRA, the design provides three benefits.
-At 100 facts it uses 88\,KB rather than 14.2\,MB ($161\times$ less state);
-closed-form writes and removable per-user override maps avoid adapter
-retraining; and it
-matches direct recall while improving mean indirect reasoning by $5.6\times$,
-with its largest LOCOMO gains on multi-hop questions. Writes are inspectable
-and cause about $33{,}000\times$ less held-out loss increase. Against RAG,
-Engram offers an in-network lookup opportunity at every prefill and decode
-position, requiring neither external retrieval nor serialized memory tokens.
-On our controlled split, same-base RAG top-3 performs one search, adds about 29
-memory tokens, and reaches 39.0\% indirect accuracy versus Engram's 44.5\%.
-A $2.5\times$ larger Qwen-RAG top-3 leads at 34 facts, ties at 100, and falls to
-30.0\% versus 44.5\% at 1,000 facts as retrieval recall degrades. Engram thus
-targets compact, frequently accessed user state, while RAG remains
-complementary for provenance and open-domain evidence.
+Personal memory in a language model is two problems, not one:
+\emph{content} (the specific facts about a user) and
+\emph{reasoning skill} (the ability to turn those facts into
+answers). The brain keeps the two apart (a sparse, local
+\emph{engram} in the hippocampus for each episode, a slow neocortex
+for the shared skills that interpret it), so a new fact need not
+overwrite everything else. Most personalization today keeps a
+user's facts \emph{outside} the weights, in a natural-language
+memory file or a retrieval index. When facts are written
+\emph{into} the model instead, the standard recipe is the per-user
+LoRA adapter, which does the opposite of the brain, folding
+content and skill into one global weight delta.
+Writing a user's facts as a LoRA contaminates text unrelated to them;
+writing the same facts as local \emph{Engram rows} leaves it
+mathematically untouched, resulting in a roughly $33{,}000\times$ smaller
+memory footprint.
+
+We therefore propose \textbf{User as Engram}: store a user's
+content as surgical edits to the hash-keyed memory table of an
+Engram model, and carry the reasoning skill in one \emph{shared}
+adapter. This layered
+design matches per-user LoRA's direct recall while delivering
+$5.6\times$ higher indirect-reasoning accuracy on average,
+and never makes a single user worse at reasoning than
+the untouched base. The edit is a glass box: writing a fact switches
+on its lookup at exactly the trigger, adds the value the answer needs,
+leaves every other position unchanged to the last bit, and fails if
+written into the wrong layer.
+Because different users' facts land in disjoint hash slots, their edits
+\emph{compose}: many users live in one shared table at once, stacking
+additively and losslessly, where a per-user LoRA, a single global
+weight delta, admits only one.
+Upon retrieval, a per-user Engram table does not grow with the
+population the retriever must search, so past $\sim$100 facts it overtakes a retrieval pipeline on a
+$2.5\times$ larger model.
 \end{abstract}
 
-\section{Introduction}
-\label{sec:intro}
+\begin{center}
+\small
+Code: \url{https://github.com/19PINE-AI/user-as-engram} \\[2pt]
+Website: \url{https://01.me/research/user-as-engram}
+\end{center}
+\vspace{-0.4em}
 
-Personalization requires both remembering a user's facts and using them to
-reason. Retrieval-augmented generation (RAG) keeps those facts editable, but
-recall takes an external systems path: retrieve from a store, serialize the
-result as text, and pay the resulting context and prefill cost
-\citep{lewis2020rag,gao2023ragsurvey}. In an agentic implementation, retrieval
-also entails generating and executing a tool call. Repeated memory access thus
-means repeated search or tool round trips. A per-user LoRA
-\citep{hu2022lora} removes that external path, but turns records into a
-model-shaped global update: it requires per-user optimization, provides no
-address for updating or deleting one fact, consumes 14.2\,MB at rank 64 even
-for a small record set, and can perturb unrelated behavior.
-
-We propose \emph{User as Engram}, a middle ground between external retrieval
-and undifferentiated model weights. We store user content as local edits to the
-hash-addressed memory table of an Engram-pretrained Transformer
-\citep{cheng2026engram}, while learning reasoning skill once in a shared LoRA.
-At every token position in prefill or decoding, suffix $N$-grams can address
-memory rows whose gated values enter the residual stream in the same forward
-pass. Memory can therefore supply an in-network signal throughout generation,
-without semantic search, a tool round trip, or retrieved context tokens. This
-offers a token-granular interface to frequently accessed user state; it
-complements rather than
-replaces RAG's strengths in provenance and open-domain evidence.
-
-Three properties make this interface attractive as a new form of user memory.
-\emph{Storage:} a 100-fact override map is 88\,KB, $161\times$ smaller than a
-rank-64 per-user LoRA. \emph{Lifecycle:} the representation does not
-intrinsically require training a per-user adapter---closed-form insertion uses
-no gradient steps, and an entire user override map can be removed directly;
-optional row-only refinement can improve recall when facts interact.
-\emph{Use:} local facts remain available as inputs to one transferable
-reasoning skill: across three
-seeds, Engram plus shared skill reaches 41.2\% indirect accuracy versus 7.3\%
-for per-user LoRA, and Engram's largest LOCOMO gains occur on multi-hop
-questions. Figure~\ref{fig:benefits} summarizes these three benefits. A fact
-activates only the rows selected by its suffixes; all other
-rows and backbone weights remain bit-identical. Small override maps can be
-swapped per request or combined additively, separating rapidly changing,
-private content from slowly learned, population-level skill, as in
-complementary biological memory systems
-\citep{semon1921mneme,tonegawa2015engram,mcclelland1995cls}.
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=0.80\textwidth,trim=0 34bp 0 0,clip]{figs/fig_layered_arch.pdf}
-  \captionsetup{skip=3pt}
-  \caption{Local Engram content with a shared Transformer and reasoning adapter.}
-  \label{fig:layered-arch}
-\end{figure*}
-
-Figure~\ref{fig:layered-arch} illustrates this separation. A user's doctor or
-preference may change and require individual deletion; inferring that a
-cardiologist is relevant to a heart check-up is stable and transferable. A
-per-user adapter conflates these lifecycles, repeatedly relearning the relation
-and making individual records difficult to locate or delete. Our design keeps
-content explicit and reasoning reusable.
-
-\paragraph{Contributions.}
-We make three contributions. First, we formulate per-user memory as explicit
-overrides to an Engram model's hash-addressed rows, with closed-form insertion,
-explicit map deletion, and composable maps. Second, we separate this mutable
-content from one shared reasoning adapter and verify the interface
-mechanistically and behaviorally, including indirect and multi-hop use. Third,
-we provide controlled comparisons with both per-user LoRA and RAG across state,
-update cost, locality, reasoning, retrieved-memory tokens, and knowledge-base
-scaling: Engram uses $161\times$ less per-user state than LoRA and no external
-memory hop, while the $2.5\times$ larger Qwen-RAG baseline falls below it beyond
-100 facts (Figures~\ref{fig:benefits}, \ref{fig:pareto-rag}, and
-\ref{fig:rag-scale}).
-
-\section{Background and Design Requirements}
-
-Personal-memory mechanisms span three families. Prompt memories and retrieval
-stores keep content editable, but consume context and select evidence at every
-turn~\citep{lewis2020rag,gao2023ragsurvey}. Parameter-efficient tuning moves
-content into a shared function~\citep{hu2022lora}. Model editing targets
-particular associations, yet usually produces weight changes whose locality is
-empirical~\citep{meng2022rome,meng2023memit}. Engram pretraining supplies a
-fourth substrate: explicit key--value rows in the residual stream
-\citep{cheng2026engram}.
-
-We evaluate personal-memory methods along six requirements that are easy to
-conflate. \emph{Recall}
-asks whether the exact fact can be produced. \emph{Use} asks whether it can
-participate in a novel inference. \emph{Locality} asks whether the write leaves
-unrelated behavior unchanged. \emph{Lifecycle} requires individual update and
-deletion. \emph{Serving} requires many users to share one backbone. \emph{Access}
-asks whether each recall needs search, a tool round trip, or extra context. A method
-that succeeds on recall alone can fail all five remaining requirements; this
-motivates reporting held-out loss, indirect questions, address-level analyses,
-per-user storage, and query cost alongside accuracy.
-
-The term \emph{Engram} here denotes the model's pretrained hashed memory table,
-not an arbitrary cache added after training. Its gates have learned when table
-values should enter the residual stream. We exploit that learned interface but
-do not alter its addressing rule or backbone. Our contribution is a write and
-composition protocol for per-user overrides, plus the separation of those
-overrides from a shared adapter that learns population-level reasoning.
-
-\section{Why Facts Should Not Be Per-User LoRA}
-\label{sec:negative}
-
-Weights are appropriate for shared abstractions but problematic for mutable,
-tenant-specific records. We isolate this distinction using Mini-Engram-d20 and
-the same 20 users. On the canonical seed, a rank-64 LoRA trained on one fact
-per user raises held-out loss by $1.784$ and worsens 17/20 users, whereas
-addressed Engram rows change loss by only $0.00005$ and worsen none. Across
-three seeds the means are $+1.698$ versus $+0.000052$
-($\sim33{,}000\times$), and 49/60 versus 0/60 users worsen.
-
-The distinction is architectural, not merely an optimizer failure. A LoRA
-must move shared projections to raise the desired answer probability, so its
-update can fire on unrelated inputs. A keyed memory write is inert unless its
-address is read. Strong instruction-tuned bases can conceal the behavioral
-damage by already solving a question, but cannot remove the underlying loss
-increase.
-
-Across Qwen2.5-3B/7B~\citep{qwen2025qwen25}, Llama-3.1-8B
-\citep{grattafiori2024llama3}, and Mistral-7B~\citep{jiang2023mistral}, only
-0--20\% of users score worse after personalization, and mean indirect accuracy
-changes by $+0.088$ to $+0.217$; on the base LM, 85\% score worse and the mean
-is $-0.133$. We fit one LoRA per user: 30 for Qwen2.5-3B and 20 for every
-other base. Instruction tuning can therefore mask the task-level effect of a
-global LoRA update, but the update remains nonlocal. Each per-user LoRA is still
-an alternative global model state, whereas sparse override maps share a backbone.
-
-\section{User as Engram}
-\label{sec:method}
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=0.80\textwidth]{figs/fig_user_insertion.pdf}
-  \caption{Surgical insertion into deterministically addressed Engram rows.}
-  \label{fig:user-insertion}
-\end{figure*}
-
-An Engram layer hashes token-suffix $N$-grams to memory rows, gates their
-values, and adds them to the residual stream. To write a fact, we put its answer
-where its trigger is read: deterministic hashes map the trigger's suffix to a
-sparse address set $R_f$ (about 16 rows for $N=3$, $K=8$). The backbone and
-every row outside $R_f$ remain fixed. We evaluate three ways to choose the
-values written to $R_f$. A closed-form pseudo-inverse write
-(\emph{UNEMBED\_P}) uses the Engram value projection's pseudo-inverse to align
-the row contribution with the answer token's unembedding direction and requires
-no gradient steps. Per-fact gradient optimization
-(\emph{OPT}) starts from that value and minimizes answer loss by updating only
-$R_f$ for each arriving fact. Joint optimization (\emph{Joint OPT}) instead
-samples across a user's facts while fitting the union of their addressed rows,
-so earlier and co-active facts remain compatible. All three strategies have
-the same editable parameter set; they differ only in write compute and recall.
-A 100-fact override map occupies about 88\,KB.
-Figure~\ref{fig:user-insertion} summarizes the write process.
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=0.76\textwidth]{figs/fig_lora_vs_engram.pdf}
-  \caption{Residual changes from matched Engram and per-user LoRA edits.}
-  \label{fig:locality}
-\end{figure*}
-
-The edit is a glass box. Figure~\ref{fig:locality} contrasts its footprint with
-the matched LoRA. For an inserted fact we can enumerate the trigger
-hashes, verify that only $R_f$ changed, inspect the learned gates, measure the
-residual contribution at each layer, and observe the answer token rise in the
-logit lens. In the matched diagnostic, Engram's residual delta is exactly zero
-at every non-trigger position and every pre-Engram layer; the LoRA delta
-is nonzero at every position and layer. On the unrelated ``capital of France''
-control, its mean $L_2$ residual-stream change across positions and layers is
-107. Locality therefore follows from the data structure
-rather than from a regularizer.
-
-\paragraph{Keys, correctness, and deletion.}
-Personal questions often reproduce an entity or relation phrase even when
-surrounding wording changes. Multiple suffix orders and hashes provide
-redundant triggers; inserting paraphrased question forms expands coverage.
-This is not semantic search: a query with no overlapping trigger may miss.
-Because addresses are deterministic, we know the complete editable row set
-before optimization. Deleting a user's map removes all of its overrides without
-reversing a gradient update. An individual fact can be removed directly when
-it exclusively owns its rows; if collisions or joint optimization make rows
-shared, those rows must instead be reconstructed from the remaining facts.
-Closed-form writes need no training, while optional joint re-optimization can
-repair interference when facts share rows.
-
-\paragraph{Mechanistic checks.}
-We validate locality four ways: byte comparison leaves the backbone and
-unaddressed rows identical; non-trigger positions have zero residual delta;
-the trigger gate rises from 0.02 to 0.99; and the residual change aligns with
-the value path at cosine 0.999. The same write placed early drops recall from
-near-perfect to about one quarter, confirming that late placement matters.
-
-The comparison LoRA is optimized to the same recall target. Its residual delta
-appears at all positions and layers, including an unrelated ``capital of
-France'' control, because low-rank does not mean locally activated. Norm or KL
-regularization might reduce that footprint, but would not make the update
-address-conditioned or identify exactly which inputs can activate it.
-For Engram, the zero-delta region follows directly from the lookup key.
-
-Each user owns an override map $\Delta_u:h\mapsto v$. At inference, lookups
-first consult that map and otherwise fall back to the shared table. Maps with
-disjoint keys commute, so personal, team, and organizational memories can be
-stacked without merging dense weight deltas. Hash collisions are explicit and
-can be detected. In the current implementation the last write wins; maps whose
-triggers overlap should therefore remain separate.
-
-\section{Experiments}
-\label{sec:experiments}
-
-No suitable public pretrained Mini-Engram checkpoint was available when we ran
-these experiments. We therefore
-integrate Engram lookup layers into Karpathy's nanochat GPT-2-style backbone
-\citep{karpathy2026nanochat,radford2019gpt2} and pretrain all four Mini-Engram
-checkpoints ourselves from scratch with a nanochat-style recipe. We evaluate
-them against per-user LoRA, in-context facts, and retrieval, matching backbone,
-tokenizer, generation, and facts unless noted. Metrics cover direct and
-paraphrase recall, held-out LM loss, per-user storage, and indirect questions
-that transform stored facts.
-
-Controlled bases vary depth and width but share the lookup. We report accuracy
-and held-out next-token loss because strong models can mask contamination once
-answers saturate. Storage excludes the backbone and shared adapter, which are
-amortized across tenants.
-
-Synthetic per-user schemas isolate fact count and separate exact recall from
-held-out transformations. LOCOMO tests end-to-end conversational memory against
-retrieval; its question-level evidence pointers let both methods use the same
-gold sentence. Direct questions request stored answers, whereas indirect
-questions apply held-out relations and cannot be solved by echoing triggers. We repeat
-key contamination and layering results over three seeds. Writes are offline;
-query cost includes lookup, search, and context, and storage means serialized
-trainable state rather than duplicated checkpoints.
-
-\subsection{Protocol and comparison controls}
-
-All Mini-Engrams use one lookup rule and a 50K$\times$256 (51.2M-parameter)
-table; Table~\ref{tab:protocol} lists their scales. For pretraining, we use
-bf16, nanochat's ClimbMix-400B pipeline, and its budget of 12 tokens per scaling
-parameter~\citep{karpathy2026nanochat}. Base, XL, and
-XXL corpora contain 100 USER + 100 ORG facts, 1,000 of each, and 3,132 trigger
-templates, respectively. At 100 facts, Joint OPT uses 2,000 Adam steps at rate
-0.5. The three-seed test matches rank-64 LoRA (1,500 steps,
-$5\times10^{-4}$, $\alpha=128$) against Joint OPT (1,500 steps, rate 0.5).
-
-\begin{table}[t]
-  \centering
-  \caption{Mini-Engram backbones pretrained by us from scratch. All share the
-  51.2M-parameter memory table.}
-  \label{tab:protocol}
-  \resizebox{\linewidth}{!}{\begin{tabular}{lrrrr}
-    \toprule
-      & d8 v2 & d12 v2 & d12@1280 & d20@1536 \\
-    \midrule
-    depth $\times$ width & $8\times512$ & $12\times768$ & $12\times1280$ & $20\times1536$ \\
-    Engram layers & 2, 5 & 2, 7 & 2, 7 & 2, 11 \\
-    total parameters & 178M & 339M & 625M & 1.22B \\
-    ClimbMix tokens & 0.50B & 1.32B & 3.34B & 7.40B \\
-    validation bpb & .912 & .827 & .770 & .730 \\
-    \bottomrule
-  \end{tabular}}
-\end{table}
-
-\textbf{Metrics.} We rank the gold first BPE token at the trigger: top-1 is
-rank 0 and top-5 is rank below 5. Mini-Engram's \texttt{indirect\_any}
-lowercases and strips a 16-token greedy continuation and tests gold substring
-containment; Qwen uses its decoded-text matcher, which also normalizes terminal
-punctuation and accepts an equal first word. LOCOMO token-F1 normalizes case
-and punctuation, then macro-averages conversation means. Layered scores average
-per-user rates. Contamination is held-out ClimbMix $\Delta$bpb (262K tokens
-for S0; 524,288 for the retained additional-seed run). RAG memory tokens are
-prompt tokens beyond the no-memory prompt; serving reports requests/wall time
-and non-interpolated latency order statistics.
-
-The shared rank-16 adapter trains on 10 users and tests on 20 disjoint users;
-contamination and high-density comparisons use rank-64 per-user Q/K/V LoRA.
-Unless stated otherwise, each checkpoint, condition, or curve point is one
-execution, and user-specific methods fit once per evaluated user. We train each
-backbone once; run each \mbox{LOCOMO} model/category and the 63-chain diagnostic once;
-use one seeded RAG sweep per answering model; and use one 600-request serving
-run per configuration. Storage and byte counts are deterministic. The
-confidence interval bootstraps paired outputs from the three seed runs.
-
-Corpus-generation seeds are 31337, 20260505, and 20260506; shared-LoRA training
-uses seed 42 and RAG distractors use seed 0. Runs used one NVIDIA RTX PRO 6000
-Blackwell GPU with bf16.
-
-No-memory measures prior knowledge. For indirect reasoning, relations are
-learned from other users and test content enters only through the evaluated
-memory, requiring unseen-content access and transferable skill. Unrelated
-held-out ClimbMix makes $\Delta$bpb measure collateral change, not fact recall.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig_user_memory_benefits.pdf}
-  \caption{Engram-row benefits over per-user LoRA: \textbf{(a)} storage,
-  \textbf{(b)} lifecycle, and \textbf{(c)} downstream use.}
-  \label{fig:benefits}
-\end{figure}
-
-\paragraph{Recall, storage, and lifecycle.}
-A single edit is within eight points of the in-context ceiling. On
-Mini-Engram-d12, joint optimization handles interacting addressed rows at high
-density, with top-5 recall above 90\% to roughly 300 facts/user. At 100 facts,
-its sparse override occupies 88\,KB versus 14.2\,MB for rank-64 LoRA. Unlike a
-model-shaped adapter, each row remains an explicit item that can be replaced or
-removed; UNEMBED\_P provides a no-training write path, while OPT and Joint OPT
-trade write compute for recall. Figure~\ref{fig:benefits} summarizes these
-storage, lifecycle, and downstream-use distinctions.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig_locomo_scaling.pdf}
-  \caption{LOCOMO token-F1 across answering models.}
-  \label{fig:locomo-scaling}
-\end{figure}
-
-\paragraph{Memory-system and LOCOMO comparisons.}
-Nearest-neighbor retrieval is strongest when queries repeat stored triggers.
-Because facts are already structured, our MEM0 and MemMachine baselines use
-only their retrieval recipes; extraction and consolidation are out of scope
-\citep{chhikara2025mem0,wang2026memmachine}. With all-MiniLM-L6-v2
-\citep{wang2020minilm,reimers2019sbert}, multi-trigger Engram gains 22
-paraphrase points over the best retrieval baseline without context tokens.
-
-Single-hop LOCOMO uses the first 80 non-adversarial questions from each of 10
-conversations ($\sim$800) \citep{maharana2024locomo}. With a fixed
-Mini-Engram-d12 answering LM, retrieval stores gold evidence turns and Engram
-stores gold Q/A pairs: a controlled best-case comparison, not an end-to-end
-system. Joint OPT leads on single-hop, multi-hop, and reasoning across scales
-but trails on open-domain questions, where local facts cannot replace broad knowledge
-(Table~\ref{tab:locomo-categories}; Figure~\ref{fig:locomo-scaling}).
-LongMemEval and PersonaMem-v2 provide complementary long-term and personalized
-memory evaluations \citep{wu2024longmemeval,personamem2025}.
-
-Joint OPT's largest gains are multi-hop: token-F1 improves 120--178\% over the
-better retrieval baseline, versus 10--58\% on single-hop and reasoning.
-Open-domain performance falls 51--57\%, favoring addressed personal memory
-plus retrieval for broad, changing knowledge.
-
-Together with Figure~\ref{fig:benefits}'s LoRA comparison, these results show
-that Engram facts can serve as operands for held-out transformations and
-multi-hop questions. Rows do not supply the algorithm; one shared skill consumes
-local facts instead of relearning content and skill in every user's adapter.
-
-\begin{table*}[t]
-  \centering
-  \small
-  \caption{LOCOMO token-F1 by category and model. Joint OPT is compared with
-  the stronger retrieval baseline in each cell.}
-  \label{tab:locomo-categories}
-  \begin{tabular}{llcccc}
-    \toprule
-    category & answering LM & MEM0 & MemMachine & \textbf{Engram Joint OPT} & lead vs.\ best retr. \\
-    \midrule
-    \multirow{3}{*}{single-hop} & d12 v2 & 0.131 & 0.116 & \textbf{0.169} & +29\% \\
-      & d12@1280 & 0.160 & 0.152 & \textbf{0.176} & +10\% \\
-      & d20 & 0.161 & 0.169 & \textbf{0.233} & +38\% \\
-    \midrule
-    \multirow{3}{*}{multi-hop} & d12 v2 & 0.092 & 0.076 & \textbf{0.243} & \textbf{+165\%} \\
-      & d12@1280 & 0.115 & 0.104 & \textbf{0.253} & \textbf{+120\%} \\
-      & d20 & 0.102 & 0.108 & \textbf{0.299} & \textbf{+178\%} \\
-    \midrule
-    \multirow{3}{*}{reasoning} & d12 v2 & 0.117 & 0.113 & \textbf{0.183} & +56\% \\
-      & d12@1280 & 0.123 & 0.136 & \textbf{0.203} & +49\% \\
-      & d20 & 0.135 & 0.168 & \textbf{0.266} & +58\% \\
-    \midrule
-    \multirow{3}{*}{\textbf{open-domain}} & d12 v2 & \textbf{0.247} & 0.209 & 0.122 & \textbf{$-$51\%} \\
-      & d12@1280 & \textbf{0.341} & 0.327 & 0.146 & \textbf{$-$57\%} \\
-      & d20 & 0.314 & \textbf{0.338} & 0.159 & \textbf{$-$53\%} \\
-    \bottomrule
-  \end{tabular}
-\end{table*}
-
-The paraphrase result separates address coverage from answer quality.
-Retrieval is nearly perfect on repeated prefixes; more trigger variants improve
-Engram paraphrases without prompt tokens. Neither implies universal semantic
-generalization: a stored key must activate.
-
-\paragraph{Multi-hop use.}
-Across 63 two-fact chains, fact recall is 99.2\% and direct second-fact matching
-is 90.6\%, but true chaining falls to 12.9\%: the store matches but does not
-compose. We therefore learn relations in a shared adapter on held-out users
-while fitting only test-user rows. The resulting layered system reaches 41.2\%
-indirect accuracy across seeds, $5.6\times$ the per-user-LoRA baseline; the
-LOCOMO category results above independently show the largest gains on
-multi-hop questions.
-
-\begin{table*}[t]
-  \centering
-  \small
-  \caption{Three-seed robustness on Mini-Engram-d20 ($n=20$ users per seed).}
-  \label{tab:seed-robustness}
-  \begin{tabular}{lrrrr}
-    \toprule
-    Quantity & S0 & S1 & S2 & Mean (range) \\
-    \midrule
-    per-user LoRA $\Delta$bpb & 1.784 & 1.754 & 1.557 & 1.698 (1.56--1.78) \\
-    per-user Engram $\Delta$bpb & .000052 & .000049 & .000054 & .000052 \\
-    layered total $\Delta$bpb & .386 & .388 & .379 & .385 (.38--.39) \\
-    layered indirect\_any & 44.5\% & 44.2\% & 34.8\% & 41.2\% (34.8--44.5) \\
-    per-user LoRA indirect\_any & 6.0\% & 8.8\% & 7.2\% & 7.3\% (6.0--8.8) \\
-    worse than base (layered / LoRA) & 0/20 / 17/20 & 0/20 / 16/20 & 0/20 / 16/20 & 0/60 / 49/60 \\
-    \bottomrule
-  \end{tabular}
-\end{table*}
-
-\paragraph{Interpreting the comparisons.}
-Across Table~\ref{tab:seed-robustness}'s three seeds, matched recall isolates
-storage location, density tests coexistence, and layering tests whether
-locality sacrifices use. Recall need not cause global contamination, and
-reasoning can be shared; LOCOMO shows that addressed memory does not replace
-open-domain retrieval.
-
-The $33{,}000\times$ loss ratio is a model-, fact-, and optimization-dependent
-stress test, not a constant. The robust distinction is qualitative: Engram can
-be inactive off-address, whereas LoRA changes the shared mapping. Likewise,
-88\,KB is the chosen 100-fact configuration, not a lower bound; width,
-precision, triggers, and collisions change it.
-
-\paragraph{Negative results and boundary cases.}
-UNEMBED\_P is fast but underperforms when pretrained values misalign with the
-answer. Independent fitting degrades under trigger collisions, and joint
-fitting repairs only part of the high-density loss. Free continuation is harder
-than short-span matching; unseen paraphrase triggers can fail. An arbitrary
-reasoning LoRA also fails unless it learns the same content interface,
-motivating layered training.
-
-\section{Shared Skill, Local Content}
-\label{sec:layered}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig_layered_conditions.pdf}
-  \caption{Direct and indirect recall and held-out $\Delta$bpb across six
-  conditions on Mini-Engram-d20 (seed S0, $n=20$).}
-  \label{fig:layered-conditions}
-\end{figure}
-
-We train the rank-16 shared LoRA on 10 users with each indirect question's
-needed facts in context, then test 20 disjoint users whose facts arrive only
-through Engram rows. Six conditions cross content placement (none, per-user
-LoRA, or Engram) with shared skill while holding direct recall nearly constant.
-Across three seeds, layered Engram reaches 100\% versus 98.8\% direct recall
-and 41.2\% versus 7.3\% indirect accuracy for per-user LoRA.
-
-The layered system pays $+0.385$ $\Delta$bpb once for the shared adapter;
-each user's rows add only $\approx0.00005$, versus $+1.698$ for a separate
-per-user LoRA. The adapter learns a reusable transformation while local rows
-supply user-specific arguments (Figure~\ref{fig:layered-conditions}).
-
-The layered-minus-LoRA indirect gain has paired-bootstrap 95\% CI
-$[+31,+37]$ percentage points.
-
-The factorial design attributes the gain: Engram without shared skill tests
-recall, shared skill without content tests leakage, and naive LoRA+Engram tests
-arbitrary stacking. Only intended layering gives local content, transferable
-reasoning, and low held-out loss; train and test users are disjoint.
-
-\paragraph{Cross-schema transfer.}
-The headline comparison uses disjoint users within one schema family. To test
-beyond those templates, we train on first-person personal facts and evaluate
-on third-person medical records. Layered indirect accuracy falls from 44\% to
-31\% (30\% relative), while per-user LoRA falls from 6\% to 4\%; the advantage
-persists ($7.4\times$ to $7.6\times$). Locality is unchanged: $\Delta$bpb stays
-$+0.386$ because personal rows activate only at addressed triggers.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig_pareto_rag.pdf}
-  \caption{Engram versus RAG: indirect accuracy against extra serialized
-  memory tokens per query; RAG points each perform one search.}
-  \label{fig:pareto-rag}
-\end{figure}
-
-Figure~\ref{fig:pareto-rag} compares the memory-access paths on the 34-fact
-split. Layered Engram reaches 44.5\% indirect accuracy with no retrieved fact
-text or external memory call. RAG top-3 on the same answering model performs
-one search, serializes about 29 additional memory tokens, and reaches 39.0\%;
-including all facts raises the memory block to 287 tokens and lowers accuracy
-to 35.3\%. Combining RAG top-3 with the shared reasoning adapter instead
-reaches 54.3\%, showing that retrieval and reusable skill are complementary.
-The $2.5\times$ larger Qwen2.5-3B-Instruct RAG baseline
-\citep{qwen2025qwen25} reaches 51.8\% with top-3 retrieval and 35 added memory
-tokens.
-
-The distinction is access granularity. RAG searches once and serializes facts;
-agentic or sequential recalls add external hops. Engram instead computes suffix
-addresses at every prefill and decode position and injects values in the forward
-pass, supplying a token-granular channel without retrieved context. RAG remains
-the better complement for changing corpora, provenance, and open-domain evidence.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figs/fig_rag_scale.pdf}
-  \caption{Engram versus RAG as the knowledge base grows: \textbf{(a)}
-  indirect accuracy and \textbf{(b)} shared retriever recall. Qwen-3B uses a
-  $2.5\times$ larger answering model.}
-  \label{fig:rag-scale}
-\end{figure}
-
-To isolate knowledge-base size, we add held-out schema-family distractors to
-each user's 34 facts, reaching $N\in\{34,100,200,300,500,1000\}$ for the same
-20 users and probes. Mini-Engram RAG shares Engram's answering backbone;
-Qwen-RAG uses the larger instruction-tuned model. All RAG conditions share one
-retriever and place the top-$k$ facts in context. Top-3 recall falls from 62.0\%
-to 9.3\%; Qwen-RAG top-3 falls from 51.8\% to 30.0\%, tying Engram's constant
-44.5\% at 100 facts and trailing thereafter. Same-base RAG falls from 38.8\% to
-29.8\%; RAG plus the shared adapter remains slightly ahead at 1,000 facts
-(47.0\%), favoring a hybrid when provenance is needed
-(Figure~\ref{fig:rag-scale}).
-
-\section{Multi-Tenant Serving}
-\label{sec:serving}
-
-A request resolves a sparse user table, overrides affected base rows for one
-forward pass, then restores them. Each token suffix can fetch a gated value
-into the residual stream without a retrieval service or memory text to prefill.
-User switches change neither dense weights nor the shared adapter. Disjoint
-personal, team, and organizational scopes can layer; overlapping triggers are
-last-write-wins and should remain separate. Unmeasured batched serving would
-require one gather per Engram layer.
-
-At one million users, 88\,KB each is roughly 88--100\,GB, plus one 11.8\,MB
-shared adapter; 14.2\,MB per-user LoRAs require about 14.2\,TB. Excluding
-allocator and index overheads, sparse content scales with facts while LoRA
-scales with model dimensions.
-
-S-LoRA and Punica~\citep{sheng2024slora,chen2024punica} batch dense adapters,
-but each tenant retains a model-shaped delta; overrides are indexed reads in
-the existing layer. Production still requires caching, authorization,
-encryption, collision telemetry, and rate limits; we test composition and
-scaling, not security.
-
-The prototype uses sequential row swaps, not a batched kernel. On one idle
-Blackwell GPU, d12@1280 processed 232 requests/s with 30 users and 50 facts/user
-(4.2\,ms p50), and 226 requests/s with 100 users and 100 facts/user (4.4\,ms
-p50). This is not a controlled user-count scaling study because fact count also
-changes; absolute latency depends on cache residency, hardware, and implementation.
-
-\section{Discussion, Limitations, and Related Work}
-\label{sec:discussion}
-
-At 1,000 facts Joint OPT reaches 35\% top-1; with ${<}1\%$ slot occupancy, this
-suggests that forward-pass interference among co-active rows, rather than hash
-collisions, is the primary bottleneck.
-Paraphrase coverage depends on triggers, and optimization is slower than
-appending a document.
-
-Our work connects parameter-efficient personalization and per-user adapters
-\citep{houlsby2019adapters,hu2022lora,zhang2024personalization,
-su2024prag,tan2024oppu,zhuang2024hydra}, retrieval-augmented generation
-\citep{lewis2020rag,gao2023ragsurvey,borgeaud2022retro}, model editing
-\citep{meng2022rome,meng2023memit,mitchell2022mend,mitchell2022serac,
-wang2024wise}, and external or semi-parametric memory
-\citep{lample2019pkm,packer2023memgpt,cheng2026engram}. Retrieval and external
-memory provide non-parametric access; adapters and model editing change
-parameters with different scopes and locality. User as Engram lies between
-them: records remain explicit and mutable, but the network consumes their
-values without retrieval calls or context tokens. Addressed rows hold mutable
-facts, while shared weights hold reusable reasoning, yielding locality,
-high-frequency access, and multi-tenancy rather than dense per-user models.
-The dense-adapter interference we measure is related to catastrophic
-forgetting in continual learning \citep{mccloskey1989catastrophic,kirkpatrick2017ewc}.
-
-\paragraph{Validity and societal considerations.}
-Controlled models expose changed rows and small loss deltas, strengthening
-causal claims but limiting frontier-scale conclusions. LOCOMO mixes memory and
-base knowledge, so we report category reversals. Storage and latency constants
-are implementation-dependent, though scaling forms are robust. Addressability
-aids erasure but can expose records; exfiltration, access control, output
-monitoring, and shared-skill fairness remain untested.
-Generative AI assisted language editing, code, and formatting; the authors
-verified all outputs and remain responsible for the manuscript.
-
-\paragraph{What should improve next.}
-Three recipe changes target these limits: multi-fact training, random per-user
-hash offsets for unseen rows, and ``recall, then reason'' examples
-\citep{sun2023recitation}. Preliminary multi-fact finetuning reached the same
-recall faster without raising its ceiling; teacher traces lowered accuracy when
-training and evaluation formats differed. Frontier-scale pretraining is the
-strongest next comparison. We expect addressed memory for frequent records,
-retrieval for long-tail evidence and provenance, and shared weights for stable
-transformations.
-
-\section{Conclusion}
-
-User as Engram separates per-user content from shared reasoning by writing
-facts to hash-addressed rows and learning one adapter. Across experiments, it
-matches direct recall, improves indirect reasoning $5.6\times$ over per-user
-LoRA, and uses $161\times$ less state at 100 facts. Closed-form writes require
-no gradient steps, while optional row-only optimization improves recall. Its
-token-granular lookup removes external memory hops and is unaffected by the
-added distractors in our controlled retrieval-scaling comparison.
-
-\iffalse
 \section{Introduction}
 \label{sec:intro}
 
@@ -2187,13 +1569,533 @@ private trace beside a skill everyone shares, personalization
 stops fighting the model it runs on. That, more than any single
 number, is what \emph{User as Engram} is for.
 
-\fi
+\section*{Acknowledgements}
 
-\bibliography{references}
+This paper was produced using Pine Copilot's voice-directed \emph{whisper coding} workflow, in which the authors specify, discuss, and review the work by voice while a coding agent---Claude Code with Claude Opus~4.8---carries out the planning, coding, experiments, and paper writing.
+We thank BSQL Networking for hosting the NVIDIA RTX PRO 6000 GPU.
 
-% Detailed experiments are retained in source for a separate supplement.
-\iffalse
+\bibliographystyle{plainnat}
+\begin{thebibliography}{50}
+
+\bibitem[Li(2026)]{li2026userascode}
+B.~Li.
+\newblock User as code: Executable memory for personalized agents.
+\newblock arXiv:2606.16707, 2026.
+
+\bibitem[Semon(1921)]{semon1921mneme}
+R.~Semon.
+\newblock \emph{The Mneme}.
+\newblock George Allen \& Unwin, London, 1921.
+\newblock (English translation of \emph{Die Mneme}, 1904; origin of
+  the term ``engram'').
+
+\bibitem[McClelland et~al.(1995)]{mcclelland1995cls}
+J.~L. McClelland, B.~L. McNaughton, and R.~C. O'Reilly.
+\newblock Why there are complementary learning systems in the
+  hippocampus and neocortex: Insights from the successes and failures
+  of connectionist models of learning and memory.
+\newblock \emph{Psychological Review}, 102(3):419--457, 1995.
+
+\bibitem[Tonegawa et~al.(2015)]{tonegawa2015engram}
+S.~Tonegawa, X.~Liu, S.~Ramirez, and R.~Redondo.
+\newblock Memory engram cells have come of age.
+\newblock \emph{Neuron}, 87(5):918--931, 2015.
+
+\bibitem[Kumaran et~al.(2016)]{kumaran2016cls}
+D.~Kumaran, D.~Hassabis, and J.~L. McClelland.
+\newblock What learning systems do intelligent agents need?
+  Complementary learning systems theory updated.
+\newblock \emph{Trends in Cognitive Sciences}, 20(7):512--534, 2016.
+
+\bibitem[Cheng et~al.(2026)]{cheng2026engram}
+X.~Cheng, W.~Zeng, D.~Dai, Q.~Chen, B.~Wang, Z.~Xie, K.~Huang, X.~Yu, Z.~Hao,
+  Y.~Li, H.~Zhang, H.~Zhang, D.~Zhao, and W.~Liang.
+\newblock Conditional memory via scalable lookup: A new axis of sparsity for
+  large language models.
+\newblock arXiv:2601.07372, January 2026.
+
+\bibitem[Vaswani et~al.(2017)]{vaswani2017transformer}
+A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N. Gomez,
+  L.~Kaiser, and I.~Polosukhin.
+\newblock Attention is all you need.
+\newblock NeurIPS 2017.
+
+\bibitem[Brown et~al.(2020)]{brown2020gpt3}
+T.~Brown et~al.
+\newblock Language models are few-shot learners.
+\newblock NeurIPS 2020.
+
+\bibitem[Radford et~al.(2019)]{radford2019gpt2}
+A.~Radford, J.~Wu, R.~Child, D.~Luan, D.~Amodei, and I.~Sutskever.
+\newblock Language models are unsupervised multitask learners ({GPT-2}).
+\newblock OpenAI technical report, 2019.
+
+\bibitem[Min et~al.(2022)]{min2022rethinking}
+S.~Min, X.~Lyu, A.~Holtzman, M.~Artetxe, M.~Lewis, H.~Hajishirzi, and
+  L.~Zettlemoyer.
+\newblock Rethinking the role of demonstrations: What makes in-context learning
+  work?
+\newblock EMNLP 2022.
+
+\bibitem[Lewis et~al.(2020)]{lewis2020rag}
+P.~Lewis, E.~Perez, A.~Piktus, F.~Petroni, V.~Karpukhin, N.~Goyal,
+  H.~K\"uttler, M.~Lewis, W.~Yih, T.~Rockt\"aschel, S.~Riedel, and D.~Kiela.
+\newblock Retrieval-augmented generation for knowledge-intensive {NLP} tasks.
+\newblock NeurIPS 2020.
+
+\bibitem[Gao et~al.(2023)]{gao2023ragsurvey}
+Y.~Gao et~al.
+\newblock Retrieval-augmented generation for large language models: A survey.
+\newblock arXiv:2312.10997, 2023.
+
+\bibitem[Shazeer et~al.(2017)]{shazeer2017moe}
+N.~Shazeer, A.~Mirhoseini, K.~Maziarz, A.~Davis, Q.~Le, G.~Hinton, and J.~Dean.
+\newblock Outrageously large neural networks: The sparsely-gated
+  mixture-of-experts layer.
+\newblock ICLR 2017.
+
+\bibitem[Dai et~al.(2024)]{dai2024deepseekmoe}
+D.~Dai et~al.
+\newblock {DeepSeekMoE}: Towards ultimate expert specialization in
+  mixture-of-experts language models.
+\newblock arXiv:2401.06066, 2024.
+
+\bibitem[Mangrulkar et~al.(2022)]{mangrulkar2022peft}
+S.~Mangrulkar et~al.
+\newblock {PEFT}: State-of-the-art parameter-efficient fine-tuning methods.
+\newblock \url{https://github.com/huggingface/peft}, 2022.
+
+\bibitem[Jordan et~al.(2024)]{jordan2024muon}
+K.~Jordan et~al.
+\newblock {Muon}: An optimiser for hidden layers in neural networks.
+\newblock GitHub / blog post, 2024.
+
+\bibitem[Huang et~al.(2023)]{huang2023lorahub}
+C.~Huang et~al.
+\newblock {LoRAHub}: Efficient cross-task generalization via dynamic {LoRA}
+  composition.
+\newblock arXiv:2307.13269, 2023.
+
+\bibitem[Wu et~al.(2024)]{wu2024longmemeval}
+D.~Wu et~al.
+\newblock {LongMemEval}: Benchmarking chat assistants on long-term memory.
+\newblock arXiv 2024.
+
+\bibitem[Maharana et~al.(2024)]{maharana2024locomo}
+A.~Maharana et~al.
+\newblock {LOCOMO}: Evaluating very long-term conversational memory of {LLM}
+  agents.
+\newblock ACL 2024.
+
+\bibitem[Tavakoli et~al.(2025)]{liu2025beam}
+M.~Tavakoli, A.~Salemi, C.~Ye, M.~Abdalla, H.~Zamani, and J.~R. Mitchell.
+\newblock Beyond a million tokens: Benchmarking and enhancing long-term memory
+  in {LLM}s ({BEAM}).
+\newblock arXiv:2510.27246, 2025.
+
+\bibitem[Jiang et~al.(2025)]{personamem2025}
+B.~Jiang, Y.~Yuan, M.~Shen, Z.~Hao, Z.~Xu, Z.~Chen, Z.~Liu, A.~R. Vijjini,
+  J.~He, H.~Yu, R.~Poovendran, G.~Wornell, L.~Ungar, D.~Roth, S.~Chen, and
+  C.~J. Taylor.
+\newblock {PersonaMem-v2}: Towards personalized intelligence via learning
+  implicit user personas and agentic memory.
+\newblock arXiv:2512.06688, 2025.
+
+\bibitem[Karpathy(2026)]{karpathy2026nanochat}
+A.~Karpathy.
+\newblock nanochat: an experimental training harness for LLMs.
+\newblock \url{https://github.com/karpathy/nanochat}, 2026.
+
+\bibitem[Hu et~al.(2022)]{hu2022lora}
+E.~Hu, Y.~Shen, P.~Wallis, Z.~Allen-Zhu, Y.~Li, S.~Wang, L.~Wang, and W.~Chen.
+\newblock {LoRA}: Low-rank adaptation of large language models.
+\newblock ICLR 2022.
+
+\bibitem[Houlsby et~al.(2019)]{houlsby2019adapters}
+N.~Houlsby et~al.
+\newblock Parameter-efficient transfer learning for {NLP}.
+\newblock ICML 2019.
+
+\bibitem[Su et~al.(2025)]{su2024prag}
+W.~Su et~al.
+\newblock Parametric retrieval-augmented generation ({PRAG}).
+\newblock arXiv:2501.15915, 2025.
+
+\bibitem[Tan et~al.(2025)]{tan2025dyprag}
+Z.~Tan et~al.
+\newblock {DyPRAG}: Dynamic parametric {RAG}.
+\newblock arXiv:2505.19386, 2025.
+
+\bibitem[Chen et~al.(2025)]{distilledprag2025}
+J.~Chen, H.~Zhang, L.~Pang, Y.~Tong, H.~Zhou, Y.~Zhan, W.~Lin, and Z.~Zheng.
+\newblock Privacy-preserving reasoning with knowledge-distilled parametric
+  retrieval-augmented generation ({DistilledPRAG}).
+\newblock arXiv:2509.01088, 2025.
+
+\bibitem[Tan et~al.(2024)]{tan2024oppu}
+Z.~Tan, Q.~Liu, and M.~Jiang.
+\newblock Democratizing large language models via personalized
+  parameter-efficient fine-tuning ({OPPU}).
+\newblock EMNLP 2024 (arXiv:2402.04401).
+
+\bibitem[Zhuang et~al.(2024)]{zhuang2024hydra}
+Y.~Zhuang et~al.
+\newblock {HYDRA}: Per-user adapters for personalised {LLMs}.
+\newblock arXiv 2024.
+
+\bibitem[Bini et~al.(2025)]{memlora2025}
+M.~Bini, O.~Bohdal, U.~Michieli, Z.~Akata, M.~Ozay, and T.~Ceritli.
+\newblock {MemLoRA}: Distilling expert adapters for on-device memory systems.
+\newblock arXiv:2512.04763, 2025.
+
+\bibitem[Charakorn et~al.(2025)]{t2l2024}
+R.~Charakorn, E.~Cetin, Y.~Tang, and R.~T. Lange.
+\newblock Text-to-{LoRA}: Instant transformer adaption.
+\newblock arXiv:2506.06105, 2025.
+
+\bibitem[Tan et~al.(2024b)]{tan2024perpcs}
+Z.~Tan et~al.
+\newblock {PER-PCS}: Per-user post-hoc {LoRA} composition.
+\newblock arXiv 2024.
+
+\bibitem[Sheng et~al.(2024)]{sheng2024slora}
+Y.~Sheng, S.~Cao, D.~Li, et~al.
+\newblock {S-LoRA}: Serving thousands of concurrent {LoRA} adapters.
+\newblock arXiv:2311.03285, 2024.
+
+\bibitem[Chen et~al.(2024)]{chen2024punica}
+L.~Chen, Z.~Ye, Y.~Wu, et~al.
+\newblock Punica: Multi-tenant {LoRA} serving.
+\newblock MLSys 2024.
+
+\bibitem[Lample et~al.(2019)]{lample2019pkm}
+G.~Lample, A.~Sablayrolles, M.~Ranzato, L.~Denoyer, and H.~J\'egou.
+\newblock Large memory layers with product keys.
+\newblock NeurIPS 2019.
+
+\bibitem[He(2024)]{he2024peer}
+P.~He.
+\newblock {PEER}: Mixture of one million experts.
+\newblock arXiv 2024.
+
+\bibitem[Berges et~al.(2025)]{berges2025memory}
+V.~Berges, B.~O\u{g}uz, D.~Haziza, W.~Yih, L.~Zettlemoyer, and G.~Ghosh.
+\newblock Memory layers at scale.
+\newblock ICML 2025.
+
+\bibitem[Huang et~al.(2024b)]{ultramem2025}
+Z.~Huang, Q.~Min, H.~Huang, D.~Zhu, Y.~Zeng, R.~Guo, and X.~Zhou.
+\newblock Ultra-sparse memory network ({Ultra-Mem}).
+\newblock arXiv:2411.12364, 2024 (ICLR 2025).
+
+\bibitem[Huang et~al.(2025)]{overencoding2025}
+J.~Huang et~al.
+\newblock {OverEncoding}: hashed N-gram embeddings via averaging.
+\newblock 2025.
+
+\bibitem[Yu et~al.(2025)]{scone2025}
+L.~Yu et~al.
+\newblock {SCONE}: scalable contextual N-gram embeddings.
+\newblock 2025.
+
+\bibitem[Pagnoni et~al.(2025)]{pagnoni2025blt}
+A.~Pagnoni, R.~Pasunuru, P.~Rodriguez, et~al.
+\newblock {BLT}: byte latent transformer with hashed N-gram embeddings.
+\newblock arXiv:2412.09871, 2025.
+
+\bibitem[Liu et~al.(2025)]{superbpe2025}
+A.~Liu et~al.
+\newblock {SuperBPE}: word-level BPE for compositional patterns.
+\newblock 2025.
+
+\bibitem[CivitAI(2024)]{lora_diffusion}
+{CivitAI Community}.
+\newblock {LoRA} stacking patterns for Stable Diffusion.
+\newblock \url{https://civitai.com/}, 2024.
+
+\bibitem[Meng et~al.(2022)]{meng2022rome}
+K.~Meng, D.~Bau, A.~Andonian, and Y.~Belinkov.
+\newblock Locating and editing factual associations in {GPT} ({ROME}).
+\newblock NeurIPS 2022.
+
+\bibitem[Meng et~al.(2023)]{meng2023memit}
+K.~Meng et~al.
+\newblock {MEMIT}: Mass-editing memory in a transformer.
+\newblock ICLR 2023.
+
+\bibitem[Cohen et~al.(2023)]{mquake2023}
+R.~Cohen et~al.
+\newblock Evaluating the ripple effects of knowledge editing in language models
+  ({MQuAKE}).
+\newblock 2023.
+
+\bibitem[Cohen et~al.(2024)]{rippleedits2023}
+R.~Cohen et~al.
+\newblock {RippleEdits}: A benchmark for ripple effects of model editing.
+\newblock 2024.
+
+\bibitem[Meng et~al.(2022b)]{counterfact2022}
+K.~Meng et~al.
+\newblock {CounterFact}: a counterfactual editing benchmark.
+\newblock 2022.
+
+\bibitem[Wu et~al.(2025)]{srrag2024}
+D.~Wu, J.-C. Gu, K.-W. Chang, and N.~Peng.
+\newblock Self-routing {RAG}: Binding selective retrieval with knowledge
+  verbalization.
+\newblock arXiv:2504.01018, 2025.
+
+\bibitem[Sun et~al.(2023)]{sun2023recitation}
+Z.~Sun et~al.
+\newblock Recitation-augmented language models.
+\newblock ICLR 2023.
+
+% ---- Models, encoders, and frameworks used in the experiments ----
+\bibitem[Qwen Team(2025a)]{qwen2025qwen25}
+A.~Yang, B.~Yang, B.~Zhang, et~al.
+\newblock Qwen2.5 technical report.
+\newblock arXiv:2412.15115, 2025.
+
+\bibitem[Qwen Team(2025b)]{qwen2025qwen3}
+A.~Yang, A.~Li, B.~Yang, et~al.
+\newblock Qwen3 technical report.
+\newblock arXiv:2505.09388, 2025.
+
+\bibitem[Grattafiori et~al.(2024)]{grattafiori2024llama3}
+A.~Grattafiori, A.~Dubey, A.~Jauhri, et~al.
+\newblock The Llama 3 herd of models.
+\newblock arXiv:2407.21783, 2024.
+
+\bibitem[Jiang et~al.(2023)]{jiang2023mistral}
+A.~Q. Jiang, A.~Sablayrolles, A.~Mensch, et~al.
+\newblock Mistral 7B.
+\newblock arXiv:2310.06825, 2023.
+
+\bibitem[DeepSeek-AI(2024)]{deepseekai2024v3}
+DeepSeek-AI.
+\newblock DeepSeek-V3 technical report.
+\newblock arXiv:2412.19437, 2024.
+
+\bibitem[Reimers \& Gurevych(2019)]{reimers2019sbert}
+N.~Reimers and I.~Gurevych.
+\newblock Sentence-BERT: Sentence embeddings using Siamese BERT-networks.
+\newblock EMNLP-IJCNLP 2019.
+
+\bibitem[Wang et~al.(2020)]{wang2020minilm}
+W.~Wang, F.~Wei, L.~Dong, H.~Bao, N.~Yang, and M.~Zhou.
+\newblock MiniLM: Deep self-attention distillation for task-agnostic compression of pre-trained transformers.
+\newblock NeurIPS 2020.
+
+\bibitem[Zheng et~al.(2023)]{zheng2023mtbench}
+L.~Zheng, W.-L. Chiang, Y.~Sheng, et~al.
+\newblock Judging LLM-as-a-judge with MT-Bench and Chatbot Arena.
+\newblock NeurIPS 2023 Datasets and Benchmarks. arXiv:2306.05685.
+
+% ---- Memory-augmented LLM agents and memory systems ----
+\bibitem[Packer et~al.(2023)]{packer2023memgpt}
+C.~Packer, S.~Wooders, K.~Lin, et~al.
+\newblock MemGPT: Towards LLMs as operating systems.
+\newblock arXiv:2310.08560, 2023.
+
+\bibitem[Chhikara et~al.(2025)]{chhikara2025mem0}
+P.~Chhikara, D.~Khant, S.~Aryan, T.~Singh, and D.~Yadav.
+\newblock Mem0: Building production-ready AI agents with scalable long-term memory.
+\newblock arXiv:2504.19413, 2025.
+
+\bibitem[Xu et~al.(2025)]{xu2025amem}
+W.~Xu, Z.~Liang, K.~Mei, H.~Gao, J.~Tan, and Y.~Zhang.
+\newblock A-MEM: Agentic memory for LLM agents.
+\newblock arXiv:2502.12110, 2025.
+
+\bibitem[Rasmussen et~al.(2025)]{rasmussen2025zep}
+P.~Rasmussen, P.~Paliychuk, T.~Beauvais, J.~Ryan, and D.~Chalef.
+\newblock Zep: A temporal knowledge graph architecture for agent memory.
+\newblock arXiv:2501.13956, 2025.
+
+\bibitem[Li et~al.(2025)]{li2025memos}
+Z.~Li, S.~Song, H.~Wang, et~al.
+\newblock MemOS: An operating system for memory-augmented generation in large language models.
+\newblock arXiv:2505.22101, 2025.
+
+\bibitem[Wang et~al.(2026)]{wang2026memmachine}
+S.~Wang, E.~Yu, O.~Love, T.~Zhang, T.~Wong, S.~Scargall, and C.~Fan.
+\newblock MemMachine: A ground-truth-preserving memory system for personalized AI agents.
+\newblock arXiv:2604.04853, 2026.
+
+\bibitem[Hu et~al.(2026)]{hu2026evermemos}
+C.~Hu, X.~Gao, Z.~Zhou, et~al.
+\newblock EverMemOS: A self-organizing memory operating system for structured long-horizon reasoning.
+\newblock arXiv:2601.02163, 2026.
+
+\bibitem[Patel \& Patel(2025)]{patel2025engram}
+D.~Patel and S.~Patel.
+\newblock ENGRAM: Effective, lightweight memory orchestration for conversational agents.
+\newblock arXiv:2511.12960, 2025.
+
+\bibitem[Yan et~al.(2025)]{yan2025memoryr1}
+S.~Yan, X.~Yang, Z.~Huang, et~al.
+\newblock Memory-R1: Enhancing large language model agents to manage and utilize memories via reinforcement learning.
+\newblock arXiv:2508.19828, 2025.
+
+\bibitem[Yu et~al.(2026)]{yu2026agemem}
+Y.~Yu, L.~Yao, Y.~Xie, et~al.
+\newblock Agentic memory: Learning unified long-term and short-term memory management for LLM agents.
+\newblock arXiv:2601.01885, 2026.
+
+\bibitem[Wang et~al.(2025)]{wang2025memalpha}
+Y.~Wang, R.~Takanobu, Z.~Liang, et~al.
+\newblock Mem-$\alpha$: Learning memory construction via reinforcement learning.
+\newblock arXiv:2509.25911, 2025.
+
+\bibitem[Zhang et~al.(2024)]{zhang2024memorysurvey}
+Z.~Zhang, X.~Bo, C.~Ma, et~al.
+\newblock A survey on the memory mechanism of large language model based agents.
+\newblock arXiv:2404.13501, 2024.
+
+\bibitem[Wu et~al.(2025)]{wu2025humantoai}
+Y.~Wu, S.~Liang, C.~Zhang, et~al.
+\newblock From human memory to AI memory: A survey on memory mechanisms in the era of LLMs.
+\newblock arXiv:2504.15965, 2025.
+
+\bibitem[Du(2026)]{du2026memorysurvey}
+P.~Du.
+\newblock Memory for autonomous LLM agents: Mechanisms, evaluation, and emerging frontiers.
+\newblock arXiv:2603.07670, 2026.
+
+\bibitem[Pollertlam \& Kornsuwannawit(2026)]{pollertlam2026beyondcontext}
+N.~Pollertlam and W.~Kornsuwannawit.
+\newblock Beyond the context window: A cost-performance analysis of fact-based memory vs.\ long-context LLMs for persistent agents.
+\newblock arXiv:2603.04814, 2026.
+
+% ---- Personalization ----
+\bibitem[Salemi et~al.(2024)]{salemi2024lamp}
+A.~Salemi, S.~Mysore, M.~Bendersky, and H.~Zamani.
+\newblock LaMP: When large language models meet personalization.
+\newblock ACL 2024. arXiv:2304.11406.
+
+\bibitem[Zhang et~al.(2024)]{zhang2024personalization}
+Z.~Zhang, R.~A. Rossi, B.~Kveton, et~al.
+\newblock Personalization of large language models: A survey.
+\newblock arXiv:2411.00027, 2024.
+
+\bibitem[Liu et~al.(2025)]{liu2025personalizedllm}
+J.~Liu, Z.~Qiu, Z.~Li, et~al.
+\newblock A survey of personalized large language models: Progress and future directions.
+\newblock arXiv:2502.11528, 2025.
+
+\bibitem[Xu et~al.(2026)]{xu2026personalizedagents}
+Y.~Xu, Q.~Chen, Z.~Ma, et~al.
+\newblock Toward personalized LLM-powered agents: Foundations, evaluation, and future directions.
+\newblock arXiv:2602.22680, 2026.
+
+% ---- Knowledge editing ----
+\bibitem[Mitchell et~al.(2022a)]{mitchell2022mend}
+E.~Mitchell, C.~Lin, A.~Bosselut, C.~Finn, and C.~D.~Manning.
+\newblock Fast model editing at scale.
+\newblock ICLR 2022.
+
+\bibitem[Mitchell et~al.(2022b)]{mitchell2022serac}
+E.~Mitchell, C.~Lin, A.~Bosselut, C.~D.~Manning, and C.~Finn.
+\newblock Memory-based model editing at scale.
+\newblock ICML 2022.
+
+\bibitem[Dai et~al.(2022)]{dai2022knowledge}
+D.~Dai, L.~Dong, Y.~Hao, Z.~Sui, B.~Chang, and F.~Wei.
+\newblock Knowledge neurons in pretrained transformers.
+\newblock ACL 2022.
+
+\bibitem[Allen-Zhu \& Li(2025)]{allenzhu2025physics}
+Z.~Allen-Zhu and Y.~Li.
+\newblock Physics of language models: Part 3.3, knowledge capacity scaling laws.
+\newblock ICML 2025. arXiv:2404.05405.
+
+\bibitem[Li(2026b)]{li2026ikp}
+B.~Li.
+\newblock Incompressible knowledge probes: Estimating black-box {LLM} parameter
+  counts via factual capacity.
+\newblock arXiv:2604.24827, 2026.
+
+\bibitem[Wang et~al.(2024)]{wang2024wise}
+P.~Wang, Z.~Li, N.~Zhang, et~al.
+\newblock WISE: Rethinking the knowledge memory for lifelong model editing of large language models.
+\newblock NeurIPS 2024.
+
+\bibitem[Yao et~al.(2023)]{yao2023editing}
+Y.~Yao, P.~Wang, B.~Tian, et~al.
+\newblock Editing large language models: Problems, methods, and opportunities.
+\newblock EMNLP 2023.
+
+% ---- Continual learning and catastrophic forgetting ----
+\bibitem[McCloskey \& Cohen(1989)]{mccloskey1989catastrophic}
+M.~McCloskey and N.~J. Cohen.
+\newblock Catastrophic interference in connectionist networks: The sequential learning problem.
+\newblock \emph{Psychology of Learning and Motivation}, 24:109--165, 1989.
+
+\bibitem[Kirkpatrick et~al.(2017)]{kirkpatrick2017ewc}
+J.~Kirkpatrick, R.~Pascanu, N.~Rabinowitz, et~al.
+\newblock Overcoming catastrophic forgetting in neural networks.
+\newblock \emph{PNAS}, 114(13):3521--3526, 2017.
+
+\bibitem[Shi et~al.(2024)]{shi2024continual}
+H.~Shi, Z.~Xu, H.~Wang, et~al.
+\newblock Continual learning of large language models: A comprehensive survey.
+\newblock arXiv:2404.16789, 2024.
+
+% ---- Retrieval-augmented and non-parametric memory ----
+\bibitem[Guu et~al.(2020)]{guu2020realm}
+K.~Guu, K.~Lee, Z.~Tung, P.~Pasupat, and M.-W. Chang.
+\newblock REALM: Retrieval-augmented language model pre-training.
+\newblock ICML 2020.
+
+\bibitem[Khandelwal et~al.(2020)]{khandelwal2020knnlm}
+U.~Khandelwal, O.~Levy, D.~Jurafsky, L.~Zettlemoyer, and M.~Lewis.
+\newblock Generalization through memorization: Nearest neighbor language models.
+\newblock ICLR 2020.
+
+\bibitem[Borgeaud et~al.(2022)]{borgeaud2022retro}
+S.~Borgeaud, A.~Mensch, J.~Hoffmann, et~al.
+\newblock Improving language models by retrieving from trillions of tokens.
+\newblock ICML 2022.
+
+\bibitem[Izacard et~al.(2023)]{izacard2023atlas}
+G.~Izacard, P.~Lewis, M.~Lomeli, et~al.
+\newblock Atlas: Few-shot learning with retrieval augmented language models.
+\newblock \emph{JMLR}, 24(251):1--43, 2023.
+
+\bibitem[Asai et~al.(2024)]{asai2024selfrag}
+A.~Asai, Z.~Wu, Y.~Wang, A.~Sil, and H.~Hajishirzi.
+\newblock Self-RAG: Learning to retrieve, generate, and critique through self-reflection.
+\newblock ICLR 2024.
+
+% ---- Parametric knowledge and parameter-efficient fine-tuning ----
+\bibitem[Geva et~al.(2021)]{geva2021kv}
+M.~Geva, R.~Schuster, J.~Berant, and O.~Levy.
+\newblock Transformer feed-forward layers are key-value memories.
+\newblock EMNLP 2021.
+
+\bibitem[Li \& Liang(2021)]{li2021prefix}
+X.~L. Li and P.~Liang.
+\newblock Prefix-tuning: Optimizing continuous prompts for generation.
+\newblock ACL 2021.
+
+\bibitem[Zhang et~al.(2023)]{zhang2023adalora}
+Q.~Zhang, M.~Chen, A.~Bukharin, et~al.
+\newblock AdaLoRA: Adaptive budget allocation for parameter-efficient fine-tuning.
+\newblock ICLR 2023.
+
+\bibitem[Dettmers et~al.(2023)]{dettmers2023qlora}
+T.~Dettmers, A.~Pagnoni, A.~Holtzman, and L.~Zettlemoyer.
+\newblock QLoRA: Efficient finetuning of quantized LLMs.
+\newblock NeurIPS 2023.
+
+\end{thebibliography}
+
 \appendix
+
+% Appendix section headings read "Appendix C: Title" (arxiv.sty uses titlesec;
+% \thesection is left as the bare letter so "Appendix~\ref{app:...}" stays correct).
+\titleformat{\section}
+  {\color{arxivink}\sffamily\large\bfseries}{Appendix~\thesection:}{0.6em}{}
 
 \section{LOCOMO diagnostics: token-F1 vs.\ LLM-judge}
 \label{app:locomo}
@@ -3260,11 +3162,5 @@ users. For 1\,M users that is 100\,GB $+$
 versus 14.2\,TB for per-user LoRA at the same recall ceiling.
 Figure~\ref{fig:pareto-layered} plots all six method
 combinations against storage and indirect-reasoning accuracy.
-
-\fi
-
-% Check whether the conference requires a reproducibility checklist to be included in the paper.
-% If so, you can uncomment the following line and ajust the path to include it.
-% \input{ReproducibilityChecklist.tex}
 
 \end{document}

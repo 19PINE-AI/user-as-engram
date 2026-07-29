@@ -278,7 +278,8 @@ def main():
     # --- Replication summary ---
     print("\n--- Replication summary ---")
     if has_engram and fa_supp is not None:
-        # Retained-performance ratio (suppressed / active), per the paper's §6.3
+        # Retained-performance ratio (suppressed / active), corresponding to
+        # the paper's named Engram-suppression sensitivity test.
         for k in ("top1", "top5"):
             fa_active_k = fa_active[k]; fa_supp_k = fa_supp[k]
             re_active_k = re_active[k]; re_supp_k = re_supp[k]
