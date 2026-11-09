@@ -1,0 +1,89 @@
+
+### Part A — qkv LoRA (n_users=20, n_facts=650)
+direct 0.01→1.00; indirect 0.110→0.297
+l50 suffix median 20.0, l50 prefix median 24.0 (NL=36)
+suffix 1.00 1.00 1.00 0.98 0.90 0.59 0.15 -0.00 -0.01 0.00
+prefix 0.00 0.01 0.04 0.09 0.19 0.36 0.54 0.69 0.80 1.00
+band4  0.01 0.04 0.07 0.15 0.20 0.13 0.01 0.02 -0.01
+direct share mlp 0.72 attn 0.28
+share topK static {'10': 0.014385227575014096, '100': 0.27730027409669494, '1000': 0.608631926948852, '10000': 0.7223430359616807}  random {'10': 9.030187429887315e-06, '100': 0.0001652418474130473, '1000': 0.0026022147952095504, '10000': 0.020298103158268334}
+n50 6.0 n80 18.0  top100∈static1000 0.37  pct 0.0116
+abl K=10: zero_static 1.00/0.96; zero_random_layermatched 1.00/1.00; basepatch_static 0.98/0.99; basepatch_topcontrib 0.62/0.72; basepatch_random_layermatched 1.00/1.00
+abl K=100: zero_static 0.86/0.84; zero_random_layermatched 1.00/1.00; basepatch_static 0.78/0.89; basepatch_topcontrib 0.09/0.07; basepatch_random_layermatched 1.00/1.00
+abl K=1000: zero_static 0.68/0.65; zero_random_layermatched 1.00/1.00; basepatch_static 0.54/0.68; basepatch_topcontrib -0.40/0.00; basepatch_random_layermatched 0.99/1.00
+abl K=5000: zero_static 0.59/0.59; zero_random_layermatched 0.99/1.00; basepatch_static 0.45/0.60; basepatch_topcontrib -0.71/0.00; basepatch_random_layermatched 0.98/1.00
+gen: {'median_l50': 20.0, 'early_acc': 0.3668639053254438, 'early_n': 169, 'late_acc': 0.1678082191780822, 'late_n': 292}; spearman(l50, ok)=-0.060; base-wrong only=-0.053 (n=580); lateband=0.144
+
+### Part A — mlp LoRA (n_users=20, n_facts=649)
+direct 0.01→1.00; indirect 0.110→0.345
+l50 suffix median 20, l50 prefix median 24 (NL=36)
+suffix 1.00 1.01 1.03 1.03 0.95 0.63 0.18 0.12 0.05 0.00
+prefix 0.00 0.02 0.08 0.16 0.25 0.33 0.46 0.60 0.79 1.00
+band4  0.02 0.07 0.13 0.23 0.21 0.15 0.02 0.06 0.05
+direct share mlp 0.87 attn 0.12
+share topK static {'10': 0.008098577746909507, '100': 0.20389488629588273, '1000': 0.48710405891346836, '10000': 0.5962527736603636}  random {'10': 8.146161408005511e-06, '100': 0.00014946050074527497, '1000': 0.002377921009516317, '10000': 0.02113204739711777}
+n50 9 n80 33  top100∈static1000 0.41  pct 0.0062
+abl K=10: zero_static 1.00/0.99; zero_random_layermatched 1.00/1.00; basepatch_static 1.00/1.00; basepatch_topcontrib 0.77/0.94; basepatch_random_layermatched 1.00/1.00
+abl K=100: zero_static 0.95/0.95; zero_random_layermatched 1.00/1.00; basepatch_static 0.88/0.97; basepatch_topcontrib 0.27/0.45; basepatch_random_layermatched 1.00/1.00
+abl K=1000: zero_static 0.78/0.83; zero_random_layermatched 1.00/1.00; basepatch_static 0.65/0.87; basepatch_topcontrib -0.25/0.04; basepatch_random_layermatched 0.99/1.00
+abl K=5000: zero_static 0.70/0.78; zero_random_layermatched 0.99/1.00; basepatch_static 0.55/0.82; basepatch_topcontrib -0.52/0.02; basepatch_random_layermatched 0.98/1.00
+dW_down maxcos out 0.087 vs random 0.063; v mass top1% 0.086 vs random 0.084
+dW_gate/up maxcos in 0.101 vs random 0.063; u mass top1% 0.089
+gen: {'median_l50': 21.0, 'early_acc': 0.5807453416149069, 'early_n': 322, 'late_acc': 0.055350553505535055, 'late_n': 271}; spearman(l50, ok)=-0.311; base-wrong only=-0.284 (n=580); lateband=-0.112
+
+### Part B — Mini-Engram-d20 (users=20, facts=474, both top1=474)
+top1 engram 1.00 lora 1.00; reapply check 0.00e+00
+engram resid trig  0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.72 1.19 1.06 0.92 0.88 0.77 0.74 0.67
+engram resid other 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+engram unrelated   0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+engram mlp attr/dm 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.10 0.08 0.05 0.07 0.06 0.10 0.07 0.10 0.20  total 0.82
+engram patch {'10': {'own': 0.6976599521155129, 'cross': 0.7940976971112492, 'random': 1.0}, '100': {'own': 0.41674256879130495, 'cross': 0.6012970002193643, 'random': 1.0}, '1000': {'own': 0.23203261704941647, 'cross': 0.4490238365664181, 'random': 0.9938833963981282}}
+lora resid trig  0.00 0.46 0.71 0.80 1.03 0.98 1.07 1.08 1.16 1.17 1.29 1.22 1.25 1.17 1.23 1.25 1.38 1.32 1.38 1.36
+lora resid other 0.000 0.527 0.667 0.656 0.767 0.895 0.949 0.824 0.926 0.931 1.003 0.926 0.974 0.912 1.012 1.027 1.178 1.170 1.256 1.301
+lora unrelated   0.000 0.371 0.588 0.601 0.726 0.719 0.808 0.775 0.886 0.897 0.979 0.917 0.961 0.904 0.996 1.043 1.150 1.129 1.191 1.227
+lora mlp attr/dm 0.00 -0.00 -0.00 -0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.03 0.03 0.01 0.02 0.03 0.03 0.02 0.04 0.03  total 0.25
+lora patch {'10': {'own': 0.701821075264224, 'cross': 0.8289405692590607, 'random': 1.0}, '100': {'own': 0.4049871023187207, 'cross': 0.6055065212081888, 'random': 0.9996060861407917}, '1000': {'own': 0.1364650129226602, 'cross': 0.4922766662948985, 'random': 0.9984067531475278}}
+jaccard top100 0.242
+cos dact  0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.32 0.21 0.17 0.15 0.19 0.20 0.25 0.22 0.61
+cos shuf  0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.05 0.04 0.01 0.02 0.02 0.03 0.11 0.11 0.40
+
+### Part B layered reproduction aggregate
+{
+ "n_users": 20,
+ "A_no_edit_direct_top1": 0.2902573529411764,
+ "A_no_edit_direct_top5": 0.37591911764705876,
+ "A_no_edit_indirect_top1": 0.1375,
+ "A_no_edit_indirect_any": 0.1925,
+ "A_no_edit_val_bpb_delta": 0.0,
+ "A_no_edit_val_bpb_delta_gt0": 0.0,
+ "B_per_user_lora_direct_top1": 0.971875,
+ "B_per_user_lora_direct_top5": 0.9890625,
+ "B_per_user_lora_indirect_top1": 0.3524999999999999,
+ "B_per_user_lora_indirect_any": 0.052500000000000005,
+ "B_per_user_lora_val_bpb_delta": 1.5944085570138686,
+ "B_per_user_lora_val_bpb_delta_gt0": 1.0,
+ "C_per_user_engram_direct_top1": 1.0,
+ "C_per_user_engram_direct_top5": 1.0,
+ "C_per_user_engram_indirect_top1": 0.1375,
+ "C_per_user_engram_indirect_any": 0.23250000000000007,
+ "C_per_user_engram_val_bpb_delta": 5.3626902994052814e-05,
+ "C_per_user_engram_val_bpb_delta_gt0": 1.0,
+ "D_per_user_lora_plus_engram_direct_top1": 1.0,
+ "D_per_user_lora_plus_engram_direct_top5": 1.0,
+ "D_per_user_lora_plus_engram_indirect_top1": 0.3525,
+ "D_per_user_lora_plus_engram_indirect_any": 0.09000000000000002,
+ "D_per_user_lora_plus_engram_val_bpb_delta": 1.6631158159403412,
+ "D_per_user_lora_plus_engram_val_bpb_delta_gt0": 1.0,
+ "E_shared_lora_only_direct_top1": 0.5348345588235294,
+ "E_shared_lora_only_direct_top5": 0.7620404411764706,
+ "E_shared_lora_only_indirect_top1": 0.6225,
+ "E_shared_lora_only_indirect_any": 0.43999999999999995,
+ "E_shared_lora_only_val_bpb_delta": 0.3863995095179644,
+ "E_shared_lora_only_val_bpb_delta_gt0": 1.0,
+ "F_layered_direct_top1": 1.0,
+ "F_layered_direct_top5": 1.0,
+ "F_layered_indirect_top1": 0.6125,
+ "F_layered_indirect_any": 0.44250000000000006,
+ "F_layered_val_bpb_delta": 0.38635908986004874,
+ "F_layered_val_bpb_delta_gt0": 1.0
+}

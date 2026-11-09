@@ -8,10 +8,10 @@ Local Parametric Edits* (arXiv:2606.19172). The bibliography is embedded
 
 ```bash
 pip install -r requirements.txt   # matplotlib, numpy
-bash make_all_figures.sh          # all 38 figures, from ../results/, into figs/
+bash make_all_figures.sh          # all 39 figures, from ../results/, into figs/
 ```
 
-`make_all_figures.sh` runs the 11 generator scripts (`make_figures.py`,
+`make_all_figures.sh` runs the 12 generator scripts (`make_figures.py`,
 `make_figures_appendix.py`, `make_new_figures.py`, `gen_reorg_figs.py`, and the
 `fig_*.py`). The figure → data → experiment-script map is in
 [`../REPRODUCE.md`](../REPRODUCE.md).

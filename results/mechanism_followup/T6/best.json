@@ -1,0 +1,8 @@
+{
+ "lora_down": 35,
+ "lora_down+reg": 3,
+ "lora_up": 35,
+ "neuron": 35,
+ "neuron_bias": 35,
+ "rome": 11
+}
