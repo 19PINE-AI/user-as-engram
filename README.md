@@ -20,6 +20,13 @@ Headline results (vs. a per-user LoRA, on Mini-Engram-d20):
   (exactly 0.000 off-trigger), not merely small.
 - **88 KB per user** instead of 14.2 MB, with the backbone left bit-identical and
   zero cross-user leakage by construction.
+- **The locality comes from a key, not a gate** (follow-up, Nov 2026). On the same
+  474 facts, an Engram write leaves every layer before its read bit-identical while a
+  LoRA moves every layer at every token. In Qwen3-8B, a new gated neuron leaks a fact
+  to other people as often as a rank-1 LoRA (~50%); subject-keyed ROME leaks 12%
+  (<3% in early layers). Counter-example training also makes a LoRA subject-specific,
+  but costs two-hop reasoning past the early layers. Records:
+  [`results/mechanism_followup/`](results/mechanism_followup/).
 - Against retrieval, which method wins is set by deployment: a per-user table
   doesn't grow with the population, so past **~100 facts/user** it overtakes a
   retrieval pipeline on a 2.5× larger model.
@@ -32,6 +39,7 @@ Headline results (vs. a per-user LoRA, on Mini-Engram-d20):
 | [`code/`](code/) | Everything to run the experiments: the training/eval **harness** (`nanochat_harness/`, vendored, with our Engram module + GPT edits), our **experiment scripts** (`scripts/`), and the **per-user-LoRA baseline** + data generators (`lora_baseline/`). See [`code/README.md`](code/README.md). |
 | [`data/`](data/) | Synthetic per-user fact sets (`users/`, `users_medical/`) and fact corpora — all included. See [`data/README.md`](data/README.md). |
 | [`results/`](results/) | Result JSONs the paper figures are built from. See [`results/README.md`](results/README.md). |
+| [`results/mechanism_followup/`](results/mechanism_followup/) | Mechanism follow-up (Engram vs LoRA localization, gate vs key in Qwen3-8B, neuron audit): records, report, and a paper-number map. Scripts in [`code/mechanism_followup/`](code/mechanism_followup/). |
 | [`site/`](site/) | The interactive site (React + Vite). See [`site/README.md`](site/README.md). |
 | [`docs/dev-notes/`](docs/dev-notes/) | Working research logs and historical scripts (provenance; not needed to use the method). |
 
@@ -49,7 +57,7 @@ training run). The fastest path rebuilds **every paper figure from the committed
 ```bash
 cd paper
 pip install -r requirements.txt
-bash make_all_figures.sh        # 11 scripts → figs/*.pdf (all 38 figures)
+bash make_all_figures.sh        # 12 scripts → figs/*.pdf (all 39 figures)
 ```
 
 The synthetic data (`data/`), all result JSONs (`results/`), and the full

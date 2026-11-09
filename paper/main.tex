@@ -59,9 +59,8 @@ memory file or a retrieval index. When facts are written
 LoRA adapter, which does the opposite of the brain, folding
 content and skill into one global weight delta.
 Writing a user's facts as a LoRA contaminates text unrelated to them;
-writing the same facts as local \emph{Engram rows} leaves it
-mathematically untouched, resulting in a roughly $33{,}000\times$ smaller
-memory footprint.
+writing the same facts as local \emph{Engram rows} leaves that text
+essentially untouched, with roughly $33{,}000\times$ less extra loss.
 
 We therefore propose \textbf{User as Engram}: store a user's
 content as surgical edits to the hash-keyed memory table of an
@@ -74,6 +73,15 @@ the untouched base. The edit is a glass box: writing a fact switches
 on its lookup at exactly the trigger, adds the value the answer needs,
 leaves every other position unchanged to the last bit, and fails if
 written into the wrong layer.
+A follow-up study locates where the locality comes from. On the same
+facts, the Engram write leaves every layer before its read bit-identical
+and acts only at the trigger, while a LoRA changes every layer at every
+token. In Qwen3-8B, a single new fact stored in a gated neuron or a
+rank-1 LoRA leaks to unrelated people about half the time, but a
+subject-keyed edit (ROME) leaks far less: what keeps an edit
+local is a key, not a gate. Engram's hash address is such a key,
+though on the trigger's last tokens rather than on the subject.
+Training with counter-examples removes the leak from a LoRA too, but it costs two-hop reasoning in the middle and late layers.
 Because different users' facts land in disjoint hash slots, their edits
 \emph{compose}: many users live in one shared table at once, stacking
 additively and losslessly, where a per-user LoRA, a single global
@@ -163,8 +171,12 @@ LoRA~\citep{hu2022lora} trained on each user's facts
 (Section~\ref{sec:background}). A LoRA has no address: to
 make one fact more likely, gradient descent bends the $Q/K/V/O$
 directions that fit it most cheaply, and those same directions fire on
-unrelated text, so the edit is global by construction, not a
-side-effect of training. A global delta is also a single-tenant one:
+unrelated text, so unless training explicitly pushes back, the edit is
+global. Pushing back is possible but not free: in a follow-up on
+Qwen3-8B, training each LoRA edit against counter-examples (other
+people, ordinary text) removes most of its leak, but costs two-hop
+reasoning once the edit sits past the earliest layers
+(Section~\ref{sec:key-not-gate}). A global delta is also a single-tenant one:
 two users' LoRAs cannot share a model without merging into a combined
 delta that interferes, so each user needs their own copy of the
 weights.
@@ -197,8 +209,11 @@ The rest of the paper develops four core claims:
         (Section~\ref{sec:negative}).
         On a controlled base, writing a fact as a LoRA rather than as
         an Engram row is a $\sim$33{,}000$\times$ difference in extra
-        loss on unrelated text (3-seed mean), a property of how a
-        LoRA stores a fact, not of how we tuned it. The extra loss is
+        loss on unrelated text (3-seed mean). This is a property of how a
+        LoRA stores a fact when nothing in training tells it where
+        \emph{not} to act; in a single-fact follow-up, explicit
+        counter-examples remove most of a LoRA's leak to other people,
+        at a price in reasoning (Section~\ref{sec:key-not-gate}). The extra loss is
         always there; the visible damage (worse reasoning) appears
         only on weak bases, and vanishes on a strong instruction-tuned
         base that answers the question on its own. We turn that damage
@@ -213,6 +228,11 @@ The rest of the paper develops four core claims:
         the answer needs and nothing else (every other position is
         unchanged to the last bit), and stops working if written into
         the wrong layer (Figures~\ref{fig:locality} and~\ref{fig:glassbox}).
+        A follow-up shows what that locality rests on: a key, not a
+        gate. An added gated neuron is silent on most text yet still
+        leaks a new fact to other people as often as a LoRA does, while
+        subject-keyed edits leak far less
+        (Section~\ref{sec:key-not-gate}).
         We release four Mini-Engram checkpoints
         (178\,M--1.22\,B; a nano-scale public replication of
         Engram), all code and data, and a 50-line multi-tenant
@@ -275,7 +295,11 @@ landscape of personal-memory methods, which sorts along two axes
 query time, and whether storing a fact leaves the rest of the model
 untouched. In-context learning, retrieval, and external memory systems
 keep the model local but pay context on every query; per-user LoRA and
-knowledge editing pay no context but change the weights globally. User
+knowledge editing pay no context but change shared weights. (How local
+such a weight edit is in effect depends on whether it is keyed: a
+subject-keyed editor such as ROME~\citep{meng2022rome} leaks far less
+than a LoRA, Section~\ref{sec:key-not-gate}, but it still rewrites a
+matrix every user shares.) User
 as Engram is the only one in the remaining corner---a local edit at
 zero context cost---and the rest of the paper earns that placement. We
 defer the broader literature to Section~\ref{sec:related-work}.
@@ -287,7 +311,9 @@ defer the broader literature to Section~\ref{sec:related-work}.
   Context-based methods (in-context learning, retrieval, memory
   systems) leave the model untouched but pay context tokens at query
   time (top-left); weight-based methods (per-user LoRA, knowledge
-  editing) pay no context but edit the model globally (bottom-right).
+  editing) pay no context but edit shared weights (bottom-right; a
+  subject-keyed editor is closer to local in effect than a LoRA,
+  Section~\ref{sec:key-not-gate}).
   User as Engram occupies the remaining corner: a local edit at zero
   context cost. Axes are qualitative.}
   \label{fig:landscape}
@@ -358,6 +384,11 @@ co-locating many users feasible in one and hopeless in the other:
 contamination from a shared delta accumulates and cannot be
 quarantined per user, whereas addressed writes have zero
 cross-talk by construction (Section~\ref{sec:serving}).
+The LoRA here is trained the standard way, on the user's facts alone.
+Section~\ref{sec:key-not-gate} shows that adding counter-examples to
+the training (other people, ordinary text, ``answer as before'') makes
+a single-fact LoRA edit far more local. That is a fix applied per edit
+and paid for in reasoning, not a property the LoRA has by itself.
 
 \subsection{Recall without reasoning}
 
@@ -375,6 +406,22 @@ transfer to facts it never saw. This recall-without-reasoning gap
 is the recurring finding of the per-user-adapter
 line~\citep{su2024prag,tan2024oppu,zhuang2024hydra}: the facts go
 in, but indirect questions over them do not reliably come out.
+
+Opening up per-user LoRAs on Qwen3-8B~\citep{qwen2025qwen3} shows what
+the flat mapping looks like (20 users, $\sim$650 facts, rank-64 LoRA on
+either $Q/K/V$ or the MLP; Appendix~\ref{app:followup-lora}). Direct
+recall goes from $0.01$ to $\geq0.997$, but indirect accuracy only from
+$0.11$ to $0.30$ ($Q/K/V$) or $0.35$ (MLP). Even the $Q/K/V$ adapter
+reaches the answer logit mostly through MLP neurons ($72\%$ of its
+direct effect). Half of that neuron contribution sits in a median of
+$6$--$9$ late-layer neurons, which the base already uses to write
+answer tokens~\citep{geva2022ffn}: the 100 neurons whose base weights
+best promote the answer carry $20$--$28\%$ of it, against $0.02\%$
+for 100 random ones. Depth matters for reuse. Facts whose LoRA
+effect sits deeper than the median are answered indirectly far less
+often ($0.06$ vs.\ $0.58$ for the MLP adapter). For the $Q/K/V$
+adapter the gap is smaller ($0.17$ vs.\ $0.37$), and the rank
+correlation is weak ($\rho=-0.06$).
 
 What a user sees in addition depends on the base. We replicate the per-user LoRA recipe (rank-64 NTP on
 observation/fact/QA mixtures, 12 epochs $\times$ 200 samples) on
@@ -581,7 +628,11 @@ the sentence, so every other position reads the rows it always read
 and its output is unchanged to the last bit. This holds for every one
 of the 16 test facts and both writing strategies: the largest change
 at any non-trigger position, at any layer, is $0$
-(Figure~\ref{fig:locality}a). A LoRA that learns the same fact does
+(Figure~\ref{fig:locality}a). The same holds when a whole user is
+written at once with Joint OPT: over all 20 test users (474 facts) the
+residual entering every block up to the Engram read is unchanged, and
+non-trigger positions are bit-identical for 473 of the 474 facts
+(Section~\ref{sec:key-not-gate}). A LoRA that learns the same fact does
 the opposite---it moves every position in every layer, and shifts
 unrelated text as well (Figure~\ref{fig:locality}b). This is the line
 between editing a function and writing to a store. Note where the
@@ -622,8 +673,138 @@ my doctor'' but not ``where does my doctor work'' unless that second
 step was stored too (Section~\ref{sec:multihop}). That is the reason we
 keep the facts and the reasoning apart (Section~\ref{sec:layered}): the
 store can hold a fact but cannot chain it, so the chaining has to come
-from somewhere else. The split between facts and reasoning is forced by
-how the mechanism works, not a convenience we chose.
+from somewhere else. For this store, the split between facts and
+reasoning follows from how the mechanism works; it is not a
+convenience we chose. Locality alone does not force it. In Qwen3-8B, a
+subject-keyed ROME edit in an early layer has a leak to other people
+of only 0.3\% (defined in Section~\ref{sec:key-not-gate}) and still supports a second hop through pretrained
+knowledge (0.49, vs.\ 0.52 with the fact in context)
+(Section~\ref{sec:key-not-gate}). What rules out chaining here is the
+surface-N-gram key and the late read.
+
+\subsection{Where the locality comes from: a key, not a gate}
+\label{sec:key-not-gate}
+
+The glass box shows \emph{that} an Engram write is local. A follow-up
+study (Appendix~\ref{app:followup}) asks \emph{why}, from two sides:
+the same facts written as Engram rows and as a LoRA, and single facts
+written into a large dense model by edits that do or do not have a
+gate or a key (Figure~\ref{fig:key-not-gate}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figs/fig_locality_followup.pdf}
+  \caption{\textbf{Locality comes from a key, not a gate.}
+  \textbf{(a)} Mini-Engram-d20, all 20 test users' facts (474 facts the
+  base did not already know), written as Engram rows (Joint OPT) or as
+  the standard per-user LoRA. Both recall all 474. Mean relative
+  residual change per block: the Engram write is exactly zero before its
+  read at layer~11 and at every non-trigger position and unrelated
+  sentence (473 of 474 facts bit-identical off-trigger; the
+  remaining one moves by at most 2\%). The LoRA moves every block, at the trigger,
+  at the prompt's other positions and on unrelated text alike.
+  \textbf{(b)} Qwen3-8B, one fictional fact (``$X$ lives in the city of
+  $Y$'') per edit, 200 facts per point: mean probability the edited
+  model gives $Y$ when asked where 40 \emph{other} people live. A new
+  gated MLP neuron leaks as much as a rank-1 LoRA; ROME, keyed on the
+  subject, leaks least. Hollow markers: the same edits trained with
+  counter-examples. \textbf{(c)} Two-hop accuracy (asking for $Y$'s
+  country) at the counter-example layers: specificity is free at L7 but
+  halves two-hop or worse at L15 and L23.}
+  \label{fig:key-not-gate}
+\end{figure}
+
+\paragraph{Same facts, different edits.} On Mini-Engram-d20 we wrote
+each of the 20 headline test users' facts both ways: Engram rows by
+Joint OPT, and the standard per-user LoRA (rank-64 on $Q/K/V$, 1{,}500
+steps, as in Section~\ref{sec:negative}). We kept the 474 facts the base
+did not already answer. Both methods recall every one of them, so any
+difference lies in how they store a fact, not in whether they do. The
+Engram write leaves the residual stream entering blocks 0--11 exactly
+unchanged and acts only at the trigger; the LoRA already moves the
+residual by 46\% of its norm after the first block, at the trigger,
+by 53\% at the prompt's other positions, and by 37\% on unrelated
+sentences, growing to 120--140\% by the last block
+(Figure~\ref{fig:key-not-gate}a). Downstream, the two edits use partly
+different neurons. Ranking MLP neurons by their attributed effect on
+the answer logit (activation $\times$ gradient), the two methods'
+top-100 sets have a median Jaccard index of $0.24$, so about 39 of 100
+are shared. Resetting a method's own top-100 neurons to their base
+values leaves 0.42 (Engram) or 0.40 (LoRA) of its effect; resetting the
+\emph{other} method's top-100 leaves about 0.60; 100 random neurons
+leave all of it. The Engram row also works through the MLPs that read
+it (0.82 of its effect attributed to MLP neurons, against 0.25 for the
+LoRA). So an Engram row is not a localized copy of what a LoRA does;
+it is a different, addressed edit that feeds part of the same
+answer-writing machinery.
+
+\paragraph{A gate is not a key.} An MLP neuron reads one direction and
+writes one direction, the shape of a rank-1 LoRA, plus a gate that can
+switch it off. If locality came from gating, a new neuron should store a
+fact as locally as an Engram row. We tested this in
+Qwen3-8B~\citep{qwen2025qwen3}: 200 fictional people, one ``lives in''
+fact per edit, written at one of nine layers (3--35) as a new gated
+SwiGLU neuron, a rank-1 LoRA on the MLP's down or up projection, or a
+ROME edit~\citep{meng2022rome}, about 9{,}200 edits in all
+(Appendix~\ref{app:followup-t6}). Every method recalls the fact. We
+call the mean probability an edit gives the new city when asked where
+40 \emph{other} people live its \emph{leak} (no edit: 0.05\%). The gate
+does make the neuron sparse: it fires on only 0.5--5\% of ordinary text
+tokens at layers 7--31, while a rank-1 LoRA's change fires on up to
+94\%. But it does not make the neuron specific to the subject. Averaged
+over layers 3--31, the neuron's leak is 53\%, the same as the rank-1
+LoRA's (44--50\%) (Figure~\ref{fig:key-not-gate}b). Left to itself,
+the gate learns to open on ``someone's home city is being asked'', not
+on this person. ROME, which keys its edit on the subject's
+representation, leaks 12\% on average and under 3\% in layers 3--11
+where it is normally applied. This is the stage-(3) observation of
+Appendix~\ref{app:mech}, that Engram's locality comes from addressing
+and not from its gate, now seen from the other side: in a dense
+model, too, locality comes from a key on the input.
+
+\paragraph{Counter-examples also work, at a price.} A gate \emph{can}
+learn to be specific if it is shown where not to open. We repeated the
+edits at layers 7, 15 and 23, adding a KL-to-base term on other people
+with the same relation, other relations, and generic text, and gave the
+LoRAs the same counter-examples. The leak fell from 35\%/62\%/72\%
+to 0.5\%/1.5\%/3.5\% for the neuron, and from 9--79\% to 0.3--8.5\%
+for the two rank-1 LoRAs (a rank-16 $Q/K/V$ LoRA on every layer: 50\%
+to 1.6\%). So the gate is not what makes an edit subject-specific, and
+a LoRA can be made as local to its subject as a neuron. This weakens
+any claim that a LoRA is non-local \emph{by construction}: it is
+non-local when trained, as per-user LoRAs normally are, on the user's
+facts alone. The counter-examples have three costs. They are needed for
+every edit. They do not make the LoRA sparse on ordinary text: past the
+earliest layers the regularized rank-1 LoRA still moves the residual
+on most text tokens (67\% at layer~15, 94\% at layer~23, against
+20--36\% for the neuron), and at layer~23 its unit fires on about half
+of them (the neuron's on 7\%). And they
+cost composition: at layers 15 and 23, two-hop accuracy halves or worse
+(neuron $0.40\to0.20$ and $0.32\to0.09$; rank-1 LoRA $0.39\to0.13$ and
+$0.36\to0.04$), while at layer~7 it is unchanged
+(Figure~\ref{fig:key-not-gate}c). ROME at layer~7 remains the best
+single edit: 0.3\% leak, 0.59 on reworded questions, 0.49 two-hop,
+close to giving the fact in context (0.66 and 0.52).
+
+\paragraph{What this means for User as Engram.} An Engram row gets its
+locality the way ROME does, from a key, but with no training against
+counter-examples and no change to the shared weights. Two qualifications
+follow from the data. First, Engram's key is the trigger's last two or
+three tokens, not the subject. Two people's facts are kept apart by the
+per-user override tables, which make the user the implicit subject,
+and by the subject's name only when it falls inside the trigger
+N-gram. We did not measure leakage between subjects that share a
+relation phrase inside one table. Second, the depth sweep explains
+part of the composition gap. Every method's two-hop accuracy collapses
+when the fact is written into the last quarter of the network
+(0.02--0.05 at layer~27 and 0.00 at layers 31--35, with direct recall
+still $\approx1.0$), whereas edits at layers 7--19 compose (0.26--0.61),
+consistent with multi-hop failures after knowledge
+editing~\citep{mquake2023}. Engram's read sits after 55--60\% of the
+network, so its inability to chain (Section~\ref{sec:multihop}) comes
+mainly from its surface key. Finally, adding Engram to pretraining
+leaves the base model's own neurons as interpretable as a dense
+model's (Appendix~\ref{app:followup-t5}).
 
 \subsection{Per-user override tables and additive composition}
 
@@ -1374,7 +1555,25 @@ composes facts across triggers (``if my doctor is Patel and
 Patel works at Globex, what is my doctor's employer?'').
 User-as-Engram inherits this gap from per-user LoRA. A candidate
 fix is to mix recite-then-reason traces into Engram pretraining;
-we leave it to future work.
+we leave it to future work. The follow-up suggests a second route:
+in Qwen3-8B, a single edit written in the first half of the network
+(layers 7--19) does support one further hop through pretrained
+knowledge, while the same edit in the last quarter does not
+(Section~\ref{sec:key-not-gate}). A subject-keyed read placed earlier
+is therefore worth testing, though Section~\ref{sec:locality} shows that
+an Engram row written early is mostly washed out at our budget.
+
+\paragraph{Locality is keyed on the trigger, not the subject.}
+An Engram row is addressed by the trigger's last two or three tokens.
+Across users, the per-user override tables give zero leakage by
+construction. Within one table, two subjects whose facts end in the
+same N-gram (``\ldots\ was born in'') share rows, and we have not
+measured how much one such fact leaks to the other. The follow-up on
+Qwen3-8B compares a gate, a LoRA and a subject key, but does not
+include an Engram model; its multi-fact (10 and 50 facts per edit) and
+direct ``does the unit fire on other people'' measurements are still
+running, and its counter-example arm covers only layers 7, 15 and 23
+(Appendix~\ref{app:followup-t6}).
 
 \paragraph{Within-user density ceiling.}
 Joint OPT at 1000 facts reaches 35\% top-1. The slot space is
@@ -1494,7 +1693,14 @@ or routing around them~\citep{mitchell2022mend,mitchell2022serac,wang2024wise}--
 ripple-effect benchmarks measuring the
 fallout~\citep{mquake2023,rippleedits2023,counterfact2022}. We do the
 opposite: we \emph{add} facts the model never saw and want everything
-else left alone. Recitation methods, which surface a stored fact
+else left alone. Our follow-up (Section~\ref{sec:key-not-gate}) uses
+ROME as the reference for a subject-keyed edit. Its low leak in layers 3--11
+fits the account in which the subject's
+representation is enriched early and the attribute is read out
+later~\citep{geva2023dissecting}. Where an edit is placed also changes
+what it does beyond the edited fact, which echoes the finding that
+causal localization does not tell you where editing works
+best~\citep{hase2023localization}. Recitation methods, which surface a stored fact
 before reasoning over it~\citep{srrag2024,sun2023recitation}, we reuse
 in Section~\ref{sec:negative}.
 
@@ -1537,7 +1743,7 @@ its own address and leaving the shared weights untouched.
 \section{Conclusion}
 \label{sec:conclusion}
 
-ersonal memory is two jobs, not one: remembering a
+Personal memory is two jobs, not one: remembering a
 user's specific facts, and the general skill of reasoning with
 them. The standard in-weights recipe asks one per-user adapter to
 do both, and that is the root of the trouble: an adapter that must
@@ -1556,6 +1762,14 @@ weights, on every query and stacking with every user; retrieval
 pays it in a search index that degrades as the candidate pool
 grows; User as Engram pays it at the one address its fact occupies,
 so the cost grows with a single user's facts and nothing else.
+
+Our follow-up sharpens what ``local'' requires. A gate is not enough:
+an added neuron that is silent on most text still hands a new fact to
+other people as readily as a LoRA does. What keeps an edit to its
+subject is a key, as in ROME or Engram's address, or explicit training
+against counter-examples, which works for a LoRA as well but has to be
+repeated for every edit and costs reasoning. An Engram table gets the
+key from the architecture.
 
 A century ago Richard Semon coined \emph{engram} for the trace
 an experience etches into living tissue---a mark local enough
@@ -1823,16 +2037,17 @@ K.~Meng et~al.
 \newblock {MEMIT}: Mass-editing memory in a transformer.
 \newblock ICLR 2023.
 
-\bibitem[Cohen et~al.(2023)]{mquake2023}
-R.~Cohen et~al.
-\newblock Evaluating the ripple effects of knowledge editing in language models
-  ({MQuAKE}).
-\newblock 2023.
+\bibitem[Zhong et~al.(2023)]{mquake2023}
+Z.~Zhong, Z.~Wu, C.~D. Manning, C.~Potts, and D.~Chen.
+\newblock {MQuAKE}: Assessing knowledge editing in language models via
+  multi-hop questions.
+\newblock EMNLP 2023.
 
 \bibitem[Cohen et~al.(2024)]{rippleedits2023}
-R.~Cohen et~al.
-\newblock {RippleEdits}: A benchmark for ripple effects of model editing.
-\newblock 2024.
+R.~Cohen, E.~Biran, O.~Yoran, A.~Globerson, and M.~Geva.
+\newblock Evaluating the ripple effects of knowledge editing in language
+  models ({RippleEdits}).
+\newblock TACL 2024.
 
 \bibitem[Meng et~al.(2022b)]{counterfact2022}
 K.~Meng et~al.
@@ -2088,6 +2303,46 @@ T.~Dettmers, A.~Pagnoni, A.~Holtzman, and L.~Zettlemoyer.
 \newblock QLoRA: Efficient finetuning of quantized LLMs.
 \newblock NeurIPS 2023.
 
+
+\bibitem[Geva et~al.(2022)]{geva2022ffn}
+M.~Geva, A.~Caciularu, K.~Wang, and Y.~Goldberg.
+\newblock Transformer feed-forward layers build predictions by promoting
+  concepts in the vocabulary space.
+\newblock EMNLP 2022.
+
+\bibitem[Geva et~al.(2023)]{geva2023dissecting}
+M.~Geva, J.~Bastings, K.~Filippova, and A.~Globerson.
+\newblock Dissecting recall of factual associations in auto-regressive
+  language models.
+\newblock EMNLP 2023.
+
+\bibitem[Hase et~al.(2023)]{hase2023localization}
+P.~Hase, M.~Bansal, B.~Kim, and A.~Ghandeharioun.
+\newblock Does localization inform editing? {S}urprising differences in
+  causality-based localization vs.\ knowledge editing in language models.
+\newblock NeurIPS 2023.
+
+\bibitem[Kram{\'a}r et~al.(2024)]{kramar2024atp}
+J.~Kram{\'a}r, T.~Lieberum, R.~Shah, and N.~Nanda.
+\newblock {AtP*}: An efficient and scalable method for localizing {LLM}
+  behaviour to components.
+\newblock arXiv:2403.00745, 2024.
+
+\bibitem[Bills et~al.(2023)]{bills2023explain}
+S.~Bills, N.~Cammarata, D.~Mossing, H.~Tillman, L.~Gao, G.~Goh,
+  I.~Sutskever, J.~Leike, J.~Wu, and W.~Saunders.
+\newblock Language models can explain neurons in language models.
+\newblock OpenAI, 2023.
+\newblock
+  \url{https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html}.
+
+\bibitem[Gao(2026)]{gao2026notclean}
+L.~Gao.
+\newblock Neural networks are not already clean.
+\newblock LessWrong, October 2026.
+\newblock
+  \url{https://www.lesswrong.com/posts/Dkh7pXKjoNWkkxQDz/neural-networks-are-not-already-clean}.
+
 \end{thebibliography}
 
 \appendix
@@ -2231,7 +2486,9 @@ position and every layer and which perturbs unrelated text by mean
 $107$. Because the edit is \emph{addressed}, a per-user write
 contaminates no unrelated forward pass ($\Delta$bpb $+0.00005$ vs.\ a
 global LoRA's $+1.78$; Section~\ref{sec:negative}), and cross-user
-leakage is zero by design (Section~\ref{sec:method}).
+leakage is zero by design (Section~\ref{sec:method}). Appendix~\ref{app:followup} adds the converse
+check in a dense model: a learned gate alone does not localize a fact
+to its subject.
 
 \paragraph{(4) Depth: the edit lands where the model has already
 ``deepened''.} Engram rows are read at a late Engram layer, after
@@ -2293,6 +2550,259 @@ convenience but a direct consequence of the mechanism.
   of the mechanism above).}
   \label{fig:logitlens}
 \end{figure}
+
+\section{Mechanism follow-up: Engram vs.\ LoRA, and a gate vs.\ a key}
+\label{app:followup}
+
+This appendix gives the methods and numbers behind
+Section~\ref{sec:key-not-gate} and the new paragraph in
+Section~\ref{sec:negative}. Every record, script and a table mapping
+each number in the paper to its record and field are in
+\texttt{results/mechanism\_followup/} and
+\texttt{code/mechanism\_followup/} of the repository;
+\texttt{summarize.py} recomputes all of them on a CPU from the committed
+records. Means are over facts unless stated, and bracketed ranges are
+95\% bootstrap CIs over facts.
+
+\subsection{Same facts as Engram rows and as a LoRA (Mini-Engram-d20)}
+\label{app:followup-engram}
+
+\paragraph{Setup.} Mini-Engram-d20@1536, the 20 headline test users
+(u000--u019). For each user, the facts are turned into
+(trigger, single-token gold) pairs exactly as in the head-to-head
+locality script, and we keep the 474 facts whose gold the base does
+not already predict. Each user is written twice from the same base:
+Engram Joint OPT (1{,}500 steps, lr 0.5) into the late Engram table
+(layer~11), and the repository's per-user LoRA (rank 64, $\alpha=128$,
+$Q/K/V$, 1{,}500 steps, lr $5\times10^{-4}$). The metric is
+$m=\text{logit}[\text{gold}]-\text{logit}[\text{base top-1}]$ at the
+trigger. We record the relative change $\|\Delta x\|/\|x\|$ of the
+residual entering each block at the trigger, averaged over the prompt's
+other positions, and on three fixed unrelated sentences. MLP neurons
+are attributed by activation $\times$ gradient of $m$ at the
+trigger~\citep{kramar2024atp}. For patching, a set of neurons is reset
+to its base activations at the trigger, and we report the fraction of
+the method's $\Delta m$ that remains (1 means no effect, 0 means the
+whole effect is removed). Restoring the saved Engram rows after the LoRA
+pass reproduces the Engram metric exactly (max $|\Delta m|=0$).
+
+\begin{table}[t]
+\centering
+\caption{Engram rows vs.\ per-user LoRA on the same 474 facts
+(Mini-Engram-d20, 20 users). Residual changes are means over facts
+(LoRA) or maxima over facts (Engram); patching values are medians.}
+\label{tab:followup-engram}
+\small
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcc}
+\toprule
+ & Engram (Joint OPT) & per-user LoRA \\
+\midrule
+top-1 recall & 474/474 & 474/474 \\
+residual change entering blocks 0--11, trigger & 0 (all facts) & 0.46 (block 1) $\to$ 1.22 (block 11) \\
+residual change at block 19, trigger & 0.67 & 1.36 \\
+non-trigger positions, any block & 0 for 473/474; max 0.019 & 0.53 (block 1) $\to$ 1.30 (block 19) \\
+three unrelated sentences, any block & 0 & 0.37 (block 1) $\to$ 1.23 (block 19) \\
+share of $\Delta m$ attributed to MLP neurons & 0.82 & 0.25 \\
+effect left, own top-10 / 100 / 1000 neurons reset & 0.70 / 0.42 / 0.23 & 0.70 / 0.40 / 0.14 \\
+effect left, other method's top-10 / 100 / 1000 reset & 0.79 / 0.60 / 0.45 & 0.83 / 0.61 / 0.49 \\
+effect left, 100 random neurons reset & 1.00 & 1.00 \\
+\midrule
+top-100 neuron overlap (Jaccard, median) & \multicolumn{2}{c}{0.24 ($\approx$39 of 100 shared)} \\
+cos$(\Delta a_{\text{Engram}},\Delta a_{\text{LoRA}})$, blocks 11--18 / 19 & \multicolumn{2}{c}{0.15--0.32 / 0.61 (shuffled facts: 0.01--0.11 / 0.40)} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+The single fact with a non-zero off-trigger change (u010, emergency
+contact's phone) moves by at most 1.9\% of the residual norm. The most
+likely cause is that one of its non-trigger positions reads a row
+written for another of the same user's facts: Joint OPT writes all of
+a user's triggers into one table, and those triggers share short
+N-grams. In the same run we also re-ran the six-condition head-to-head
+of Section~\ref{sec:layered} with the repository command (default
+users and evaluation tokens). It reproduces the headline: the layered
+design reaches direct recall 1.00 and indirect 0.44 (``any'' metric),
+against 0.97 and 0.05 for per-user LoRA, with $\Delta$bpb $+0.39$
+vs.\ $+1.59$ (record \texttt{T2/partB\_layered\_repro.json}).
+
+\subsection{Where a per-user LoRA stores a fact (Qwen3-8B)}
+\label{app:followup-lora}
+
+\paragraph{Setup.} Qwen3-8B, the same 20 users, the repository's
+per-user LoRA recipe (POLAR NTP mix, rank 64, $\alpha=128$, lr
+$10^{-4}$, 15 epochs) in two variants: $Q/K/V$ (the default) and MLP
+(gate/up/down). For every direct fact the LoRA gets right and the base
+gets wrong (up to 100 per user), the target is the first answer token
+where the base's teacher-forced prediction is wrong, and recovery is
+$(m_X-m_{\text{base}})/(m_{\text{LoRA}}-m_{\text{base}})$. We switch
+the LoRA on only in layers $\geq\ell$ (suffix), only in layers $<\ell$
+(prefix), or only in one 4-layer band; $\ell_{50}$ is the last $\ell$
+whose suffix still recovers half the effect. ``Answer-writing''
+neurons are ranked statically by $|w_{\text{down}}\cdot(W_U[\text{gold}]-W_U[\text{pred}])|$
+in the base~\citep{geva2022ffn}. Indirect questions use the
+repository's indirect set; a question's depth is the mean $\ell_{50}$
+of the facts it needs.
+
+\begin{table}[t]
+\centering
+\caption{Where a per-user LoRA stores a fact in Qwen3-8B (20 users).}
+\label{tab:followup-lora}
+\small
+\begin{tabular}{lcc}
+\toprule
+ & $Q/K/V$ LoRA & MLP LoRA \\
+\midrule
+facts analysed & 650 & 649 \\
+direct recall, base $\to$ LoRA & 0.008 $\to$ 0.999 & 0.008 $\to$ 0.997 \\
+indirect accuracy, base $\to$ LoRA & 0.11 $\to$ 0.30 & 0.11 $\to$ 0.35 \\
+median $\ell_{50}$ (of 36 layers) & 20 & 20 \\
+best single 4-layer band, recovery & 0.20 & 0.23 \\
+MLP share of the LoRA's direct logit effect & 0.72 & 0.87 \\
+neurons holding 50\% of the neuron contribution (median) & 6 & 9 \\
+share held by top-100 answer-writing neurons (random 100) & 0.28 (0.0002) & 0.20 (0.0001) \\
+effect left after resetting top-100 contributing neurons (random) & 0.09 (1.00) & 0.27 (1.00) \\
+indirect acc., facts shallower vs.\ deeper than median $\ell_{50}$ & 0.37 vs.\ 0.17 & 0.58 vs.\ 0.06 \\
+Spearman($\ell_{50}$, indirect correct); base-wrong only & $-0.06$; $-0.05$ & $-0.31$; $-0.28$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+No single band carries the effect (at most 0.23). The effect is built
+up across the middle layers and leaves through a handful of late
+neurons that already write answer tokens in the base. The depth--reuse
+association is clear for the MLP adapter but weak for the $Q/K/V$
+adapter, and it is correlational: deeper storage and harder questions
+may share a cause.
+
+\subsection{A gate vs.\ a key: single-fact edits in Qwen3-8B}
+\label{app:followup-t6}
+
+\paragraph{Setup.} 200 fictional people, each with one fact
+``$\langle$name$\rangle$ lives in the city of $\langle$city$\rangle$'',
+using 55 real cities whose country the base already knows. Each edit
+stores one fact at one layer $L\in\{3,7,\dots,35\}$, trained on the
+direct template with five prefixes (at most 100 Adam steps, early stop
+at target NLL $<0.05$, lr chosen once on 5 dev facts). Methods:
+\emph{neuron}, one new SwiGLU unit (gate row, up row, down column)
+appended to the MLP; \emph{neuron\_bias}, the same with a trainable
+gate bias (indistinguishable from \emph{neuron} on every metric);
+\emph{rank-1 LoRA} on down\_proj or on up\_proj (the latter passes
+through the existing SiLU gates); \emph{ROME}~\citep{meng2022rome},
+the closed-form rank-1 edit keyed on the subject's
+covariance-whitened MLP input; and a rank-16 $Q/K/V$ LoRA on every
+layer (the repository-style per-user LoRA). \emph{+reg} adds
+KL(base$\|$edit) on 16 other people with the same relation, 8
+other-relation prompts and $2\times128$ tokens of generic text, for a
+fixed 100 steps. Metrics: greedy accuracy on the direct prompt, on 3
+held-out rewordings, and on 2 two-hop templates asking for the city's
+\emph{country} (never trained); \emph{leak}, the probability of the
+city's first token when asking about 40 other people (no edit:
+$4.6\times10^{-4}$); \emph{fire10}, the fraction of 4{,}096
+WikiText-103 test tokens on which the edit's unit exceeds 10\% of its
+activation on the fact prompt; and \emph{resid-move}, the fraction of
+those tokens whose residual at the edited layer moves by more than 1\%.
+The fact given in context scores 0.66 on rewordings and 0.52 two-hop.
+Edits are trained in batches, each with its own parameters; Adam is
+element-wise, so this matches one-at-a-time training, which we checked.
+
+\begin{table}[t]
+\centering
+\caption{Unregularized single-fact edits in Qwen3-8B, 200 facts per
+cell. Direct recall is $\geq0.98$ everywhere except ROME at L35 (0.00:
+ROME writes at the subject's last token, and after the final layer
+nothing carries it to the answer position).}
+\label{tab:followup-t6}
+\small
+\setlength{\tabcolsep}{4pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{l cccc ccc cc}
+\toprule
+ & \multicolumn{4}{c}{leak to other people} & \multicolumn{3}{c}{two-hop} & \multicolumn{2}{c}{fire10 on text} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-8}\cmidrule(lr){9-10}
+layer & neuron & LoRA$_\text{down}$ & LoRA$_\text{up}$ & ROME & neuron & LoRA$_\text{down}$ & ROME & neuron & LoRA$_\text{down}$ \\
+\midrule
+L3  & .211 & .007 & .009 & .005 & .33 & .33 & .41 & .561 & .271 \\
+L7  & .347 & .094 & .101 & .003 & .29 & .32 & .49 & .016 & .002 \\
+L11 & .431 & .447 & .394 & .029 & .32 & .31 & .61 & .005 & .033 \\
+L15 & .618 & .647 & .486 & .135 & .40 & .39 & .57 & .011 & .056 \\
+L19 & .699 & .759 & .684 & .185 & .42 & .45 & .48 & .053 & .363 \\
+L23 & .718 & .793 & .722 & .178 & .32 & .36 & .27 & .045 & .718 \\
+L27 & .591 & .685 & .623 & .299 & .04 & .03 & .02 & .047 & .783 \\
+L31 & .589 & .563 & .533 & .155 & .00 & .00 & .00 & .036 & .518 \\
+L35 & .690 & .859 & .649 & -- & .00 & .00 & -- & .273 & .938 \\
+\midrule
+mean L3--31 & .525 & .499 & .444 & .124 & & & & & \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Counter-example training (+reg), plain $\to$ +reg, 200 facts
+per cell (the $Q/K/V$ +reg arm had finished $\sim$170 of 200 facts when
+this was written). ROME at L7 for reference: leak .003, reworded .59,
+two-hop .49, fire10 $3\times10^{-5}$, resid-move .09.}
+\label{tab:followup-t6reg}
+\small
+\setlength{\tabcolsep}{4pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llccccc}
+\toprule
+method & layer & leak & reworded & two-hop & fire10 & resid-move \\
+\midrule
+neuron & L7  & .347 $\to$ .005 & .44 $\to$ .45 & .29 $\to$ .27 & .016 $\to$ .027 & .31 $\to$ .32 \\
+       & L15 & .618 $\to$ .015 & .47 $\to$ .33 & .40 $\to$ .20 & .011 $\to$ .013 & .19 $\to$ .20 \\
+       & L23 & .718 $\to$ .035 & .39 $\to$ .34 & .32 $\to$ .09 & .045 $\to$ .068 & .32 $\to$ .36 \\
+LoRA$_\text{down}$ & L7  & .094 $\to$ .003 & .44 $\to$ .54 & .32 $\to$ .33 & .002 $\to$ .001 & .20 $\to$ .26 \\
+       & L15 & .647 $\to$ .004 & .43 $\to$ .25 & .39 $\to$ .13 & .056 $\to$ .068 & .71 $\to$ .67 \\
+       & L23 & .793 $\to$ .076 & .36 $\to$ .32 & .36 $\to$ .04 & .718 $\to$ .517 & .99 $\to$ .94 \\
+LoRA$_\text{up}$ & L7  & .101 $\to$ .003 & .44 $\to$ .52 & .34 $\to$ .33 & .296 $\to$ .165 & .77 $\to$ .83 \\
+       & L15 & .486 $\to$ .004 & .38 $\to$ .26 & .26 $\to$ .14 & .204 $\to$ .232 & .86 $\to$ .86 \\
+       & L23 & .722 $\to$ .085 & .33 $\to$ .29 & .27 $\to$ .01 & .340 $\to$ .370 & .90 $\to$ .89 \\
+$Q/K/V$ r16 & all & .495 $\to$ .016 & .46 $\to$ .64 & .18 $\to$ .12 & -- & -- \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Two further observations. Every subject-specific edit (ROME, and any
+method with +reg) shifts the \emph{same} person's other facts more
+than a plain edit does (neighbor KL 1.3--1.7 vs.\ about 1.0). The
+change concentrates on the subject, which a per-user store would see
+as interference among that user's own facts. Second, leak is measured
+at the model's output on other people's prompts. Whether the neuron
+itself stays silent on those prompts was not recorded in this sweep;
+a supplementary run that measures it directly, and the 10- and
+50-facts-per-edit conditions, were still running when this was
+written and are not reported here. The two-hop setting differs from
+Section~\ref{sec:multihop}: here the second hop (city $\to$ country)
+is knowledge the model already has, which favors composition.
+
+\subsection{Does Engram change the base model's neurons?}
+\label{app:followup-t5}
+
+If Engram took over factual lookups, the backbone's MLP neurons might
+become easier to describe. We audited 800 random live neurons
+(100 per layer) in each of two d8 models trained identically for
+524M tokens, one dense (\texttt{base\_d8}) and one with Engram at
+layers 2 and 5 (\texttt{engram\_d8}). An LLM labeller (MiMo-v2.6-pro)
+wrote a label for each neuron from its top contexts, in the style of
+\citet{bills2023explain}. We then applied a stricter test following
+\citet{gao2026notclean}: the same LLM simulates the neuron's
+activations on held-out text from the label alone, we substitute the
+simulated activations into the model, and we measure the fraction of
+the next-token damage of zero-ablation that the substitution avoids.
+No measure differs: ``one job'' labels 0.96 in both (difference 0.00
+[$-0.02$, 0.02]); median simulation correlation 0.43 vs.\ 0.46
+(difference 0.03 [$-0.03$, 0.08]); median calibrated damage avoided
+0.15 vs.\ 0.14 (difference $-0.01$ [$-0.04$, 0.02]); and
+entity/fact-type neurons are about 1\% of neurons in both. The layers
+directly after the Engram injection lean slightly worse, also within
+noise. At this scale, then, Engram neither helps nor harms the
+interpretability of the rest of the network. The test can detect
+differences of roughly $\pm$0.04--0.06. It used one labeller and no
+human check, and the d8 models hold little factual content for Engram
+to absorb.
 
 \section{Pretraining curves}
 \label{app:pretrain}
