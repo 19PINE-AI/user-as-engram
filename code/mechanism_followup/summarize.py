@@ -154,6 +154,27 @@ add("T6: two-hop L7-L19 range over the four methods",
     f"{max(cell(m, L, two) for m in ('neuron', 'lora_down', 'lora_up', 'rome') for L in (7, 11, 15, 19)):.3f}", src)
 add("T6: rome L35 direct", f"{cell('rome', 35, lambda r: r['direct']):.3f}", src)
 
+# T6 report section 6: does the edited unit fire on other people's prompts? (L15, 40 facts, +reg)
+S6 = defaultdict(list)
+for line in gzip.open(os.path.join(RES, "T6", "runs_supp.jsonl.gz"), "rt"):
+    r = json.loads(line)
+    S6[r["method"]].append(r)
+src_s = "T6/runs_supp.jsonl.gz"
+for m in ("neuron+reg", "lora_down+reg"):
+    rs = S6[m]
+    F = [r["firing"] for r in rs]
+    add(f"T6 supp: {m} L15 (n): frac of other people >10% / >50% of trigger; mean ratio; bleed",
+        f"({len(rs)}) {mean([f['other_subj_frac_gt10pct'] for f in F]):.3f} / "
+        f"{mean([f['other_subj_frac_gt50pct'] for f in F]):.3f}; "
+        f"{mean([f['other_subj_mean_ratio'] for f in F]):.3f}; "
+        f"{mean([r['other_subject_target_p_edit'] for r in rs]):.3f}", src_s)
+sup = json.load(open(os.path.join(RES, "T6", "supp_summary.json")))
+for m in ("neuron+reg", "lora_down+reg"):
+    add(f"T6 supp: {m} 95% bootstrap CI, frac >10% / frac >50% / mean ratio",
+        " / ".join(sup[m][k].split(" ", 1)[1] for k in
+                   ("other_subj_frac_gt10pct", "other_subj_frac_gt50pct", "other_subj_mean_ratio")),
+        "T6/supp_summary.json")
+
 # ---------------------------------------------------------------- T5
 t5 = json.load(open(os.path.join(RES, "T5", "t5_summary.json")))
 add("T5: see REPORT_T5_T8.md table (d8 dense vs Engram, 800 neurons each)", "all diff CIs include 0",

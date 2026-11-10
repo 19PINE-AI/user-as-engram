@@ -91,8 +91,7 @@ lead/user: **+reg results cover only L7, L15, L23 (and a partial L3)**.
   element-wise, so this matches one-at-a-time training. Verified: same step counts and near-equal metrics, up to
   bf16 noise.
 - Text locality per edit is 4,096 tokens (819k tokens per method×layer cell).
-- Bleed measures the *output* on other people. Whether the neuron's own activation stays low on other people's
-  prompts was not recorded in the sweep. §6 (supplementary, 40 facts at L15) measures it directly.
+- Bleed measures the *output* on other people. §6 (supplementary, 40 facts at L15) measures whether the unit's own activation stays low on other people's prompts: it does not.
 - The two-hop setup differs from User-as-Engram's chains: here the second hop (city→country) is pretrained
   knowledge. That favours composition and makes the late-layer collapse more striking.
 
@@ -256,6 +255,23 @@ lead/user: **+reg results cover only L7, L15, L23 (and a partial L3)**.
 
 Pending. Appended when the multi phases finish.
 
-## 6. Supplementary: does the unit fire on other people? (L15, 40 facts)
+## 6. Supplementary: does the unit fire on other people? (L15, 40 facts, +reg)
 
-Pending.
+**Metric.** For each edit we run 40 *other* people's same-relation prompts ("<other> lives in the city of") and take
+the unit's |activation| (max over positions) relative to its activation on the fact's own prompt (the trigger). For
+rank-1 LoRA, the "unit" is the scalar projection x·a. Keys are `supp|…`, file `runs_supp.jsonl`.
+
+| method (L15, +reg) | n | fires >10% of trigger on others | >50% | mean ratio | bleed | text fire10 | para | two-hop |
+|---|---|---|---|---|---|---|---|---|
+| neuron+reg | 40 | 0.711 [0.577, 0.836] | 0.379 [0.266, 0.501] | 0.435 [0.323, 0.561] | 0.013 [0.006, 0.023] | 0.015 | 0.367 | 0.200 |
+| lora_down+reg | 40 | 0.999 [0.996, 1.000] | 0.471 [0.351, 0.592] | 0.481 [0.430, 0.533] | 0.002 [0.001, 0.003] | 0.056 | 0.325 | 0.138 |
+
+**Reading.**
+- Counter-examples make the *output* subject-specific (bleed ≈ 0.01). They do **not** make the gated neuron fire only
+  for its subject: it still reaches about half its trigger activation for most other people in the same frame. It is
+  only modestly more selective than rank-1 LoRA, at 71% vs 100% of other people above 10%.
+- Specificity is a soft threshold: other people's activation is too weak to move the answer. It is not an address.
+  Subject-keyed edits (ROME) and Engram's hash lookup are near-zero off-subject by construction.
+- The gate's distinguishing effect is still silence on *unrelated* text (§2.1), not selectivity among people.
+- Caveat: the max is over all prompt positions, including the shared relation tokens. So this measures whether the
+  unit is engaged anywhere in another person's prompt, not only at the name.

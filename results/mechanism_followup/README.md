@@ -1,7 +1,7 @@
 # Mechanism follow-up (Nov 2026): where the locality comes from
 
 Records behind **Section 4.4 "Where the locality comes from: a key, not a gate"**, Figure
-`fig_locality_followup`, **Appendix C "Mechanism follow-up"** (Tables 4–7), the new paragraph in
+`fig_locality_followup`, **Appendix C "Mechanism follow-up"** (Tables 4–8), the new paragraph in
 Section 3.2, and the related sentences in the abstract, introduction, background, limitations,
 related work and conclusion.
 
@@ -9,7 +9,7 @@ related work and conclusion.
 |---|---|---|---|
 | **T2 part B** | Same facts written as Engram rows vs a per-user LoRA: where does each change the network, and through which neurons? | Mini-Engram-d20 | complete (20 users, 474 facts) |
 | **T2 part A** | Where does a per-user LoRA store a fact, and does depth predict indirect use? | Qwen3-8B | complete (20 users, ~650 facts, Q/K/V and MLP LoRA) |
-| **T6** | Is a new gated neuron a local fact store, like a key? Neuron vs rank-1 LoRA vs ROME, with and without counter-examples | Qwen3-8B | single-fact sweep complete; Q/K/V +reg ~170/200; **§5 multi-fact and §6 "does the unit fire on other people" still running, not used** |
+| **T6** | Is a new gated neuron a local fact store, like a key? Neuron vs rank-1 LoRA vs ROME, with and without counter-examples | Qwen3-8B | single-fact sweep complete; Q/K/V +reg ~170/200; §6 "does the unit fire on other people" (L15, 40 facts, +reg) complete; **§5 multi-fact still running, not used** |
 | **T5** | Does Engram make the backbone's MLP neurons more interpretable? | d8 dense vs d8 Engram | complete |
 
 Every number the paper quotes is listed in [`PAPER_NUMBERS.md`](PAPER_NUMBERS.md), recomputed on a CPU
@@ -28,7 +28,8 @@ python paper/fig_locality_followup.py   # paper/figs/fig_locality_followup.pdf +
 | `T2/summary.json`, `T2/aggregate.txt` | Aggregates for part A (Qwen3-8B LoRA localization) and part B, from `code/mechanism_followup/T2/aggregate.py` |
 | `T2/partB_layered_repro.json` | Re-run of the six-condition layered head-to-head (reproduction check) |
 | `T6/runs_single_fact.jsonl.gz` | One record per single-fact edit (11,816: 9,200 unregularized + the +reg arms), snapshot of 2026-11-09 |
-| `T6/REPORT.md` | The study report, verbatim (sections 5–6 marked pending) |
+| `T6/runs_supp.jsonl.gz`, `T6/supp_summary.json` | Report §6: the edited unit's activation on 40 other people's prompts relative to its trigger (80 edits: neuron+reg and lora_down+reg at L15), and its bootstrap summary from `code/mechanism_followup/T6/suppan.py` |
+| `T6/REPORT.md` | The study report, verbatim (section 5 marked pending) |
 | `T6/setup.json`, `lr.json`, `best.json` | Facts, templates, anchors; learning-rate selection |
 | `T5/t5_summary.json`, `T5/REPORT_T5_T8.md` | Neuron-audit summary and report, verbatim (the T8 half studies dense-model training dynamics and is not used in the paper) |
 | `fig_locality_followup.png` | Preview of the paper figure |

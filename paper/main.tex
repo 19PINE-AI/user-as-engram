@@ -762,8 +762,8 @@ Appendix~\ref{app:mech}, that Engram's locality comes from addressing
 and not from its gate, now seen from the other side: in a dense
 model, too, locality comes from a key on the input.
 
-\paragraph{Counter-examples also work, at a price.} A gate \emph{can}
-learn to be specific if it is shown where not to open. We repeated the
+\paragraph{Counter-examples also work, at a price.} An edit \emph{can}
+be made specific if it is shown where not to act. We repeated the
 edits at layers 7, 15 and 23, adding a KL-to-base term on other people
 with the same relation, other relations, and generic text, and gave the
 LoRAs the same counter-examples. The leak fell from 35\%/62\%/72\%
@@ -785,6 +785,29 @@ $0.36\to0.04$), while at layer~7 it is unchanged
 (Figure~\ref{fig:key-not-gate}c). ROME at layer~7 remains the best
 single edit: 0.3\% leak, 0.59 on reworded questions, 0.49 two-hop,
 close to giving the fact in context (0.66 and 0.52).
+
+\paragraph{Counter-examples do not give the gate an address.} A
+supplementary run (40 facts, layer~15, +reg) asked whether the edited
+unit itself stays silent on other people. For each edit we took the
+unit's largest activation over the positions of each of 40 other
+people's same-relation prompts, relative to its activation on the
+fact's own prompt. The regularized neuron exceeds 10\% of that trigger
+activation on 71\% of other people (95\% CI 58--84\%) and 50\% on 38\%,
+with a mean ratio of 0.44, yet its leak is only 1.3\%. The
+regularized rank-1 LoRA's unit exceeds 10\% on 99.9\% of them (mean ratio
+0.48; leak 0.2\%). So counter-example training makes the
+\emph{output} specific without making the gate select its subject: the
+unit is still engaged by other people's prompts, at about half
+strength, and the training scales its effect so that this response
+stays below what moves the answer. That is a soft threshold, not an
+address. A keyed edit is selective in its read instead: an Engram row
+contributes exactly nothing off its trigger N-gram (panel~a), and ROME
+derives its update from the subject's own key vector (we did not
+measure ROME's unit response in this run). One caveat: the maximum is
+taken over all prompt positions, including the relation tokens every
+prompt shares, so the run shows that the unit is engaged somewhere in
+another person's prompt, not that it responds to the other person's
+name (Appendix~\ref{app:followup-t6}).
 
 \paragraph{What this means for User as Engram.} An Engram row gets its
 locality the way ROME does, from a key, but with no training against
@@ -1516,7 +1539,7 @@ reasoning}, and \emph{whether context budget or per-user storage
 is the tighter constraint}. Table~\ref{tab:when-to-use} gives the
 recommended method for each case.
 
-\begin{table}[h]
+\begin{table}[ht]
   \centering
   \caption{Cheat sheet for which method to use.
   ``invariant'' = the number does not
@@ -1570,9 +1593,12 @@ construction. Within one table, two subjects whose facts end in the
 same N-gram (``\ldots\ was born in'') share rows, and we have not
 measured how much one such fact leaks to the other. The follow-up on
 Qwen3-8B compares a gate, a LoRA and a subject key, but does not
-include an Engram model; its multi-fact (10 and 50 facts per edit) and
-direct ``does the unit fire on other people'' measurements are still
-running, and its counter-example arm covers only layers 7, 15 and 23
+include an Engram model; its multi-fact (10 and 50 facts per edit)
+conditions are still running, and its counter-example arm covers only
+layers 7, 15 and 23. Its measurement of whether the unit fires on other
+people covers one layer (15), 40 facts and two regularized methods,
+takes the maximum over all prompt positions (shared relation tokens
+included, not the name alone), and does not include ROME
 (Appendix~\ref{app:followup-t6}).
 
 \paragraph{Within-user density ceiling.}
@@ -1768,7 +1794,10 @@ an added neuron that is silent on most text still hands a new fact to
 other people as readily as a LoRA does. What keeps an edit to its
 subject is a key, as in ROME or Engram's address, or explicit training
 against counter-examples, which works for a LoRA as well but has to be
-repeated for every edit and costs reasoning. An Engram table gets the
+repeated for every edit, costs reasoning, and keeps the output specific
+by damping the edit rather than by giving it an address: the trained
+unit still responds to other people's prompts at about half strength.
+An Engram table gets the
 key from the architecture.
 
 A century ago Richard Semon coined \emph{engram} for the trace
@@ -2769,14 +2798,55 @@ Two further observations. Every subject-specific edit (ROME, and any
 method with +reg) shifts the \emph{same} person's other facts more
 than a plain edit does (neighbor KL 1.3--1.7 vs.\ about 1.0). The
 change concentrates on the subject, which a per-user store would see
-as interference among that user's own facts. Second, leak is measured
-at the model's output on other people's prompts. Whether the neuron
-itself stays silent on those prompts was not recorded in this sweep;
-a supplementary run that measures it directly, and the 10- and
-50-facts-per-edit conditions, were still running when this was
-written and are not reported here. The two-hop setting differs from
-Section~\ref{sec:multihop}: here the second hop (city $\to$ country)
-is knowledge the model already has, which favors composition.
+as interference among that user's own facts. Second, the two-hop
+setting differs from Section~\ref{sec:multihop}: here the second hop
+(city $\to$ country) is knowledge the model already has, which favors
+composition. The 10- and 50-facts-per-edit conditions were still
+running when this was written and are not reported here.
+
+\paragraph{Does the unit fire on other people?} Leak is measured at
+the model's output. A supplementary run measured the edited unit
+itself (Table~\ref{tab:followup-t6fire}): 40 facts (the first 40 of
+the 200), layer~15, the neuron and the down-projection rank-1 LoRA,
+both +reg, trained as above. For each edit we record the unit's
+absolute activation on the fact's direct prompt (the trigger; for the
+rank-1 LoRA the unit is the scalar projection $x\cdot a$), then on the
+direct prompts of 40 other people, taking the maximum over positions,
+and report the fraction of other people above 10\% and 50\% of the
+trigger and the mean ratio. Both units are engaged by most other
+people's prompts at about half their trigger activation, while the
+leak stays at 1.3\% and 0.2\%: counter-examples make the output
+specific without making the unit select its subject. The gate's
+distinguishing effect remains its silence on unrelated text (fire10
+.015 vs .056), not selectivity among people. The maximum runs over
+all positions, including the relation tokens every prompt shares, so
+this shows the unit is engaged somewhere in another person's prompt,
+not that it responds to the name. Recall, rewording and two-hop
+accuracy on this subset (Table~\ref{tab:followup-t6fire}) are close to those
+with the 200-fact L15 +reg cells of Table~\ref{tab:followup-t6reg}.
+
+\begin{table}[t]
+\centering
+\caption{Does the edited unit fire on other people? Layer~15, +reg, 40
+facts per row, mean with 95\% bootstrap CI over facts. ``$>$10\%'' and
+``$>$50\%'': fraction of 40 other people whose prompt drives the unit
+(max over positions) above that fraction of its activation on the
+fact's own prompt. Direct recall is 1.00 in both rows.}
+\label{tab:followup-t6fire}
+\small
+\setlength{\tabcolsep}{3pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{l ccc c ccc}
+\toprule
+ & \multicolumn{3}{c}{unit on other people's prompts} & & & & \\
+\cmidrule(lr){2-4}
+method & $>$10\% & $>$50\% & mean ratio & leak & fire10 & reworded & two-hop \\
+\midrule
+neuron & .71 [.58, .84] & .38 [.27, .50] & .44 [.32, .56] & .013 [.006, .023] & .015 & .37 & .20 \\
+LoRA$_\text{down}$ & 1.00 [1.00, 1.00] & .47 [.35, .59] & .48 [.43, .53] & .002 [.001, .003] & .056 & .33 & .14 \\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 \subsection{Does Engram change the base model's neurons?}
 \label{app:followup-t5}
