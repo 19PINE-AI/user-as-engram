@@ -2,7 +2,7 @@
 
 This directory contains saved experiment outputs used to build the paper's
 figures and tables.
-Rebuild all 38 figures from these with no GPU:
+Rebuild all 39 figures from these with no GPU:
 
 ```bash
 cd ../paper && pip install -r requirements.txt && bash make_all_figures.sh
@@ -32,5 +32,6 @@ Other families:
 - `mechanistic_*`, `glassbox_*`, `lora_vs_engram_*`, `depth_*` — the glass-box probes.
 - `serving_eval_*`, `scalability_benchmark*` — multi-tenant serving.
 - `*.csv` — small aggregate tables.
+- `mechanism_followup/` — the Nov 2026 mechanism follow-up (Engram vs LoRA localization, gate vs key in Qwen3-8B, Engram and neuron interpretability); see its README.
 
 Per-run console logs (`*.console.log`, `*.log`) are gitignored.

@@ -6,7 +6,7 @@
 #   pip install -r requirements.txt
 #   bash make_all_figures.sh
 #
-# Outputs go to paper/figs/*.pdf. These 11 scripts together produce all 38
+# Outputs go to paper/figs/*.pdf. These 12 scripts together produce all 39
 # figures in main.tex (the figure->generator->input map is in ../REPRODUCE.md).
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -22,7 +22,8 @@ for s in \
   fig_landscape.py \
   fig_locomo_categories.py \
   fig_pareto_rag.py \
-  fig_rag_scale.py
+  fig_rag_scale.py \
+  fig_locality_followup.py
 do
   echo "==> $s"
   python "$s"

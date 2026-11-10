@@ -8,8 +8,8 @@ natural-language memory file or a retrieval index. When facts are written into
 the model instead, the standard recipe is the per-user LoRA adapter, which does
 the opposite of the brain, folding content and skill into one global weight
 delta. Writing a user's facts as a LoRA contaminates text unrelated to them;
-writing the same facts as local Engram rows leaves it mathematically untouched,
-resulting in a roughly 33,000x smaller memory footprint.
+writing the same facts as local Engram rows leaves that text essentially
+untouched, with roughly 33,000x less extra loss.
 
 We therefore propose User as Engram: store a user's content as surgical edits
 to the hash-keyed memory table of an Engram model, and carry the reasoning skill
@@ -18,7 +18,15 @@ while delivering 5.6x higher indirect-reasoning accuracy on average, and never
 makes a single user worse at reasoning than the untouched base. The edit is a
 glass box: writing a fact switches on its lookup at exactly the trigger, adds
 the value the answer needs, leaves every other position unchanged to the last
-bit, and fails if written into the wrong layer. Because different users' facts
+bit, and fails if written into the wrong layer.
+A follow-up study locates where the locality comes from. On the same facts, the
+Engram write leaves every layer before its read bit-identical and acts only at
+the trigger, while a LoRA changes every layer at every token. In Qwen3-8B, a
+single new fact stored in a gated neuron or a rank-1 LoRA leaks to unrelated
+people about half the time, but a subject-keyed edit (ROME) leaks far less,
+so what keeps an edit local is a key, not a gate. Engram's hash address is such
+a key, though on the trigger's last tokens rather than on the subject. Training with counter-examples removes the leak from a LoRA
+too, but it costs two-hop reasoning in the middle and late layers. Because different users' facts
 land in disjoint hash slots, their edits compose: many users live in one shared
 table at once, stacking additively and losslessly, where a per-user LoRA, a
 single global weight delta, admits only one. Upon retrieval, a per-user Engram

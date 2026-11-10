@@ -22,7 +22,7 @@ result JSON the figures build from (`results/`), the figure generators
 ```bash
 cd paper
 pip install -r requirements.txt        # matplotlib, numpy
-bash make_all_figures.sh               # 11 scripts -> figs/*.pdf (all 38 figures)
+bash make_all_figures.sh               # 12 scripts -> figs/*.pdf (all 39 figures)
 pdflatex main.tex && pdflatex main.tex # optional: rebuild the PDF
 ```
 
@@ -113,6 +113,7 @@ into the generator (re-run the experiment script to refresh them).
 | layered conditions, pareto-layered | `make_new_figures.py` | D | `layered_architecture.py` |
 | glass box, LoRA-vs-Engram locality | `fig_glassbox.py` | D | `mech_glassbox.py`, `mech_lora_vs_engram.py` |
 | depth ablation (recall vs layer) | (in glass box) | T | `mech_depth.py` |
+| key-not-gate follow-up (Engram vs LoRA residuals; gate vs key leak; two-hop cost) | `fig_locality_followup.py` | D | `code/mechanism_followup/T2/b_mech.py`, `code/mechanism_followup/T6/t6full.py` (records in `results/mechanism_followup/`) |
 | RAG-vs-KB scaling | `fig_rag_scale.py` | D | `layered_rag_scale.py`, `qwen_rag_scale.py` |
 | context-cost pareto (RAG) | `fig_pareto_rag.py` | D | `layered_rag.py`, `qwen_rag_indirect.py` |
 | LOCOMO scaling / categories / judge | `make_new_figures.py`, `fig_locomo_categories.py` | D/T | `locomo_eval.py`, `judge_locomo.py` |
