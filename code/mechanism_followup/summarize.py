@@ -175,6 +175,66 @@ for m in ("neuron+reg", "lora_down+reg"):
                    ("other_subj_frac_gt10pct", "other_subj_frac_gt50pct", "other_subj_mean_ratio")),
         "T6/supp_summary.json")
 
+# T6 report section 5: many facts per edit (10 / 50), L7/L15/L23 plain, L15 +reg
+M6 = defaultdict(list)
+for line in gzip.open(os.path.join(RES, "T6", "runs_multi.jsonl.gz"), "rt"):
+    r = json.loads(line)
+    M6[(r["n_facts"], r["method"], r["layer"], r.get("share"))].append(r)
+src_m = "T6/runs_multi.jsonl.gz"
+mc = lambda n, m, L, sh, f: mean([f(r) for r in M6[(n, m, L, sh)]])
+direct = lambda r: r["direct"]
+tkl = lambda r: r["text"]["kl_per_tok"]
+add("T6 multi: edits (n=10 / n=50)", f"{sum(len(v) for k, v in M6.items() if k[0] == 10)} / "
+    f"{sum(len(v) for k, v in M6.items() if k[0] == 50)}", src_m)
+add("T6 multi: base p(any group city) on other people, n=10 / n=50",
+    " / ".join(f"{mean([r['other_subject_target_p_base'] for k, v in M6.items() if k[0] == n for r in v]):.4f}"
+               for n in (10, 50)), src_m)
+U = ("neuron", "lora_down", "lora_up")
+add("T6 multi: n=50 shared, para range / two-hop max over neuron/lora_down/lora_up x L7/15/23",
+    f"{min(mc(50, m, L, 'shared', para) for m in U for L in (7, 15, 23)):.3f}-"
+    f"{max(mc(50, m, L, 'shared', para) for m in U for L in (7, 15, 23)):.3f} / "
+    f"{max(mc(50, m, L, 'shared', two) for m in U for L in (7, 15, 23)):.3f}", src_m)
+add("T6 multi: n=50 shared, direct range at L15/L23 (neuron/lora_down/lora_up)",
+    f"{min(mc(50, m, L, 'shared', direct) for m in U for L in (15, 23)):.3f}-"
+    f"{max(mc(50, m, L, 'shared', direct) for m in U for L in (15, 23)):.3f}", src_m)
+add("T6 multi: per-fact direct, min over all plain/+reg cells",
+    f"{min(mean([r['direct'] for r in v]) for k, v in M6.items() if k[3] == 'perfact'):.3f}", src_m)
+add("T6 multi: per-fact plain leak range (neuron/lora_down/lora_up x L7/15/23 x n)",
+    f"{min(mc(n, m, L, 'perfact', bleed) for n in (10, 50) for m in U for L in (7, 15, 23)):.3f}-"
+    f"{max(mc(n, m, L, 'perfact', bleed) for n in (10, 50) for m in U for L in (7, 15, 23)):.3f}", src_m)
+for n in (10, 50):
+    add(f"T6 multi: n={n} L7 per-fact para / two-hop / leak: neuron; lora_down; lora_up",
+        "; ".join(f"{mc(n, m, 7, 'perfact', para):.3f} / {mc(n, m, 7, 'perfact', two):.3f} / "
+                  f"{mc(n, m, 7, 'perfact', bleed):.3f}" for m in U), src_m)
+import random
+random.seed(0)
+a = {tuple(r["fact_ids"]): r["twohop"] for r in M6[(10, "neuron", 7, "perfact")]}
+b = {tuple(r["fact_ids"]): r["twohop"] for r in M6[(10, "lora_down", 7, "perfact")]}
+d = [a[k] - b[k] for k in sorted(set(a) & set(b))]
+bs = sorted(sum(random.choice(d) for _ in d) / len(d) for _ in range(4000))
+add("T6 multi: n=10 L7 per-fact two-hop, neuron - lora_down (paired over edits, 95% bootstrap)",
+    f"{mean(d):+.3f} [{bs[100]:+.3f}, {bs[3899]:+.3f}] (n={len(d)})", src_m)
+R = ("neuron+reg", "lora_down+reg", "lora_up+reg")
+for n in (10, 50):
+    add(f"T6 multi: n={n} L15 leak range, +reg (3 methods x shared/per-fact) vs plain",
+        f"{min(mc(n, m, 15, sh, bleed) for m in R for sh in ('shared', 'perfact')):.3f}-"
+        f"{max(mc(n, m, 15, sh, bleed) for m in R for sh in ('shared', 'perfact')):.3f} vs "
+        f"{min(mc(n, m, 15, sh, bleed) for m in U for sh in ('shared', 'perfact')):.3f}-"
+        f"{max(mc(n, m, 15, sh, bleed) for m in U for sh in ('shared', 'perfact')):.3f}", src_m)
+for n in (10, 50):
+    add(f"T6 multi: MEMIT (rome rank-n) n={n} L7 / L15 / L23: leak; two-hop",
+        " / ".join(f"{mc(n, 'rome', L, 'rank-n', bleed):.3f}; {mc(n, 'rome', L, 'rank-n', two):.3f}"
+                   for L in (7, 15, 23)), src_m)
+    add(f"T6 multi: MEMIT n={n} keys firing on other people >10%, L7 / L15 / L23",
+        " / ".join(f"{mc(n, 'rome', L, 'rank-n', lambda r: r['firing']['other_subj_frac_gt10pct']):.3f}"
+                   for L in (7, 15, 23)), src_m)
+    add(f"T6 multi: qkv r16 n={n}: leak; text KL; params; +reg leak",
+        f"{mc(n, 'qkv', None, 'r16', bleed):.3f}; {mc(n, 'qkv', None, 'r16', tkl):.3f}; "
+        f"{M6[(n, 'qkv', None, 'r16')][0]['n_params']}; {mc(n, 'qkv+reg', None, 'r16', bleed):.3f}", src_m)
+    add(f"T6 multi: n={n} largest text KL of any cell",
+        "%.3f (%s)" % max((mean([tkl(r) for r in v]), "/".join(map(str, k))) for k, v in M6.items() if k[0] == n),
+        src_m)
+
 # ---------------------------------------------------------------- T5
 t5 = json.load(open(os.path.join(RES, "T5", "t5_summary.json")))
 add("T5: see REPORT_T5_T8.md table (d8 dense vs Engram, 800 neurons each)", "all diff CIs include 0",

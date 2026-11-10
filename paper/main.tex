@@ -678,9 +678,15 @@ reasoning follows from how the mechanism works; it is not a
 convenience we chose. Locality alone does not force it. In Qwen3-8B, a
 subject-keyed ROME edit in an early layer has a leak to other people
 of only 0.3\% (defined in Section~\ref{sec:key-not-gate}) and still supports a second hop through pretrained
-knowledge (0.49, vs.\ 0.52 with the fact in context)
-(Section~\ref{sec:key-not-gate}). What rules out chaining here is the
-surface-N-gram key and the late read.
+knowledge (0.49, vs.\ 0.52 with the fact in context). Depth alone
+does limit it: a fact written into the last quarter of that network
+is still recalled but supports almost no second hop, whatever the
+method, ROME's subject key included
+(Section~\ref{sec:key-not-gate}). A key does not rescue a late write.
+Engram's read sits before that point but past where single edits
+compose best, so what rules out chaining here is mainly the
+surface-N-gram key, with the late read adding to it; and by~(3) the
+read cannot simply be moved earlier.
 
 \subsection{Where the locality comes from: a key, not a gate}
 \label{sec:key-not-gate}
@@ -769,7 +775,7 @@ with the same relation, other relations, and generic text, and gave the
 LoRAs the same counter-examples. The leak fell from 35\%/62\%/72\%
 to 0.5\%/1.5\%/3.5\% for the neuron, and from 9--79\% to 0.3--8.5\%
 for the two rank-1 LoRAs (a rank-16 $Q/K/V$ LoRA on every layer: 50\%
-to 1.6\%). So the gate is not what makes an edit subject-specific, and
+to 1.7\%). So the gate is not what makes an edit subject-specific, and
 a LoRA can be made as local to its subject as a neuron. This weakens
 any claim that a LoRA is non-local \emph{by construction}: it is
 non-local when trained, as per-user LoRAs normally are, on the user's
@@ -809,23 +815,74 @@ prompt shares, so the run shows that the unit is engaged somewhere in
 another person's prompt, not that it responds to the other person's
 name (Appendix~\ref{app:followup-t6}).
 
+\paragraph{A late write gives recall, not composition.} The depth
+sweep separates storing a fact from using it. Every method's two-hop
+accuracy collapses when the fact is written into the last quarter of
+the network: 0.02--0.05 at layer~27 and 0.00 at layers 31--35, while
+direct recall stays $\approx1.0$ and reworded questions still score
+0.33--0.68. ROME collapses with the rest (0.02 at layer~27), so a
+subject key does not save a late write. Edits at layers 7--19 compose
+(0.26--0.61); two-hop peaks at layers 15--19 for the neuron and the
+down-projection LoRA, and at layer~11 for ROME (0.61, above the 0.52
+with the fact in context). This is consistent with multi-hop failures
+after knowledge editing~\citep{mquake2023}. At the last layer, ROME
+has no effect at all (direct recall 0.00): it writes at the subject's
+last token, and after the final layer nothing carries that to the
+answer position.
+
+\paragraph{Many facts in one layer.} A user has many facts, so we
+also wrote 10 or 50 of the 200 facts per edit at layers 7, 15 and 23
+(20 or 4 edits per cell), either into one shared unit (one neuron or
+one rank-1 LoRA for the whole group) or with one unit per fact
+(Table~\ref{tab:followup-t6multi}). One shared unit cannot hold 50
+facts: reworded accuracy falls to 0.05--0.18 and two-hop to at most
+0.02 at every layer, and at layers 15 and 23 direct recall falls to
+0.41--0.89. With one unit per fact, direct recall stays $\geq0.97$.
+Here, for the only time in the study, the gate helps what the edit
+achieves rather than only its sparsity. At layer~7, ten separate
+neurons keep their single-fact reworded and two-hop accuracy (0.41
+and 0.31, against 0.44 and 0.29 for one fact), while a rank-10
+down-projection LoRA falls to 0.31 and 0.14 (paired two-hop difference
+$+0.17$, 95\% CI $0.11$--$0.22$, over 20 edits). With 50 facts the
+neurons score 0.41 and 0.26 against 0.34 and 0.17. This is not a gain
+in locality: the separate neurons leak more (0.88 vs.\ 0.76 at 10
+facts), and at 50 facts the up-projection LoRA matches their two-hop
+(0.30). Counter-examples, which made single edits subject-specific,
+hold the leak to 6--12\% with 10 facts per edit at layer~15 (67--92\%
+without) but not with 50 (44--62\%) within the same 100-step budget.
+Subject-keyed edits scale best: ROME's multi-fact form
+(MEMIT~\citep{meng2023memit} at one layer) at layer~7 leaks 3\% with
+10 facts and 12\% with 50, and keeps two-hop at 0.48 for both. The
+repository-style rank-16 $Q/K/V$ LoRA on every layer leaks 95--96\%,
+with 10.6\,M parameters per edit and a text KL of 0.03--0.05 per
+token, among the highest of any condition.
+
 \paragraph{What this means for User as Engram.} An Engram row gets its
 locality the way ROME does, from a key, but with no training against
-counter-examples and no change to the shared weights. Two qualifications
+counter-examples and no change to the shared weights. Three qualifications
 follow from the data. First, Engram's key is the trigger's last two or
 three tokens, not the subject. Two people's facts are kept apart by the
 per-user override tables, which make the user the implicit subject,
 and by the subject's name only when it falls inside the trigger
 N-gram. We did not measure leakage between subjects that share a
-relation phrase inside one table. Second, the depth sweep explains
-part of the composition gap. Every method's two-hop accuracy collapses
-when the fact is written into the last quarter of the network
-(0.02--0.05 at layer~27 and 0.00 at layers 31--35, with direct recall
-still $\approx1.0$), whereas edits at layers 7--19 compose (0.26--0.61),
-consistent with multi-hop failures after knowledge
-editing~\citep{mquake2023}. Engram's read sits after 55--60\% of the
-network, so its inability to chain (Section~\ref{sec:multihop}) comes
-mainly from its surface key. Finally, adding Engram to pretraining
+relation phrase inside one table. Second, the depth result bounds what
+any key can buy: a late read limits composition for every method.
+Engram's read sits after 55--60\% of the network (layer~11 of 20 in
+d20). In Qwen3-8B that depth is before the collapse but already past
+the peak (ROME's two-hop falls from 0.48 to 0.27 between layers 19
+and 23), so Engram's inability to chain (Section~\ref{sec:multihop})
+comes mainly from its surface key, with its depth adding to it. Third,
+the multi-fact runs bear on Engram's setting of many facts per user,
+although Engram itself was not in them. Facts stored in one shared
+unit interfere; one unit per fact does not, but without a key those
+units still leak (66--99\%), and counter-example training, the
+other route to locality, stops working between 10 and 50 facts per
+edit. Only the subject-keyed edit stays fairly local as the count
+grows, and only early (12\% at 50 facts, layer~7). An
+Engram table has that shape (separate rows, each read only at its own
+trigger), which is consistent with its zero leakage across users, but
+its own within-user ceiling (Section~\ref{sec:density}) is a separate
+limit that these runs do not address. Finally, adding Engram to pretraining
 leaves the base model's own neurons as interpretable as a dense
 model's (Appendix~\ref{app:followup-t5}).
 
@@ -1593,9 +1650,11 @@ construction. Within one table, two subjects whose facts end in the
 same N-gram (``\ldots\ was born in'') share rows, and we have not
 measured how much one such fact leaks to the other. The follow-up on
 Qwen3-8B compares a gate, a LoRA and a subject key, but does not
-include an Engram model; its multi-fact (10 and 50 facts per edit)
-conditions are still running, and its counter-example arm covers only
-layers 7, 15 and 23. Its measurement of whether the unit fires on other
+include an Engram model. Its counter-example arm covers layers 7, 15
+and 23 for single facts (plus a partial layer~3) and only layer~15 for
+10 and 50 facts per edit, at a fixed 100-step budget; its multi-fact
+cells average over 20 or 4 edits, so the 50-fact comparisons are
+coarse. Its measurement of whether the unit fires on other
 people covers one layer (15), 40 facts and two regularized methods,
 takes the maximum over all prompt positions (shared relation tokens
 included, not the name alone), and does not include ROME
@@ -1797,7 +1856,11 @@ against counter-examples, which works for a LoRA as well but has to be
 repeated for every edit, costs reasoning, and keeps the output specific
 by damping the edit rather than by giving it an address: the trained
 unit still responds to other people's prompts at about half strength.
-An Engram table gets the
+The key matters more as facts accumulate: counter-examples that make
+one edit specific stop working by 50 facts per edit, separate units
+avoid crowding but still leak without a key, and the subject-keyed edit
+stays the most local. Depth sets a limit no key removes: a fact written
+too late is recalled but not composed. An Engram table gets the
 key from the architecture.
 
 A century ago Richard Semon coined \emph{engram} for the trace
@@ -2769,8 +2832,7 @@ mean L3--31 & .525 & .499 & .444 & .124 & & & & & \\
 \begin{table}[t]
 \centering
 \caption{Counter-example training (+reg), plain $\to$ +reg, 200 facts
-per cell (the $Q/K/V$ +reg arm had finished $\sim$170 of 200 facts when
-this was written). ROME at L7 for reference: leak .003, reworded .59,
+per cell. ROME at L7 for reference: leak .003, reworded .59,
 two-hop .49, fire10 $3\times10^{-5}$, resid-move .09.}
 \label{tab:followup-t6reg}
 \small
@@ -2789,7 +2851,7 @@ LoRA$_\text{down}$ & L7  & .094 $\to$ .003 & .44 $\to$ .54 & .32 $\to$ .33 & .00
 LoRA$_\text{up}$ & L7  & .101 $\to$ .003 & .44 $\to$ .52 & .34 $\to$ .33 & .296 $\to$ .165 & .77 $\to$ .83 \\
        & L15 & .486 $\to$ .004 & .38 $\to$ .26 & .26 $\to$ .14 & .204 $\to$ .232 & .86 $\to$ .86 \\
        & L23 & .722 $\to$ .085 & .33 $\to$ .29 & .27 $\to$ .01 & .340 $\to$ .370 & .90 $\to$ .89 \\
-$Q/K/V$ r16 & all & .495 $\to$ .016 & .46 $\to$ .64 & .18 $\to$ .12 & -- & -- \\
+$Q/K/V$ r16 & all & .495 $\to$ .017 & .46 $\to$ .64 & .18 $\to$ .13 & -- & -- \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -2801,8 +2863,76 @@ change concentrates on the subject, which a per-user store would see
 as interference among that user's own facts. Second, the two-hop
 setting differs from Section~\ref{sec:multihop}: here the second hop
 (city $\to$ country) is knowledge the model already has, which favors
-composition. The 10- and 50-facts-per-edit conditions were still
-running when this was written and are not reported here.
+composition.
+
+\paragraph{Many facts per edit.} The 200 facts are split into 20
+groups of 10 or 4 groups of 50, and one edit stores a whole group at
+one layer, either in one \emph{shared} unit (one rank-1 $\Delta W$ or
+one new neuron for the group) or with one unit \emph{per fact}
+(rank-$n$ $\Delta W$ or $n$ new neurons). ROME becomes single-layer
+MEMIT (rank $n$, $\lambda=10^4$), and the $Q/K/V$ LoRA stays rank 16 on
+every layer. Plain edits run at L7, L15 and L23, +reg only at L15. Leak
+here is the probability of \emph{any} of the group's cities when asked
+about 40 other people; with no edit it is 0.0044 for 10 cities and
+0.014 for 50. Means are over edits; Table~\ref{tab:followup-t6multi}
+gives the main cells, and bootstrap CIs over edits are in the records.
+Training is otherwise as above. Two further points. The subject keys
+MEMIT builds are exceeded by other people's prompts only 2\% of the
+time at L7 but 42--80\% at L15 and L23, matching its larger leak
+there. And the per-fact rank-$n$ down-projection LoRA at L23 has the largest text KL
+of any condition (0.06 and 0.10 per token), above the $Q/K/V$ LoRA.
+
+\begin{table}[t]
+\centering
+\caption{Many facts per edit in Qwen3-8B (10 facts: 20 edits per row;
+50 facts: 4 edits per row). ``shared'': one unit for all facts of the
+edit; ``per fact'': one unit per fact. Text KL is per token on
+WikiText-103. The neuron with a trainable gate bias is in the records
+and behaves like the neuron, except that its shared 50-fact unit keeps
+direct recall at L15 (1.00; .55 at L23) and its per-fact units at L7
+reach .49 reworded and .31 two-hop with 50 facts.}
+\label{tab:followup-t6multi}
+\small
+\setlength{\tabcolsep}{3pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lll ccccc ccccc}
+\toprule
+ & & & \multicolumn{5}{c}{10 facts per edit} & \multicolumn{5}{c}{50 facts per edit} \\
+\cmidrule(lr){4-8}\cmidrule(lr){9-13}
+method & units & layer & direct & reworded & two-hop & leak & text KL & direct & reworded & two-hop & leak & text KL \\
+\midrule
+neuron & per fact & L7 & 1.00 & .41 & .31 & .88 & .002 & 1.00 & .41 & .26 & .92 & .013 \\
+ & per fact & L15 & 1.00 & .39 & .16 & .92 & .013 & .99 & .38 & .14 & .94 & .019 \\
+ & per fact & L23 & 1.00 & .30 & .01 & .99 & .003 & 1.00 & .27 & .00 & .98 & .006 \\
+ & shared & L7 & .98 & .21 & .11 & .66 & .001 & .82 & .16 & .02 & .80 & .001 \\
+ & shared & L15 & .99 & .26 & .12 & .87 & .035 & .74 & .11 & .01 & .82 & .055 \\
+ & shared & L23 & .70 & .18 & .02 & .92 & .003 & .54 & .18 & .01 & .73 & .005 \\
+LoRA$_\text{down}$ & per fact & L7 & .99 & .31 & .14 & .76 & .001 & .98 & .34 & .17 & .87 & .005 \\
+ & per fact & L15 & 1.00 & .30 & .13 & .91 & .007 & 1.00 & .32 & .09 & .90 & .027 \\
+ & per fact & L23 & 1.00 & .28 & .01 & .98 & .060 & 1.00 & .30 & .00 & .90 & .104 \\
+ & shared & L7 & .98 & .20 & .03 & .70 & .001 & .97 & .08 & .00 & .72 & .001 \\
+ & shared & L15 & .99 & .22 & .08 & .86 & .004 & .77 & .08 & .01 & .86 & .004 \\
+ & shared & L23 & 1.00 & .22 & .03 & .98 & .021 & .41 & .05 & .01 & .98 & .025 \\
+LoRA$_\text{up}$ & per fact & L7 & .99 & .32 & .19 & .66 & .005 & .98 & .35 & .30 & .76 & .038 \\
+ & per fact & L15 & 1.00 & .24 & .11 & .78 & .011 & 1.00 & .22 & .08 & .89 & .038 \\
+ & per fact & L23 & 1.00 & .22 & .03 & .99 & .014 & 1.00 & .19 & .00 & .95 & .055 \\
+ & shared & L7 & .99 & .18 & .05 & .63 & .002 & .98 & .11 & .01 & .72 & .002 \\
+ & shared & L15 & .98 & .21 & .08 & .67 & .005 & .89 & .08 & .02 & .70 & .007 \\
+ & shared & L23 & 1.00 & .21 & .04 & .99 & .005 & .82 & .11 & .01 & .96 & .007 \\
+neuron +reg & per fact & L15 & 1.00 & .31 & .18 & .08 & .001 & 1.00 & .30 & .18 & .58 & .002 \\
+ & shared & L15 & .94 & .11 & .05 & .12 & .002 & .72 & .07 & .00 & .52 & .003 \\
+LoRA$_\text{down}$ +reg & per fact & L15 & 1.00 & .15 & .05 & .07 & .003 & 1.00 & .21 & .04 & .62 & .008 \\
+ & shared & L15 & .92 & .11 & .02 & .10 & .003 & .41 & .03 & .00 & .44 & .003 \\
+LoRA$_\text{up}$ +reg & per fact & L15 & 1.00 & .11 & .05 & .06 & .004 & 1.00 & .11 & .06 & .53 & .012 \\
+ & shared & L15 & .95 & .12 & .02 & .08 & .004 & .84 & .04 & .01 & .49 & .005 \\
+MEMIT (ROME, rank-$n$) & -- & L7 & 1.00 & .57 & .48 & .03 & .002 & .99 & .57 & .48 & .12 & .008 \\
+ & -- & L15 & .95 & .58 & .55 & .11 & .001 & .93 & .54 & .53 & .21 & .002 \\
+ & -- & L23 & .84 & .44 & .35 & .12 & .001 & .62 & .30 & .31 & .22 & .002 \\
+$Q/K/V$ r16, all layers & -- & all & 1.00 & .49 & .09 & .96 & .028 & .99 & .35 & .03 & .95 & .048 \\
+$Q/K/V$ r16 +reg & -- & all & 1.00 & .40 & .08 & .22 & .009 & 1.00 & .31 & .04 & .80 & .012 \\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 \paragraph{Does the unit fire on other people?} Leak is measured at
 the model's output. A supplementary run measured the edited unit

@@ -1,10 +1,11 @@
 # T6: Is a neuron a rank-1 LoRA? Gated neuron vs rank-1 LoRA vs ROME for storing facts (Qwen3-8B)
 
-**Status (2026-11-10):** the single-fact sweep is complete. Unregularised: 9,200 edits = 5 methods × 9 layers × 200
-facts, plus Q/K/V LoRA. Regularised (+reg): L7, L15 and L23, plus a partial L3. Q/K/V+reg: about 170 of 200.
-Still running, to be appended as §5 and §6: the 10/50-facts-per-edit conditions (plain at L7/15/23, +reg at L15
-only) and a supplementary measurement of whether each unit fires on *other people's* prompts. Scope was cut by the
-lead/user: **+reg results cover only L7, L15, L23 (and a partial L3)**.
+**Status (2026-11-10): complete.** All GPU work finished 2026-11-09 22:32.
+- Single-fact sweep: 5 methods × 9 layers × 200 facts unregularised, plus Q/K/V LoRA.
+- +reg single-fact at **L7, L15, L23 only** (plus a partial L3), and Q/K/V+reg.
+- Multi-fact (10 and 50 facts per edit) at L7/L15/L23 unregularised; **+reg multi-fact at L15 only**.
+- Supplementary other-subject firing at L15.
+- Scope cuts were made by the lead/user. Raw data: runs*.jsonl (12 shards, no duplicate keys).
 
 ## 1. Question and design
 
@@ -253,7 +254,127 @@ lead/user: **+reg results cover only L7, L15, L23 (and a partial L3)**.
 
 ## 5. Multi-fact edits (10 / 50 facts per edit)
 
-Pending. Appended when the multi phases finish.
+**Design.** The 200 main facts are split into 20 groups of 10, or 4 groups of 50. One edit stores a whole group at
+one layer, in one of two forms:
+- **shared**: a single unit, i.e. one rank-1 ΔW or one new neuron for all facts in the group;
+- **per-fact**: n units, i.e. rank-n ΔW or n new neurons.
+
+ROME becomes single-layer MEMIT (rank-n, λ = 1e4); qkv is rank-16 at every layer. Plain edits run at L7, L15 and
+L23. +reg runs only at **L15**, per the lead's scope. Bleed here is the probability of *any* of the group's cities
+on other people. Its no-edit baseline is higher than for single facts: 0.0044 for n=10 and 0.014 for n=50.
+CIs are over edits (20 or 4 per cell).
+
+**Findings.**
+1. **One shared unit cannot hold many facts.**
+   - With 50 facts in one shared rank-1 ΔW or one neuron, recall drops at L15/L23: lora_down 0.77 / 0.41, neuron
+     0.74 / 0.54. Paraphrase falls to 0.05–0.19 and two-hop to ≈0.
+   - Per-fact units keep recall at ≈1.0.
+   - This is the expected capacity limit of a rank-1 / one-unit store. It also echoes AttMem's binding result: one
+     carrier holds one item well and degrades fast after that.
+2. **Separate gated neurons compose better than the equivalent rank-n LoRA.**
+   - With one unit per fact at L7, n=10: neurons get para 0.41 / two-hop 0.31, about their single-fact level of
+     0.44 / 0.29. Rank-10 down_proj LoRA gets 0.31 / 0.14, and rank-10 up_proj LoRA 0.32 / 0.19.
+   - At n=50, L7: neurons 0.41 / 0.26 (neuron_bias 0.49 / 0.31) vs lora_down 0.34 / 0.17.
+   - So the gate does matter once several facts share a layer. Separate units keep the facts from blurring into each
+     other's directions, which a single-fact edit cannot show. This is the one place in T6 where "neuron" beats
+     "rank-1 LoRA" on what the edit achieves rather than on sparsity.
+3. **Counter-examples stop working when one edit carries many facts** (fixed 100-step budget).
+   - +reg at L15 holds bleed down at n=10: neuron+reg 0.08 per-fact and 0.12 shared; lora_down+reg 0.07 and 0.10.
+     Unregularised bleed is about 0.9.
+   - At n=50, bleed is back to 0.44–0.62 for every +reg method.
+   - Per-fact +reg neurons still fire on other people's prompts (97–98% above 10% of trigger), as in §6.
+4. **Subject-keyed MEMIT scales best.** At L7, rank-10 / rank-50 MEMIT has bleed 0.028 / 0.12, para 0.57 / 0.57
+   and two-hop 0.48 / 0.48, the same as a single-fact ROME. Its keys fire on other people only 2% of the time at
+   L7, but 42–80% at L15 / L23.
+5. **The late-layer collapse holds for multi-fact edits.** Two-hop at L23 is ≤0.04 for every trainable method, and
+   MEMIT's falls to 0.31–0.35.
+6. **The repo-style per-user LoRA (qkv r16, every layer) is the most contaminating.** It is 10.6M params per edit
+   (about 13–860× more than the others). Bleed is 0.95 at both n, two-hop 0.03–0.09, and text KL 0.03–0.05, the
+   largest of all. +reg lowers bleed to 0.22 at n=10 but only 0.80 at n=50.
+
+### n = 10 facts per edit (20 edits per cell; CI over edits)
+
+| method | layer | units | edits | direct | para | two-hop | bleed | fire10 (text) | fires on others >10% | resid-move | text KL | neighbor KL | params/edit |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| lora_down | L7 | 10 (1/fact) | 20 | 0.985 | 0.308 | 0.143 | 0.762 [0.692, 0.830] | 0.005 | 1.000 | 0.744 | 0.001 | 0.544 | 163840 |
+| lora_down | L7 | 1 shared | 20 | 0.980 | 0.198 | 0.025 | 0.700 [0.628, 0.764] | 0.005 | – | 0.555 | 0.001 | 0.241 | 16384 |
+| lora_down | L15 | 10 (1/fact) | 20 | 1.000 | 0.300 | 0.133 | 0.911 [0.888, 0.932] | 0.052 | 1.000 | 0.913 | 0.007 | 0.931 | 163840 |
+| lora_down | L15 | 1 shared | 20 | 0.985 | 0.222 | 0.075 | 0.859 [0.818, 0.895] | 0.039 | 1.000 | 0.842 | 0.004 | 0.638 | 16384 |
+| lora_down | L23 | 10 (1/fact) | 20 | 1.000 | 0.283 | 0.010 | 0.980 [0.969, 0.989] | 0.626 | 1.000 | 0.998 | 0.060 | 1.499 | 163840 |
+| lora_down | L23 | 1 shared | 20 | 1.000 | 0.222 | 0.028 | 0.983 [0.978, 0.989] | 0.568 | 1.000 | 0.997 | 0.021 | 0.727 | 16384 |
+| lora_down+reg | L15 | 10 (1/fact) | 20 | 0.995 | 0.152 | 0.045 | 0.068 [0.046, 0.093] | 0.094 | 1.000 | 0.882 | 0.003 | 0.112 | 163840 |
+| lora_down+reg | L15 | 1 shared | 20 | 0.915 | 0.107 | 0.017 | 0.101 [0.067, 0.142] | 0.067 | 1.000 | 0.822 | 0.003 | 0.113 | 16384 |
+| lora_up | L7 | 10 (1/fact) | 20 | 0.985 | 0.320 | 0.193 | 0.661 [0.587, 0.728] | 0.415 | 1.000 | 0.993 | 0.005 | 0.634 | 163840 |
+| lora_up | L7 | 1 shared | 20 | 0.990 | 0.182 | 0.053 | 0.629 [0.566, 0.690] | 0.139 | 1.000 | 0.932 | 0.002 | 0.241 | 16384 |
+| lora_up | L15 | 10 (1/fact) | 20 | 0.995 | 0.242 | 0.105 | 0.782 [0.734, 0.831] | 0.211 | 1.000 | 0.976 | 0.011 | 1.044 | 163840 |
+| lora_up | L15 | 1 shared | 20 | 0.975 | 0.207 | 0.075 | 0.673 [0.616, 0.729] | 0.147 | 1.000 | 0.930 | 0.005 | 0.627 | 16384 |
+| lora_up | L23 | 10 (1/fact) | 20 | 0.995 | 0.218 | 0.028 | 0.991 [0.987, 0.995] | 0.250 | 1.000 | 0.987 | 0.014 | 0.644 | 163840 |
+| lora_up | L23 | 1 shared | 20 | 1.000 | 0.212 | 0.038 | 0.986 [0.982, 0.991] | 0.183 | 1.000 | 0.963 | 0.005 | 0.336 | 16384 |
+| lora_up+reg | L15 | 10 (1/fact) | 20 | 0.995 | 0.107 | 0.048 | 0.061 [0.043, 0.083] | 0.166 | 1.000 | 0.909 | 0.004 | 0.137 | 163840 |
+| lora_up+reg | L15 | 1 shared | 20 | 0.945 | 0.118 | 0.022 | 0.077 [0.056, 0.101] | 0.168 | 1.000 | 0.916 | 0.004 | 0.141 | 16384 |
+| neuron | L7 | 10 (1/fact) | 20 | 0.995 | 0.405 | 0.310 | 0.881 [0.827, 0.924] | 0.029 | – | 0.802 | 0.002 | 0.831 | 122880 |
+| neuron | L7 | 1 shared | 20 | 0.975 | 0.207 | 0.113 | 0.664 [0.540, 0.781] | 0.005 | – | 0.584 | 0.001 | 0.418 | 12288 |
+| neuron | L15 | 10 (1/fact) | 20 | 1.000 | 0.392 | 0.163 | 0.921 [0.887, 0.951] | 0.026 | – | 0.371 | 0.013 | 1.359 | 122880 |
+| neuron | L15 | 1 shared | 20 | 0.985 | 0.260 | 0.120 | 0.867 [0.805, 0.919] | 0.004 | – | 0.245 | 0.035 | 2.048 | 12288 |
+| neuron | L23 | 10 (1/fact) | 20 | 1.000 | 0.300 | 0.005 | 0.989 [0.979, 0.997] | 0.107 | – | 0.632 | 0.003 | 0.622 | 122880 |
+| neuron | L23 | 1 shared | 20 | 0.695 | 0.182 | 0.017 | 0.919 [0.882, 0.952] | 0.032 | – | 0.548 | 0.003 | 0.406 | 12288 |
+| neuron+reg | L15 | 10 (1/fact) | 20 | 1.000 | 0.308 | 0.180 | 0.076 [0.057, 0.097] | 0.037 | 0.977 | 0.311 | 0.001 | 0.456 | 122880 |
+| neuron+reg | L15 | 1 shared | 20 | 0.940 | 0.110 | 0.045 | 0.122 [0.086, 0.162] | 0.004 | 1.000 | 0.234 | 0.002 | 0.271 | 12288 |
+| neuron_bias | L7 | 10 (1/fact) | 20 | 0.990 | 0.388 | 0.255 | 0.891 [0.829, 0.940] | 0.031 | – | 0.815 | 0.002 | 0.720 | 122890 |
+| neuron_bias | L7 | 1 shared | 20 | 1.000 | 0.218 | 0.088 | 0.758 [0.652, 0.846] | 0.008 | – | 0.578 | 0.001 | 0.428 | 12289 |
+| neuron_bias | L15 | 10 (1/fact) | 20 | 1.000 | 0.345 | 0.160 | 0.924 [0.896, 0.950] | 0.025 | – | 0.407 | 0.005 | 1.210 | 122890 |
+| neuron_bias | L15 | 1 shared | 20 | 0.935 | 0.237 | 0.080 | 0.827 [0.755, 0.890] | 0.004 | – | 0.342 | 0.028 | 1.711 | 12289 |
+| neuron_bias | L23 | 10 (1/fact) | 20 | 1.000 | 0.308 | 0.013 | 0.989 [0.978, 0.996] | 0.115 | – | 0.652 | 0.004 | 0.677 | 122890 |
+| neuron_bias | L23 | 1 shared | 20 | 0.850 | 0.230 | 0.020 | 0.937 [0.891, 0.970] | 0.021 | – | 0.442 | 0.002 | 0.322 | 12289 |
+| neuron_bias+reg | L15 | 10 (1/fact) | 20 | 1.000 | 0.312 | 0.212 | 0.081 [0.059, 0.105] | 0.020 | 0.966 | 0.279 | 0.001 | 0.700 | 122890 |
+| neuron_bias+reg | L15 | 1 shared | 20 | 0.910 | 0.132 | 0.025 | 0.132 [0.082, 0.189] | 0.009 | 0.984 | 0.270 | 0.002 | 0.315 | 12289 |
+| rome | L7 | rank-10 | 20 | 1.000 | 0.572 | 0.483 | 0.028 [0.018, 0.038] | 2.6e-05 | 0.023 | 0.467 | 0.002 | 1.632 | 163840 |
+| rome | L15 | rank-10 | 20 | 0.945 | 0.578 | 0.545 | 0.113 [0.091, 0.140] | 6.1e-05 | 0.787 | 0.954 | 0.001 | 1.361 | 163840 |
+| rome | L23 | rank-10 | 20 | 0.840 | 0.440 | 0.348 | 0.116 [0.095, 0.141] | 7.4e-04 | 0.800 | 0.780 | 0.001 | 0.589 | 163840 |
+| qkv | all | r16 all layers | 20 | 0.995 | 0.487 | 0.085 | 0.957 [0.931, 0.980] | – | – | – | 0.028 | 0.989 | 10616832 |
+| qkv+reg | all | r16 all layers | 20 | 1.000 | 0.400 | 0.080 | 0.217 [0.187, 0.248] | – | – | – | 0.009 | 0.691 | 10616832 |
+
+### n = 50 facts per edit (4 edits per cell; CI over edits)
+
+| method | layer | units | edits | direct | para | two-hop | bleed | fire10 (text) | fires on others >10% | resid-move | text KL | neighbor KL | params/edit |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| lora_down | L7 | 50 (1/fact) | 4 | 0.980 | 0.343 | 0.173 | 0.869 [0.831, 0.901] | 0.012 | 1.000 | 0.975 | 0.005 | 0.713 | 819200 |
+| lora_down | L7 | 1 shared | 4 | 0.970 | 0.080 | 0.000 | 0.719 [0.681, 0.757] | 0.004 | 1.000 | 0.570 | 0.001 | 0.090 | 16384 |
+| lora_down | L15 | 50 (1/fact) | 4 | 1.000 | 0.317 | 0.092 | 0.895 [0.865, 0.917] | 0.073 | 1.000 | 0.983 | 0.027 | 1.783 | 819200 |
+| lora_down | L15 | 1 shared | 4 | 0.765 | 0.077 | 0.005 | 0.859 [0.815, 0.904] | 0.025 | 1.000 | 0.833 | 0.004 | 0.471 | 16384 |
+| lora_down | L23 | 50 (1/fact) | 4 | 1.000 | 0.297 | 0.003 | 0.901 [0.823, 0.955] | 0.555 | 1.000 | 0.999 | 0.104 | 2.027 | 819200 |
+| lora_down | L23 | 1 shared | 4 | 0.405 | 0.053 | 0.013 | 0.981 [0.973, 0.989] | 0.504 | 1.000 | 0.997 | 0.025 | 0.698 | 16384 |
+| lora_down+reg | L15 | 50 (1/fact) | 4 | 1.000 | 0.205 | 0.038 | 0.618 [0.492, 0.743] | 0.155 | 1.000 | 0.980 | 0.008 | 0.205 | 819200 |
+| lora_down+reg | L15 | 1 shared | 4 | 0.405 | 0.033 | 0.003 | 0.438 [0.359, 0.526] | 0.046 | 1.000 | 0.844 | 0.003 | 0.080 | 16384 |
+| lora_up | L7 | 50 (1/fact) | 4 | 0.975 | 0.347 | 0.295 | 0.759 [0.702, 0.816] | 0.589 | 1.000 | 1.000 | 0.038 | 0.921 | 819200 |
+| lora_up | L7 | 1 shared | 4 | 0.980 | 0.108 | 0.005 | 0.715 [0.690, 0.753] | 0.103 | 1.000 | 0.952 | 0.002 | 0.171 | 16384 |
+| lora_up | L15 | 50 (1/fact) | 4 | 0.995 | 0.217 | 0.080 | 0.895 [0.866, 0.923] | 0.260 | 1.000 | 0.997 | 0.038 | 2.035 | 819200 |
+| lora_up | L15 | 1 shared | 4 | 0.890 | 0.075 | 0.020 | 0.699 [0.537, 0.830] | 0.132 | 1.000 | 0.938 | 0.007 | 0.917 | 16384 |
+| lora_up | L23 | 50 (1/fact) | 4 | 1.000 | 0.187 | 0.000 | 0.951 [0.928, 0.975] | 0.406 | 1.000 | 0.998 | 0.055 | 1.636 | 819200 |
+| lora_up | L23 | 1 shared | 4 | 0.815 | 0.110 | 0.013 | 0.959 [0.948, 0.970] | 0.168 | 1.000 | 0.970 | 0.007 | 0.408 | 16384 |
+| lora_up+reg | L15 | 50 (1/fact) | 4 | 0.995 | 0.107 | 0.060 | 0.529 [0.431, 0.623] | 0.283 | 1.000 | 0.985 | 0.012 | 0.223 | 819200 |
+| lora_up+reg | L15 | 1 shared | 4 | 0.835 | 0.043 | 0.010 | 0.492 [0.452, 0.532] | 0.163 | 1.000 | 0.948 | 0.005 | 0.145 | 16384 |
+| neuron | L7 | 50 (1/fact) | 4 | 0.995 | 0.408 | 0.258 | 0.920 [0.894, 0.946] | 0.023 | – | 0.958 | 0.013 | 0.994 | 614400 |
+| neuron | L7 | 1 shared | 4 | 0.820 | 0.162 | 0.017 | 0.797 [0.749, 0.846] | 0.001 | – | 0.591 | 0.001 | 0.120 | 12288 |
+| neuron | L15 | 50 (1/fact) | 4 | 0.990 | 0.377 | 0.135 | 0.938 [0.919, 0.960] | 0.096 | – | 0.768 | 0.019 | 3.377 | 614400 |
+| neuron | L15 | 1 shared | 4 | 0.740 | 0.113 | 0.013 | 0.816 [0.611, 0.933] | 0.013 | – | 0.290 | 0.055 | 2.601 | 12288 |
+| neuron | L23 | 50 (1/fact) | 4 | 0.995 | 0.267 | 0.000 | 0.978 [0.969, 0.983] | 0.070 | – | 0.878 | 0.006 | 0.849 | 614400 |
+| neuron | L23 | 1 shared | 4 | 0.540 | 0.178 | 0.010 | 0.728 [0.578, 0.877] | 0.031 | – | 0.696 | 0.005 | 0.691 | 12288 |
+| neuron+reg | L15 | 50 (1/fact) | 4 | 1.000 | 0.303 | 0.175 | 0.578 [0.467, 0.661] | 0.075 | 0.976 | 0.618 | 0.002 | 0.626 | 614400 |
+| neuron+reg | L15 | 1 shared | 4 | 0.715 | 0.068 | 0.003 | 0.518 [0.402, 0.607] | 0.040 | 1.000 | 0.336 | 0.003 | 0.092 | 12288 |
+| neuron_bias | L7 | 50 (1/fact) | 4 | 0.985 | 0.493 | 0.312 | 0.921 [0.906, 0.935] | 0.046 | – | 0.961 | 0.019 | 1.241 | 614450 |
+| neuron_bias | L7 | 1 shared | 4 | 0.935 | 0.180 | 0.010 | 0.829 [0.747, 0.895] | 7.1e-04 | – | 0.654 | 0.001 | 0.093 | 12289 |
+| neuron_bias | L15 | 50 (1/fact) | 4 | 0.995 | 0.358 | 0.120 | 0.940 [0.901, 0.979] | 0.124 | – | 0.797 | 0.009 | 2.632 | 614450 |
+| neuron_bias | L15 | 1 shared | 4 | 1.000 | 0.185 | 0.035 | 0.874 [0.808, 0.917] | 0.002 | – | 0.357 | 0.002 | 1.471 | 12289 |
+| neuron_bias | L23 | 50 (1/fact) | 4 | 0.985 | 0.282 | 0.000 | 0.966 [0.937, 0.990] | 0.046 | – | 0.898 | 0.008 | 0.881 | 614450 |
+| neuron_bias | L23 | 1 shared | 4 | 0.545 | 0.073 | 0.013 | 0.764 [0.562, 0.967] | 0.017 | – | 0.532 | 0.002 | 0.244 | 12289 |
+| neuron_bias+reg | L15 | 50 (1/fact) | 4 | 1.000 | 0.345 | 0.205 | 0.508 [0.371, 0.645] | 0.061 | 0.974 | 0.604 | 0.002 | 0.651 | 614450 |
+| neuron_bias+reg | L15 | 1 shared | 4 | 0.825 | 0.117 | 0.028 | 0.566 [0.471, 0.654] | 0.003 | 1.000 | 0.124 | 0.005 | 0.594 | 12289 |
+| rome | L7 | rank-50 | 4 | 0.990 | 0.568 | 0.480 | 0.122 [0.082, 0.167] | 1.2e-04 | 0.025 | 0.989 | 0.008 | 1.631 | 819200 |
+| rome | L15 | rank-50 | 4 | 0.925 | 0.543 | 0.530 | 0.210 [0.200, 0.220] | 6.5e-05 | 0.416 | 1.000 | 0.002 | 1.341 | 819200 |
+| rome | L23 | rank-50 | 4 | 0.615 | 0.303 | 0.310 | 0.217 [0.163, 0.270] | 0.001 | 0.519 | 0.999 | 0.002 | 0.580 | 819200 |
+| qkv | all | r16 all layers | 4 | 0.985 | 0.352 | 0.025 | 0.953 [0.916, 0.977] | – | – | – | 0.048 | 1.184 | 10616832 |
+| qkv+reg | all | r16 all layers | 4 | 1.000 | 0.313 | 0.035 | 0.800 [0.745, 0.854] | – | – | – | 0.012 | 0.577 | 10616832 |
 
 ## 6. Supplementary: does the unit fire on other people? (L15, 40 facts, +reg)
 

@@ -11,6 +11,7 @@ Results, report and the paper-number map: [`../../results/mechanism_followup/`](
 | `T2/run_full.sh`, `T2/run_analysis.sh` | The order the jobs were run in. |
 | `T6/t6full.py` (+ `t6lib.py`, `t6blib.py`, `t6run.py`, `cells.py`) | Neuron / rank-1 LoRA / ROME / Q/K/V edits on Qwen3-8B, batched; `--phase lr`, `sweep`, `multi`, `supp` (report §6). |
 | `T6/t6agg.py`, `T6/t6tables.py` | Aggregation and report tables. `pipeline_full.sh` is the run order. |
+| `T6/multan.py` | Means and bootstrap CIs (over edits) of the §5 multi-fact runs (`runs*.jsonl` → `multi_summary.json`, `multi_tables.md`). |
 | `T6/suppan.py` | Bootstrap summary of the §6 supplementary run (`runs_supp.jsonl` → `supp_summary.json`). |
 | `T5/*` | Neuron audit: `collect.py` → `label_sim.py` → `substitute.py` → `midrange.py` → `analyze_t5.py`. |
 
